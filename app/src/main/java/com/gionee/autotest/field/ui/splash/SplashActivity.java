@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.gionee.autotest.field.MainActivity;
+import com.gionee.autotest.field.ui.main.MainActivity;
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.ui.base.BaseActivity;
 
