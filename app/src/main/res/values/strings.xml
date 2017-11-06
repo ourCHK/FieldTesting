@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">FieldTesting</string>
+    <string name="app_name">Field Testing</string>
+    <string name="text_copyright">Copyright © 2017 深圳市金立通信设备有限公司 测试平台部 版权所有</string>
 </resources>
