@@ -2,6 +2,7 @@ package com.gionee.autotest.field.ui.splash;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 
 import com.gionee.autotest.field.MainActivity;
 import com.gionee.autotest.field.R;
@@ -10,6 +11,9 @@ import com.gionee.autotest.field.ui.base.BaseActivity;
 import butterknife.ButterKnife;
 
 public class SplashActivity extends BaseActivity implements SplashView {
+
+    // Splash screen timer
+    private static int SPLASH_TIME_OUT = 1000;
 
     private SplashPresenter<SplashView> splashPresenter ;
 
@@ -25,7 +29,13 @@ public class SplashActivity extends BaseActivity implements SplashView {
     @Override
     protected void onResume() {
         super.onResume();
-        splashPresenter.relayAndStartMainScreen();
+        //relay about one seconds to start main activity
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                splashPresenter.startMainScreen();
+            }
+        }, SPLASH_TIME_OUT);
     }
 
     @Override
