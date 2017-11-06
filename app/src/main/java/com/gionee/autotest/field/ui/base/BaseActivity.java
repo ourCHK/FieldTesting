@@ -1,6 +1,9 @@
 package com.gionee.autotest.field.ui.base;
 
+import android.support.annotation.LayoutRes;
+import android.support.annotation.MenuRes;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 
 import butterknife.Unbinder;
 
@@ -13,6 +16,15 @@ import butterknife.Unbinder;
 public abstract class BaseActivity extends AppCompatActivity{
 
     private Unbinder mUnbinder ;
+
+    @LayoutRes
+    protected abstract int layoutResId();
+
+
+    @MenuRes
+    protected int menuResId(){
+        return 0 ;
+    }
 
     /**
      * register a new Unbinder for view injection
@@ -29,5 +41,13 @@ public abstract class BaseActivity extends AppCompatActivity{
             mUnbinder.unbind();
         }
         super.onDestroy();
+    }
+
+    @Override
+    public final boolean onCreateOptionsMenu(Menu menu) {
+        if (menuResId() != 0) {
+            getMenuInflater().inflate(menuResId(), menu);
+        }
+        return super.onCreateOptionsMenu(menu);
     }
 }

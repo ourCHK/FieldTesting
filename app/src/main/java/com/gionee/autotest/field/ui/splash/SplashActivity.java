@@ -10,6 +10,11 @@ import com.gionee.autotest.field.ui.base.BaseActivity;
 
 import butterknife.ButterKnife;
 
+/**
+ * Created by viking on 11/6/17.
+ *
+ * Splash screen activity
+ */
 public class SplashActivity extends BaseActivity implements SplashView {
 
     // Splash screen timer
@@ -20,7 +25,6 @@ public class SplashActivity extends BaseActivity implements SplashView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
         setUnBinder(ButterKnife.bind(this)) ;
         splashPresenter = new SplashPresenter<>() ;
         splashPresenter.onAttach(this);
@@ -36,6 +40,11 @@ public class SplashActivity extends BaseActivity implements SplashView {
                 splashPresenter.startMainScreen();
             }
         }, SPLASH_TIME_OUT);
+    }
+
+    @Override
+    protected int layoutResId() {
+        return R.layout.activity_splash;
     }
 
     @Override
