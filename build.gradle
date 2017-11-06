@@ -19,7 +19,11 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven{
+            url "http://18.8.10.110:8081/nexus/content/repositories/releases/"
+        }
     }
+
 }
 
 task clean(type: Delete) {
