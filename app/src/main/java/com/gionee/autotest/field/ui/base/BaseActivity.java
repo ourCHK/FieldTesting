@@ -1,10 +1,18 @@
 package com.gionee.autotest.field.ui.base;
 
+import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.MenuRes;
+import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
+import com.gionee.autotest.field.R;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
@@ -14,6 +22,10 @@ import butterknife.Unbinder;
  */
 
 public abstract class BaseActivity extends AppCompatActivity{
+
+    @Nullable
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
 
     private Unbinder mUnbinder ;
 
@@ -32,6 +44,29 @@ public abstract class BaseActivity extends AppCompatActivity{
      */
     protected void setUnBinder(Unbinder mUnbinder){
         this.mUnbinder = mUnbinder ;
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(layoutResId());
+        setUnBinder(ButterKnife.bind(this));
+        if (mToolbar != null) {
+            setSupportActionBar(mToolbar);
+            ActionBar ab = getSupportActionBar();
+            if (ab != null) {
+                ab.setDisplayHomeAsUpEnabled(isDisplayHomeUpEnabled());
+                ab.setDisplayShowTitleEnabled(isDisplayShowTitleEnabled());
+            }
+        }
+    }
+
+    protected boolean isDisplayHomeUpEnabled() {
+        return false;
+    }
+
+    protected boolean isDisplayShowTitleEnabled() {
+        return true;
     }
 
     @Override

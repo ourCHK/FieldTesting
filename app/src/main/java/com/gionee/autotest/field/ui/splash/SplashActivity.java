@@ -8,8 +8,6 @@ import com.gionee.autotest.field.ui.main.MainActivity;
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.ui.base.BaseActivity;
 
-import butterknife.ButterKnife;
-
 /**
  * Created by viking on 11/6/17.
  *
@@ -25,7 +23,6 @@ public class SplashActivity extends BaseActivity implements SplashView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setUnBinder(ButterKnife.bind(this)) ;
         splashPresenter = new SplashPresenter<>() ;
         splashPresenter.onAttach(this);
     }

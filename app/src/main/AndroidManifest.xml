@@ -20,7 +20,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.main.MainActivity">
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:theme="@style/AppNoActionBarTheme"
+            android:label="@string/main_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
