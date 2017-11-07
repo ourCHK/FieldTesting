@@ -20,23 +20,28 @@ public class SplashActivity extends BaseActivity implements SplashView {
 
     private SplashPresenter<SplashView> splashPresenter ;
 
+    private Handler mHandler ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         splashPresenter = new SplashPresenter<>() ;
         splashPresenter.onAttach(this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //relay about one seconds to start main activity
-        new Handler().postDelayed(new Runnable() {
+        mHandler = new Handler() ;
+        //check should we load all data to database or not, this must be async
+        mHandler.post(new Runnable() {
             @Override
             public void run() {
-                splashPresenter.startMainScreen();
+                splashPresenter.checkLoadAllDataToDB(getApplicationContext());
+                //relay about one seconds to start main activity
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        splashPresenter.startMainScreen();
+                    }
+                }, SPLASH_TIME_OUT);
             }
-        }, SPLASH_TIME_OUT);
+        }) ;
     }
 
     @Override

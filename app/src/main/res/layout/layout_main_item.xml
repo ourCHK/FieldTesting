@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="20dp"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <TextView
+        android:gravity="center"
         android:id="@+id/item_title"
+        tools:text="My Text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

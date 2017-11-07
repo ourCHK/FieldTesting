@@ -9,11 +9,15 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 
 import com.gionee.autotest.field.R;
+import com.gionee.autotest.field.data.db.AppsDBManager;
+import com.gionee.autotest.field.data.db.model.App;
 import com.gionee.autotest.field.ui.base.BaseActivity;
 import com.gionee.autotest.field.util.Constant;
+import com.gionee.autotest.field.util.Util;
 import com.gionee.autotest.field.views.EmptyRecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -66,15 +70,16 @@ public class MainActivity extends BaseActivity {
         mAdapter.setHasStableIds(true);
         List<String> mItems = new ArrayList<>() ;
 
-        mItems.add("1") ;
-        mItems.add("2") ;
-        mItems.add("3") ;
-        mItems.add("4") ;
-        mItems.add("5") ;
-        mItems.add("6") ;
-        mItems.add("7") ;
-        mItems.add("8") ;
-        mItems.add("9") ;
+        List<App> apps = AppsDBManager.fetchAllApps(true) ;
+        Collections.sort(apps, Util.APP_COMPARATOR);
+        for (App app : apps){
+            Log.i(Constant.TAG, "key : " + app.getKey()) ;
+            Log.i(Constant.TAG, "label : " + app.getLabel()) ;
+            Log.i(Constant.TAG, "icon : " + app.getIcon()) ;
+            Log.i(Constant.TAG, "activity : " + app.getActivity()) ;
+            mItems.add(app.getLabel()) ;
+        }
+
         mAdapter.setItems(mItems);
     }
 

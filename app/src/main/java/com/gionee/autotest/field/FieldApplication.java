@@ -3,6 +3,7 @@ package com.gionee.autotest.field;
 import android.app.Application;
 
 import com.gionee.autotest.common.Preference;
+import com.gionee.autotest.field.data.db.DBManager;
 import com.gionee.autotest.field.util.Constant;
 
 /**
@@ -17,5 +18,6 @@ public class FieldApplication extends Application{
         super.onCreate();
         //init preference
         Preference.initName(Constant.PREF_NAME);
+        DBManager.initAllDB(getApplicationContext());
     }
 }

@@ -1,0 +1,68 @@
+{
+  "version":"1.0.0",
+  "apps":[
+    {
+      "key": 0,
+      "label":"接通率",
+      "icon":"",
+      "activity":"",
+      "installed": true
+    },
+    {
+      "key": 1,
+      "label":"拨通率",
+      "icon":"",
+      "activity":"",
+      "installed": true
+    },
+    {
+      "key": 2,
+      "label":"通话质量",
+      "icon":"",
+      "activity":"",
+      "installed": true
+    },
+    {
+      "key": 3,
+      "label":"信号强度",
+      "icon":"",
+      "activity":"",
+      "installed": true
+    },
+    {
+      "key": 4,
+      "label":"网络切换",
+      "icon":"",
+      "activity":"",
+      "installed": true
+    },
+    {
+      "key": 5,
+      "label":"信息收发",
+      "icon":"",
+      "activity":"",
+      "installed": true
+    },
+    {
+      "key": 6,
+      "label":"数据重激活",
+      "icon":"",
+      "activity":"",
+      "installed": true
+    },
+    {
+      "key": 7,
+      "label":"数据稳定性",
+      "icon":"",
+      "activity":"",
+      "installed": true
+    },
+    {
+      "key": 8,
+      "label":"吞吐率",
+      "icon":"",
+      "activity":"",
+      "installed": true
+    }
+  ]
+}
