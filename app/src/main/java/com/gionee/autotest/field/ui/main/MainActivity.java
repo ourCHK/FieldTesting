@@ -56,9 +56,8 @@ public class MainActivity extends BaseActivity implements AppsAdapter.OnItemClic
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.i(Constant.TAG, "enter MainActivity onCreate") ;
+    protected void onResume() {
+        super.onResume();
         initViews() ;
     }
 
