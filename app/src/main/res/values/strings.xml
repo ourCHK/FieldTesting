@@ -9,4 +9,9 @@
     <string name="empty_notice">请先安装应用</string>
     <string name="not_implemented_yet">当前应用还未实现功能.</string>
     <string name="start_app_exception">启动应用出现异常.</string>
+    <string name="delete_app_message">确定要删除此应用?</string>
+    <string name="delete_app_btn_ok">确定</string>
+    <string name="delete_app_btn_discard">取消</string>
+
+
 </resources>

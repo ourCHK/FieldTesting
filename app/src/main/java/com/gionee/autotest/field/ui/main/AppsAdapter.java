@@ -31,7 +31,10 @@ public class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.MyViewHolder> 
     private List<App> mItems ;
 
     public interface OnItemClickListener {
-        void onItemClick(App item);
+
+        void onItemClick(App item, int position);
+
+        void onItemLongClick(App item, int position) ;
     }
 
     private final OnItemClickListener listener;
@@ -48,13 +51,20 @@ public class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.MyViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(AppsAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(AppsAdapter.MyViewHolder holder, final int position) {
         final App app = mItems.get(position) ;
         holder.mTitle.setText(app.getLabel());
         holder.mIcon.setImageResource(getImageByReflect(app.getIcon()));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                listener.onItemClick(app);
+                if (listener != null) listener.onItemClick(app, position);
+            }
+        });
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener(){
+            @Override
+            public boolean onLongClick(View view) {
+                if (listener != null) listener.onItemLongClick(app, position);
+                return true;
             }
         });
     }

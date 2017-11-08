@@ -29,5 +29,9 @@
     <style name="MainItem">
         <item name="android:background">?android:attr/selectableItemBackground</item>
     </style>
+    
+    <style name="DeleteDialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
 
 </resources>
