@@ -25,5 +25,9 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowNoTitle">true</item>
     </style>
+    
+    <style name="MainItem">
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+    </style>
 
 </resources>
