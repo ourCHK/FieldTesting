@@ -1,12 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_margin="20dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="15dp"
     android:orientation="vertical"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center_horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <com.gionee.autotest.field.views.CircleImageView
+        android:layout_margin="8dp"
+        android:id="@+id/item_icon"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:src="@drawable/phone_incoming"
+        app:civ_border_color="@color/colorLightPrimary"
+        app:civ_border_width="2dp"
+        app:civ_circle_background_color="@color/colorLightPrimary"
+        app:civ_border_overlay="true"
+        />
+
     <TextView
+        android:layout_margin="8dp"
         android:gravity="center"
         android:id="@+id/item_title"
         tools:text="My Text"
