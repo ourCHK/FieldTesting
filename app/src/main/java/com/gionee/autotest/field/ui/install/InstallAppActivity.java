@@ -50,6 +50,12 @@ public class InstallAppActivity extends BaseActivity implements InstallAppsAdapt
         return R.layout.activity_install;
     }
 
+
+    @Override
+    protected boolean isDisplayHomeUpEnabled() {
+        return true;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
