@@ -7,4 +7,6 @@
     <!-- main resources -->
     <string name="main_name">场测自动化集</string>
     <string name="empty_notice">请先安装应用</string>
+    <string name="not_implemented_yet">当前应用还未实现功能.</string>
+    <string name="start_app_exception">启动应用出现异常.</string>
 </resources>

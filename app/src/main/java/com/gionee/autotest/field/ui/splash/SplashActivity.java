@@ -3,6 +3,8 @@ package com.gionee.autotest.field.ui.splash;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.gionee.autotest.field.ui.main.MainActivity;
 import com.gionee.autotest.field.R;
@@ -25,6 +27,10 @@ public class SplashActivity extends BaseActivity implements SplashView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Window window = getWindow() ;
+        if (window != null){
+            window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
         splashPresenter = new SplashPresenter<>() ;
         splashPresenter.onAttach(this);
         mHandler = new Handler() ;

@@ -9,7 +9,10 @@ import android.widget.TextView;
 
 
 import com.gionee.autotest.field.R;
+import com.gionee.autotest.field.data.db.model.App;
+import com.gionee.autotest.field.views.CircleImageView;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 import butterknife.BindView;
@@ -25,10 +28,17 @@ public class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.MyViewHolder> 
 
     private LayoutInflater mInflater ;
 
-    private List<String> mItems ;
+    private List<App> mItems ;
 
-    public AppsAdapter(Context mContext){
+    public interface OnItemClickListener {
+        void onItemClick(App item);
+    }
+
+    private final OnItemClickListener listener;
+
+    public AppsAdapter(Context mContext , OnItemClickListener listener){
         mInflater = LayoutInflater.from(mContext);
+        this.listener = listener ;
     }
 
     @Override
@@ -39,8 +49,14 @@ public class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(AppsAdapter.MyViewHolder holder, int position) {
-        final String item = mItems.get(position) ;
-        holder.mTitle.setText(item);
+        final App app = mItems.get(position) ;
+        holder.mTitle.setText(app.getLabel());
+        holder.mIcon.setImageResource(getImageByReflect(app.getIcon()));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                listener.onItemClick(app);
+            }
+        });
     }
 
     @Override
@@ -57,14 +73,27 @@ public class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.MyViewHolder> 
         return position ;
     }
 
-    public void setItems(List<String> items) {
+    public void setItems(List<App> items) {
         mItems = items;
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder{
+    private int getImageByReflect(String image) {
+        try {
+            Field field = Class.forName("com.gionee.autotest.field.R$drawable").getField(image);
+            return field.getInt(field);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0 ;
+    }
+
+        class MyViewHolder extends RecyclerView.ViewHolder{
 
         @BindView(R.id.item_title)
         TextView mTitle ;
+
+        @BindView(R.id.item_icon)
+        CircleImageView mIcon ;
 
         MyViewHolder(View itemView) {
             super(itemView);

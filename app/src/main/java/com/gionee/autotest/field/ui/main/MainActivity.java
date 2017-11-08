@@ -1,5 +1,7 @@
 package com.gionee.autotest.field.ui.main;
 
+import android.content.ComponentName;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -7,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
+import android.widget.Toast;
 
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.data.db.AppsDBManager;
@@ -16,7 +19,6 @@ import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.Util;
 import com.gionee.autotest.field.views.EmptyRecyclerView;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -27,7 +29,7 @@ import butterknife.BindView;
  *
  * Main screen activity
  */
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements AppsAdapter.OnItemClickListener{
 
     @BindView(R.id.list_recycler_view)
     EmptyRecyclerView mRecyclerView ;
@@ -66,9 +68,8 @@ public class MainActivity extends BaseActivity {
 
     private void setupAdapter() {
         Log.i(Constant.TAG, "enter setupAdapter function.") ;
-        mAdapter = new AppsAdapter(getApplicationContext());
+        mAdapter = new AppsAdapter(getApplicationContext(), this);
         mAdapter.setHasStableIds(true);
-        List<String> mItems = new ArrayList<>() ;
 
         List<App> apps = AppsDBManager.fetchAllApps(true) ;
         Collections.sort(apps, Util.APP_COMPARATOR);
@@ -77,11 +78,28 @@ public class MainActivity extends BaseActivity {
             Log.i(Constant.TAG, "label : " + app.getLabel()) ;
             Log.i(Constant.TAG, "icon : " + app.getIcon()) ;
             Log.i(Constant.TAG, "activity : " + app.getActivity()) ;
-            mItems.add(app.getLabel()) ;
         }
 
-        mAdapter.setItems(mItems);
+        mAdapter.setItems(apps);
     }
 
 
+    @Override
+    public void onItemClick(App item) {
+        Log.i(Constant.TAG, "Item clicked : " + item.getLabel()) ;
+        if (item.getActivity() == null || "".equals(item.getActivity())) {
+            Toast.makeText(getApplicationContext(), R.string.not_implemented_yet, Toast.LENGTH_SHORT).show();
+            return ;
+        }
+        try {
+            Intent intent = new Intent() ;
+            intent.setComponent(new ComponentName(getPackageName(), item.getActivity())) ;
+            startActivity(intent);
+        }catch (Exception e){
+            e.printStackTrace();
+            Log.i(Constant.TAG, "Start Exception : " + e.getMessage()) ;
+            Toast.makeText(getApplicationContext(), R.string.start_app_exception, Toast.LENGTH_SHORT).show();
+        }
+
+    }
 }
