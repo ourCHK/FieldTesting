@@ -16,7 +16,7 @@ public class App {
 
     private final String activity ;
 
-    private final boolean installed ;
+    private boolean installed ;
 
     public App(int key, String label, String icon, String activity, boolean installed) {
         this.key = key;
@@ -40,6 +40,10 @@ public class App {
 
     public String getActivity() {
         return activity;
+    }
+
+    public void setInstalled(boolean isInstalled){
+        this.installed = isInstalled ;
     }
 
     public boolean isInstalled(){

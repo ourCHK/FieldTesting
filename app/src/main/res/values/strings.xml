@@ -13,5 +13,12 @@
     <string name="delete_app_btn_ok">确定</string>
     <string name="delete_app_btn_discard">取消</string>
 
+    <!-- install resources -->
+    <string name="install_label_name">安装应用</string>
+    <string name="empty_apps">应用库是空的.</string>
+    <string name="install">安装</string>
+    <string name="installed">已安装</string>
+    <string name="app_has_installed">应用已安装.</string>
+
 
 </resources>

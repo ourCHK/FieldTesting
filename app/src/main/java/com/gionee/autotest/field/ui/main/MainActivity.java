@@ -18,6 +18,7 @@ import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.data.db.AppsDBManager;
 import com.gionee.autotest.field.data.db.model.App;
 import com.gionee.autotest.field.ui.base.BaseActivity;
+import com.gionee.autotest.field.ui.install.InstallAppActivity;
 import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.NpaGridLayoutManager;
 import com.gionee.autotest.field.util.Util;
@@ -135,6 +136,7 @@ public class MainActivity extends BaseActivity implements AppsAdapter.OnItemClic
 
     @OnClick(R.id.fab)
     void onFABClicked(){
-        Toast.makeText(getApplicationContext(), "FAB clicked", Toast.LENGTH_SHORT).show();
+        Intent install = new Intent(this, InstallAppActivity.class) ;
+        startActivity(install);
     }
 }

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_header"/>
+
+    <LinearLayout
+        android:id="@+id/content_main"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Replaced android.support.v7.widget.RecyclerView with the
+             new EmptyRecyclerView -->
+        <com.gionee.autotest.field.views.EmptyRecyclerView
+            android:id="@+id/install_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <!-- Added an empty view which will be shown when the EmptyRecyclerView
+                     is empty -->
+        <include layout="@layout/layout_empty" />
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>
