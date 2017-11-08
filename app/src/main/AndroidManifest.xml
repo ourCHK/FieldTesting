@@ -24,6 +24,7 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:theme="@style/AppNoActionBarTheme"
+            android:screenOrientation="portrait"
             android:label="@string/main_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,6 +36,7 @@
             android:name=".ui.install.InstallAppActivity"
             android:theme="@style/AppNoActionBarTheme"
             android:label="@string/install_label_name"
+            android:screenOrientation="portrait"
             android:parentActivityName=".ui.main.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
