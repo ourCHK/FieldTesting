@@ -87,13 +87,15 @@ public class MainActivity extends BaseActivity implements AppsAdapter.OnItemClic
     @Override
     public void onItemClick(App item) {
         Log.i(Constant.TAG, "Item clicked : " + item.getLabel()) ;
-        if (item.getActivity() == null || "".equals(item.getActivity())) {
+        String activity = item.getActivity() ;
+        if (activity == null || "".equals(activity)) {
             Toast.makeText(getApplicationContext(), R.string.not_implemented_yet, Toast.LENGTH_SHORT).show();
             return ;
         }
         try {
             Intent intent = new Intent() ;
-            intent.setComponent(new ComponentName(getPackageName(), item.getActivity())) ;
+            intent.setComponent(new ComponentName(getPackageName(),
+                    activity.startsWith(".") ? getPackageName() + activity : activity)) ;
             startActivity(intent);
         }catch (Exception e){
             e.printStackTrace();
