@@ -4,63 +4,63 @@
     {
       "key": 0,
       "label":"接通率",
-      "icon":"",
+      "icon":"phone_incoming",
       "activity":"",
       "installed": true
     },
     {
       "key": 1,
       "label":"拨通率",
-      "icon":"",
+      "icon":"phone_outgoing",
       "activity":"",
       "installed": true
     },
     {
       "key": 2,
       "label":"通话质量",
-      "icon":"",
+      "icon":"phone_quality",
       "activity":"",
       "installed": true
     },
     {
       "key": 3,
       "label":"信号强度",
-      "icon":"",
+      "icon":"phone_signal",
       "activity":"",
       "installed": true
     },
     {
       "key": 4,
       "label":"网络切换",
-      "icon":"",
+      "icon":"phone_network_switch",
       "activity":"",
       "installed": true
     },
     {
       "key": 5,
       "label":"信息收发",
-      "icon":"",
+      "icon":"phone_ms",
       "activity":"",
       "installed": true
     },
     {
       "key": 6,
       "label":"数据重激活",
-      "icon":"",
+      "icon":"phone_data_reset",
       "activity":"",
       "installed": true
     },
     {
       "key": 7,
       "label":"数据稳定性",
-      "icon":"",
+      "icon":"phone_stability",
       "activity":"",
       "installed": true
     },
     {
       "key": 8,
       "label":"吞吐率",
-      "icon":"",
+      "icon":"phone_swap",
       "activity":"",
       "installed": true
     }
