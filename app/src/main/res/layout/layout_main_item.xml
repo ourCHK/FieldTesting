@@ -12,16 +12,16 @@
     <com.gionee.autotest.field.views.CircleImageView
         android:layout_margin="8dp"
         android:id="@+id/item_icon"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
-        android:src="@drawable/phone_incoming"
-        app:civ_border_color="@color/colorLightPrimary"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        app:civ_border_color="@color/colorPrimary"
         app:civ_border_width="2dp"
-        app:civ_circle_background_color="@color/colorLightPrimary"
+        app:civ_circle_background_color="@color/colorPrimary"
         app:civ_border_overlay="true"
         />
 
     <TextView
+        android:textColor="@color/colorPrimary"
         android:layout_margin="8dp"
         android:gravity="center"
         android:id="@+id/item_title"
