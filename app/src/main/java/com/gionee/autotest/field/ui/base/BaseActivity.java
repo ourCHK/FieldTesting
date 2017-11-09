@@ -1,5 +1,6 @@
 package com.gionee.autotest.field.ui.base;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.MenuRes;
@@ -10,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
 import com.gionee.autotest.field.R;
+import com.gionee.autotest.field.util.Util;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,7 +23,9 @@ import butterknife.Unbinder;
  * all activity should extend this class
  */
 
-public abstract class BaseActivity extends AppCompatActivity{
+public abstract class BaseActivity extends AppCompatActivity implements BaseView{
+
+    protected BasePresenterLife presenter;
 
     @Nullable
     @BindView(R.id.toolbar)
@@ -29,14 +33,17 @@ public abstract class BaseActivity extends AppCompatActivity{
 
     private Unbinder mUnbinder ;
 
+    private ProgressDialog mProgressDialog;
+
     @LayoutRes
     protected abstract int layoutResId();
-
 
     @MenuRes
     protected int menuResId(){
         return 0 ;
     }
+
+    protected abstract void initializePresenter();
 
     /**
      * register a new Unbinder for view injection
@@ -51,6 +58,30 @@ public abstract class BaseActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(layoutResId());
         setUnBinder(ButterKnife.bind(this));
+        initializePresenter();
+        initializeToolbar();
+        if (presenter != null) {
+            presenter.initialize(getIntent().getExtras());
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (presenter != null) {
+            presenter.start();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (presenter != null) {
+            presenter.finalizeView();
+        }
+    }
+
+    protected void initializeToolbar() {
         if (mToolbar != null) {
             setSupportActionBar(mToolbar);
             ActionBar ab = getSupportActionBar();
@@ -84,5 +115,18 @@ public abstract class BaseActivity extends AppCompatActivity{
             getMenuInflater().inflate(menuResId(), menu);
         }
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public void showLoading() {
+        hideLoading();
+        mProgressDialog = Util.showLoadingDialog(this);
+    }
+
+    @Override
+    public void hideLoading() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.cancel();
+        }
     }
 }

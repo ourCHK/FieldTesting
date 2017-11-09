@@ -9,4 +9,8 @@ package com.gionee.autotest.field.ui.base;
  */
 
 public interface BaseView {
+
+    void showLoading();
+
+    void hideLoading();
 }

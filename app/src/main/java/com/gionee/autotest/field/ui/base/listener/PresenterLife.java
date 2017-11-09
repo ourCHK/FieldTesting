@@ -1,4 +1,6 @@
-package com.gionee.autotest.field.ui.base;
+package com.gionee.autotest.field.ui.base.listener;
+
+import com.gionee.autotest.field.ui.base.BaseView;
 
 /**
  * Created by viking on 11/6/17.
@@ -7,7 +9,7 @@ package com.gionee.autotest.field.ui.base;
  * the BaseView type that wants to be attached with.
  */
 
-public interface MvpPresenter<V extends BaseView> {
+public interface PresenterLife<V extends BaseView> {
 
     void onAttach(V view) ;
 
