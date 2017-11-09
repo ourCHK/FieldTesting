@@ -2,6 +2,18 @@
 
 Field Testing source code.
 
+### How To Use?
+
+框架的主界面：
+
+![](arts/main_screen.png)
+
+应用安装界面：
+
+![](arts/install_screen.png)
+
+
+
 ### License
  
      Copyright 2017 Gionee, Inc.
