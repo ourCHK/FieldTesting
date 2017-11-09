@@ -9,20 +9,16 @@ import android.view.WindowManager;
 import com.gionee.autotest.field.ui.main.MainActivity;
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.ui.base.BaseActivity;
+import com.gionee.autotest.field.util.Constant;
 
 /**
  * Created by viking on 11/6/17.
  *
  * Splash screen activity
  */
-public class SplashActivity extends BaseActivity implements SplashView {
+public class SplashActivity extends BaseActivity implements SplashContract.View {
 
-    // Splash screen timer
-    private static int SPLASH_TIME_OUT = 1000;
-
-    private SplashPresenter<SplashView> splashPresenter ;
-
-    private Handler mHandler ;
+    private SplashPresenterLife splashPresenter ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,28 +27,18 @@ public class SplashActivity extends BaseActivity implements SplashView {
         if (window != null){
             window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
-        splashPresenter = new SplashPresenter<>() ;
-        splashPresenter.onAttach(this);
-        mHandler = new Handler() ;
-        //check should we load all data to database or not, this must be async
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                splashPresenter.checkLoadAllDataToDB(getApplicationContext());
-                //relay about one seconds to start main activity
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        splashPresenter.startMainScreen();
-                    }
-                }, SPLASH_TIME_OUT);
-            }
-        }) ;
     }
 
     @Override
     protected int layoutResId() {
         return R.layout.activity_splash;
+    }
+
+    @Override
+    protected void initializePresenter() {
+        splashPresenter = new SplashPresenterLife(getApplicationContext()) ;
+        super.presenter = splashPresenter ;
+        splashPresenter.onAttach(this);
     }
 
     @Override
@@ -62,10 +48,16 @@ public class SplashActivity extends BaseActivity implements SplashView {
     }
 
     @Override
-    public void openMainActivity() {
-        Intent main = new Intent(this, MainActivity.class) ;
-        startActivity(main);
-        //always remember to finish itself
-        finish();
+    public void navigateToMainScreen() {
+        //relay about one seconds to start main activity
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent main = new Intent(SplashActivity.this, MainActivity.class) ;
+                startActivity(main);
+                //always remember to finish itself
+                finish();
+            }
+        }, Constant.SPLASH_TIME_OUT);
     }
 }

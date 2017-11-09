@@ -1,6 +1,7 @@
 package com.gionee.autotest.field.ui.splash;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.gionee.autotest.common.Preference;
@@ -8,7 +9,7 @@ import com.gionee.autotest.field.data.db.AppsDBManager;
 import com.gionee.autotest.field.data.db.DBManager;
 import com.gionee.autotest.field.data.db.model.App;
 import com.gionee.autotest.field.data.db.model.AppList;
-import com.gionee.autotest.field.ui.base.BasePresenter;
+import com.gionee.autotest.field.ui.base.BasePresenterLife;
 import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.Util;
 
@@ -20,12 +21,22 @@ import java.util.List;
  * Presenter implementation for Splash screen.
  */
 
-class SplashPresenter <V extends SplashView> extends BasePresenter<V>{
+class SplashPresenterLife extends BasePresenterLife<SplashContract.View> implements SplashContract.Presenter{
 
-    /**
-     * this should be located at MODEL layer!!!
-     */
-    void checkLoadAllDataToDB(Context context){
+    private Context context ;
+
+    SplashPresenterLife(Context context) {
+        this.context = context ;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        this.context = null ;
+    }
+
+    @Override
+    public void initialize(Bundle extras) {
         Log.i(Constant.TAG, "checkLoadAllDataToDB...") ;
         if (Preference.getBoolean(context, Constant.PREF_KEY_FIRST_LAUNCH, true)){
             Log.i(Constant.TAG, "first time launch") ;
@@ -57,13 +68,9 @@ class SplashPresenter <V extends SplashView> extends BasePresenter<V>{
                 AppsDBManager.insertApps(appList.getApps()) ;
             }
         }
-    }
-
-    void startMainScreen(){
         if (isViewAttached()){
-            getMvpView().openMainActivity();
+            getView().navigateToMainScreen();
         }
     }
-
 
 }
