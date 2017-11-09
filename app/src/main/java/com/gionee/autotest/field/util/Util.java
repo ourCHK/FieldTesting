@@ -1,8 +1,12 @@
 package com.gionee.autotest.field.util;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 
+import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.data.db.model.App;
 import com.gionee.autotest.field.data.db.model.AppList;
 import com.google.gson.Gson;
@@ -50,4 +54,17 @@ public class Util {
             return mCollator.compare(key1, key2);
         }
     };
+
+    public static ProgressDialog showLoadingDialog(Context context) {
+        ProgressDialog progressDialog = new ProgressDialog(context);
+        progressDialog.show();
+        if (progressDialog.getWindow() != null) {
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+        progressDialog.setContentView(R.layout.progress_dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        return progressDialog;
+    }
 }

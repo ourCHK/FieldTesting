@@ -5,8 +5,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,7 +14,7 @@ import com.gionee.autotest.field.data.db.model.App;
 import com.gionee.autotest.field.ui.base.BaseActivity;
 import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.Util;
-import com.gionee.autotest.field.views.EmptyRecyclerView;
+import com.gionee.autotest.field.views.GNRecyclerView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,10 +28,10 @@ import butterknife.BindView;
  * Install app
  */
 
-public class InstallAppActivity extends BaseActivity implements InstallAppsAdapter.InstallListener{
+public class InstallAppActivity extends BaseActivity implements InstallAppsAdapter.InstallListener, InstallAppContract.View{
 
     @BindView(R.id.install_recycler_view)
-    EmptyRecyclerView mRecyclerView ;
+    GNRecyclerView mRecyclerView ;
 
     @BindView(R.id.list_empty_view)
     View emptyView ;
@@ -45,9 +43,18 @@ public class InstallAppActivity extends BaseActivity implements InstallAppsAdapt
 
     private List<App> mApps ;
 
+    private InstallAppPresenter mInstallPresenter ;
+
     @Override
     protected int layoutResId() {
         return R.layout.activity_install;
+    }
+
+    @Override
+    protected void initializePresenter() {
+        mInstallPresenter = new InstallAppPresenter() ;
+        super.presenter = mInstallPresenter ;
+        mInstallPresenter.onAttach(this);
     }
 
     @Override
@@ -64,25 +71,7 @@ public class InstallAppActivity extends BaseActivity implements InstallAppsAdapt
 
     private void initViews() {
         mEmptyTextView.setText(R.string.empty_apps);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        // Fetch the empty view from the layout and set it on
-        // the new recycler view
-        mRecyclerView.setEmptyView(emptyView);
-        mAppsAdapter = new InstallAppsAdapter(getApplicationContext(), this) ;
-        mAppsAdapter.setHasStableIds(true);
-        mApps = AppsDBManager.fetchAllApps(false) ;
-        //maybe all apps are deleted, forbidden NullPointerException occur
-        if (mApps == null) mApps = new ArrayList<>() ;
-        Collections.sort(mApps, Util.APP_COMPARATOR);
-        for (App app : mApps){
-            Log.i(Constant.TAG, "key : " + app.getKey()) ;
-            Log.i(Constant.TAG, "label : " + app.getLabel()) ;
-            Log.i(Constant.TAG, "icon : " + app.getIcon()) ;
-            Log.i(Constant.TAG, "activity : " + app.getActivity()) ;
-        }
-        mAppsAdapter.setItems(mApps);
-        mRecyclerView.setAdapter(mAppsAdapter);
+        mInstallPresenter.getUninstalledApps();
     }
 
     @Override
@@ -92,10 +81,39 @@ public class InstallAppActivity extends BaseActivity implements InstallAppsAdapt
             Toast.makeText(this, R.string.app_has_installed, Toast.LENGTH_SHORT).show();
             return ;
         }
-        Toast.makeText(this, "Installing application...", Toast.LENGTH_SHORT).show();
         AppsDBManager.updateApp(app.getKey(), true) ;
         app.setInstalled(true);
         mAppsAdapter.setItems(mApps);
         mAppsAdapter.notifyItemChanged(position);
+    }
+
+    @Override
+    public void setNoDataVisibility(boolean isVisible) {
+        emptyView.setVisibility(isVisible ? View.VISIBLE: View.GONE);
+    }
+
+    @Override
+    public void setListVisibility(boolean isVisible) {
+        mRecyclerView.setVisibility(isVisible ? View.VISIBLE: View.GONE);
+    }
+
+    @Override
+    public void initializeUninstalledAppsList(List<App> apps) {
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        // Fetch the empty view from the layout and set it on
+        // the new recycler view
+        mAppsAdapter = new InstallAppsAdapter(getApplicationContext(), this) ;
+        mAppsAdapter.setHasStableIds(true);
+        mApps = apps ;
+        //maybe all apps are deleted, forbidden NullPointerException occur
+        for (App app : mApps){
+            Log.i(Constant.TAG, "key : " + app.getKey()) ;
+            Log.i(Constant.TAG, "label : " + app.getLabel()) ;
+            Log.i(Constant.TAG, "icon : " + app.getIcon()) ;
+            Log.i(Constant.TAG, "activity : " + app.getActivity()) ;
+        }
+        mAppsAdapter.setItems(mApps);
+        mRecyclerView.setAdapter(mAppsAdapter);
     }
 }

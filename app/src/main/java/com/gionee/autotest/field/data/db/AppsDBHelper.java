@@ -52,23 +52,23 @@ class AppsDBHelper extends DBHelper {
     protected List<App> fetchAllApps(boolean installed){
         String where = Constant.APPDB.COLUMN_NAME_INSTALLED + "= ?" ;
         String[] whereValue = new String[]{installed ? "1" : "0"};
-        List<App> illegalPermissions = null ;
+        List<App> apps = new ArrayList<>();
         Cursor query = mDb.query(Constant.APPDB.TABLE_NAME, null, where, whereValue, null, null, Constant.APPDB.ORDER_BY) ;
         try {
             if (query != null && query.getCount() > 0){
-                illegalPermissions = new ArrayList<>();
+
                 while(query.moveToNext()){
                     int key         = query.getInt(query.getColumnIndex(Constant.APPDB.COLUMN_NAME_KEY)) ;
                     String label    = query.getString(query.getColumnIndex(Constant.APPDB.COLUMN_NAME_LABEL)) ;
                     String icon     = query.getString(query.getColumnIndex(Constant.APPDB.COLUMN_NAME_ICON)) ;
                     String activity = query.getString(query.getColumnIndex(Constant.APPDB.COLUMN_NAME_ACTIVITY)) ;
-                    illegalPermissions.add(new App(key, label, icon, activity, installed)) ;
+                    apps.add(new App(key, label, icon, activity, installed)) ;
                 }
             }
         }finally {
             if (query != null) query.close();
         }
-        return illegalPermissions ;
+        return apps ;
     }
 
     protected boolean updateApp(int key, boolean installed){

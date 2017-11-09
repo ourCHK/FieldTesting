@@ -3,7 +3,6 @@ package com.gionee.autotest.field.ui.main;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -18,11 +17,12 @@ import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.data.db.AppsDBManager;
 import com.gionee.autotest.field.data.db.model.App;
 import com.gionee.autotest.field.ui.base.BaseActivity;
+import com.gionee.autotest.field.ui.base.listener.RecyclerItemListener;
 import com.gionee.autotest.field.ui.install.InstallAppActivity;
 import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.NpaGridLayoutManager;
 import com.gionee.autotest.field.util.Util;
-import com.gionee.autotest.field.views.EmptyRecyclerView;
+import com.gionee.autotest.field.views.GNRecyclerView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,10 +36,10 @@ import butterknife.OnClick;
  *
  * Main screen activity
  */
-public class MainActivity extends BaseActivity implements AppsAdapter.OnItemClickListener{
+public class MainActivity extends BaseActivity implements RecyclerItemListener<App>, MainContract.View{
 
     @BindView(R.id.list_recycler_view)
-    EmptyRecyclerView mRecyclerView ;
+    GNRecyclerView mRecyclerView ;
 
     @BindView(R.id.list_empty_view)
     View emptyView ;
@@ -48,7 +48,9 @@ public class MainActivity extends BaseActivity implements AppsAdapter.OnItemClic
     FloatingActionButton fab ;
 
     private AppsAdapter mAdapter ;
-    private List<App> apps ;
+    private List<App> mApps ;
+
+    private MainPresenter mainPresenter ;
 
     @Override
     protected int layoutResId() {
@@ -56,41 +58,22 @@ public class MainActivity extends BaseActivity implements AppsAdapter.OnItemClic
     }
 
     @Override
+    protected void initializePresenter() {
+        mainPresenter = new MainPresenter() ;
+        super.presenter = mainPresenter ;
+        mainPresenter.onAttach(this);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
-        initViews() ;
+        mainPresenter.getInstallApps();
     }
 
-    private void initViews() {
-        Log.i(Constant.TAG, "enter MainActivity initViews") ;
-        GridLayoutManager layoutManager = new NpaGridLayoutManager(this, 3) ;
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        final LayoutAnimationController controller =
-                AnimationUtils.loadLayoutAnimation(getApplicationContext(), R.anim.layout_animation_fall_down);
-        mRecyclerView.setLayoutAnimation(controller);
-        // Fetch the empty view from the layout and set it on
-        // the new recycler view
-        mRecyclerView.setEmptyView(emptyView);
-        setupAdapter() ;
-        mRecyclerView.setAdapter(mAdapter);
-    }
-
-    private void setupAdapter() {
-        Log.i(Constant.TAG, "enter setupAdapter function.") ;
-        mAdapter = new AppsAdapter(getApplicationContext(), this);
-        mAdapter.setHasStableIds(true);
-        apps = AppsDBManager.fetchAllApps(true) ;
-        //maybe all apps are deleted, forbidden NullPointerException occur
-        if (apps == null) apps = new ArrayList<>() ;
-        Collections.sort(apps, Util.APP_COMPARATOR);
-        for (App app : apps){
-            Log.i(Constant.TAG, "key : " + app.getKey()) ;
-            Log.i(Constant.TAG, "label : " + app.getLabel()) ;
-            Log.i(Constant.TAG, "icon : " + app.getIcon()) ;
-            Log.i(Constant.TAG, "activity : " + app.getActivity()) ;
-        }
-        mAdapter.setItems(apps);
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mainPresenter.onDetach();
     }
 
     @Override
@@ -124,8 +107,8 @@ public class MainActivity extends BaseActivity implements AppsAdapter.OnItemClic
                         //do db stuff
                         AppsDBManager.updateApp(item.getKey(), false) ;
                         //reload all
-                        apps.remove(item) ;
-                        mAdapter.setItems(apps);
+                        mApps.remove(item) ;
+                        mAdapter.setItems(mApps);
                         mAdapter.notifyItemRemoved(position);
                     }
                 })
@@ -137,5 +120,38 @@ public class MainActivity extends BaseActivity implements AppsAdapter.OnItemClic
     void onFABClicked(){
         Intent install = new Intent(this, InstallAppActivity.class) ;
         startActivity(install);
+    }
+
+    @Override
+    public void setNoDataVisibility(boolean isVisible) {
+        emptyView.setVisibility(isVisible ? View.VISIBLE: View.GONE);
+    }
+
+    @Override
+    public void setListVisibility(boolean isVisible) {
+        mRecyclerView.setVisibility(isVisible ? View.VISIBLE: View.GONE);
+    }
+
+    @Override
+    public void initializeAppsList(List<App> apps) {
+        GridLayoutManager layoutManager = new NpaGridLayoutManager(this, 3) ;
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        final LayoutAnimationController controller =
+                AnimationUtils.loadLayoutAnimation(getApplicationContext(), R.anim.layout_animation_fall_down);
+        mRecyclerView.setLayoutAnimation(controller);
+        Log.i(Constant.TAG, "enter setupAdapter function.") ;
+        mAdapter = new AppsAdapter(getApplicationContext(), this);
+        mAdapter.setHasStableIds(true);
+        mApps = apps ;
+        //maybe all apps are deleted, forbidden NullPointerException occur
+        for (App app : mApps){
+            Log.i(Constant.TAG, "key : " + app.getKey()) ;
+            Log.i(Constant.TAG, "label : " + app.getLabel()) ;
+            Log.i(Constant.TAG, "icon : " + app.getIcon()) ;
+            Log.i(Constant.TAG, "activity : " + app.getActivity()) ;
+        }
+        mAdapter.setItems(mApps);
+        mRecyclerView.setAdapter(mAdapter);
     }
 }

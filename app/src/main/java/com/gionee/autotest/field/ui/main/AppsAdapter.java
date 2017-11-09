@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.data.db.model.App;
+import com.gionee.autotest.field.ui.base.listener.RecyclerItemListener;
 import com.gionee.autotest.field.views.CircleImageView;
 
 import java.lang.reflect.Field;
@@ -30,16 +31,9 @@ public class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.MyViewHolder> 
 
     private List<App> mItems ;
 
-    public interface OnItemClickListener {
+    private final RecyclerItemListener<App> listener;
 
-        void onItemClick(App item, int position);
-
-        void onItemLongClick(App item, int position) ;
-    }
-
-    private final OnItemClickListener listener;
-
-    public AppsAdapter(Context mContext , OnItemClickListener listener){
+    public AppsAdapter(Context mContext , RecyclerItemListener<App> listener){
         mInflater = LayoutInflater.from(mContext);
         this.listener = listener ;
     }

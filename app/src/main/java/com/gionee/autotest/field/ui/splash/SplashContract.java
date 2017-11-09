@@ -5,10 +5,10 @@ import com.gionee.autotest.field.ui.base.BaseView;
 /**
  * Created by viking on 11/9/17.
  *
- * Splash screen contract
+ * Contract for splash screen
  */
 
-class SplashContract {
+interface SplashContract {
 
     interface View extends BaseView {
 

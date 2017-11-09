@@ -13,6 +13,9 @@ public class Constant {
     //application tag for all log print
     public static final String TAG                      = "FieldTesting" ;
 
+    //for splash screen time out
+    public static int SPLASH_TIME_OUT                   = 1000;
+
     //Preferences constants
     public static final String PREF_KEY_FIRST_LAUNCH    = "first_launch" ;
     public static final String PREF_KEY_APP_VERSION     = "app_version"  ;
