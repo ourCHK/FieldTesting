@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * from the children classed by calling getMvpView().
  */
 
-public class BasePresenterLife<V extends BaseView> implements PresenterLife<V> {
+public class BasePresenter<V extends BaseView> implements PresenterLife<V> {
 
     private WeakReference<V> mBaseView ;
 

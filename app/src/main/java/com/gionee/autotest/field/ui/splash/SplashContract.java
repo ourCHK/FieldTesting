@@ -8,7 +8,7 @@ import com.gionee.autotest.field.ui.base.BaseView;
  * Splash screen contract
  */
 
-public class SplashContract {
+class SplashContract {
 
     interface View extends BaseView {
 

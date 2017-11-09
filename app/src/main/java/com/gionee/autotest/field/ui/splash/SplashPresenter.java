@@ -9,7 +9,7 @@ import com.gionee.autotest.field.data.db.AppsDBManager;
 import com.gionee.autotest.field.data.db.DBManager;
 import com.gionee.autotest.field.data.db.model.App;
 import com.gionee.autotest.field.data.db.model.AppList;
-import com.gionee.autotest.field.ui.base.BasePresenterLife;
+import com.gionee.autotest.field.ui.base.BasePresenter;
 import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.Util;
 
@@ -21,11 +21,11 @@ import java.util.List;
  * Presenter implementation for Splash screen.
  */
 
-class SplashPresenterLife extends BasePresenterLife<SplashContract.View> implements SplashContract.Presenter{
+class SplashPresenter extends BasePresenter<SplashContract.View> implements SplashContract.Presenter{
 
     private Context context ;
 
-    SplashPresenterLife(Context context) {
+    SplashPresenter(Context context) {
         this.context = context ;
     }
 

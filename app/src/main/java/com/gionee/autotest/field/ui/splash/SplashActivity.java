@@ -18,7 +18,7 @@ import com.gionee.autotest.field.util.Constant;
  */
 public class SplashActivity extends BaseActivity implements SplashContract.View {
 
-    private SplashPresenterLife splashPresenter ;
+    private SplashPresenter splashPresenter ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,7 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
 
     @Override
     protected void initializePresenter() {
-        splashPresenter = new SplashPresenterLife(getApplicationContext()) ;
+        splashPresenter = new SplashPresenter(getApplicationContext()) ;
         super.presenter = splashPresenter ;
         splashPresenter.onAttach(this);
     }

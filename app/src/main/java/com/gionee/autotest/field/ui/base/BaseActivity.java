@@ -25,7 +25,7 @@ import butterknife.Unbinder;
 
 public abstract class BaseActivity extends AppCompatActivity implements BaseView{
 
-    protected BasePresenterLife presenter;
+    protected BasePresenter presenter;
 
     @Nullable
     @BindView(R.id.toolbar)
