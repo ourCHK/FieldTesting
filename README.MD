@@ -6,11 +6,11 @@ Field Testing source code.
 
 框架的主界面：
 
-![](arts/main_screen.png = 400x)
+<img src="arts/main_screen.png" width="50%" height="50%">
 
 应用安装界面：
 
-![](arts/install_screen.png)
+<img src="arts/install_screen.png" width="50%" height="50%">
 
 
 
