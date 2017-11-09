@@ -7,7 +7,7 @@ Field Testing source code.
 框架的主界面：
 
 <div align=center>
-<img src="http://code.autotest.gionee.com:3000/dengwj/FieldTesting/raw/master/arts/main_screen.png" width="400" height="400" alt=""/>
+<img src="http://code.autotest.gionee.com:3000/dengwj/FieldTesting/raw/master/arts/main_screen.png" width="400" alt=""/>
 </div>
 
 
