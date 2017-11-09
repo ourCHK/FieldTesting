@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -170,5 +171,25 @@ public class MainActivity extends BaseActivity implements RecyclerItemListener<A
         }
         mAdapter.setItems(mApps);
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    protected int menuResId() {
+        return R.menu.menu_main;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.about:
+                Toast.makeText(getApplicationContext(), R.string.not_implemented_yet, Toast.LENGTH_SHORT).show();
+                //                startActivity(new Intent(this, AboutActivity.class));
+                return true;
+            case R.id.help:
+                Toast.makeText(getApplicationContext(), R.string.not_implemented_yet, Toast.LENGTH_SHORT).show();
+                //                startActivity(new Intent(this, AboutActivity.class));
+                return true ;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">场测</string>
 
+    <!-- for menus-->
+    <string name="help">帮助</string>
+    <string name="about">关于</string>
+
     <!-- splash resources -->
     <string name="text_copyright">Copyright © 2017 深圳市金立通信设备有限公司 测试平台部 版权所有</string>
 
