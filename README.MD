@@ -20,9 +20,7 @@ Field Testing source code.
 
 在app项目的assets下的apps.json文件中apps节点下添加应用信息：
 
-<div align=center>
-<img src="http://code.autotest.gionee.com:3000/dengwj/FieldTesting/raw/master/arts/app_json.png" width="400" alt=""/>
-</div>
+![](arts/app_json.png)
 
 每一次这个文件的更新必须同步更新version界面的信息!!!
 
