@@ -43,4 +43,23 @@ public class InstallBiz {
                 }) ;
 
     }
+
+    public void installApp(final BaseCallback<Boolean> listener , final App app){
+        Observable.create(new ObservableOnSubscribe<Boolean>() {
+            @Override
+            public void subscribe(ObservableEmitter<Boolean> e) throws Exception {
+                //fetch data from db
+                AppsDBManager.updateApp(app.getKey(), true) ;
+                e.onNext(true);
+                e.onComplete();
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean result) throws Exception {
+                        listener.onSuccess(result);
+                    }
+                }) ;
+    }
 }

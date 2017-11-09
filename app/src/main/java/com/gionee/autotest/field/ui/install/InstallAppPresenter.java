@@ -1,5 +1,9 @@
 package com.gionee.autotest.field.ui.install;
 
+import android.widget.Toast;
+
+import com.gionee.autotest.field.R;
+import com.gionee.autotest.field.data.db.AppsDBManager;
 import com.gionee.autotest.field.data.db.model.App;
 import com.gionee.autotest.field.ui.base.BasePresenter;
 import com.gionee.autotest.field.ui.base.listener.BaseCallback;
@@ -23,12 +27,31 @@ public class InstallAppPresenter extends BasePresenter<InstallAppContract.View> 
 
     @Override
     public void getUninstalledApps() {
-        if (isViewAttached()){
-            getView().setNoDataVisibility(false);
-            getView().setListVisibility(false);
-            getView().showLoading();
-            mInstallBiz.fetchAllUnInstalledApps(callback);
+        if (!isViewAttached()) return ;
+        getView().setNoDataVisibility(false);
+        getView().setListVisibility(false);
+        getView().showLoading();
+        mInstallBiz.fetchAllUnInstalledApps(callback);
+    }
+
+    @Override
+    public void onInstallClicked(final App app, final int position) {
+        if (!isViewAttached()) return ;
+        if (app.isInstalled()){
+            getView().appIntalledError();
+            return ;
         }
+        mInstallBiz.installApp(new BaseCallback<Boolean>() {
+            @Override
+            public void onSuccess(Boolean aBoolean) {
+                getView().appInstalledSuccess(position);
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+        }, app);
     }
 
     private void showList(boolean isVisible) {

@@ -19,9 +19,15 @@ public interface InstallAppContract {
         void setListVisibility(boolean isVisible) ;
 
         void initializeUninstalledAppsList(List<App> apps) ;
+
+        void appIntalledError() ;
+
+        void appInstalledSuccess(int position) ;
     }
 
     interface Presenter {
         void getUninstalledApps() ;
+
+        void onInstallClicked(App app, int position) ;
     }
 }

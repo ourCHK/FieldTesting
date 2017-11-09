@@ -9,15 +9,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gionee.autotest.field.R;
-import com.gionee.autotest.field.data.db.AppsDBManager;
 import com.gionee.autotest.field.data.db.model.App;
 import com.gionee.autotest.field.ui.base.BaseActivity;
 import com.gionee.autotest.field.util.Constant;
-import com.gionee.autotest.field.util.Util;
 import com.gionee.autotest.field.views.GNRecyclerView;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -76,12 +72,17 @@ public class InstallAppActivity extends BaseActivity implements InstallAppsAdapt
 
     @Override
     public void onItemInstallClicked(int position) {
+        mInstallPresenter.onInstallClicked(mApps.get(position), position);
+    }
+
+    @Override
+    public void appIntalledError() {
+        Toast.makeText(this, R.string.app_has_installed, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void appInstalledSuccess(int position) {
         App app = mApps.get(position) ;
-        if (app.isInstalled()){
-            Toast.makeText(this, R.string.app_has_installed, Toast.LENGTH_SHORT).show();
-            return ;
-        }
-        AppsDBManager.updateApp(app.getKey(), true) ;
         app.setInstalled(true);
         mAppsAdapter.setItems(mApps);
         mAppsAdapter.notifyItemChanged(position);
