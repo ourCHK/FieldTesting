@@ -23,12 +23,27 @@ class MainPresenter extends BasePresenter<MainContract.View> implements MainCont
 
     @Override
     public void getInstallApps() {
-        if (isViewAttached()){
-            getView().setNoDataVisibility(false);
-            getView().setListVisibility(false);
-            getView().showLoading();
-            mainBiz.fetchAllInstallApps(callback);
-        }
+        if (!isViewAttached()) return ;
+        getView().setNoDataVisibility(false);
+        getView().setListVisibility(false);
+        getView().showLoading();
+        mainBiz.fetchAllInstallApps(callback);
+    }
+
+    @Override
+    public void uninstallApp(App app, final int position) {
+        if (!isViewAttached()) return ;
+        mainBiz.uninstallApp(new BaseCallback<Boolean>() {
+            @Override
+            public void onSuccess(Boolean aBoolean) {
+                getView().uninstallSuccess(position);
+            }
+
+            @Override
+            public void onFail() {
+                //do nothing
+            }
+        }, app);
     }
 
     private void showList(boolean isVisible) {

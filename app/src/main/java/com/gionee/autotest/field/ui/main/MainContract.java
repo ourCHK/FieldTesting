@@ -20,10 +20,14 @@ interface MainContract {
         void setListVisibility(boolean isVisible) ;
 
         void initializeAppsList(List<App> apps) ;
+
+        void uninstallSuccess(int position) ;
     }
 
     interface Presenter {
         void getInstallApps() ;
+
+        void uninstallApp(App app, int position) ;
     }
 
 }

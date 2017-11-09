@@ -1,12 +1,11 @@
 package com.gionee.autotest.field.ui.main;
 
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
-import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
-import android.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
@@ -17,19 +16,14 @@ import android.view.animation.LayoutAnimationController;
 import android.widget.Toast;
 
 import com.gionee.autotest.field.R;
-import com.gionee.autotest.field.data.db.AppsDBManager;
 import com.gionee.autotest.field.data.db.model.App;
 import com.gionee.autotest.field.ui.base.BaseActivity;
 import com.gionee.autotest.field.ui.base.listener.RecyclerItemListener;
 import com.gionee.autotest.field.ui.install.InstallAppActivity;
 import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.NpaGridLayoutManager;
-import com.gionee.autotest.field.util.Util;
 import com.gionee.autotest.field.views.GNRecyclerView;
 
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -123,16 +117,20 @@ public class MainActivity extends BaseActivity implements RecyclerItemListener<A
                 .setPositiveButton(R.string.delete_app_btn_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        //do db stuff
-                        AppsDBManager.updateApp(item.getKey(), false) ;
-                        //reload all
-                        mApps.remove(item) ;
-                        mAdapter.setItems(mApps);
-                        mAdapter.notifyItemRemoved(position);
+                        mainPresenter.uninstallApp(item, position);
                     }
                 })
                 .setNegativeButton(R.string.delete_app_btn_discard, null) ;
         builder.show() ;
+    }
+
+    @Override
+    public void uninstallSuccess(int position) {
+        App item = mApps.get(position) ;
+        //reload all
+        mApps.remove(item) ;
+        mAdapter.setItems(mApps);
+        mAdapter.notifyItemRemoved(position);
     }
 
     @OnClick(R.id.fab)
