@@ -9,7 +9,7 @@
 
     <include layout="@layout/layout_header"/>
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/content_main"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -18,7 +18,7 @@
 
         <!-- Replaced android.support.v7.widget.RecyclerView with the
              new EmptyRecyclerView -->
-        <com.gionee.autotest.field.views.EmptyRecyclerView
+        <com.gionee.autotest.field.views.GNRecyclerView
             android:id="@+id/list_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
@@ -26,7 +26,7 @@
         <!-- Added an empty view which will be shown when the EmptyRecyclerView
                      is empty -->
         <include layout="@layout/layout_empty" />
-    </LinearLayout>
+    </FrameLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

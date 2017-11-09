@@ -3,12 +3,15 @@ package com.gionee.autotest.field.ui.main;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.Toast;
@@ -24,6 +27,7 @@ import com.gionee.autotest.field.util.NpaGridLayoutManager;
 import com.gionee.autotest.field.util.Util;
 import com.gionee.autotest.field.views.GNRecyclerView;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -67,7 +71,22 @@ public class MainActivity extends BaseActivity implements RecyclerItemListener<A
     @Override
     protected void onResume() {
         super.onResume();
+        showFABAnimation() ;
         mainPresenter.getInstallApps();
+    }
+
+    private void showFABAnimation() {
+        Animation show_fab = AnimationUtils.loadAnimation(getApplicationContext() , R.anim.fab_show) ;
+        fab.setClickable(false);
+        fab.startAnimation(show_fab);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (fab != null){
+                    fab.setClickable(true);
+                }
+            }
+        }, 1000) ;
     }
 
     @Override
