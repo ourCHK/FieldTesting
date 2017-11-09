@@ -41,6 +41,8 @@ installed:　此应用默认是否安装，如果为true，则在应用的启动
 
 ![](arts/package.png)
 
+**项目遵循MVP开发模式，若自己的模块简单不必完全使用该开发模式！！！**
+
 
 ### License
  
