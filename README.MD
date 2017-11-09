@@ -6,11 +6,11 @@ Field Testing source code.
 
 框架的主界面：
 
-<img src="arts/main_screen.png" width="50%" height="50%">
+<img src="http://code.autotest.gionee.com:3000/dengwj/FieldTesting/src/master/arts/main_screen.png" width="50%" height="50%">
 
 应用安装界面：
 
-<img src="arts/install_screen.png" width="50%" height="50%">
+<img src="http://code.autotest.gionee.com:3000/dengwj/FieldTesting/src/master/arts/install_screen.png" width="50%" height="50%">
 
 
 
