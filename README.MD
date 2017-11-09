@@ -6,7 +6,7 @@ Field Testing source code.
 
 框架的主界面：
 
-![](arts/main_screen.png)
+![](arts/main_screen.png = 400x)
 
 应用安装界面：
 
