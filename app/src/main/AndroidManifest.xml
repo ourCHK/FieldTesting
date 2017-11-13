@@ -12,8 +12,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ui.splash.SplashActivity"
-            android:theme="@style/SplashTheme"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,9 +23,9 @@
 
         <activity
             android:name=".ui.main.MainActivity"
-            android:theme="@style/AppNoActionBarTheme"
+            android:label="@string/main_name"
             android:screenOrientation="portrait"
-            android:label="@string/main_name">
+            android:theme="@style/AppNoActionBarTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,13 +34,29 @@
         </activity>
         <activity
             android:name=".ui.install.InstallAppActivity"
-            android:theme="@style/AppNoActionBarTheme"
             android:label="@string/install_label_name"
+            android:parentActivityName=".ui.main.MainActivity"
             android:screenOrientation="portrait"
-            android:parentActivityName=".ui.main.MainActivity">
+            android:theme="@style/AppNoActionBarTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.gionee.autotest.field.ui.main.MainActivity"/>
+                android:value="com.gionee.autotest.field.ui.main.MainActivity" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.signal.SignalActivity"
+            android:label="@string/signal_label_name"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppNoActionBarTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.gionee.autotest.field.ui.main.MainActivity" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -26,7 +26,7 @@
       "key": 3,
       "label":"信号强度",
       "icon":"phone_signal",
-      "activity":"",
+      "activity":".ui.signal.SignalActivity",
       "installed": true
     },
     {
