@@ -8,6 +8,6 @@ import com.gionee.autotest.field.ui.base.BasePresenter;
  * Presenter for signal
  */
 
-public class SignalPresenter extends BasePresenter<SignalContract.View> implements SignalContract.Presenter{
+class SignalPresenter extends BasePresenter<SignalContract.View> implements SignalContract.Presenter{
 
 }
