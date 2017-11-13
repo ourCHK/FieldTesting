@@ -10,19 +10,26 @@
 
     <!-- main resources -->
     <string name="main_name">场测自动化集</string>
-    <string name="empty_notice">请先安装应用</string>
+    <string name="empty_notice">请先添加应用</string>
     <string name="not_implemented_yet">当前应用还未实现功能.</string>
     <string name="start_app_exception">启动应用出现异常.</string>
-    <string name="delete_app_message">确定要删除此应用?</string>
+    <string name="delete_app_message">确定要移除此应用?</string>
     <string name="delete_app_btn_ok">确定</string>
     <string name="delete_app_btn_discard">取消</string>
 
     <!-- install resources -->
-    <string name="install_label_name">安装应用</string>
+    <string name="install_label_name">添加应用</string>
     <string name="empty_apps">应用库是空的.</string>
-    <string name="install">安装</string>
-    <string name="installed">已安装</string>
-    <string name="app_has_installed">应用已安装.</string>
+    <string name="install">添加</string>
+    <string name="installed">已添加</string>
+    <string name="app_has_installed">应用已添加.</string>
+
+    <!-- signal resources -->
+    <string name="signal_label_name">手机信号</string>
+    <string name="signal_notice">注意事项：\n\n1.报告文件路径：sdcard/field/signal.\n\n2.请将该APK加入到清理白名单中.\n</string>
+    <string name="signal_frequency">测试频率(单位：秒):</string>
+    <string name="signal_start">开始测试</string>
+    <string name="signal_stop">结束测试</string>
 
 
 </resources>
