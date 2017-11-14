@@ -15,6 +15,7 @@ public class Constant {
 
     //for splash screen time out
     public static int SPLASH_TIME_OUT                   = 1000;
+    public static final String HOME                     = "field" ;
 
     //Preferences constants
     public static final String PREF_KEY_FIRST_LAUNCH    = "first_launch" ;
