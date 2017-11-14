@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.gionee.autotest.field">
+          package="com.gionee.autotest.field">
 
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".FieldApplication"
@@ -19,21 +19,20 @@
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.main.MainActivity"
             android:label="@string/main_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppNoActionBarTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <activity
@@ -44,14 +43,14 @@
             android:theme="@style/AppNoActionBarTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.gionee.autotest.field.ui.main.MainActivity" />
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                android:value="com.gionee.autotest.field.ui.main.MainActivity"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.signal.SignalActivity"
             android:label="@string/signal_label_name"
@@ -60,14 +59,30 @@
             android:theme="@style/AppNoActionBarTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.gionee.autotest.field.ui.main.MainActivity" />
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                android:value="com.gionee.autotest.field.ui.main.MainActivity"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.incoming.InComingActivity"
+            android:label="@string/incoming_label_name"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppNoActionBarTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.gionee.autotest.field.ui.main.MainActivity"/>
 
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

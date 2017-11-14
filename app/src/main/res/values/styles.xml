@@ -25,13 +25,22 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowNoTitle">true</item>
     </style>
-    
+
     <style name="MainItem">
         <item name="android:background">?android:attr/selectableItemBackground</item>
     </style>
-    
+
     <style name="DeleteDialogTheme" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
 </resources>

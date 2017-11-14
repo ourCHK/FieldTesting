@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <include layout="@layout/layout_header"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_margin="15dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tools_tips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/tool_tips"
+            android:textColor="@color/colorPrimary"/>
+
+
+        <CheckBox
+            android:id="@+id/isAutoRejectCB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/distinguish_text"
+            android:textColor="@color/colorPrimary"/>
+
+        <LinearLayout
+            android:id="@+id/autoReject_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/isDistinguishEndStr"
+                android:textColor="@color/colorPrimary"/>
+
+            <EditText
+                android:id="@+id/isAutoReject_et"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:enabled="true"
+                android:gravity="center"
+                android:inputType="number"
+                android:text="5"
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+
+        <CheckBox
+            android:id="@+id/isAutoAnswer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/is_auto_answer"
+            android:textColor="@color/colorPrimary"/>
+
+        <CheckBox
+            android:id="@+id/isAnswertHangup_cb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="@string/is_auto_end"
+            android:textColor="@color/colorPrimary"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:id="@+id/autoAnswerHangup_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/autoEndText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/auto_end_time_text"
+                android:textColor="@color/colorPrimary"/>
+
+            <EditText
+                android:id="@+id/answerHangupTime_cb"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:enabled="false"
+                android:gravity="center"
+                android:inputType="number"
+                android:text="@string/default_end_time"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/spaceTimeText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/gap_time_text"
+                android:textColor="@color/colorPrimary"/>
+
+            <EditText
+                android:id="@+id/spaceTime"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:inputType="number"
+                android:text="@string/max_space_time"/>
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/start_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/install_bg_stroke"
+            android:text="@string/start_test"
+            android:textColor="@color/colorPrimary"/>
+    </LinearLayout>
+
+
+</LinearLayout>
+

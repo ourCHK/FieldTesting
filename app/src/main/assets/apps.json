@@ -5,7 +5,7 @@
       "key": 0,
       "label":"接通率",
       "icon":"phone_incoming",
-      "activity":"",
+      "activity":".ui.incoming.InComingActivity",
       "installed": true
     },
     {
