@@ -67,15 +67,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.incoming.InComingActivity"
-            android:label="@string/incoming_label_name"
-            android:parentActivityName=".ui.main.MainActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppNoActionBarTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.gionee.autotest.field.ui.main.MainActivity"/>
 
         <service android:name=".services.SignalMonitorService" />
 
