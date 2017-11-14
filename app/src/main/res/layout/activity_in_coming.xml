@@ -125,7 +125,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="@drawable/install_bg_stroke"
+            android:background="@drawable/bg_stroke"
             android:text="@string/start_test"
             android:textColor="@color/colorPrimary"/>
     </LinearLayout>
