@@ -42,7 +42,7 @@
         tools:text="@string/installed"
         android:minHeight="0dp"
         android:padding="8dp"
-        android:background="@drawable/install_bg_stroke"
+        android:background="@drawable/bg_stroke"
         android:textColor="@color/colorPrimary" />
 
     <View

@@ -31,8 +31,15 @@
     <string name="signal_frequency">测试频率(单位：秒):</string>
     <string name="signal_start">开始测试</string>
     <string name="signal_stop">结束测试</string>
+    <string name="signal_not_supported_message">当前的系统版本不支持信号强度获取．</string>
+    <string name="signal_not_supported_ok">返回主界面</string>
     <string name="permission_not_granted">读取手机状态信息权限被拒绝</string>
     <string name="permission_read_phone_state_rationale">获取信号需要读取手机状态信息权限，确认授予?</string>
+    <string name="frequency_set_error">测试频率设置错误，间隔必须大于0，小于300．</string>
+    <string name="signal_foreground_service_title">信号监控</string>
+    <string name="signal_foreground_service_subtitle">信号监控</string>
+    <string name="signal_monitor_started">信号监控已开启.</string>
+    <string name="signal_monitor_stopped">信号监控已停止.</string>
 
     <!-- incoming resources -->
     <string name="incoming_label_name">接通率</string>
