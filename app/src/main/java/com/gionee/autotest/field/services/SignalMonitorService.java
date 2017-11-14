@@ -39,6 +39,7 @@ public class SignalMonitorService extends Service{
     public int onStartCommand(Intent intent, int flags, int startId) {
         getArguments() ;
         fire() ;
+
         return START_STICKY;
     }
 
