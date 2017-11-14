@@ -9,6 +9,7 @@
     <include layout="@layout/layout_header" />
 
     <LinearLayout
+        android:id="@+id/root_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -40,6 +41,7 @@
                 android:layout_width="0dp"
                 android:textColor="@color/colorPrimary"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:layout_weight="1" />
         </LinearLayout>
 
