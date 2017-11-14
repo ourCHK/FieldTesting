@@ -35,8 +35,8 @@ interface SignalContract {
 
         void setSignalRunning(boolean isRunning) ;
 
-        void registerSignalListener(SignalHelper.SignalStateListener listener, String interval) ;
+        void registerSignalListener(String interval) ;
 
-        void unregisterSignalListener(SignalHelper.SignalStateListener listener) ;
+        void unregisterSignalListener() ;
     }
 }

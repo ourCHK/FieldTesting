@@ -1,10 +1,12 @@
 package com.gionee.autotest.field.ui.signal;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
 import com.gionee.autotest.common.Preference;
+import com.gionee.autotest.field.services.SignalMonitorService;
 import com.gionee.autotest.field.ui.base.BasePresenter;
 import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.SignalHelper;
@@ -91,17 +93,18 @@ class SignalPresenter extends BasePresenter<SignalContract.View> implements Sign
     }
 
     @Override
-    public void registerSignalListener(SignalHelper.SignalStateListener listener, String interval) {
+    public void registerSignalListener(String interval) {
         setInterval(interval);
         setSignalRunning(true);
-        //TODO replace this to Service implementation!!!
-        SignalHelper.getInstance(context).registerSimStateListener(listener);
+        Intent service = new Intent(context, SignalMonitorService.class) ;
+        context.startService(service) ;
+
     }
 
     @Override
-    public void unregisterSignalListener(SignalHelper.SignalStateListener listener) {
+    public void unregisterSignalListener() {
         setSignalRunning(false);
-        SignalHelper.getInstance(context).unregisterSimStateListener(listener);
-        SignalHelper.getInstance(context).destroy();
+        Intent service = new Intent(context, SignalMonitorService.class) ;
+        context.stopService(service) ;
     }
 }

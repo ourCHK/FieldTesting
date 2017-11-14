@@ -19,7 +19,6 @@ import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.ui.base.BaseActivity;
 import com.gionee.autotest.field.ui.main.MainActivity;
 import com.gionee.autotest.field.util.Constant;
-import com.gionee.autotest.field.util.SignalHelper;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -31,7 +30,7 @@ import butterknife.OnClick;
  */
 
 public class SignalActivity extends BaseActivity implements SignalContract.View,
-        ActivityCompat.OnRequestPermissionsResultCallback, SignalHelper.SignalStateListener{
+        ActivityCompat.OnRequestPermissionsResultCallback{
 
     private static final int MY_PERMISSION_REQUEST_READ_PHONE_STATE = 101 ;
 
@@ -113,7 +112,8 @@ public class SignalActivity extends BaseActivity implements SignalContract.View,
             }
         }else{
             Log.i(Constant.TAG, "permission READ_PHONE_STATE granted...") ;
-            mSignalPresenter.registerSignalListener(this, mFrequency.getText().toString());
+            Toast.makeText(this, R.string.signal_monitor_started, Toast.LENGTH_SHORT).show();
+            mSignalPresenter.registerSignalListener(mFrequency.getText().toString());
         }
     }
 
@@ -123,7 +123,8 @@ public class SignalActivity extends BaseActivity implements SignalContract.View,
         switch (requestCode){
             case MY_PERMISSION_REQUEST_READ_PHONE_STATE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                    mSignalPresenter.registerSignalListener(this, mFrequency.getText().toString());
+                    Toast.makeText(this, R.string.signal_monitor_started, Toast.LENGTH_SHORT).show();
+                    mSignalPresenter.registerSignalListener(mFrequency.getText().toString());
                 }else{
                     //show permission denied dialog
                     Snackbar.make(mLayout, R.string.permission_not_granted, Snackbar.LENGTH_SHORT).show();
@@ -134,18 +135,8 @@ public class SignalActivity extends BaseActivity implements SignalContract.View,
 
     @OnClick(R.id.signal_stop)
     void onSignalStopClicked(){
-        Toast.makeText(this, "Signal stop clicked.", Toast.LENGTH_SHORT).show();
-        mSignalPresenter.unregisterSignalListener(this);
-    }
-
-    @Override
-    public void onSimStateChanged(boolean sim1Exist, boolean sim2Exist) {
-        Log.i(Constant.TAG, "onSimStateChanged : " + sim1Exist + " " + sim2Exist) ;
-    }
-
-    @Override
-    public void onSignalStrengthsChanged(int simId, SignalHelper.SimSignalInfo signalInfo) {
-        Log.i(Constant.TAG, "onSignalStrengthsChanged : simId " + simId + " " + signalInfo.toString()) ;
+        Toast.makeText(this, R.string.signal_monitor_stopped, Toast.LENGTH_SHORT).show();
+        mSignalPresenter.unregisterSignalListener();
     }
 
     @Override
