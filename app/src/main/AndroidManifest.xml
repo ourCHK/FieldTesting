@@ -68,6 +68,8 @@
             </intent-filter>
         </activity>
 
+        <service android:name=".services.SignalMonitorService" />
+
     </application>
 
 </manifest>
