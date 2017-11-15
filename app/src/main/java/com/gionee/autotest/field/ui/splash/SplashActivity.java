@@ -3,9 +3,11 @@ package com.gionee.autotest.field.ui.splash;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -15,12 +17,16 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.gionee.autotest.common.Preference;
+import com.gionee.autotest.field.services.SignalMonitorService;
 import com.gionee.autotest.field.ui.main.MainActivity;
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.ui.base.BaseActivity;
 import com.gionee.autotest.field.util.Constant;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -31,7 +37,7 @@ import butterknife.BindView;
  */
 public class SplashActivity extends BaseActivity implements SplashContract.View {
 
-    private static final int MY_PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE = 101 ;
+    private static final int MY_PERMISSION_REQUEST = 101 ;
 
     private SplashPresenter splashPresenter ;
 
@@ -67,46 +73,97 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
 
     @Override
     public void navigateToMainScreen() {
-        //request read sdcard permission
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED){
-            Log.i(Constant.TAG, "permission WRITE_EXTERNAL_STORAGE not granted...") ;
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)){
-                Snackbar.make(mLayout, R.string.permission_write_external_storage_rationale, Snackbar.LENGTH_INDEFINITE)
-                        .setAction(android.R.string.ok, new View.OnClickListener(){
-                            @Override
-                            public void onClick(View v) {
-                                ActivityCompat.requestPermissions(SplashActivity.this,
-                                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                        MY_PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE);
-                            }
-                        })
-                        .show();
-            }else{
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        MY_PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE);
+        String[] requestedPermissions = new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_PHONE_STATE} ;
+        final List<String> notGrantedPerms = new ArrayList<>() ;
+        for (String perm : requestedPermissions){
+            if (ContextCompat.checkSelfPermission(this, perm) != PackageManager.PERMISSION_GRANTED){
+                Log.i(Constant.TAG, "not granted permission : " + perm) ;
+                notGrantedPerms.add(perm) ;
             }
+        }
+        if (!notGrantedPerms.isEmpty()){
+            String[] permissions = notGrantedPerms.toArray(new String[notGrantedPerms.size()]);
+            Log.i(Constant.TAG, "permission not granted...") ;
+            for (String perm : permissions){
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, perm)) {
+                    Log.i(Constant.TAG, "show request permission rationale : " + perm) ;
+                    int resId = -1 ;
+                    if (perm.equals(Manifest.permission.READ_PHONE_STATE)){
+                        resId = R.string.permission_read_phone_state_rationale ;
+                    }else if (perm.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+                        resId = R.string.permission_write_external_storage_rationale ;
+                    }
+                    Snackbar.make(mLayout, resId, Snackbar.LENGTH_INDEFINITE)
+                            .setAction(R.string.go_settings, new View.OnClickListener(){
+                                @Override
+                                public void onClick(View v) {
+                                    goSettings() ;
+                                }
+                            })
+                            .show();
+                    return ;
+                }
+            }
+            ActivityCompat.requestPermissions(this, permissions, MY_PERMISSION_REQUEST);
         }else{
-            Log.i(Constant.TAG, "permission WRITE_EXTERNAL_STORAGE granted...") ;
+            Log.i(Constant.TAG, "all permissions granted...") ;
             createHomeDirectory();
             realNavigateToMainScreen() ;
         }
+    }
+
+    private void goSettings(){
+        Uri packageURI = Uri.parse("package:" + getPackageName());
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
+        startActivity(intent);
+        finish();
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode){
-            case MY_PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            case MY_PERMISSION_REQUEST:
+                boolean isAllGranted = isAllGranted(grantResults) ;
+                if (isAllGranted){
                     createHomeDirectory();
                     realNavigateToMainScreen() ;
                 }else{
-                    //show permission denied dialog
-                    Snackbar.make(mLayout, R.string.permission_not_granted, Snackbar.LENGTH_SHORT).show();
+                    for (int i = 0 ; i < grantResults.length ; i++){
+                        if (grantResults[i] != PackageManager.PERMISSION_GRANTED){
+                            String perm = permissions[i] ;
+                            int resId = -1 ;
+                            if (perm.equals(Manifest.permission.READ_PHONE_STATE)){
+                                resId = R.string.permission_read_phone_state_rationale_denied ;
+                            }else if (perm.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+                                resId = R.string.permission_write_external_storage_rationale_denied ;
+                            }
+                            Snackbar.make(mLayout, resId, Snackbar.LENGTH_INDEFINITE)
+                                    .setAction(R.string.go_settings, new View.OnClickListener(){
+                                        @Override
+                                        public void onClick(View v) {
+                                            goSettings() ;
+                                        }
+                                    })
+                                    .show();
+                            return ;
+                        }
+                    }
                 }
                 break ;
         }
+    }
+
+    private boolean isAllGranted(int[] grantResults) {
+        if (grantResults.length > 0){
+            for (int grant : grantResults){
+                if (grant != PackageManager.PERMISSION_GRANTED){
+                    return false ;
+                }
+            }
+        }
+        return true ;
     }
 
     private void createHomeDirectory(){
@@ -121,6 +178,12 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
     }
 
     private void realNavigateToMainScreen(){
+        //init signal monitor service
+        if(Preference.getBoolean(getApplicationContext(), Constant.PREF_KEY_MONITOR_SIGNAL, true)){
+            Log.i(Constant.TAG, "enable signal monitor") ;
+            Intent monitor = new Intent(getApplicationContext(), SignalMonitorService.class) ;
+            startService(monitor) ;
+        }
         //relay about one seconds to start main activity
         new Handler().postDelayed(new Runnable() {
             @Override

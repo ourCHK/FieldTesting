@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
+import android.support.annotation.IntDef;
 import android.telephony.PhoneStateListener;
 import android.telephony.SignalStrength;
 import android.telephony.SubscriptionInfo;
@@ -16,6 +17,8 @@ import android.util.Log;
 
 import com.gionee.autotest.common.FLog;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -32,8 +35,8 @@ import java.util.List;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP_MR1)
 public final class SignalHelper {
 
-    private static final int                        SIM_CARD_0  = 0 ;
-    private static final int                        SIM_CARD_1  = 1 ;
+    public static final int                        SIM_CARD_0  = 0 ;
+    public static final int                        SIM_CARD_1  = 1 ;
     private WeakReference<Context>                  mContext ;
     private TelephonyManager                        mTelephonyManager;
     private SubscriptionManager                     mSubscriptionManager;
@@ -102,6 +105,17 @@ public final class SignalHelper {
             }
         }
         return sInstance;
+    }
+
+    @IntDef({SIM_CARD_0, SIM_CARD_1})
+    @Retention(RetentionPolicy.SOURCE)
+    @interface SIMID{}
+
+    public SimSignalInfo getSimSignalInfo(@SIMID int simId){
+        if (simId == SIM_CARD_0){
+            return mSim1SignalInfo ;
+        }
+        return mSim2SignalInfo ;
     }
 
     /**

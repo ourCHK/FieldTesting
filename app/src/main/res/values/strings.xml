@@ -8,6 +8,8 @@
     <!-- splash resources -->
     <string name="text_copyright">Copyright © 2017 深圳市金立通信设备有限公司 测试平台部 版权所有</string>
     <string name="permission_write_external_storage_rationale">场测工具在测试过程中需在外部存储器读取文件，确认授予?</string>
+    <string name="permission_write_external_storage_rationale_denied">读取外部存储器权限已被否决，使用此程序必须拥有此权限.</string>
+    <string name="go_settings">去设置</string>
 
     <!-- main resources -->
     <string name="main_name">场测自动化集</string>
@@ -35,6 +37,7 @@
     <string name="signal_not_supported_ok">返回主界面</string>
     <string name="permission_not_granted">读取手机状态信息权限被拒绝</string>
     <string name="permission_read_phone_state_rationale">获取信号需要读取手机状态信息权限，确认授予?</string>
+    <string name="permission_read_phone_state_rationale_denied">读取手机状态信息权限已被否决，使用此程序必须拥有此权限.</string>
     <string name="frequency_set_error">测试频率设置错误，间隔必须大于0，小于300．</string>
     <string name="signal_foreground_service_title">信号监控</string>
     <string name="signal_foreground_service_subtitle">信号监控</string>

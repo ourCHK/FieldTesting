@@ -19,11 +19,11 @@ interface SignalContract {
 
         void setStopButtonVisibility(boolean visibility) ;
 
-        void requestReadPhoneStatePermission() ;
-
         void showFrequencyError() ;
 
         void showNotSupportedDialog() ;
+
+        void showStartToast() ;
 
     }
 

@@ -43,7 +43,7 @@ class SignalPresenter extends BasePresenter<SignalContract.View> implements Sign
         //read time interval
         long interval = Preference.getLong(context, Constant.PREF_KEY_SIGNAL_INTERVAL, 5) ;
         getView().setDefaultInterval(interval + "");
-        if (Preference.getBoolean(context, Constant.PREF_KEY_SIGNAL_RUNNING, false)){
+        if (Preference.getBoolean(context, Constant.PREF_KEY_SIGNAL_DATA_COLLECT_RUNNING, false)){
             getView().setStartButtonVisibility(false);
             getView().setStopButtonVisibility(true);
         }else {
@@ -51,7 +51,6 @@ class SignalPresenter extends BasePresenter<SignalContract.View> implements Sign
             getView().setStopButtonVisibility(false);
         }
     }
-
 
     @Override
     public void isIntervalValid(String time) {
@@ -69,7 +68,7 @@ class SignalPresenter extends BasePresenter<SignalContract.View> implements Sign
             }
         }
         if (isValid){
-            getView().requestReadPhoneStatePermission();
+            getView().showStartToast();
         }else{
             getView().showFrequencyError();
         }
@@ -82,7 +81,7 @@ class SignalPresenter extends BasePresenter<SignalContract.View> implements Sign
 
     @Override
     public void setSignalRunning(boolean isRunning) {
-        Preference.putBoolean(context, Constant.PREF_KEY_SIGNAL_RUNNING, isRunning) ;
+//        Preference.putBoolean(context, Constant.PREF_KEY_SIGNAL_RUNNING, isRunning) ;
         if (isRunning){
             getView().setStartButtonVisibility(false);
             getView().setStopButtonVisibility(true);
@@ -97,8 +96,8 @@ class SignalPresenter extends BasePresenter<SignalContract.View> implements Sign
         setInterval(interval);
         setSignalRunning(true);
         Intent service = new Intent(context, SignalMonitorService.class) ;
+        service.putExtra(Constant.PREF_KEY_SIGNAL_DATA_COLLECT, true) ;
         context.startService(service) ;
-
     }
 
     @Override
