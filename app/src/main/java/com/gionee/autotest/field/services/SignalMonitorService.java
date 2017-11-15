@@ -56,6 +56,7 @@ public class SignalMonitorService extends Service{
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i(Constant.TAG, "enter SignalMonitorService onStartCommand") ;
         if (intent != null){
+            //enable collecting data logic
             boolean isCollectingData = intent.getBooleanExtra(Constant.PREF_KEY_SIGNAL_DATA_COLLECT, false) ;
             if (isCollectingData){
                 Log.i(Constant.TAG, "enter SignalMonitorService data collect") ;
@@ -66,6 +67,13 @@ public class SignalMonitorService extends Service{
                     //set PREF_KEY_SIGNAL_DATA_COLLECT_RUNNING to true
                     Preference.putBoolean(getApplicationContext(), Constant.PREF_KEY_SIGNAL_DATA_COLLECT_RUNNING, true) ;
                 }
+            }
+            //disable collecting data logic
+            boolean isDisableCollectingData = intent.getBooleanExtra(Constant.PREF_KEY_SIGNAL_DATA_DISCOLLECT, false) ;
+            if (isDisableCollectingData){
+                stopCollectingData();
+                //set PREF_KEY_SIGNAL_DATA_COLLECT_RUNNING to false
+                Preference.putBoolean(getApplicationContext(), Constant.PREF_KEY_SIGNAL_DATA_COLLECT_RUNNING, false) ;
             }
         }
         return START_STICKY;
@@ -106,8 +114,6 @@ public class SignalMonitorService extends Service{
         if (mTimer != null ){
             mTimer.cancel();
         }
-        //set PREF_KEY_SIGNAL_DATA_COLLECT_RUNNING to false
-        Preference.putBoolean(getApplicationContext(), Constant.PREF_KEY_SIGNAL_DATA_COLLECT_RUNNING, false) ;
     }
 
     private void getArguments(){

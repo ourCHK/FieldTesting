@@ -81,7 +81,6 @@ class SignalPresenter extends BasePresenter<SignalContract.View> implements Sign
 
     @Override
     public void setSignalRunning(boolean isRunning) {
-//        Preference.putBoolean(context, Constant.PREF_KEY_SIGNAL_RUNNING, isRunning) ;
         if (isRunning){
             getView().setStartButtonVisibility(false);
             getView().setStopButtonVisibility(true);
@@ -104,6 +103,7 @@ class SignalPresenter extends BasePresenter<SignalContract.View> implements Sign
     public void unregisterSignalListener() {
         setSignalRunning(false);
         Intent service = new Intent(context, SignalMonitorService.class) ;
-        context.stopService(service) ;
+        service.putExtra(Constant.PREF_KEY_SIGNAL_DATA_DISCOLLECT, true) ;
+        context.startService(service) ;
     }
 }

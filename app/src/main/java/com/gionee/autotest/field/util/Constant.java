@@ -23,6 +23,7 @@ public class Constant {
     public static final String PREF_KEY_SIGNAL_INTERVAL = "signal_interval";
     public static final String PREF_KEY_SIGNAL_DATA_COLLECT_RUNNING  = "signal_data_collect_running"  ;
     public static final String PREF_KEY_SIGNAL_DATA_COLLECT  = "signal_data_collect"  ;
+    public static final String PREF_KEY_SIGNAL_DATA_DISCOLLECT  = "signal_data_discollect"  ;
     public static final String PREF_KEY_MONITOR_SIGNAL  = "monitor_signal" ;
 
     public static final String PREF_NAME = "field_prefs";
