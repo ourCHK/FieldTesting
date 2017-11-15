@@ -86,7 +86,7 @@
                 android:textColor="@color/colorPrimary"/>
 
             <EditText
-                android:id="@+id/answerHangupTime_cb"
+                android:id="@+id/answerHangupTime_et"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -121,7 +121,7 @@
 
 
         <Button
-            android:id="@+id/start_btn"
+            android:id="@+id/incoming_start_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"

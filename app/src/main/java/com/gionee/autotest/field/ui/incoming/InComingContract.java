@@ -1,5 +1,6 @@
 package com.gionee.autotest.field.ui.incoming;
 
+import com.gionee.autotest.common.call.CallMonitorParam;
 import com.gionee.autotest.field.ui.base.BaseView;
 
 /**
@@ -16,5 +17,6 @@ interface InComingContract {
 
     interface Presenter {
 
+        void startMonitor(CallMonitorParam callMonitorParam);
     }
 }
