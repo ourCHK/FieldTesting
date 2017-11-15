@@ -18,5 +18,7 @@ interface InComingContract {
     interface Presenter {
 
         void startMonitor(CallMonitorParam callMonitorParam);
+
+        void stopMonitor();
     }
 }

@@ -115,4 +115,17 @@ public class InComingDBHelper extends DBHelper {
         return list;
 
     }
+
+    public void deleteTable(String table_name) {
+        try {
+            mDb.delete(table_name, null, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void clearTable() {
+        mDb.delete(InComingBatch.NAME, null, null);
+        mDb.delete(InComingData.NAME, null, null);
+    }
 }
