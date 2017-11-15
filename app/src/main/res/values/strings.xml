@@ -94,4 +94,14 @@
     <string name="gaptime_timeout">间隔时间超时，当前为%1$s</string>
     <string name="testTimes">测试次数</string>
 
+
+    <!-- data_reset  resources-->
+
+    <string name="start_testing">开始测试</string>
+    <string name="stop_testing">停止测试</string>
+    <string name="cycle_index">循环次数：</string>
+    <string name="menu_about">关于</string>
+    <string name="matters_needing_attention">注意事项</string>
+    <string name="data_reactivation">数据重激活</string>
+
 </resources>

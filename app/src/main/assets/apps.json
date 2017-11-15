@@ -47,7 +47,7 @@
       "key": 6,
       "label":"数据重激活",
       "icon":"phone_data_reset",
-      "activity":"",
+      "activity":".ui.data_reset.DataResetActivity",
       "installed": true
     },
     {
