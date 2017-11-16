@@ -79,7 +79,7 @@ class InComingPresenter extends BasePresenter<BaseView> implements InComingContr
         inComingCall.getBatchList(new Consumer<ArrayList<String>>() {
             @Override
             public void accept(ArrayList<String> strings) throws Exception {
-                getReportView().updateBatchList(strings);
+                getReportView().updateBatch(strings);
             }
         });
     }
@@ -89,7 +89,7 @@ class InComingPresenter extends BasePresenter<BaseView> implements InComingContr
         inComingCall.insertListData(i, new Consumer<InComingReportBean>() {
             @Override
             public void accept(InComingReportBean inComingReportBean) throws Exception {
-                getReportView().insertListData(inComingReportBean);
+                getReportView().updateListData(inComingReportBean);
             }
         });
     }

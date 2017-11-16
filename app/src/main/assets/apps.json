@@ -12,7 +12,7 @@
       "key": 1,
       "label":"拨通率",
       "icon":"phone_outgoing",
-      "activity":"",
+      "activity":".ui.outgoing.OutGoingActivity",
       "installed": true
     },
     {
