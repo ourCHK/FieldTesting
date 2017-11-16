@@ -19,13 +19,13 @@ import io.reactivex.schedulers.Schedulers;
 
 public class ExportModel {
 
-    public void exportExcel(File target, final File destination, final BaseCallback<String> callback){
+    public void exportExcel(final File target, final File destination, final BaseCallback<String> callback){
         Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(ObservableEmitter<String> e) throws Exception {
                 try {
                     //fetch data from db
-                    Thread.sleep(3000);
+                    doConvertStuff(target, destination) ;
                     e.onNext(destination.getAbsolutePath());
                     e.onComplete();
                 }catch (Exception ex){
@@ -57,5 +57,9 @@ public class ExportModel {
 
                     }
                 }) ;
+    }
+
+    private void doConvertStuff(File target, File destination) {
+
     }
 }

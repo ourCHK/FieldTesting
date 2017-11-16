@@ -102,7 +102,7 @@ class SignalPresenter extends BasePresenter<SignalContract.View> implements Sign
     }
 
     @Override
-    public void doExport(File target, final File destination) {
+    public void doExport(File target, File destination) {
         //first check signal_data.txt exist or not
         if (!target.exists()){
             getView().showSignalExportError(SignalContract.EXPORT_ERROR_CODE_NO_SIGNAL_DATA) ;
@@ -119,11 +119,11 @@ class SignalPresenter extends BasePresenter<SignalContract.View> implements Sign
         //do export
         getView().showLoading(context.getString(R.string.export_loading));
         ExportModel export = new ExportModel() ;
-        export.exportExcel(target, destination, new BaseCallback() {
+        export.exportExcel(target, destination, new BaseCallback<String>() {
             @Override
-            public void onSuccess(Object o) {
+            public void onSuccess(String path) {
                 getView().hideLoading();
-                getView().showSignalExportSuccess(destination.getAbsolutePath());
+                getView().showSignalExportSuccess(path);
             }
 
             @Override
