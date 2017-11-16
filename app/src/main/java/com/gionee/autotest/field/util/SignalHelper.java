@@ -109,7 +109,7 @@ public final class SignalHelper {
 
     @IntDef({SIM_CARD_0, SIM_CARD_1})
     @Retention(RetentionPolicy.SOURCE)
-    @interface SIMID{}
+    public @interface SIMID{}
 
     public SimSignalInfo getSimSignalInfo(@SIMID int simId){
         if (simId == SIM_CARD_0){
@@ -322,22 +322,22 @@ public final class SignalHelper {
         /**
          * 信号格数 0 - 5
          */
-        int mLevel;
+        public int mLevel;
 
         /**
          * sim卡是否有效
          */
-        boolean mIsActive;
+        public boolean mIsActive;
 
         /**
          * 网络类型
          */
-        String mNetType ="N/A";
+        public String mNetType ="N/A";
 
         /**
          * 信号强度
          */
-        String mSignal;
+        public String mSignal;
 
         @Override
         public String toString() {

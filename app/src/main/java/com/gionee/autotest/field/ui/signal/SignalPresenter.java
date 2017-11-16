@@ -4,11 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 
 import com.gionee.autotest.common.Preference;
+import com.gionee.autotest.common.TimeUtil;
+import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.services.SignalMonitorService;
 import com.gionee.autotest.field.ui.base.BasePresenter;
+import com.gionee.autotest.field.ui.base.listener.BaseCallback;
+import com.gionee.autotest.field.ui.signal.model.ExportModel;
 import com.gionee.autotest.field.util.Constant;
+import com.gionee.autotest.field.util.Util;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by viking on 11/13/17.
@@ -90,5 +99,39 @@ class SignalPresenter extends BasePresenter<SignalContract.View> implements Sign
         Intent service = new Intent(context, SignalMonitorService.class) ;
         service.putExtra(Constant.PREF_KEY_SIGNAL_DATA_DISCOLLECT, true) ;
         context.startService(service) ;
+    }
+
+    @Override
+    public void doExport(File target, final File destination) {
+        //first check signal_data.txt exist or not
+        if (!target.exists()){
+            getView().showSignalExportError(SignalContract.EXPORT_ERROR_CODE_NO_SIGNAL_DATA) ;
+            return ;
+        }
+        try {
+            if (!destination.exists() && !destination.createNewFile()){
+                getView().showSignalExportError(SignalContract.EXPORT_ERROR_CODE_FAIL_CREATE_DESTINATION_FILE);
+                return ;
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        //do export
+        getView().showLoading(context.getString(R.string.export_loading));
+        ExportModel export = new ExportModel() ;
+        export.exportExcel(target, destination, new BaseCallback() {
+            @Override
+            public void onSuccess(Object o) {
+                getView().hideLoading();
+                getView().showSignalExportSuccess(destination.getAbsolutePath());
+            }
+
+            @Override
+            public void onFail() {
+                getView().hideLoading();
+                getView().showSignalExportError(SignalContract.EXPORT_ERROR_CODE_FAILURE);
+            }
+        });
+
     }
 }

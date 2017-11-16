@@ -43,6 +43,11 @@
     <string name="signal_foreground_service_subtitle">信号监控</string>
     <string name="signal_monitor_started">信号监控已开启.</string>
     <string name="signal_monitor_stopped">信号监控已停止.</string>
+    <string name="export_loading">正在导出数据.</string>
+    <string name="export_signal_error_no_data">无测试数据导出.</string>
+    <string name="export_signal_error_create_excel_failure">无法创建导出文件.</string>
+    <string name="export_signal_error_failure">导出数据出现异常.</string>
+    <string name="export_signal_success">导出数据成功，路径：%s</string>
 
     <!-- incoming resources -->
     <string name="incoming_label_name">接通率</string>

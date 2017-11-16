@@ -9,14 +9,19 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.util.TimeUtils;
 
 import com.gionee.autotest.common.Preference;
+import com.gionee.autotest.common.TimeUtil;
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.ui.main.MainActivity;
 import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.SignalHelper;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -27,6 +32,8 @@ import java.util.TimerTask;
  */
 
 public class SignalMonitorService extends Service{
+
+    private static final String SEPARATOR = "::" ;
 
     private static final int NOTIFICATION_ID = 111 ;
 
@@ -79,6 +86,9 @@ public class SignalMonitorService extends Service{
         return START_STICKY;
     }
 
+    FileWriter fw = null ;
+    BufferedWriter writer = null ;
+
     private void startCollectingData() {
         //make sure external storage usable
         if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
@@ -86,11 +96,25 @@ public class SignalMonitorService extends Service{
             return ;
         }
         //make sure signal directory exist
-        File signal_dir = new File(Environment.getExternalStorageDirectory() + File.separator + Constant.HOME, "signal") ;
+        File signal_dir = new File(Environment.getExternalStorageDirectory() + File.separator + Constant.HOME, Constant.SIGNAL_DIR) ;
         if (!signal_dir.exists() && !signal_dir.mkdirs()){
             Log.i(Constant.TAG, "make signal directory failed...") ;
             return ;
         }
+        File signal_data = new File(signal_dir, Constant.SIGNAL_DATA_NAME) ;
+        if (signal_data.exists() && !signal_data.delete()){
+            Log.i(Constant.TAG, "fail to delete exist signal data file...") ;
+            return ;
+        }
+        try{
+            if (!signal_data.createNewFile()){
+                Log.i(Constant.TAG, "create signal data file fail...") ;
+                return ;
+            }
+            fw = new FileWriter(signal_data, true) ;
+            writer = new BufferedWriter(fw) ;
+        }catch (IOException e){ e.printStackTrace();}
+
         if (mTimer != null){
             mTimer.cancel();
         }
@@ -98,21 +122,60 @@ public class SignalMonitorService extends Service{
         TimerTask mTask = new TimerTask() {
             @Override
             public void run() {
-                if (mSim1SignalInfo != null){
+                String time = TimeUtil.getTime() ;
+                if (mSim1SignalInfo != null && mSim1SignalInfo.mIsActive){
                     Log.i(Constant.TAG, "sim0 fetched : " + mSim1SignalInfo.toString() ) ;
+                    writeContentToFile(time, SignalHelper.SIM_CARD_0, mSim1SignalInfo) ;
                 }
-                if (mSim2SignalInfo != null){
+                if (mSim2SignalInfo != null && mSim2SignalInfo.mIsActive){
                     Log.i(Constant.TAG, "sim1 fetched : " + mSim2SignalInfo.toString() ) ;
+                    writeContentToFile(time, SignalHelper.SIM_CARD_1, mSim2SignalInfo) ;
                 }
             }
         } ;
         mTimer.schedule(mTask, interval * 1000, interval * 1000);
     }
 
+    private void writeContentToFile(String time, @SignalHelper.SIMID int simId, SignalHelper.SimSignalInfo info){
+        StringBuilder content = new StringBuilder() ;
+        content.append(time) ;
+        content.append(SEPARATOR) ;
+        content.append(simId) ;
+        content.append(SEPARATOR) ;
+        content.append(info.mLevel) ;
+        content.append(SEPARATOR) ;
+        content.append(info.mNetType) ;
+        content.append(SEPARATOR) ;
+        content.append(info.mSignal) ;
+        try {
+            writer.write(content.toString());
+            writer.newLine();
+            writer.flush();
+        }catch (IOException e){
+            Log.i(Constant.TAG, "write sim0 info to file exception : " + e.getMessage()) ;
+            e.printStackTrace();
+        }
+    }
+
     private void stopCollectingData(){
         //cancel Timer
         if (mTimer != null ){
             mTimer.cancel();
+        }
+        //close all stream
+        if (fw != null){
+            try {
+                fw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (writer != null){
+            try {
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

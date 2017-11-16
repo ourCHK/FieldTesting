@@ -16,6 +16,9 @@ public class Constant {
     //for splash screen time out
     public static       int    SPLASH_TIME_OUT = 1000;
     public static final String HOME            = "field";
+    public static final String SIGNAL_DIR            = "signal";
+    public static final String SIGNAL_DATA_NAME      = "signal_data.txt";
+    public static final String EXPORT_SIGNAL_DATA_NAME      = "signal_%s.xls";
 
     //Preferences constants
     public static final String PREF_KEY_FIRST_LAUNCH    = "first_launch";
