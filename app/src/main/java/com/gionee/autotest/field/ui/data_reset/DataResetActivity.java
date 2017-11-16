@@ -1,10 +1,15 @@
 package com.gionee.autotest.field.ui.data_reset;
 
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.ui.base.BaseActivity;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by xhk on 2017/11/15.
@@ -12,6 +17,16 @@ import com.gionee.autotest.field.ui.base.BaseActivity;
 
 public class DataResetActivity extends BaseActivity implements DataResetContract.View{
 
+    @BindView(R.id.bt_start_testing)
+    Button bt_start_testing;
+
+    @BindView(R.id.bt_stop_testing)
+    Button bt_stop_testing;
+
+    @BindView(R.id.et_frequency)
+    EditText et_frequency;
+
+    private DataResetPresenter mDataResetPresenter;
 
     @Override
     protected int layoutResId() {
@@ -25,7 +40,9 @@ public class DataResetActivity extends BaseActivity implements DataResetContract
 
     @Override
     protected void initializePresenter() {
-
+        mDataResetPresenter = new DataResetPresenter(getApplicationContext()) ;
+        super.presenter = mDataResetPresenter ;
+        mDataResetPresenter.onAttach(this);
     }
 
     @Override
@@ -46,5 +63,42 @@ public class DataResetActivity extends BaseActivity implements DataResetContract
                 return true ;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @OnClick(R.id.bt_start_testing)
+    void onDataResetStartClicked(){
+        mDataResetPresenter.isIntervalValid(et_frequency.getText().toString()) ;
+    }
+
+    @OnClick(R.id.bt_stop_testing)
+    void onDataResetStopClicked(){
+        Toast.makeText(this, R.string.stop_testing, Toast.LENGTH_SHORT).show();
+        mDataResetPresenter.unregisterDataResetListener();
+    }
+
+    @Override
+    public void setDefaultInterval(String time) {
+        et_frequency.setText(time);
+    }
+
+    @Override
+    public void showFrequencyError() {
+        Toast.makeText(getApplicationContext(), R.string.cycle_erro, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showStartToast() {
+        Toast.makeText(this, R.string.start_testing, Toast.LENGTH_SHORT).show();
+        mDataResetPresenter.registerDataResetListener(et_frequency.getText().toString());
+    }
+
+    @Override
+    public void setStartButtonVisibility(boolean visibility) {
+        bt_start_testing.setEnabled(visibility);
+    }
+
+    @Override
+    public void setStopButtonVisibility(boolean visibility) {
+        bt_stop_testing.setEnabled(visibility);
     }
 }
