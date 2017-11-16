@@ -121,7 +121,7 @@ public class SignalActivity extends BaseActivity implements SignalContract.View,
                 + File.separator + Constant.HOME +File.separator + Constant.SIGNAL_DIR, Constant.SIGNAL_DATA_NAME) ;
         File destination = new File(Environment.getExternalStorageDirectory()
                 + File.separator + Constant.HOME +File.separator + Constant.SIGNAL_DIR,
-                String.format(Constant.EXPORT_SIGNAL_DATA_NAME, TimeUtil.getTime())) ;
+                String.format(Constant.EXPORT_SIGNAL_DATA_NAME, TimeUtil.getTime("yyyy-MM-dd_HH-mm-ss"))) ;
         mSignalPresenter.doExport(target, destination);
     }
 
