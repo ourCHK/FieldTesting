@@ -58,13 +58,14 @@ public class Util {
 /*        if (progressDialog.getWindow() != null) {
             progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }*/
+        progressDialog.show();
         progressDialog.setContentView(R.layout.progress_dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
         if (message != null)
             progressDialog.setMessage(message);
-        progressDialog.show();
+
         return progressDialog;
     }
 }
