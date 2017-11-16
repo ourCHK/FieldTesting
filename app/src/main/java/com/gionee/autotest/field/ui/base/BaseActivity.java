@@ -118,9 +118,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     }
 
     @Override
-    public void showLoading() {
+    public void showLoading(String message) {
         hideLoading();
-        mProgressDialog = Util.showLoadingDialog(this);
+        mProgressDialog = Util.showLoadingDialog(this, message);
     }
 
     @Override

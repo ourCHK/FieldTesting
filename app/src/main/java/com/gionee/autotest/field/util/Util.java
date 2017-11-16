@@ -55,16 +55,18 @@ public class Util {
         }
     };
 
-    public static ProgressDialog showLoadingDialog(Context context) {
+    public static ProgressDialog showLoadingDialog(Context context, String message) {
         ProgressDialog progressDialog = new ProgressDialog(context);
-        progressDialog.show();
-        if (progressDialog.getWindow() != null) {
+/*        if (progressDialog.getWindow() != null) {
             progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        }
+        }*/
         progressDialog.setContentView(R.layout.progress_dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
+        if (message != null)
+            progressDialog.setMessage(message);
+        progressDialog.show();
         return progressDialog;
     }
 }
