@@ -6,7 +6,7 @@ public class CallParam {
     public long id;
     public String   number        = "10086,10010";
     public String[] numbers       = new String[]{"10086", "10010"};
-    public int      cycle         = 3;
+    public int       cycle         = 3;
     public int      call_time     = 10;
     public int      gap_time      = 20;
     public int      call_time_sum = 60;

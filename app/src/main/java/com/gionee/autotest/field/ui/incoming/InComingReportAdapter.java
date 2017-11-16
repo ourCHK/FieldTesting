@@ -44,7 +44,7 @@ public class InComingReportAdapter extends BaseAdapter {
     public View getView(int i, View v, ViewGroup parent) {
         InComingReportAdapter.ResultViewHolder holder;
         if (v == null) {
-            v = View.inflate(this.context, R.layout.incoming_report_item, (ViewGroup) null);
+            v = View.inflate(this.context, R.layout.incoming_report_item, parent);
             holder = new InComingReportAdapter.ResultViewHolder(v);
             v.setTag(holder);
         } else {
@@ -87,12 +87,12 @@ public class InComingReportAdapter extends BaseAdapter {
         private TextView timeTv;
 
         ResultViewHolder(View v) {
-            index = (TextView) v.findViewById(2131361933);
-            number = (TextView) v.findViewById(2131361934);
-            result = (TextView) v.findViewById(2131361936);
-            type = (TextView) v.findViewById(2131361935);
-            failMsg = (TextView) v.findViewById(2131361937);
-            timeTv = (TextView) v.findViewById(2131361938);
+            index = (TextView) v.findViewById(R.id.test_index);
+            number = (TextView) v.findViewById(R.id.number);
+            result = (TextView) v.findViewById(R.id.result);
+            type = (TextView) v.findViewById(R.id.type);
+            failMsg = (TextView) v.findViewById(R.id.failMsg);
+            timeTv = (TextView) v.findViewById(R.id.timeTV);
         }
     }
 }

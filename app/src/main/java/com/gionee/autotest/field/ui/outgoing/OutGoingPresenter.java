@@ -2,6 +2,7 @@ package com.gionee.autotest.field.ui.outgoing;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.gionee.autotest.common.Preference;
 import com.gionee.autotest.field.ui.base.BasePresenter;
@@ -29,8 +30,10 @@ class OutGoingPresenter extends BasePresenter<OutGoingContract.View> implements 
     public CallParam getLastParams() {
         String callParams = Preference.getString(mContext, "callParams");
         if (callParams==null||callParams.isEmpty()){
+            Log.i("gionee.os.autotest","null");
             return new CallParam();
         }else{
+            Log.i("gionee.os.autotest","non null");
             return new Gson().fromJson(callParams, CallParam.class);
         }
     }
