@@ -2,8 +2,6 @@ package com.gionee.autotest.field.util;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 
 import com.gionee.autotest.field.R;
