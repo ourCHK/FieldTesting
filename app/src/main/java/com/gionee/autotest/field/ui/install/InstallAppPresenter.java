@@ -30,7 +30,7 @@ public class InstallAppPresenter extends BasePresenter<InstallAppContract.View> 
         if (!isViewAttached()) return ;
         getView().setNoDataVisibility(false);
         getView().setListVisibility(false);
-        getView().showLoading();
+        getView().showLoading(null);
         mInstallBiz.fetchAllUnInstalledApps(callback);
     }
 

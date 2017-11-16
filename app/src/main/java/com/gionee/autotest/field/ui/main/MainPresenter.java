@@ -26,7 +26,7 @@ class MainPresenter extends BasePresenter<MainContract.View> implements MainCont
         if (!isViewAttached()) return ;
         getView().setNoDataVisibility(false);
         getView().setListVisibility(false);
-        getView().showLoading();
+        getView().showLoading(null);
         mainBiz.fetchAllInstallApps(callback);
     }
 
