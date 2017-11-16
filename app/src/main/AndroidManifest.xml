@@ -78,6 +78,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.gionee.autotest.field.ui.main.MainActivity"/>
         </activity>
+        <activity
+            android:name=".ui.outgoing.OutGoingActivity"
+            android:label="@string/out_going_label_name"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppNoActionBarTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.gionee.autotest.field.ui.main.MainActivity"/>
+        </activity>
 
         <activity
             android:name=".ui.data_reset.DataResetActivity"
@@ -115,6 +125,7 @@
         </activity>
 
         <activity android:name=".ui.incoming.InComingReportActivity"/>
+
 
         <service android:name=".services.SignalMonitorService"/>
 

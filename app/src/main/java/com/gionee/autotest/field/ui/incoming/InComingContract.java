@@ -19,9 +19,9 @@ interface InComingContract {
     }
 
     interface ReportView extends BaseView{
-        void updateBatchList(ArrayList<String> strings);
+        void updateBatch(ArrayList<String> strings);
 
-        void insertListData(InComingReportBean inComingReportBean);
+        void updateListData(InComingReportBean inComingReportBean);
     }
 
     interface Presenter {

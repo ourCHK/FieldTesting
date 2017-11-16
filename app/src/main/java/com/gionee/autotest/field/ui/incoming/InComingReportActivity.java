@@ -60,20 +60,21 @@ public class InComingReportActivity extends BaseActivity implements InComingCont
 
 
     @Override
-    public void updateBatchList(ArrayList<String> strings) {
+    public void updateBatch(ArrayList<String> strings) {
         batchs.clear();
         batchs.addAll(strings);
         try {
             mSpinnerAdapter.notifyDataSetChanged();
-            if (strings.size() != 0)
+            if (strings.size() != 0) {
                 mySpinner.setSelection(Integer.parseInt(strings.get(strings.size() - 1)));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void insertListData(InComingReportBean inComingReportBean) {
+    public void updateListData(InComingReportBean inComingReportBean) {
         reportAdapter.updateData(inComingReportBean);
     }
 }
