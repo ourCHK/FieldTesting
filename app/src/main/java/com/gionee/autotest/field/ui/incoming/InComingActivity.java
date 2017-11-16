@@ -1,5 +1,6 @@
 package com.gionee.autotest.field.ui.incoming;
 
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -43,7 +44,7 @@ public class InComingActivity extends BaseActivity implements InComingContract.V
         if (mStartBtn.getText().equals("停止测试")) {
             mInComingPresenter.startMonitor(getCallMonitorParam());
             mStartBtn.setText("开始测试");
-        }else{
+        } else {
             mInComingPresenter.stopMonitor();
             mStartBtn.setText("停止测试");
         }
@@ -92,8 +93,7 @@ public class InComingActivity extends BaseActivity implements InComingContract.V
         int              autoEndTime          = Integer.parseInt(mAnswerHangupTimeET.getText().toString().trim());
         String           distinguishTime_text = mAutoRejectET.getText().toString().trim();
         int              distinguishEndTime   = distinguishTime_text.isEmpty() ? 0 : Integer.parseInt(distinguishTime_text);
-        CallMonitorParam param                = new CallMonitorParam(mAutoRejectCB.isChecked(), distinguishEndTime, mAutoAnswerCB.isChecked(), mAnswerHangUpCB.isChecked(), autoEndTime, Integer.parseInt(mSpaceTime.getText().toString()));
-        return param;
+        return new CallMonitorParam(mAutoRejectCB.isChecked(), distinguishEndTime, mAutoAnswerCB.isChecked(), mAnswerHangUpCB.isChecked(), autoEndTime, Integer.parseInt(mSpaceTime.getText().toString()));
     }
 
     private void setAutoAnswerViewEnable(boolean enable) {
@@ -104,4 +104,31 @@ public class InComingActivity extends BaseActivity implements InComingContract.V
         mAnswerHangUpCB.setEnabled(enable);
         mAnswerHangupTimeET.setEnabled(enable);
     }
+
+    @Override
+    protected int menuResId() {
+        return R.menu.incoming_menu;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.show_report:
+                mInComingPresenter.showReport();
+                break;
+            case R.id.clear_report:
+                mInComingPresenter.clearAllReport();
+                break;
+            case R.id.export_excel:
+                mInComingPresenter.exportExcelFile();
+                break;
+            case R.id.action_abouts:
+
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }
