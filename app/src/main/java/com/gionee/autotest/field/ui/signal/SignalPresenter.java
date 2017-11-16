@@ -9,7 +9,6 @@ import com.gionee.autotest.common.Preference;
 import com.gionee.autotest.field.services.SignalMonitorService;
 import com.gionee.autotest.field.ui.base.BasePresenter;
 import com.gionee.autotest.field.util.Constant;
-import com.gionee.autotest.field.util.SignalHelper;
 
 /**
  * Created by viking on 11/13/17.
@@ -75,25 +74,10 @@ class SignalPresenter extends BasePresenter<SignalContract.View> implements Sign
     }
 
     @Override
-    public void setInterval(String time) {
-        Preference.putLong(context, Constant.PREF_KEY_SIGNAL_INTERVAL, Long.parseLong(time)) ;
-    }
-
-    @Override
-    public void setSignalRunning(boolean isRunning) {
-        if (isRunning){
-            getView().setStartButtonVisibility(false);
-            getView().setStopButtonVisibility(true);
-        }else {
-            getView().setStartButtonVisibility(true);
-            getView().setStopButtonVisibility(false);
-        }
-    }
-
-    @Override
     public void registerSignalListener(String interval) {
-        setInterval(interval);
-        setSignalRunning(true);
+        Preference.putLong(context, Constant.PREF_KEY_SIGNAL_INTERVAL, Long.parseLong(interval)) ;
+        getView().setStartButtonVisibility(false);
+        getView().setStopButtonVisibility(true);
         Intent service = new Intent(context, SignalMonitorService.class) ;
         service.putExtra(Constant.PREF_KEY_SIGNAL_DATA_COLLECT, true) ;
         context.startService(service) ;
@@ -101,7 +85,8 @@ class SignalPresenter extends BasePresenter<SignalContract.View> implements Sign
 
     @Override
     public void unregisterSignalListener() {
-        setSignalRunning(false);
+        getView().setStartButtonVisibility(true);
+        getView().setStopButtonVisibility(false);
         Intent service = new Intent(context, SignalMonitorService.class) ;
         service.putExtra(Constant.PREF_KEY_SIGNAL_DATA_DISCOLLECT, true) ;
         context.startService(service) ;

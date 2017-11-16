@@ -25,15 +25,14 @@ interface SignalContract {
 
         void showStartToast() ;
 
+        //for export
+
+
     }
 
     interface Presenter {
 
         void isIntervalValid(String time) ;
-
-        void setInterval(String time) ;
-
-        void setSignalRunning(boolean isRunning) ;
 
         void registerSignalListener(String interval) ;
 
