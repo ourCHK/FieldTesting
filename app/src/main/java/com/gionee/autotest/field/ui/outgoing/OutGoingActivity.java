@@ -16,8 +16,8 @@ public class OutGoingActivity extends BaseActivity implements OutGoingContract.V
 
     @BindView(R.id.number_et)
     EditText mNumberET;
-    @BindView(R.id.count_et)
-    EditText mCountET;
+    @BindView(R.id.cycle_et)
+    EditText mCycleET;
     @BindView(R.id.gap_time_et)
     EditText mGapTimeET;
     @BindView(R.id.call_time_et)
@@ -32,6 +32,11 @@ public class OutGoingActivity extends BaseActivity implements OutGoingContract.V
     @OnClick(R.id.out_going_start)
     public void OutGoingStartClicked() {
 
+    }
+
+    @Override
+    protected boolean isDisplayHomeUpEnabled() {
+        return true;
     }
 
     @Override
@@ -50,7 +55,7 @@ public class OutGoingActivity extends BaseActivity implements OutGoingContract.V
     @Override
     public void setParams(CallParam p) {
         mNumberET.setText(p.number);
-        mCountET.setText(p.cycle);
+        mCycleET.setText(p.cycle);
         mGapTimeET.setText(p.gap_time);
         mCallTimeET.setText(p.call_time);
         mCallTimeSumET.setText(p.call_time_sum);
