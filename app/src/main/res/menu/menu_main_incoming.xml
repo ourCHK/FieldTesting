@@ -1,0 +1,25 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".main.MainActivity">
+    <item
+        android:id="@+id/show_report"
+        android:orderInCategory="100"
+        android:title="@string/show_report"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/clear_report"
+        android:orderInCategory="100"
+        android:title="@string/clear_report"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/export_excel"
+        android:orderInCategory="100"
+        android:title="@string/export_excel"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_abouts"
+        android:orderInCategory="100"
+        android:title="@string/action_abouts"
+        app:showAsAction="never" />
+</menu>

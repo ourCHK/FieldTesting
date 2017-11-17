@@ -14,10 +14,15 @@ interface OutGoingContract {
     interface View extends BaseView {
 
         void setParams(CallParam lastParams);
+
+        CallParam getUserParams();
+
+        void showDialog(String message);
     }
 
 
     interface Presenter {
 
+        void startCallTest();
     }
 }

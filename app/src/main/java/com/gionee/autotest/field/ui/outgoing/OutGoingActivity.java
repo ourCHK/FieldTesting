@@ -1,13 +1,14 @@
 package com.gionee.autotest.field.ui.outgoing;
 
 
-import android.widget.Button;
+import android.app.AlertDialog;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.ui.base.BaseActivity;
 import com.gionee.autotest.field.ui.outgoing.model.CallParam;
+import com.gionee.autotest.field.util.DialogHelper;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -26,12 +27,11 @@ public class OutGoingActivity extends BaseActivity implements OutGoingContract.V
     EditText mCallTimeSumET;
     @BindView(R.id.is_speaker_phone_open)
     CheckBox mIsSpeakerPhoneOpenCB;
-    @BindView(R.id.out_going_start)
-    Button   mStartBtn;
+    private OutGoingPresenter mOutGoingPresenter;
 
     @OnClick(R.id.out_going_start)
     public void OutGoingStartClicked() {
-
+        mOutGoingPresenter.startCallTest();
     }
 
     @Override
@@ -46,9 +46,9 @@ public class OutGoingActivity extends BaseActivity implements OutGoingContract.V
 
     @Override
     protected void initializePresenter() {
-        OutGoingPresenter outGoingPresenter = new OutGoingPresenter(this);
-        super.presenter = outGoingPresenter;
-        outGoingPresenter.onAttach(this);
+        mOutGoingPresenter = new OutGoingPresenter(this);
+        super.presenter = mOutGoingPresenter;
+        mOutGoingPresenter.onAttach(this);
     }
 
 
@@ -60,5 +60,37 @@ public class OutGoingActivity extends BaseActivity implements OutGoingContract.V
         mCallTimeET.setText(p.call_time);
         mCallTimeSumET.setText(p.call_time_sum);
         mIsSpeakerPhoneOpenCB.setChecked(p.is_speaker_on);
+    }
+
+    @Override
+    public CallParam getUserParams() {
+        String   number      = mNumberET.getText().toString().trim();
+        int      count       = Integer.parseInt(mCycleET.getText().toString().trim());
+        int      gapTime     = Integer.parseInt(mGapTimeET.getText().toString().trim());
+        int      callTime    = Integer.parseInt(mCallTimeET.getText().toString().trim());
+        int      callTimeSum = Integer.parseInt(mCallTimeSumET.getText().toString().trim());
+        boolean  isSpeakOn   = mIsSpeakerPhoneOpenCB.isChecked();
+        String[] numbers     = new String[0];
+        if (number.contains(",")) {
+            try {
+                numbers = number.split(",");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            numbers = new String[]{number};
+        }
+        return new CallParam().setNumber(number).setNumbers(numbers).setCall_time(callTime).setCall_time_sum(callTimeSum).setCycle(count)
+                .setGap_time(gapTime).setIs_speaker_on(isSpeakOn);
+    }
+
+    @Override
+    public void showDialog(String message) {
+        DialogHelper.create(this, "提示", message, new DialogHelper.OnBeforeCreate() {
+            @Override
+            public void setOther(AlertDialog.Builder builder) {
+                builder.setPositiveButton("确定",null);
+            }
+        }).show();
     }
 }
