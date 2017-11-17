@@ -6,7 +6,7 @@ import com.gionee.autotest.field.ui.base.BaseView;
  * Created by xhk on 2017/11/15.
  */
 
-public interface DataResetContract {
+public  interface DataResetContract {
 
     interface View extends BaseView {
 
@@ -22,18 +22,23 @@ public interface DataResetContract {
 
     }
 
-    interface Presenter {
+     interface Presenter {
 
-        void isIntervalValid(String time);
+         void isIntervalValid(String time);
 
-        void setInterval(String time) ;
+         void setInterval(String time) ;
 
-        void registerDataResetListener(String interval) ;
+         void registerDataResetListener(String interval) ;
 
-        void unregisterDataResetListener() ;
+         void unregisterDataResetListener() ;
 
-        void setDataResetRunning(boolean isRunning) ;
+         void setDataResetRunning(boolean isRunning) ;
 
 
     }
+
+//    interface RefreshUi{
+//
+//         void setRefreshUi(boolean isRunning);
+//    }
 }

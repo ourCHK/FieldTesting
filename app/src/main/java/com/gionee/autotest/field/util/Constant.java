@@ -29,8 +29,9 @@ public class Constant {
     public static final String PREF_KEY_SIGNAL_DATA_DISCOLLECT      = "signal_data_discollect";
     public static final String PREF_KEY_MONITOR_SIGNAL              = "monitor_signal";
 
-    public static final String PREF_KEY_DATA_RESET_INTERVAL             = "data_reset_interval";
-    public static final String PREF_KEY_DATA_RESET_DATA_COLLECT_RUNNING = "data_reset_data_collect_running";
+    public static final String PREF_KEY_DATA_RESET_INTERVAL = "data_reset_interval";
+    public static final String PREF_KEY_DATA_RESET_DATA_COLLECT_RUNNING  = "data_reset_data_collect_running";
+    public static final String PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE  = "data_reset_data_collect_current_cycle";
 
     public static final String PREF_NAME = "field_prefs";
 

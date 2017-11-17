@@ -128,7 +128,7 @@
 
 
         <service android:name=".services.SignalMonitorService"/>
-
+        <service android:name=".services.DataResetServices"/>
     </application>
 
 </manifest>

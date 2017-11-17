@@ -1,10 +1,13 @@
 package com.gionee.autotest.field.ui.data_reset;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
 import com.gionee.autotest.common.Preference;
+import com.gionee.autotest.common.YUtils;
+import com.gionee.autotest.field.services.DataResetServices;
 import com.gionee.autotest.field.ui.base.BasePresenter;
 import com.gionee.autotest.field.util.Constant;
 
@@ -80,6 +83,11 @@ public class DataResetPresenter extends BasePresenter<DataResetContract.View> im
         setInterval(interval);
         setDataResetRunning(true);
         Preference.putBoolean(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_RUNNING, true) ;
+        Preference.putLong(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, 1) ;
+//        YUtils.setMobileDataState(context,true);
+        Intent intent = new Intent(context, DataResetServices.class);
+        context.startService(intent);
+
 
     }
 
@@ -87,7 +95,10 @@ public class DataResetPresenter extends BasePresenter<DataResetContract.View> im
     public void unregisterDataResetListener() {
         setDataResetRunning(false);
         Preference.putBoolean(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_RUNNING, false) ;
-
+//        YUtils.setMobileDataState(context,false);
+        Preference.putLong(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, 1) ;
+        Intent intent = new Intent(context, DataResetServices.class);
+        context.stopService(intent);
     }
 
     @Override
@@ -101,6 +112,5 @@ public class DataResetPresenter extends BasePresenter<DataResetContract.View> im
         }
 
     }
-
 
 }
