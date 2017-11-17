@@ -9,12 +9,12 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.util.TimeUtils;
 
 import com.gionee.autotest.common.Preference;
 import com.gionee.autotest.common.TimeUtil;
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.ui.main.MainActivity;
+import com.gionee.autotest.field.ui.signal.entity.SimSignalInfo;
 import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.SignalHelper;
 
@@ -42,8 +42,8 @@ public class SignalMonitorService extends Service{
     private long interval = -1 ;
     private Timer mTimer ;
 
-    private SignalHelper.SimSignalInfo mSim1SignalInfo ;
-    private SignalHelper.SimSignalInfo mSim2SignalInfo ;
+    private SimSignalInfo mSim1SignalInfo ;
+    private SimSignalInfo mSim2SignalInfo ;
 
     @Nullable
     @Override
@@ -118,6 +118,8 @@ public class SignalMonitorService extends Service{
         if (mTimer != null){
             mTimer.cancel();
         }
+        mSim1SignalInfo = new SimSignalInfo() ;
+        mSim1SignalInfo = new SimSignalInfo() ;
         mTimer = new Timer() ;
         TimerTask mTask = new TimerTask() {
             @Override
@@ -125,34 +127,41 @@ public class SignalMonitorService extends Service{
                 String time = TimeUtil.getTime() ;
                 if (mSim1SignalInfo != null && mSim1SignalInfo.mIsActive){
                     Log.i(Constant.TAG, "sim0 fetched : " + mSim1SignalInfo.toString() ) ;
-                    writeContentToFile(time, SignalHelper.SIM_CARD_0, mSim1SignalInfo) ;
                 }
                 if (mSim2SignalInfo != null && mSim2SignalInfo.mIsActive){
                     Log.i(Constant.TAG, "sim1 fetched : " + mSim2SignalInfo.toString() ) ;
-                    writeContentToFile(time, SignalHelper.SIM_CARD_1, mSim2SignalInfo) ;
                 }
+                writeContentToFile(time, mSim1SignalInfo, mSim2SignalInfo) ;
             }
         } ;
         mTimer.schedule(mTask, interval * 1000, interval * 1000);
     }
 
-    private void writeContentToFile(String time, @SignalHelper.SIMID int simId, SignalHelper.SimSignalInfo info){
+    private void writeContentToFile(String time, SimSignalInfo infoSim0, SimSignalInfo infoSim2){
         StringBuilder content = new StringBuilder() ;
         content.append(time) ;
         content.append(SEPARATOR) ;
-        content.append(simId) ;
+        content.append(infoSim0.mIsActive) ;
         content.append(SEPARATOR) ;
-        content.append(info.mLevel) ;
+        content.append(infoSim0.mLevel) ;
         content.append(SEPARATOR) ;
-        content.append(info.mNetType) ;
+        content.append(infoSim0.mNetType) ;
         content.append(SEPARATOR) ;
-        content.append(info.mSignal) ;
+        content.append(infoSim0.mSignal) ;
+        content.append(SEPARATOR) ;
+        content.append(infoSim2.mIsActive) ;
+        content.append(SEPARATOR) ;
+        content.append(infoSim2.mLevel) ;
+        content.append(SEPARATOR) ;
+        content.append(infoSim2.mNetType) ;
+        content.append(SEPARATOR) ;
+        content.append(infoSim2.mSignal) ;
         try {
             writer.write(content.toString());
             writer.newLine();
             writer.flush();
         }catch (IOException e){
-            Log.i(Constant.TAG, "write sim0 info to file exception : " + e.getMessage()) ;
+            Log.i(Constant.TAG, "write sim signal info to file exception : " + e.getMessage()) ;
             e.printStackTrace();
         }
     }
@@ -201,7 +210,7 @@ public class SignalMonitorService extends Service{
             }
 
             @Override
-            public void onSignalStrengthsChanged(int simId, SignalHelper.SimSignalInfo signalInfo) {
+            public void onSignalStrengthsChanged(int simId, SimSignalInfo signalInfo) {
                 Log.i(Constant.TAG, "onSignalStrengthsChanged : simId " + simId + " " + signalInfo.toString()) ;
                 if (simId == SignalHelper.SIM_CARD_0){
                     mSim1SignalInfo = signalInfo ;

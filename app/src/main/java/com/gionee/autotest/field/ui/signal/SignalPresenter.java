@@ -4,17 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 
 import com.gionee.autotest.common.Preference;
-import com.gionee.autotest.common.TimeUtil;
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.services.SignalMonitorService;
 import com.gionee.autotest.field.ui.base.BasePresenter;
 import com.gionee.autotest.field.ui.base.listener.BaseCallback;
 import com.gionee.autotest.field.ui.signal.model.ExportModel;
 import com.gionee.autotest.field.util.Constant;
-import com.gionee.autotest.field.util.Util;
 
 import java.io.File;
 import java.io.IOException;

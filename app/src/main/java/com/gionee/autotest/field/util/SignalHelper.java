@@ -16,6 +16,7 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.gionee.autotest.common.FLog;
+import com.gionee.autotest.field.ui.signal.entity.SimSignalInfo;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -109,7 +110,7 @@ public final class SignalHelper {
 
     @IntDef({SIM_CARD_0, SIM_CARD_1})
     @Retention(RetentionPolicy.SOURCE)
-    public @interface SIMID{}
+    @interface SIMID{}
 
     public SimSignalInfo getSimSignalInfo(@SIMID int simId){
         if (simId == SIM_CARD_0){
@@ -315,36 +316,6 @@ public final class SignalHelper {
                     listener.onSignalStrengthsChanged(simId, signalInfo);
                 }
             }
-        }
-    }
-
-    public class SimSignalInfo {
-        /**
-         * 信号格数 0 - 5
-         */
-        public int mLevel;
-
-        /**
-         * sim卡是否有效
-         */
-        public boolean mIsActive;
-
-        /**
-         * 网络类型
-         */
-        public String mNetType ="N/A";
-
-        /**
-         * 信号强度
-         */
-        public String mSignal;
-
-        @Override
-        public String toString() {
-            return "sim卡是否有效:" + mIsActive +
-                    " 网络类型:" + mNetType +
-                    " 信号格数:" + mLevel +
-                    " 信号强度:" + mSignal ;
         }
     }
 

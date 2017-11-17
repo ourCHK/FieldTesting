@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -115,6 +116,7 @@ public class SignalActivity extends BaseActivity implements SignalContract.View,
 
     @OnClick(R.id.signal_stop)
     void onSignalStopClicked(){
+        Log.i(Constant.TAG, "enter onSignalStopClicked") ;
         Toast.makeText(this, R.string.signal_monitor_stopped, Toast.LENGTH_SHORT).show();
         mSignalPresenter.unregisterSignalListener();
         File target = new File(Environment.getExternalStorageDirectory()
@@ -123,6 +125,7 @@ public class SignalActivity extends BaseActivity implements SignalContract.View,
                 + File.separator + Constant.HOME +File.separator + Constant.SIGNAL_DIR,
                 String.format(Constant.EXPORT_SIGNAL_DATA_NAME, TimeUtil.getTime("yyyy-MM-dd_HH-mm-ss"))) ;
         mSignalPresenter.doExport(target, destination);
+        Log.i(Constant.TAG, "end onSignalStopClicked") ;
     }
 
     @Override

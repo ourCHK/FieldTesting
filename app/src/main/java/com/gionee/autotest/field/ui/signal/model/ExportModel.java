@@ -60,6 +60,10 @@ public class ExportModel {
     }
 
     private void doConvertStuff(File target, File destination) {
-
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
