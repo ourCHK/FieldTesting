@@ -29,7 +29,7 @@
 
     <!-- signal resources -->
     <string name="signal_label_name">手机信号</string>
-    <string name="signal_notice">注意事项：\n\n1.报告文件路径：sdcard/field/signal.\n\n2.请将该APK加入到清理白名单中.\n</string>
+    <string name="signal_notice">注意事项：\n\n1.报告文件路径：sdcard/field/signal.\n\n2.请将该APK加入到清理白名单中.\n\n3.测试频率间隔不要设置太小，合理应大于3秒.\n</string>
     <string name="signal_frequency">测试频率(单位：秒):</string>
     <string name="signal_start">开始测试</string>
     <string name="signal_stop">结束测试</string>
