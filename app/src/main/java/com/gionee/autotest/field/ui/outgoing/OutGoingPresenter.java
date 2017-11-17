@@ -18,7 +18,8 @@ import com.google.gson.Gson;
  */
 
 class OutGoingPresenter extends BasePresenter<OutGoingContract.View> implements OutGoingContract.Presenter {
-    private Context mContext;
+    private Context       mContext;
+    private OutGoingModel outGoingModel;
 
     OutGoingPresenter(Context context) {
         mContext = context;
@@ -44,11 +45,21 @@ class OutGoingPresenter extends BasePresenter<OutGoingContract.View> implements 
     public void startCallTest() {
         CallParam p = getView().getUserParams();
         if ((p.call_time + p.gap_time) > (p.call_time_sum / p.numbers.length)) {
-            String message=String.format(mContext.getString(R.string.TooShortTips, (p.call_time + p.gap_time) * p.numbers.length));
+            String message = String.format(mContext.getString(R.string.TooShortTips, (p.call_time + p.gap_time) * p.numbers.length));
             getView().showDialog(message);
-        }else{
-            OutGoingModel outGoingModel = new OutGoingModel(mContext);
+        } else {
+            outGoingModel = new OutGoingModel(mContext);
             outGoingModel.start(p);
         }
     }
+
+    @Override
+    public void handleStartBtnClicked() {
+        if (outGoingModel != null && outGoingModel.isTesting()) {
+            outGoingModel.stop();
+        } else if (outGoingModel == null || !outGoingModel.isTesting()) {
+            startCallTest();
+        }
+    }
+
 }

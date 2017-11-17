@@ -8,6 +8,8 @@ import android.util.Log;
 import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.Constant.InComingDB.InComingBatch;
 import com.gionee.autotest.field.util.Constant.InComingDB.InComingData;
+import com.gionee.autotest.field.util.Constant.OutGoingDB.OutGoingBatch;
+import com.gionee.autotest.field.util.Constant.OutGoingDB.OutGoingData;
 
 /**
  * Created by viking on 11/7/17.
@@ -45,6 +47,14 @@ class DBHelper extends SQLiteOpenHelper {
                 + InComingData.BATCH_ID + " Integer," + InComingData.NUMBER + " Long,"
                 + InComingData.RESULT + " Integer," + InComingData.TEST_INDEX + " Integer,"
                 + InComingData.FAIL_MSG + " text," + InComingData.TIME + " TIMESTAMP(14))");
+        db.execSQL("create table " + OutGoingBatch.NAME + "(" + OutGoingBatch._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + OutGoingBatch.NUMBERS + " text," + OutGoingBatch.CYCLE + " Integer," + OutGoingBatch.GAP_TIME + " Integer,"
+                + OutGoingBatch.CALL_TIME + " Integer," + OutGoingBatch.CALL_TIME_SUM + " Integer,"
+                + OutGoingBatch.IS_SPEAKER_ON + " Integer," + OutGoingBatch.TIME + " TIMESTAMP(14))");
+        db.execSQL("create table "+ OutGoingData.NAME+"("+OutGoingData._ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"
+                +OutGoingData.BATCH_ID+" Long,"+OutGoingData.CYCLE_INDEX+" Long,"+OutGoingData.NUMBER+" Long,"
+                +OutGoingData.DIAL_TIME+" TIMESTAMP(14),"+OutGoingData.OFF_HOOK_TIME+" TIMESTAMP(14),"
+                +OutGoingData.HANG_UP_TIME+" TIMESTAMP(14),"+OutGoingData.RESULT+" Integer,"+OutGoingData.TIME+" TIMESTAMP(14))");
     }
 
     @Override
@@ -57,6 +67,8 @@ class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + Constant.APPDB.TABLE_NAME);
         db.execSQL("drop table if exists " + InComingBatch.NAME);
         db.execSQL("drop table if exists " + InComingData.NAME);
+        db.execSQL("drop table if exists " + OutGoingBatch.NAME);
+        db.execSQL("drop table if exists " + OutGoingData.NAME);
         // Recreates the database with a new version
         onCreate(db);
     }

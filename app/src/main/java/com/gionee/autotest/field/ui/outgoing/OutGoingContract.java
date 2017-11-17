@@ -24,5 +24,7 @@ interface OutGoingContract {
     interface Presenter {
 
         void startCallTest();
+
+        void handleStartBtnClicked();
     }
 }

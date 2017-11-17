@@ -10,8 +10,9 @@ public class OutGoingCallResult {
     public String  offHookTime;
     public String  hangUpTime;
     public boolean result;
+    public String time;
 
-    public OutGoingCallResult(long batchId, int cycleIndex, long number, String dialTime, String offHookTime, String hangUpTime, boolean result) {
+    public OutGoingCallResult(long batchId, int cycleIndex, long number, String dialTime, String offHookTime, String hangUpTime, boolean result,String time) {
 
         this.batchId = batchId;
         this.cycleIndex = cycleIndex;
@@ -20,10 +21,11 @@ public class OutGoingCallResult {
         this.offHookTime = offHookTime;
         this.hangUpTime = hangUpTime;
         this.result = result;
+        this.time = time;
     }
 
     public OutGoingCallResult() {
-        this(0, 0, 10086, "", "", "", true);
+        this(0, 0, 10086, "", "", "", true,"");
     }
 
     public OutGoingCallResult setBatchId(long batchId) {
@@ -58,6 +60,11 @@ public class OutGoingCallResult {
 
     public OutGoingCallResult setResult(boolean result) {
         this.result = result;
+        return this;
+    }
+
+    public OutGoingCallResult setTime(String time) {
+        this.time = time;
         return this;
     }
 }

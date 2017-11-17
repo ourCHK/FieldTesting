@@ -31,7 +31,7 @@ public class OutGoingActivity extends BaseActivity implements OutGoingContract.V
 
     @OnClick(R.id.out_going_start)
     public void OutGoingStartClicked() {
-        mOutGoingPresenter.startCallTest();
+        mOutGoingPresenter.handleStartBtnClicked();
     }
 
     @Override

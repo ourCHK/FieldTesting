@@ -14,23 +14,23 @@ public class Constant {
     public static final String TAG = "FieldTesting";
 
     //for splash screen time out
-    public static       int    SPLASH_TIME_OUT = 1000;
-    public static final String HOME            = "field";
-    public static final String SIGNAL_DIR            = "signal";
-    public static final String SIGNAL_DATA_NAME      = "signal_data.txt";
-    public static final String EXPORT_SIGNAL_DATA_NAME      = "signal_%s.xls";
+    public static       int    SPLASH_TIME_OUT         = 1000;
+    public static final String HOME                    = "field";
+    public static final String SIGNAL_DIR              = "signal";
+    public static final String SIGNAL_DATA_NAME        = "signal_data.txt";
+    public static final String EXPORT_SIGNAL_DATA_NAME = "signal_%s.xls";
 
     //Preferences constants
-    public static final String PREF_KEY_FIRST_LAUNCH    = "first_launch";
-    public static final String PREF_KEY_APP_VERSION     = "app_version";
-    public static final String PREF_KEY_SIGNAL_INTERVAL = "signal_interval";
-    public static final String PREF_KEY_SIGNAL_DATA_COLLECT_RUNNING  = "signal_data_collect_running"  ;
-    public static final String PREF_KEY_SIGNAL_DATA_COLLECT  = "signal_data_collect"  ;
-    public static final String PREF_KEY_SIGNAL_DATA_DISCOLLECT  = "signal_data_discollect"  ;
-    public static final String PREF_KEY_MONITOR_SIGNAL  = "monitor_signal" ;
+    public static final String PREF_KEY_FIRST_LAUNCH                = "first_launch";
+    public static final String PREF_KEY_APP_VERSION                 = "app_version";
+    public static final String PREF_KEY_SIGNAL_INTERVAL             = "signal_interval";
+    public static final String PREF_KEY_SIGNAL_DATA_COLLECT_RUNNING = "signal_data_collect_running";
+    public static final String PREF_KEY_SIGNAL_DATA_COLLECT         = "signal_data_collect";
+    public static final String PREF_KEY_SIGNAL_DATA_DISCOLLECT      = "signal_data_discollect";
+    public static final String PREF_KEY_MONITOR_SIGNAL              = "monitor_signal";
 
-    public static final String PREF_KEY_DATA_RESET_INTERVAL = "data_reset_interval";
-    public static final String PREF_KEY_DATA_RESET_DATA_COLLECT_RUNNING  = "data_reset_data_collect_running"  ;
+    public static final String PREF_KEY_DATA_RESET_INTERVAL             = "data_reset_interval";
+    public static final String PREF_KEY_DATA_RESET_DATA_COLLECT_RUNNING = "data_reset_data_collect_running";
 
     public static final String PREF_NAME = "field_prefs";
 
@@ -67,7 +67,7 @@ public class Constant {
 
         }
 
-        public static final class InComingData implements BaseColumns{
+        public static final class InComingData implements BaseColumns {
             public static final String NUMBER     = "number";
             public static final String BATCH_ID   = "batch_id";
             public static final String RESULT     = "result";
@@ -77,7 +77,7 @@ public class Constant {
             public static final String NAME       = "table_data";
         }
 
-        public static final class InComingBatch implements BaseColumns{
+        public static final class InComingBatch implements BaseColumns {
             public static final String AUTO_REJECT        = "autoReject";
             public static final String AUTO_REJECT_TIME   = "autoRejectTime";
             public static final String AUTO_ANSWER        = "autoAnswer";
@@ -87,5 +87,33 @@ public class Constant {
             public static final String TIME               = "time";
             public static final String NAME               = "table_batch";
         }
+    }
+
+    public static final class OutGoingDB implements BaseColumns {
+
+        public static final class OutGoingBatch implements BaseColumns {
+            public static final String NUMBERS       = "numbers";
+            public static final String CYCLE         = "cycle";
+            public static final String GAP_TIME      = "gapTime";
+            public static final String CALL_TIME     = "callTime";
+            public static final String CALL_TIME_SUM = "callTimeSum";
+            public static final String IS_SPEAKER_ON = "isSpeakerOn";
+            public static final String TIME          = "time";
+            public static final String NAME          = "table_batch";
+        }
+
+        public static final class OutGoingData implements BaseColumns {
+            public static final String BATCH_ID      = "batch_id";
+            public static final String CYCLE_INDEX   = "cycleIndex";
+            public static final String NUMBER        = "number";
+            public static final String DIAL_TIME     = "dialTime";
+            public static final String OFF_HOOK_TIME = "offHookTime";
+            public static final String HANG_UP_TIME  = "hangUpTime";
+            public static final String RESULT        = "result";
+            public static final String TIME          = "time";
+            public static final String NAME          = "out_going_data";
+        }
+
+
     }
 }
