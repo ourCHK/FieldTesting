@@ -2,6 +2,7 @@ package com.gionee.autotest.field.util;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
 
 import com.gionee.autotest.field.R;
@@ -58,13 +59,25 @@ public class Util {
 /*        if (progressDialog.getWindow() != null) {
             progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }*/
-        progressDialog.show();
-        progressDialog.setContentView(R.layout.progress_dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setCancelable(false);
-        progressDialog.setCanceledOnTouchOutside(false);
-        if (message != null)
-            progressDialog.setMessage(message);
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M){
+            progressDialog.show();
+            progressDialog.setContentView(R.layout.progress_dialog);
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(false);
+            progressDialog.setCanceledOnTouchOutside(false);
+            if (message != null) {
+                progressDialog.setMessage(message);
+            }
+        }else{
+            progressDialog.setContentView(R.layout.progress_dialog);
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(false);
+            progressDialog.setCanceledOnTouchOutside(false);
+            if (message != null){
+                progressDialog.setMessage(message);
+            }
+            progressDialog.show();
+        }
 
         return progressDialog;
     }
