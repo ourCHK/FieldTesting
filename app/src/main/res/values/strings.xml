@@ -146,6 +146,7 @@
     <string name="menu_about">关于</string>
     <string name="matters_needing_attention">注意事项</string>
     <string name="data_reactivation">数据重激活</string>
+    <string name="cycle_erro">请输入正确的循环次数</string>
 
     <!-- message  resources-->
     <string name="message_send">信息收发</string>
