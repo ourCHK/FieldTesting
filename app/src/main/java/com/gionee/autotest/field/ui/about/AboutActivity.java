@@ -19,6 +19,11 @@ public class AboutActivity extends BaseActivity implements AboutContract.View{
     }
 
     @Override
+    protected boolean isDisplayHomeUpEnabled() {
+        return true;
+    }
+
+    @Override
     protected void initializePresenter() {
         aboutPresenter = new AboutPresenter() ;
         super.presenter = aboutPresenter ;
