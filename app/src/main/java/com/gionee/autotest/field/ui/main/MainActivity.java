@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.data.db.model.App;
+import com.gionee.autotest.field.ui.about.AboutActivity;
 import com.gionee.autotest.field.ui.base.BaseActivity;
 import com.gionee.autotest.field.ui.base.listener.RecyclerItemListener;
 import com.gionee.autotest.field.ui.install.InstallAppActivity;
@@ -185,7 +186,8 @@ public class MainActivity extends BaseActivity implements RecyclerItemListener<A
                 startActivity(new Intent(this, SettingsActivity.class));
                 break ;*/
             case R.id.about:
-                Toast.makeText(getApplicationContext(), R.string.not_implemented_yet, Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, AboutActivity.class));
+//                Toast.makeText(getApplicationContext(), R.string.not_implemented_yet, Toast.LENGTH_SHORT).show();
                 //                startActivity(new Intent(this, AboutActivity.class));
                 return true;
             case R.id.help:

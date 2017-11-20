@@ -6,6 +6,9 @@
     <string name="help">帮助</string>
     <string name="about">关于</string>
 
+    <!-- for about -->
+    <string name="about_version">版本:1.0.0</string>
+
     <!-- for settings -->
     <string name="preference_key_signal_monitor">key_signal_monitor</string>
     <string name="settings_regular">常用设置</string>
