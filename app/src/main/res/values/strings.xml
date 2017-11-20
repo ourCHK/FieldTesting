@@ -2,8 +2,15 @@
     <string name="app_name">场测</string>
 
     <!-- for menus-->
+    <string name="settings">设置</string>
     <string name="help">帮助</string>
     <string name="about">关于</string>
+
+    <!-- for settings -->
+    <string name="preference_key_signal_monitor">key_signal_monitor</string>
+    <string name="settings_regular">常用设置</string>
+    <string name="settings_signal_monitor_title">后台信号监控服务</string>
+    <string name="settings_signal_monitor_summary">此服务主要用于在后台监控信号的变化.</string>
 
     <!-- splash resources -->
     <string name="text_copyright">Copyright © 2017 深圳市金立通信设备有限公司 测试平台部 版权所有</string>

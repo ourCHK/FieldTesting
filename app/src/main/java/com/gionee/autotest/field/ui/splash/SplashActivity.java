@@ -179,10 +179,13 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
 
     private void realNavigateToMainScreen(){
         //init signal monitor service
-        if(Preference.getBoolean(getApplicationContext(), Constant.PREF_KEY_MONITOR_SIGNAL, true)){
+        if(!Preference.getBoolean(getApplicationContext(), Constant.PREF_KEY_MONITOR_SIGNAL, false)
+                //is manual stop service?
+                && !Preference.getBoolean(getApplicationContext(), Constant.PREF_KEY_MANUAL_STOP_MONITOR_SIGNAL, false)){
             Log.i(Constant.TAG, "enable signal monitor") ;
             Intent monitor = new Intent(getApplicationContext(), SignalMonitorService.class) ;
             startService(monitor) ;
+            Preference.putBoolean(getApplicationContext(), Constant.PREF_KEY_MONITOR_SIGNAL, true) ;
         }
         //relay about one seconds to start main activity
         new Handler().postDelayed(new Runnable() {

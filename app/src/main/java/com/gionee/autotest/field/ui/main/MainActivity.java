@@ -181,6 +181,9 @@ public class MainActivity extends BaseActivity implements RecyclerItemListener<A
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+/*            case R.id.settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                break ;*/
             case R.id.about:
                 Toast.makeText(getApplicationContext(), R.string.not_implemented_yet, Toast.LENGTH_SHORT).show();
                 //                startActivity(new Intent(this, AboutActivity.class));

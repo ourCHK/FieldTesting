@@ -15,6 +15,10 @@
         <item name="popupTheme">@style/ToolbarPopupTheme</item>
     </style>
 
+    <style name="SettingsTheme" parent="AppNoActionBarTheme">
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+    </style>
+
     <style name="ToolbarPopupTheme" parent="@style/ThemeOverlay.AppCompat">
         <item name="android:colorBackground">@android:color/white</item>
         <item name="android:textColor">@color/colorPrimary</item>

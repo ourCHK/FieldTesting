@@ -141,7 +141,9 @@ public final class SignalHelper {
         // if sim state receiver not null, unregister it
         if (mSimStateReceiver != null && mContext.get() != null){
             Log.i(Constant.TAG, "destroy unregister mSimStateReceiver...") ;
-            mContext.get().unregisterReceiver(mSimStateReceiver);
+            try {
+                mContext.get().unregisterReceiver(mSimStateReceiver);
+            }catch (Exception e){}
             mSimStateReceiver = null ;
         }
 

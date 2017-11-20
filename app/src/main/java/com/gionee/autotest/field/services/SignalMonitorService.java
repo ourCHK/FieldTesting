@@ -199,7 +199,10 @@ public class SignalMonitorService extends Service{
         stopForeground(true);
         stopCollectingData();
         SignalHelper.getInstance(this).unregisterSimStateListener(listener);
-//        SignalHelper.getInstance(this).destroy();
+        //when service is down, set this flag to false
+        Preference.putBoolean(getApplicationContext(), Constant.PREF_KEY_MONITOR_SIGNAL, false) ;
+        //set PREF_KEY_SIGNAL_DATA_COLLECT_RUNNING to false
+        Preference.putBoolean(getApplicationContext(), Constant.PREF_KEY_SIGNAL_DATA_COLLECT_RUNNING, false) ;
     }
 
     private void fire(){
