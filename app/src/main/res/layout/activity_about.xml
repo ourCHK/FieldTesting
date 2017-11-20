@@ -31,7 +31,6 @@
             android:layout_height="wrap_content"
             android:text="@string/about_version"
             android:maxLines="1"
-            android:textSize="10sp"
             android:textColor="@color/colorSplashBG"
             android:layout_gravity="center_horizontal"/>
     </LinearLayout>
