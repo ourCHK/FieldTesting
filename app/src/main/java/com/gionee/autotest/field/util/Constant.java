@@ -100,7 +100,7 @@ public class Constant {
             public static final String CALL_TIME_SUM = "callTimeSum";
             public static final String IS_SPEAKER_ON = "isSpeakerOn";
             public static final String TIME          = "time";
-            public static final String NAME          = "table_batch";
+            public static final String NAME          = "table_batch_out";
         }
 
         public static final class OutGoingData implements BaseColumns {
