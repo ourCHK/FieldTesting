@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.gionee.autotest.field">
+    package="com.gionee.autotest.field"
+    android:sharedUserId="android.uid.system">
 
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.MODIFY_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:name=".FieldApplication"
@@ -19,9 +23,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
@@ -31,9 +35,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppNoActionBarTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
@@ -44,11 +48,11 @@
             android:theme="@style/AppNoActionBarTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.gionee.autotest.field.ui.main.MainActivity"/>
+                android:value="com.gionee.autotest.field.ui.main.MainActivity" />
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
@@ -60,11 +64,11 @@
             android:theme="@style/AppNoActionBarTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.gionee.autotest.field.ui.main.MainActivity"/>
+                android:value="com.gionee.autotest.field.ui.main.MainActivity" />
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
@@ -76,7 +80,7 @@
             android:theme="@style/AppNoActionBarTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.gionee.autotest.field.ui.main.MainActivity"/>
+                android:value="com.gionee.autotest.field.ui.main.MainActivity" />
         </activity>
         <activity
             android:name=".ui.outgoing.OutGoingActivity"
@@ -86,7 +90,7 @@
             android:theme="@style/AppNoActionBarTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.gionee.autotest.field.ui.main.MainActivity"/>
+                android:value="com.gionee.autotest.field.ui.main.MainActivity" />
         </activity>
 
         <activity
@@ -98,11 +102,11 @@
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.gionee.autotest.field.ui.main.MainActivity"/>
+                android:value="com.gionee.autotest.field.ui.main.MainActivity" />
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
         </activity>
@@ -115,51 +119,20 @@
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.gionee.autotest.field.ui.main.MainActivity"/>
+                android:value="com.gionee.autotest.field.ui.main.MainActivity" />
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
         </activity>
 
-        <activity android:name=".ui.incoming.InComingReportActivity"/>
+        <activity android:name=".ui.incoming.InComingReportActivity" />
 
-        <activity
-            android:name=".ui.settings.SettingsActivity"
-            android:label="@string/settings"
-            android:parentActivityName=".ui.main.MainActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/SettingsTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.gionee.autotest.field.ui.main.MainActivity"/>
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".ui.about.AboutActivity"
-            android:label="@string/about"
-            android:parentActivityName=".ui.main.MainActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppNoActionBarTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.gionee.autotest.field.ui.main.MainActivity"/>
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
-        </activity>
-
-        <service android:name=".services.SignalMonitorService"/>
-        <service android:name=".services.DataResetServices"/>
+        <service android:name=".services.SignalMonitorService" />
+        <service android:name=".services.DataResetServices" />
     </application>
 
 </manifest>

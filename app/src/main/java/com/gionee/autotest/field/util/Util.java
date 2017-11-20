@@ -3,6 +3,7 @@ package com.gionee.autotest.field.util;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Build;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.gionee.autotest.field.R;
@@ -13,6 +14,7 @@ import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Method;
 import java.text.Collator;
 import java.util.Comparator;
 
@@ -80,5 +82,19 @@ public class Util {
         }
 
         return progressDialog;
+    }
+
+    public static void setMobileDataState(Context context, boolean enabled) {
+        TelephonyManager telephonyService = (TelephonyManager)context.getSystemService("phone");
+
+        try {
+            Method e = telephonyService.getClass().getDeclaredMethod("setDataEnabled", new Class[]{Boolean.TYPE});
+            if(null != e) {
+                e.invoke(telephonyService, new Object[]{Boolean.valueOf(enabled)});
+            }
+        } catch (Exception var4) {
+            var4.printStackTrace();
+        }
+
     }
 }

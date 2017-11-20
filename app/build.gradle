@@ -2,6 +2,15 @@ apply plugin: 'com.android.application'
 
 android {
 
+    signingConfigs {
+        config {
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storeFile file('platform.keystore')
+            storePassword 'android'
+        }
+    }
+
     lintOptions{
         abortOnError false
     }
@@ -20,11 +29,20 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.config
     }
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
+            signingConfig signingConfigs.config
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def file = output.outputFile
+                    def fileName = "FieldTesing_${defaultConfig.versionName}.apk"
+                    output.outputFile = new File(file.parent, fileName)
+                }
+            }
         }
     }
 }
@@ -32,7 +50,6 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:25.4.0'
-    compile 'com.android.support:support-v4:25.4.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     //latest android-common-util
     compile "com.gionee.autotest.android.common:android-common-utility:+"

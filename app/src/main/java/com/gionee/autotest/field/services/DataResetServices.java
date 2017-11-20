@@ -8,7 +8,9 @@ import android.support.annotation.Nullable;
 
 import com.gionee.autotest.common.FLog;
 import com.gionee.autotest.common.Preference;
+import com.gionee.autotest.common.YUtils;
 import com.gionee.autotest.field.util.Constant;
+import com.gionee.autotest.field.util.Util;
 
 /**
  * Created by xhk on 2017/11/17.
@@ -35,9 +37,13 @@ public class DataResetServices extends Service {
                         Preference.putBoolean(getApplicationContext(), Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_RUNNING, false);
 
                     }else{
+
+                        Util.setMobileDataState(getApplicationContext(),true);
+
                         Preference.putLong(getApplicationContext(), Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, data_reset_current_cycle+1);
                         FLog.i("data_reset_current_cycle="+Preference.getLong(getApplicationContext(), Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, 1));
                         SystemClock.sleep(1000);
+
                     }
 
                 }
