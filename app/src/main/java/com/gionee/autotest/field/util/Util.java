@@ -2,6 +2,7 @@ package com.gionee.autotest.field.util;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -84,17 +85,4 @@ public class Util {
         return progressDialog;
     }
 
-    public static void setMobileDataState(Context context, boolean enabled) {
-        TelephonyManager telephonyService = (TelephonyManager)context.getSystemService("phone");
-
-        try {
-            Method e = telephonyService.getClass().getDeclaredMethod("setDataEnabled", new Class[]{Boolean.TYPE});
-            if(null != e) {
-                e.invoke(telephonyService, new Object[]{Boolean.valueOf(enabled)});
-            }
-        } catch (Exception var4) {
-            var4.printStackTrace();
-        }
-
-    }
 }

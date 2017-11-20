@@ -1,5 +1,6 @@
 package com.gionee.autotest.field.util;
 
+import android.os.Environment;
 import android.provider.BaseColumns;
 
 /**
@@ -33,12 +34,21 @@ public class Constant {
     public static final String PREF_KEY_DATA_RESET_INTERVAL = "data_reset_interval";
     public static final String PREF_KEY_DATA_RESET_DATA_COLLECT_RUNNING  = "data_reset_data_collect_running";
     public static final String PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE  = "data_reset_data_collect_current_cycle";
+    public static final String DATA_RESET_PRESENTATION_NAME  = "data_reset_presentation_name";
+
 
     public static final String PREF_NAME = "field_prefs";
 
     //for DB constants
     public static final String DATABASE_NAME    = "field.db";
     public static final int    DATABASE_VERSION = 1;
+
+    //SD
+    // --------------应用缓存文件基本信息-----------------------
+    public static final String PATH_SD = Environment.getExternalStorageDirectory() + "/field/";
+
+    public static final String DIR_DATA_RESET = PATH_SD + "data_reset/";
+
 
     public static final class APPDB implements BaseColumns {
 
