@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.gionee.autotest.common.TimeUtil;
 import com.gionee.autotest.field.R;
+import com.gionee.autotest.field.ui.about.AboutActivity;
 import com.gionee.autotest.field.ui.base.BaseActivity;
 import com.gionee.autotest.field.ui.main.MainActivity;
 import com.gionee.autotest.field.util.Constant;
@@ -48,6 +50,21 @@ public class SignalActivity extends BaseActivity implements SignalContract.View,
     @Override
     protected int layoutResId() {
         return R.layout.activity_signal;
+    }
+
+    @Override
+    protected int menuResId() {
+        return R.menu.menu_signal;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.about:
+                startActivity(AboutActivity.getAboutIntent(this, getString(R.string.signal_about), true));
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
