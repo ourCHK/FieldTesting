@@ -186,7 +186,7 @@ public class MainActivity extends BaseActivity implements RecyclerItemListener<A
                 startActivity(new Intent(this, SettingsActivity.class));
                 break ;*/
             case R.id.about:
-                startActivity(new Intent(this, AboutActivity.class));
+                startActivity(AboutActivity.getAboutIntent(this, getString(R.string.about_version), true));
 //                Toast.makeText(getApplicationContext(), R.string.not_implemented_yet, Toast.LENGTH_SHORT).show();
                 //                startActivity(new Intent(this, AboutActivity.class));
                 return true;
