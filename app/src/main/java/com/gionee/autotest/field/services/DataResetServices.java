@@ -31,7 +31,7 @@ public class DataResetServices extends Service {
         //获取报告名字
         String data_reset_presentation_name = Preference.getString(getApplicationContext(), Constant.DATA_RESET_PRESENTATION_NAME, "");
         //添加标题
-        DataResetHelper.exportExcel(Constant.DIR_DATA_RESET+data_reset_presentation_name);
+        DataResetHelper.exportExcel(Constant.DIR_DATA_RESET+data_reset_presentation_name+".xls");
 
         new Thread(new Runnable() {
             @Override
@@ -41,8 +41,12 @@ public class DataResetServices extends Service {
                     long data_reset_current_cycle = Preference.getLong(getApplicationContext(), Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, 1);
                     if (data_reset_interval == data_reset_current_cycle){
 
+//                        Constant.DATA_RESET_RECEIVER
+
                         FLog.i("data_reset_interval="+data_reset_interval+",data_reset_current_cycle="+data_reset_current_cycle);
                         Preference.putBoolean(getApplicationContext(), Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_RUNNING, false);
+                        //发送测试完成广播
+                        sendBroadcast(new Intent(Constant.DATA_RESET_RECEIVER));
 
                     }else{
                         String data_reset_presentation_name = Preference.getString(getApplicationContext(), Constant.DATA_RESET_PRESENTATION_NAME, "");

@@ -1,5 +1,9 @@
 package com.gionee.autotest.field.ui.data_reset;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
@@ -7,6 +11,7 @@ import android.widget.Toast;
 
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.ui.base.BaseActivity;
+import com.gionee.autotest.field.util.Constant;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -26,6 +31,9 @@ public class DataResetActivity extends BaseActivity implements DataResetContract
     @BindView(R.id.et_frequency)
     EditText et_frequency;
 
+    private LocalReceiver localReceiver;
+
+
     private DataResetPresenter mDataResetPresenter;
 
     @Override
@@ -43,6 +51,13 @@ public class DataResetActivity extends BaseActivity implements DataResetContract
         mDataResetPresenter = new DataResetPresenter(getApplicationContext()) ;
         super.presenter = mDataResetPresenter ;
         mDataResetPresenter.onAttach(this);
+
+        //注册广播
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Constant.DATA_RESET_RECEIVER);
+        localReceiver = new LocalReceiver();
+        registerReceiver(localReceiver, intentFilter);
+
     }
 
     @Override
@@ -100,5 +115,16 @@ public class DataResetActivity extends BaseActivity implements DataResetContract
     @Override
     public void setStopButtonVisibility(boolean visibility) {
         bt_stop_testing.setEnabled(visibility);
+    }
+
+    class LocalReceiver extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Toast.makeText(context,"测试完成",Toast.LENGTH_SHORT).show();
+            bt_start_testing.setEnabled(true);
+            bt_stop_testing.setEnabled(false);
+
+        }
     }
 }

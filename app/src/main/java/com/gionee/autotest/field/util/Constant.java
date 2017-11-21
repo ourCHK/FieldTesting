@@ -36,6 +36,8 @@ public class Constant {
     public static final String PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE  = "data_reset_data_collect_current_cycle";
     public static final String DATA_RESET_PRESENTATION_NAME  = "data_reset_presentation_name";
 
+    public static final String DATA_RESET_RECEIVER = "com.gionee.autotest.field.data.reset.receiver"; //数据重激活完成广播
+
 
     public static final String PREF_NAME = "field_prefs";
 
