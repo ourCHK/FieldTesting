@@ -39,7 +39,7 @@ android {
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
                     def file = output.outputFile
-                    def fileName = "FieldTesing_${defaultConfig.versionName}.apk"
+                    def fileName = "FieldTesting_${defaultConfig.versionName}.apk"
                     output.outputFile = new File(file.parent, fileName)
                 }
             }
