@@ -1,12 +1,16 @@
 package com.gionee.autotest.field.ui.network_switch;
 
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import com.gionee.autotest.common.Preference;
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.ui.base.BaseActivity;
+import com.gionee.autotest.field.ui.network_switch.model.NetworkSwitchParam;
+import com.google.gson.Gson;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -35,7 +39,8 @@ public class NetworkSwitchActivity extends BaseActivity implements NetworkSwitch
 
     @OnClick(R.id.incoming_start_btn)
     void networkSwitchStartClicked() {
-
+        NetworkSwitchParam inputParam = getInputParam();
+        mPresenter.startTest(inputParam);
     }
 
     @Override
@@ -47,29 +52,50 @@ public class NetworkSwitchActivity extends BaseActivity implements NetworkSwitch
     protected boolean isDisplayHomeUpEnabled() {
         return true;
     }
-//checkBox_Flight_Mode.setChecked(Preference.getBoolean(KEY_FLIGHT_MODE,true));
-    //        checkBox_Reboot.setChecked(Preference.getBoolean(KEY_REBOOT, true));
-//    boolean isSwitch = Preference.getBoolean(KEY_SWITCH_SIM, true);
-//        checkBox_Switch_Sim.setChecked(isSwitch && Util.getSimCount() == 2);
-//        testRound.setText(Preference.getLong(KEY_TEST_ROUND, 1L) + "");
-//        testRound.setSelection(testRound.getText().length());
-//        startBtn.setText(Preference.getBoolean(KEY_IS_TEST) ? "停止测试" : "开始测试");
-//        checkBox_SignNetwork.setChecked(Preference.getBoolean(KEY_SIGN_NETWORK, true));
-//        checkBox_readSim.setChecked(Preference.getBoolean(KEY_READ_SIM, true));
-//        checkBox_isNet.setChecked(Preference.getBoolean(KEY_IS_NET, true));
-//        checkBox_Flight_Mode.setOnClickListener(this);
-//        checkBox_Reboot.setOnClickListener(this);
-//        checkBox_Switch_Sim.setOnCheckedChangeListener(this);
-//        startBtn.setOnClickListener(this);
-//        checkBox_SignNetwork.setOnClickListener(this);
-//        checkBox_readSim.setOnClickListener(this);
-//        checkBox_isNet.setOnClickListener(this);
+
     @Override
     protected void initializePresenter() {
         mPresenter = new NetworkSwitchPresenter(getApplicationContext());
         super.presenter = mPresenter;
         mPresenter.onAttach(this);
-        mPresenter.getLastParams();
+    }
+
+    @Override
+    public void updateParams(NetworkSwitchParam param) {
+        mFlightModeCB.setChecked(param.flightMode);
+        mRebootCB.setChecked(param.reboot);
+        mSwitchSimCB.setChecked(param.isSwitchSim);
+        mTestRoundET.setText(param.testRound + "");
+        mTestRoundET.setSelection(mTestRoundET.getText().length());
+        mSignNetworkCB.setChecked(param.signNetwork);
+        mReadSimCB.setChecked(param.readSim);
+        mIsNetCB.setChecked(param.isNet);
+    }
+
+    @Override
+    public void updateViews() {
+        boolean isTest = Preference.getBoolean(this,"isTest");
+        mStartBtn.setText(isTest ? "停止测试" : "开始测试");
+        setViewsEnable(!isTest, mFlightModeCB, mRebootCB, mSwitchSimCB, mTestRoundET, mSignNetworkCB, mReadSimCB, mIsNetCB);
+    }
+
+    private static void setViewsEnable(boolean isEnable, View... v) {
+        for (View mV : v) {
+            mV.setEnabled(isEnable);
+        }
+    }
+
+    public NetworkSwitchParam getInputParam() {
+        NetworkSwitchParam networkSwitchParam = new NetworkSwitchParam()
+                .setFlightMode(mFlightModeCB.isChecked())
+                .setReboot(mRebootCB.isChecked())
+                .setSwitchSim(mSwitchSimCB.isChecked())
+                .setTestRound(Long.parseLong(mTestRoundET.getText().toString()))
+                .setSignNetwork(mSignNetworkCB.isChecked())
+                .setReadSim(mReadSimCB.isChecked())
+                .setNet(mIsNetCB.isChecked());
+        Preference.putString(getApplicationContext(), "lastParams", new Gson().toJson(networkSwitchParam));
+        return networkSwitchParam;
     }
 
     @Override
