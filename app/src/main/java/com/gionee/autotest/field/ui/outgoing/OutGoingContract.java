@@ -13,6 +13,8 @@ interface OutGoingContract {
 
     interface View extends BaseView {
 
+        void updateViews(boolean testing);
+
         void setParams(CallParam lastParams);
 
         CallParam getUserParams();

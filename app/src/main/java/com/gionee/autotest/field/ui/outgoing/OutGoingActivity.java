@@ -2,6 +2,8 @@ package com.gionee.autotest.field.ui.outgoing;
 
 
 import android.app.AlertDialog;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
@@ -27,11 +29,25 @@ public class OutGoingActivity extends BaseActivity implements OutGoingContract.V
     EditText mCallTimeSumET;
     @BindView(R.id.is_speaker_phone_open)
     CheckBox mIsSpeakerPhoneOpenCB;
+    @BindView(R.id.out_going_start)
+    Button   mStartBtn;
     private OutGoingPresenter mOutGoingPresenter;
 
     @OnClick(R.id.out_going_start)
     public void OutGoingStartClicked() {
         mOutGoingPresenter.handleStartBtnClicked();
+    }
+
+    @Override
+    public void updateViews(boolean testing) {
+        mStartBtn.setText(testing ? "停止测试" : "开始测试");
+        setViewEnabled(testing, mNumberET, mCycleET, mGapTimeET, mCallTimeET, mCallTimeSumET, mIsSpeakerPhoneOpenCB);
+    }
+
+    private void setViewEnabled(boolean testing, View... v) {
+        for (View view : v) {
+            view.setEnabled(testing);
+        }
     }
 
     @Override
@@ -89,7 +105,7 @@ public class OutGoingActivity extends BaseActivity implements OutGoingContract.V
         DialogHelper.create(this, "提示", message, new DialogHelper.OnBeforeCreate() {
             @Override
             public void setOther(AlertDialog.Builder builder) {
-                builder.setPositiveButton("确定",null);
+                builder.setPositiveButton("确定", null);
             }
         }).show();
     }

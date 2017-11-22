@@ -60,6 +60,7 @@ class OutGoingPresenter extends BasePresenter<OutGoingContract.View> implements 
         } else if (outGoingModel == null || !outGoingModel.isTesting()) {
             startCallTest();
         }
+        getView().updateViews(outGoingModel.isTesting());
     }
 
 }
