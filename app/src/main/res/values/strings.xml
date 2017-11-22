@@ -163,5 +163,20 @@
     <string name="message_send">信息收发</string>
     <string name="phone">号码：</string>
     <string name="frequency">次数：</string>
+    <string name="network_switch">网络切换</string>
 
+    <!-- network_switch  resources-->
+    <string name="toolsTips">条件：\n1、请把本工具加入系统管家允许自启\n2、请不要设置锁屏密码和SIM卡密码\n\n目的：\n开关飞行模式、重启手机、切换数据连接使用卡后，检查是否识卡、是否驻网成功和是否能上网。</string>
+    <string name="network_switch_help">条件：\n1、安装后，请把本工具加入系统管家允许自启\n2、请不要设置锁屏密码和SIM卡密码\n\n选项:\n切换飞行模式：开启、关闭飞行模式一次\n重启手机：重启手机一次\n切换数据连接：切换默认上网的SIM卡\n是否识卡：测试后检查是否读卡\n是否驻网：检查SIM卡是否注册网络\n能否上网：检查默认上网的SIM卡能否上网</string>
+    <string name="checkBox_tips">一、测试项目:</string>
+    <string name="checkBox_Flight_Mode">切换飞行模式</string>
+    <string name="checkBox_switch_sim">切换SIM卡</string>
+    <string name="checkBox_Reboot">重启</string>
+    <string name="testRoundString">三、测试次数:</string>
+    <string name="roundString">次</string>
+    <string name="checkNetworkType">二、检查项目:</string>
+    <string name="checkBox_SearchSimNetwork">是否驻网</string>
+    <string name="checkBox_identification">是否识卡</string>
+    <string name="checkBox_Internet">能否上网</string>
+    <string name="start_btn">开始测试</string>
 </resources>

@@ -33,7 +33,7 @@
       "key": 4,
       "label":"网络切换",
       "icon":"phone_network_switch",
-      "activity":"",
+      "activity":".ui.network_switch.NetworkSwitchActivity",
       "installed": true
     },
     {
