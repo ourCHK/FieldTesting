@@ -1,33 +1,327 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/content_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:layout_weight="1">
+
+            <android.support.v7.widget.GridLayout
+                android:id="@+id/num_pad"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:columnCount="3">
+
+                <TextView
+                    style="@style/GridLayoutElementTextView"
+                    android:text="@string/phone_num"
+
+                    />
+
+                <EditText
+                    android:id="@+id/phone_num_one"
+                    style="@style/GridLayoutElementTextView"
+                    app:layout_columnSpan="2"
+                    app:layout_columnWeight="1" />
+
+                <TextView
+                    style="@style/GridLayoutElementTextView"
+                    android:text="@string/quality_continue" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_type_single" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_type_multi" />
+
+                <TextView
+                    style="@style/GridLayoutElementTextView"
+                    android:text="@string/quality_low_vol" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_type_single" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_type_multi" />
+
+                <TextView
+                    style="@style/GridLayoutElementTextView"
+                    android:text="@string/quality_noise" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_type_single" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_type_multi" />
+
+                <TextView
+                    style="@style/GridLayoutElementTextView"
+                    android:text="@string/quality_loop" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_no_vol" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_type_multi" />
+
+                <TextView
+                    style="@style/GridLayoutElementTextView"
+                    android:text="@string/quality_no_vol" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_type_single" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_type_multi" />
+
+                <TextView
+                    style="@style/GridLayoutElementTextView"
+                    android:text="@string/quality_lose_vol" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_type_single" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_type_multi" />
+
+                <TextView
+                    style="@style/GridLayoutElementTextView"
+                    android:text="@string/quality_current" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_type_single" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_type_multi" />
+
+                <TextView
+                    style="@style/GridLayoutElementTextView"
+                    android:text="@string/quality_hao" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_type_single" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_type_multi" />
+
+                <TextView
+                    style="@style/GridLayoutElementTextView"
+                    android:text="@string/quality_lose_call" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_type_single" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_type_multi" />
+
+
+            </android.support.v7.widget.GridLayout>
 
         </LinearLayout>
 
         <View
-            android:background="@color/colorPrimary"
             android:layout_width="2dp"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_margin="3dp"
+            android:background="@color/colorPrimary" />
 
         <LinearLayout
-            android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:layout_weight="1">
+
+            <android.support.v7.widget.GridLayout
+                android:id="@+id/num_pad_two"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:columnCount="3">
+
+                <TextView
+                    style="@style/GridLayoutElementTextView"
+                    android:text="@string/phone_num"
+
+                    />
+
+                <EditText
+                    android:id="@+id/phone_num_two"
+                    style="@style/GridLayoutElementTextView"
+                    app:layout_columnSpan="2"
+                    app:layout_columnWeight="1" />
+
+                <TextView
+                    style="@style/GridLayoutElementTextView"
+                    android:text="@string/quality_continue" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_type_single" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_type_multi" />
+
+                <TextView
+                    style="@style/GridLayoutElementTextView"
+                    android:text="@string/quality_low_vol" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_type_single" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_type_multi" />
+
+                <TextView
+                    style="@style/GridLayoutElementTextView"
+                    android:text="@string/quality_noise" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_type_single" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_type_multi" />
+
+                <TextView
+                    style="@style/GridLayoutElementTextView"
+                    android:text="@string/quality_loop" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_no_vol" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_type_multi" />
+
+                <TextView
+                    style="@style/GridLayoutElementTextView"
+                    android:text="@string/quality_no_vol" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_type_single" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_type_multi" />
+
+                <TextView
+                    style="@style/GridLayoutElementTextView"
+                    android:text="@string/quality_lose_vol" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_type_single" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_type_multi" />
+
+                <TextView
+                    style="@style/GridLayoutElementTextView"
+                    android:text="@string/quality_current" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_type_single" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_type_multi" />
+
+                <TextView
+                    style="@style/GridLayoutElementTextView"
+                    android:text="@string/quality_hao" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_type_single" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_type_multi" />
+
+                <TextView
+                    style="@style/GridLayoutElementTextView"
+                    android:text="@string/quality_lose_call" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_type_single" />
+
+                <Button
+                    style="@style/GridLayoutElementButton"
+                    android:text="@string/quality_type_multi" />
+
+
+            </android.support.v7.widget.GridLayout>
 
         </LinearLayout>
-
     </LinearLayout>
 
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp">
+
+        <Button
+            android:id="@+id/call_quality_start"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_stroke"
+            android:minHeight="0dp"
+            android:padding="10dp"
+            android:text="@string/start_testing"
+            android:textColor="@color/colorPrimary" />
+
+        <Button
+            android:id="@+id/call_quality_end"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_stroke"
+            android:minHeight="0dp"
+            android:padding="10dp"
+            android:text="@string/stop_testing"
+            android:textColor="@color/colorPrimary" />
+    </LinearLayout>
+</LinearLayout>

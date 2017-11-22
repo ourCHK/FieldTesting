@@ -179,4 +179,21 @@
     <string name="checkBox_identification">是否识卡</string>
     <string name="checkBox_Internet">能否上网</string>
     <string name="start_btn">开始测试</string>
+
+    <!-- resources for call quality -->
+    <string name="call_quality_label">通话质量</string>
+    <string name="phone_num">机型/编号</string>
+    <string name="quality_continue">断续</string>
+    <string name="quality_low_vol">声音小</string>
+    <string name="quality_noise">杂音</string>
+    <string name="quality_loop">回音</string>
+    <string name="quality_no_vol">无声</string>
+    <string name="quality_lose_vol">失真</string>
+    <string name="quality_current">电流音</string>
+    <string name="quality_hao">啸叫声</string>
+    <string name="quality_lose_call">掉话</string>
+    <string name="quality_type_single">单次</string>
+    <string name="quality_type_multi">持续</string>
+    <string name="quality_type_no_vol">无声</string>
+    <string name="quality_type_continue">断续</string>
 </resources>

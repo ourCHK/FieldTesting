@@ -166,6 +166,24 @@
 
         </activity>
 
+        <activity
+            android:name=".ui.call_quality.CallQualityActivity"
+            android:label="@string/call_quality_label"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppNoActionBarTheme">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.gionee.autotest.field.ui.main.MainActivity" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+        </activity>
+
 
         <service android:name=".services.SignalMonitorService"/>
         <service android:name=".services.DataResetServices"/>

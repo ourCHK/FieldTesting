@@ -19,7 +19,7 @@
       "key": 2,
       "label":"通话质量",
       "icon":"phone_quality",
-      "activity":"",
+      "activity":".ui.call_quality.CallQualityActivity",
       "installed": true
     },
     {

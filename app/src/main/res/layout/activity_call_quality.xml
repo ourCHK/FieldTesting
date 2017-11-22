@@ -1,33 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/content_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
-
-        </LinearLayout>
-
-        <View
-            android:background="@color/colorPrimary"
-            android:layout_width="2dp"
-            android:layout_height="match_parent"/>
-
-        <LinearLayout
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content">
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-</FrameLayout>
+    <include layout="@layout/layout_header"/>
+    <include layout="@layout/layout_call_quality_main"/>
+</android.support.design.widget.CoordinatorLayout>

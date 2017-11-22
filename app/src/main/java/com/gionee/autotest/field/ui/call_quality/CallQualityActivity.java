@@ -17,6 +17,11 @@ public class CallQualityActivity extends BaseActivity implements CallQualityCont
     }
 
     @Override
+    protected boolean isDisplayHomeUpEnabled() {
+        return true;
+    }
+
+    @Override
     protected void initializePresenter() {
         mPresenter = new CallQualityPresenter() ;
         super.presenter = mPresenter ;
