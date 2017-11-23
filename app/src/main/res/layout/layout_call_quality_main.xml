@@ -77,7 +77,7 @@
 
                 <Button
                     style="@style/GridLayoutElementButton"
-                    android:text="@string/quality_no_vol" />
+                    android:text="@string/quality_type_single" />
 
                 <Button
                     style="@style/GridLayoutElementButton"
@@ -137,11 +137,11 @@
 
                 <Button
                     style="@style/GridLayoutElementButton"
-                    android:text="@string/quality_type_single" />
+                    android:text="@string/quality_type_no_vol" />
 
                 <Button
                     style="@style/GridLayoutElementButton"
-                    android:text="@string/quality_type_multi" />
+                    android:text="@string/quality_type_continue" />
 
 
             </android.support.v7.widget.GridLayout>
@@ -220,7 +220,7 @@
 
                 <Button
                     style="@style/GridLayoutElementButton"
-                    android:text="@string/quality_no_vol" />
+                    android:text="@string/quality_type_single" />
 
                 <Button
                     style="@style/GridLayoutElementButton"
@@ -280,11 +280,11 @@
 
                 <Button
                     style="@style/GridLayoutElementButton"
-                    android:text="@string/quality_type_single" />
+                    android:text="@string/quality_type_no_vol" />
 
                 <Button
                     style="@style/GridLayoutElementButton"
-                    android:text="@string/quality_type_multi" />
+                    android:text="@string/quality_type_continue" />
 
 
             </android.support.v7.widget.GridLayout>
@@ -299,28 +299,23 @@
 
         <Button
             android:id="@+id/call_quality_start"
+            style="@style/GridLayoutElementBigButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"
             android:layout_weight="1"
-            android:background="@drawable/bg_stroke"
-            android:minHeight="0dp"
             android:padding="10dp"
-            android:text="@string/start_testing"
-            android:textColor="@color/colorPrimary" />
+            android:text="@string/start_testing" />
 
         <Button
             android:id="@+id/call_quality_end"
+            style="@style/GridLayoutElementBigButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"
             android:layout_weight="1"
-            android:background="@drawable/bg_stroke"
-            android:minHeight="0dp"
-            android:padding="10dp"
-            android:text="@string/stop_testing"
-            android:textColor="@color/colorPrimary" />
+            android:text="@string/stop_testing" />
     </LinearLayout>
 </LinearLayout>

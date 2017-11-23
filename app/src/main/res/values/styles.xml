@@ -52,24 +52,32 @@
         <item name="android:windowExitAnimation">@anim/dialog_disappear</item>
     </style>
 
-    <style name="GridLayoutElement">
+    <style name="GridLayoutElementTextView" >
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:layout_margin">5dp</item>
         <item name="android:gravity">center</item>
-        <item name="android:textSize">10dp</item>
+        <item name="android:textSize">10sp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="GridLayoutElementTextView" parent="GridLayoutElement">
-
-    </style>
-
-    <style name="GridLayoutElementButton" parent="GridLayoutElement">
+    <style name="GridLayoutElementButton" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:minHeight">0dp</item>
         <item name="android:minWidth">48dp</item>
-        <item name="android:padding">8dp</item>
-        <item name="android:background">?android:attr/selectableItemBackground</item>
+    </style>
+
+    <style name="GridLayoutElementBigButton" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:padding">10dp</item>
     </style>
 
     <!-- 分割线 -->

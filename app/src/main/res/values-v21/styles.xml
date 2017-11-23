@@ -24,4 +24,25 @@
     <style name="MainItem">
         <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
     </style>
+
+    <style name="GridLayoutElementTextView" >
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="GridLayoutElementButton" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">48dp</item>
+    </style>
+    
 </resources>
