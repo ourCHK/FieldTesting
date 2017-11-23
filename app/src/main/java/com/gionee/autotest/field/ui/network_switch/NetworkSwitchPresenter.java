@@ -8,9 +8,12 @@ import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.gionee.autotest.common.Preference;
+import com.gionee.autotest.field.services.NetworkSwitchService;
 import com.gionee.autotest.field.ui.base.BasePresenter;
 import com.gionee.autotest.field.ui.incoming.InComingReportActivity;
 import com.gionee.autotest.field.ui.network_switch.model.NetworkSwitchParam;
+import com.gionee.autotest.field.util.Constant;
+import com.gionee.autotest.field.util.NetworkSwitchUtil;
 import com.google.gson.Gson;
 
 /**
@@ -68,5 +71,27 @@ class NetworkSwitchPresenter extends BasePresenter<NetworkSwitchActivity> implem
     @Override
     public void startTest(NetworkSwitchParam inputParam) {
 
+    }
+
+    @Override
+    public void handleClicked() {
+        if (!Preference.getBoolean(mContext, "isTest", false)) {
+            Preference.putBoolean(mContext, "isTest", true);
+            NetworkSwitchUtil.isTest = true;
+            try {
+                NetworkSwitchParam inputParam = getView().getInputParam();
+                startTest(inputParam);
+                Intent intent = new Intent(mContext, NetworkSwitchService.class);
+                intent.putExtra("params", new Gson().toJson(inputParam));
+                mContext.startService(intent);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+                getView().toast(e.getMessage());
+            }
+        } else {
+            Preference.putBoolean(mContext, "isTest", false);
+            NetworkSwitchUtil.isTest = false;
+            mContext.sendBroadcast(new Intent(Constant.ACTION_STOP_TEST));
+        }
     }
 }
