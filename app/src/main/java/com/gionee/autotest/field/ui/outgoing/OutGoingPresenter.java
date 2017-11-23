@@ -27,6 +27,7 @@ class OutGoingPresenter extends BasePresenter<OutGoingContract.View> implements 
 
     @Override
     public void initialize(Bundle extras) {
+        super.initialize(extras);
         getView().setParams(getLastParams());
     }
 

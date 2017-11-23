@@ -137,7 +137,9 @@ public class SwitchTest {
        Log.i(Constant.TAG,"oldId " + oldId + "newId " + newId);
         NetworkSwitchUtil.setDefaultData(context, newId);
         NetworkSwitchUtil.setDefaultVoiceSubId(context, newId);
-        Log.i(Constant.TAG, "default " + NetworkSwitchUtil.getDefaultDataSubId(context));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Log.i(Constant.TAG, "default " + NetworkSwitchUtil.getDefaultDataSubId(context));
+        }
         if (!NetworkSwitchUtil.isMobileDataOn(context, newId)) {
             NetworkSwitchUtil.setDataEnable(context, oldId, false);
             NetworkSwitchUtil.setDataEnable(context, newId, true);

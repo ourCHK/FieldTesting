@@ -15,6 +15,7 @@ import com.gionee.autotest.field.ui.network_switch.model.NetworkSwitchParam;
 import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.NetworkSwitchUtil;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 /**
  * Created by viking on 11/13/17.
@@ -47,6 +48,7 @@ class NetworkSwitchPresenter extends BasePresenter<NetworkSwitchActivity> implem
 
     @Override
     public void initialize(Bundle extras) {
+        super.initialize(extras);
         NetworkSwitchParam lastParams = getLastParams();
         getView().updateParams(lastParams);
         LocalBroadcastManager.getInstance(mContext).registerReceiver(new BroadcastReceiver() {
@@ -63,7 +65,12 @@ class NetworkSwitchPresenter extends BasePresenter<NetworkSwitchActivity> implem
         NetworkSwitchParam param      = new NetworkSwitchParam();
         String             lastParams = Preference.getString(mContext, "lastParams", "");
         if (null == lastParams || lastParams.equals("")) {
-            param = gson.fromJson(lastParams, NetworkSwitchParam.class);
+            try {
+                param = gson.fromJson(lastParams, NetworkSwitchParam.class);
+            } catch (JsonSyntaxException e) {
+                e.printStackTrace();
+                param      = new NetworkSwitchParam();
+            }
         }
         return param;
     }
