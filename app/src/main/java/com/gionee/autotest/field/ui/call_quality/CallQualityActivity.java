@@ -189,12 +189,12 @@ public class CallQualityActivity extends BaseActivity implements CallQualityCont
     }
 
     @OnClick(R.id.call_quality_start)
-    void onStartClicked(View view){
+    void onStartClicked(){
         mPresenter.onStartClicked(phoneNum.getText().toString(), phoneNumO.getText().toString());
     }
 
     @OnClick(R.id.call_quality_end)
-    void onStopClicked(View view){
+    void onStopClicked(){
         mPresenter.onStopClicked();
     }
 
