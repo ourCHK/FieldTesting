@@ -70,4 +70,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test:runner:1.0.0'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.0'
+    compile 'com.klinkerapps:android-smsmms:4.2.3'
 }

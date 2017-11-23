@@ -164,6 +164,10 @@
     <string name="phone">号码：</string>
     <string name="frequency">次数：</string>
     <string name="network_switch">网络切换</string>
+    <string name="mms">彩信</string>
+    <string name="sms">短信</string>
+    <string name="SIM1">SIM1</string>
+    <string name="SIM2">SIM2</string>
 
     <!-- network_switch  resources-->
     <string name="toolsTips">条件：\n1、请把本工具加入系统管家允许自启\n2、请不要设置锁屏密码和SIM卡密码\n\n目的：\n开关飞行模式、重启手机、切换数据连接使用卡后，检查是否识卡、是否驻网成功和是否能上网。</string>

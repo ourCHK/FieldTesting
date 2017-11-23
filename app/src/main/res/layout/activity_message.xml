@@ -12,27 +12,28 @@
         android:layout_marginTop="30dp">
 
         <RadioGroup
+            android:id="@+id/rg_message_type"
             android:layout_width="200dp"
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:layout_centerInParent="true">
 
             <RadioButton
-                android:id="@+id/radioButton1"
+                android:id="@+id/rb_sms"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:text="短信"
+                android:text="@string/sms"
                 android:textColor="@color/colorPrimary"/>
 
             <RadioButton
-                android:id="@+id/radioButton2"
+                android:id="@+id/rb_mms"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:layout_gravity="center"
-                android:text="彩信"
+                android:text="@string/mms"
                 android:textColor="@color/colorPrimary"/>
 
         </RadioGroup>
@@ -45,27 +46,28 @@
         android:layout_marginTop="30dp">
 
         <RadioGroup
+            android:id="@+id/rg_sim"
             android:layout_width="200dp"
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:layout_centerInParent="true">
 
             <RadioButton
-                android:id="@+id/radioButton3"
+                android:id="@+id/rb_sim_1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:text="卡1"
+                android:text="@string/SIM1"
                 android:textColor="@color/colorPrimary"/>
 
             <RadioButton
-                android:id="@+id/radioButton4"
+                android:id="@+id/rb_sim_2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:layout_gravity="center"
-                android:text="卡2"
+                android:text="@string/SIM2"
                 android:textColor="@color/colorPrimary"/>
 
         </RadioGroup>
@@ -131,36 +133,65 @@
 
     </LinearLayout>
 
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="60dp"-->
+        <!--android:layout_marginLeft="30dp"-->
+        <!--android:layout_marginRight="30dp">-->
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:layout_centerInParent="true">-->
+            <!--<Button-->
+                <!--android:id="@+id/bt_start_testing"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_weight="2"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_centerInParent="true"-->
+                <!--android:text="@string/start_testing"-->
+                <!--android:textColor="@color/colorPrimary"-->
+                <!--android:background="@drawable/bg_stroke"/>-->
+
+            <!--<Button-->
+                <!--android:id="@+id/bt_stop_testing"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_centerInParent="true"-->
+                <!--android:layout_weight="2"-->
+                <!--android:background="@drawable/bg_stroke"-->
+                <!--android:text="@string/stop_testing"-->
+                <!--android:textColor="@color/colorPrimary" />-->
+
+        <!--</LinearLayout>-->
+
+
+    <!--</RelativeLayout>-->
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp">
-        <LinearLayout
-            android:layout_width="match_parent"
+        android:layout_marginTop="60dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginLeft="50dp">
+
+        <Button
+            android:id="@+id/bt_start_testing"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_centerInParent="true">
-            <Button
-                android:id="@+id/bt_start_testing"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="@string/start_testing"
-                android:textColor="@color/colorPrimary"
-                android:background="@drawable/bg_stroke"/>
-            <Button
-                android:id="@+id/bt_stop_testing"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="@string/stop_testing"
-                android:textColor="@color/colorPrimary"
-                android:background="@drawable/bg_stroke"/>
-
-        </LinearLayout>
-
+            android:layout_alignParentLeft="true"
+            android:text="@string/start_testing"
+            android:textColor="@color/colorPrimary"
+            android:background="@drawable/bg_stroke"/>
+        <Button
+            android:id="@+id/bt_stop_testing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@string/stop_testing"
+            android:textColor="@color/colorPrimary"
+            android:background="@drawable/bg_stroke"/>
 
     </RelativeLayout>
 

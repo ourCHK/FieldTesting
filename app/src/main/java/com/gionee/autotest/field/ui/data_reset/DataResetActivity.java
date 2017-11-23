@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.gionee.autotest.field.R;
+import com.gionee.autotest.field.ui.about.AboutActivity;
 import com.gionee.autotest.field.ui.base.BaseActivity;
 import com.gionee.autotest.field.util.Constant;
 
@@ -70,11 +71,11 @@ public class DataResetActivity extends BaseActivity implements DataResetContract
         switch (item.getItemId()) {
             case R.id.about:
                 Toast.makeText(getApplicationContext(), R.string.not_implemented_yet, Toast.LENGTH_SHORT).show();
-                //                startActivity(new Intent(this, AboutActivity.class));
+                                startActivity(new Intent(this, AboutActivity.class));
                 return true;
             case R.id.help:
                 Toast.makeText(getApplicationContext(), R.string.not_implemented_yet, Toast.LENGTH_SHORT).show();
-                //                startActivity(new Intent(this, AboutActivity.class));
+                                startActivity(new Intent(this, AboutActivity.class));
                 return true ;
         }
         return super.onOptionsItemSelected(item);
@@ -126,5 +127,11 @@ public class DataResetActivity extends BaseActivity implements DataResetContract
             bt_stop_testing.setEnabled(false);
 
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(localReceiver);
     }
 }

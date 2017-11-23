@@ -72,5 +72,20 @@
         <item name="android:background">@drawable/bg_stroke</item>
     </style>
 
+    <!-- 分割线 -->
+    <!-- 横向绿色线条 -->
+    <style name="divider_horizontal_gray_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.8dp</item>
+        <item name="android:background">@color/colorAccent</item>
+    </style>
+
+    <!-- 竖向绿色线条 -->
+    <style name="divider_vertical_gray_style">
+        <item name="android:layout_width">0.8dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/colorAccent</item>
+    </style>
+
 
 </resources>

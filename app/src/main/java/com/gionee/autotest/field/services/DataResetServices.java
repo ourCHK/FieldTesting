@@ -22,9 +22,6 @@ import java.io.File;
 
 public class DataResetServices extends Service {
 
-
-
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -121,8 +118,5 @@ public class DataResetServices extends Service {
     public void onDestroy() {
         super.onDestroy();
     }
-
-
-
 
 }
