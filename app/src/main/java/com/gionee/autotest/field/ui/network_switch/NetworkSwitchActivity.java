@@ -1,10 +1,12 @@
 package com.gionee.autotest.field.ui.network_switch;
 
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.gionee.autotest.common.Preference;
 import com.gionee.autotest.field.R;
@@ -39,8 +41,7 @@ public class NetworkSwitchActivity extends BaseActivity implements NetworkSwitch
 
     @OnClick(R.id.incoming_start_btn)
     void networkSwitchStartClicked() {
-        NetworkSwitchParam inputParam = getInputParam();
-        mPresenter.startTest(inputParam);
+        mPresenter.handleClicked();
     }
 
     @Override
@@ -74,9 +75,19 @@ public class NetworkSwitchActivity extends BaseActivity implements NetworkSwitch
 
     @Override
     public void updateViews() {
-        boolean isTest = Preference.getBoolean(this,"isTest");
+        boolean isTest = Preference.getBoolean(this, "isTest");
         mStartBtn.setText(isTest ? "停止测试" : "开始测试");
         setViewsEnable(!isTest, mFlightModeCB, mRebootCB, mSwitchSimCB, mTestRoundET, mSignNetworkCB, mReadSimCB, mIsNetCB);
+    }
+
+    @Override
+    public void toast(final String msg) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private static void setViewsEnable(boolean isEnable, View... v) {
@@ -85,12 +96,23 @@ public class NetworkSwitchActivity extends BaseActivity implements NetworkSwitch
         }
     }
 
-    public NetworkSwitchParam getInputParam() {
+    public NetworkSwitchParam getInputParam() throws IllegalAccessException {
+        String testRound = mTestRoundET.getText().toString();
+        if (TextUtils.isEmpty(mTestRoundET.getText())) {
+            throw new IllegalAccessException("轮数输入异常");
+        }
+        long testRoundLong;
+        try {
+            testRoundLong = Long.parseLong(testRound);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            throw new IllegalAccessException("轮数输入异常");
+        }
         NetworkSwitchParam networkSwitchParam = new NetworkSwitchParam()
                 .setFlightMode(mFlightModeCB.isChecked())
                 .setReboot(mRebootCB.isChecked())
                 .setSwitchSim(mSwitchSimCB.isChecked())
-                .setTestRound(Long.parseLong(mTestRoundET.getText().toString()))
+                .setTestRound(testRoundLong)
                 .setSignNetwork(mSignNetworkCB.isChecked())
                 .setReadSim(mReadSimCB.isChecked())
                 .setNet(mIsNetCB.isChecked());

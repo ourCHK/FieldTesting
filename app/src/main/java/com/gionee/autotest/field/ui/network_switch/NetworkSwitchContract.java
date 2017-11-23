@@ -16,6 +16,8 @@ interface NetworkSwitchContract {
         void updateParams(NetworkSwitchParam param);
 
         void updateViews();
+
+        void toast(String msg);
     }
 
     interface Presenter {
@@ -29,5 +31,7 @@ interface NetworkSwitchContract {
         NetworkSwitchParam getLastParams();
 
         void startTest(NetworkSwitchParam inputParam);
+
+        void handleClicked();
     }
 }

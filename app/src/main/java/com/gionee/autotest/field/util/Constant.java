@@ -130,4 +130,18 @@ public class Constant {
 
 
     }
+
+    //network switch actions
+    /**
+     * 停止测试广播
+     */
+    public static final String  ACTION_STOP_TEST         = "action_AutoSwitchSimCardTest.stop_test";
+    /**
+     * 切换sim卡广播
+     */
+    public static final String  ACTION_SWITCH_SIM_FINISH = "action_AutoSwitchSimCardTest.switch_sim_finish";
+    /**
+     * 等待时间
+     */
+    public static final int     CHECK_WAIT_TIME          = 60000;
 }
