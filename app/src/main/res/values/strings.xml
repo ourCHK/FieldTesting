@@ -200,5 +200,8 @@
     <string name="quality_type_multi">持续</string>
     <string name="quality_type_no_vol">无声</string>
     <string name="quality_type_continue">断续</string>
-    <string name="next_round">下轮测试</string>
+    <string name="quality_next_round">下轮测试</string>
+    <string name="call_quality_error_phone_num">请输入机型/编号！</string>
+    <string name="call_quality_not_running">请先开始测试！</string>
+
 </resources>

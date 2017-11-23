@@ -31,6 +31,9 @@ public class Constant {
     public static final String PREF_KEY_MONITOR_SIGNAL              = "monitor_signal";
     public static final String PREF_KEY_MANUAL_STOP_MONITOR_SIGNAL  = "manual_stop_monitor_signal";
 
+    public static final String PREF_KEY_CALL_QUALITY_FIRST_ROUND    = "call_quality_first_round" ;
+    public static final String PREF_KEY_CALL_QUALITY_RUNNING        = "call_quality_running" ;
+
     public static final String PREF_KEY_DATA_RESET_INTERVAL = "data_reset_interval";
     public static final String PREF_KEY_DATA_RESET_DATA_COLLECT_RUNNING  = "data_reset_data_collect_running";
     public static final String PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE  = "data_reset_data_collect_current_cycle";
