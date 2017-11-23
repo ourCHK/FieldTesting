@@ -18,7 +18,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class NetworkSwitchActivity extends BaseActivity implements NetworkSwitchContract.View {
-
     @BindView(R.id.checkBox_Flight_Mode)
     CheckBox mFlightModeCB;
     @BindView(R.id.checkBox_Reboot)
@@ -27,7 +26,7 @@ public class NetworkSwitchActivity extends BaseActivity implements NetworkSwitch
     CheckBox mSwitchSimCB;
     @BindView(R.id.testRound)
     EditText mTestRoundET;
-    @BindView(R.id.startBtn)
+    @BindView(R.id.network_switch_startBtn)
     Button   mStartBtn;
     @BindView(R.id.checkBox_SignNetwork)
     CheckBox mSignNetworkCB;
@@ -39,14 +38,14 @@ public class NetworkSwitchActivity extends BaseActivity implements NetworkSwitch
     private NetworkSwitchPresenter mPresenter;
 
 
-    @OnClick(R.id.incoming_start_btn)
+    @OnClick(R.id.network_switch_startBtn)
     void networkSwitchStartClicked() {
         mPresenter.handleClicked();
     }
 
     @Override
     protected int layoutResId() {
-        return R.layout.activity_in_coming;
+        return R.layout.activity_network_switch;
     }
 
     @Override
@@ -85,7 +84,7 @@ public class NetworkSwitchActivity extends BaseActivity implements NetworkSwitch
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -138,8 +138,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/duration_sum_str"
-                android:textColor="@color/colorPrimary"
-                />
+                android:textColor="@color/colorPrimary"/>
 
             <EditText
                 android:id="@+id/call_time_sum_et"
@@ -164,8 +163,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/support_single_sim"
-            android:textColor="@color/colorPrimary"
-            />
+            android:textColor="@color/colorPrimary"/>
 
         <Button
             android:id="@+id/out_going_start"
