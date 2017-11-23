@@ -30,7 +30,7 @@
                     />
 
                 <EditText
-                    android:id="@+id/phone_num_one"
+                    android:id="@+id/phone_num"
                     style="@style/GridLayoutElementTextView"
                     app:layout_columnSpan="2"
                     app:layout_columnWeight="1" />
@@ -40,10 +40,12 @@
                     android:text="@string/quality_continue" />
 
                 <Button
+                    android:id="@+id/quality_continue_single"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_single" />
 
                 <Button
+                    android:id="@+id/quality_continue_multi"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_multi" />
 
@@ -52,10 +54,12 @@
                     android:text="@string/quality_low_vol" />
 
                 <Button
+                    android:id="@+id/quality_low_vol_single"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_single" />
 
                 <Button
+                    android:id="@+id/quality_low_vol_multi"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_multi" />
 
@@ -64,10 +68,12 @@
                     android:text="@string/quality_noise" />
 
                 <Button
+                    android:id="@+id/quality_noise_single"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_single" />
 
                 <Button
+                    android:id="@+id/quality_noise_multi"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_multi" />
 
@@ -76,10 +82,12 @@
                     android:text="@string/quality_loop" />
 
                 <Button
+                    android:id="@+id/quality_loop_single"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_single" />
 
                 <Button
+                    android:id="@+id/quality_loop_multi"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_multi" />
 
@@ -88,10 +96,12 @@
                     android:text="@string/quality_no_vol" />
 
                 <Button
+                    android:id="@+id/quality_no_vol_single"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_single" />
 
                 <Button
+                    android:id="@+id/quality_no_vol_multi"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_multi" />
 
@@ -100,10 +110,12 @@
                     android:text="@string/quality_lose_vol" />
 
                 <Button
+                    android:id="@+id/quality_lose_vol_single"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_single" />
 
                 <Button
+                    android:id="@+id/quality_lose_vol_multi"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_multi" />
 
@@ -112,10 +124,12 @@
                     android:text="@string/quality_current" />
 
                 <Button
+                    android:id="@+id/quality_current_single"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_single" />
 
                 <Button
+                    android:id="@+id/quality_current_multi"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_multi" />
 
@@ -124,10 +138,12 @@
                     android:text="@string/quality_hao" />
 
                 <Button
+                    android:id="@+id/quality_hao_single"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_single" />
 
                 <Button
+                    android:id="@+id/quality_hao_multi"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_multi" />
 
@@ -136,10 +152,12 @@
                     android:text="@string/quality_lose_call" />
 
                 <Button
+                    android:id="@+id/quality_lose_call_single"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_no_vol" />
 
                 <Button
+                    android:id="@+id/quality_lose_call_multi"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_continue" />
 
@@ -161,7 +179,7 @@
             android:layout_weight="1">
 
             <android.support.v7.widget.GridLayout
-                android:id="@+id/num_pad_two"
+                android:id="@+id/num_pad_other"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:columnCount="3">
@@ -169,11 +187,10 @@
                 <TextView
                     style="@style/GridLayoutElementTextView"
                     android:text="@string/phone_num"
-
                     />
 
                 <EditText
-                    android:id="@+id/phone_num_two"
+                    android:id="@+id/phone_num_other"
                     style="@style/GridLayoutElementTextView"
                     app:layout_columnSpan="2"
                     app:layout_columnWeight="1" />
@@ -183,10 +200,12 @@
                     android:text="@string/quality_continue" />
 
                 <Button
+                    android:id="@+id/quality_continue_single_other"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_single" />
 
                 <Button
+                    android:id="@+id/quality_continue_multi_other"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_multi" />
 
@@ -195,10 +214,12 @@
                     android:text="@string/quality_low_vol" />
 
                 <Button
+                    android:id="@+id/quality_low_vol_single_other"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_single" />
 
                 <Button
+                    android:id="@+id/quality_low_vol_multi_other"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_multi" />
 
@@ -207,10 +228,12 @@
                     android:text="@string/quality_noise" />
 
                 <Button
+                    android:id="@+id/quality_noise_single_other"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_single" />
 
                 <Button
+                    android:id="@+id/quality_noise_multi_other"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_multi" />
 
@@ -219,10 +242,12 @@
                     android:text="@string/quality_loop" />
 
                 <Button
+                    android:id="@+id/quality_loop_single_other"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_single" />
 
                 <Button
+                    android:id="@+id/quality_loop_multi_other"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_multi" />
 
@@ -231,10 +256,12 @@
                     android:text="@string/quality_no_vol" />
 
                 <Button
+                    android:id="@+id/quality_no_vol_single_other"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_single" />
 
                 <Button
+                    android:id="@+id/quality_no_vol_multi_other"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_multi" />
 
@@ -243,10 +270,12 @@
                     android:text="@string/quality_lose_vol" />
 
                 <Button
+                    android:id="@+id/quality_lose_vol_single_other"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_single" />
 
                 <Button
+                    android:id="@+id/quality_lose_vol_multi_other"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_multi" />
 
@@ -255,10 +284,12 @@
                     android:text="@string/quality_current" />
 
                 <Button
+                    android:id="@+id/quality_current_single_other"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_single" />
 
                 <Button
+                    android:id="@+id/quality_current_multi_other"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_multi" />
 
@@ -267,10 +298,12 @@
                     android:text="@string/quality_hao" />
 
                 <Button
+                    android:id="@+id/quality_hao_single_other"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_single" />
 
                 <Button
+                    android:id="@+id/quality_hao_multi_other"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_multi" />
 
@@ -279,10 +312,12 @@
                     android:text="@string/quality_lose_call" />
 
                 <Button
+                    android:id="@+id/quality_lose_call_single_other"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_no_vol" />
 
                 <Button
+                    android:id="@+id/quality_lose_call_multi_other"
                     style="@style/GridLayoutElementButton"
                     android:text="@string/quality_type_continue" />
 
