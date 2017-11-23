@@ -55,6 +55,7 @@ class DBHelper extends SQLiteOpenHelper {
                 +OutGoingData.BATCH_ID+" Long,"+OutGoingData.CYCLE_INDEX+" Long,"+OutGoingData.NUMBER+" Long,"
                 +OutGoingData.DIAL_TIME+" TIMESTAMP(14),"+OutGoingData.OFF_HOOK_TIME+" TIMESTAMP(14),"
                 +OutGoingData.HANG_UP_TIME+" TIMESTAMP(14),"+OutGoingData.RESULT+" Integer,"+OutGoingData.TIME+" TIMESTAMP(14))");
+        db.execSQL("create table networkSwitch(_id INTEGER PRIMARY KEY AUTOINCREMENT,resultFileName text,result text,time TIMESTAMP(14))");
     }
 
     @Override
@@ -69,6 +70,7 @@ class DBHelper extends SQLiteOpenHelper {
         db.execSQL("drop table if exists " + InComingData.NAME);
         db.execSQL("drop table if exists " + OutGoingBatch.NAME);
         db.execSQL("drop table if exists " + OutGoingData.NAME);
+        db.execSQL("drop table if exists networkSwitch");
         // Recreates the database with a new version
         onCreate(db);
     }

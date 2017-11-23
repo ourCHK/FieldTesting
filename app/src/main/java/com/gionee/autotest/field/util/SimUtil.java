@@ -10,7 +10,6 @@ import com.gionee.autotest.common.Preference;
 import com.gionee.autotest.common.TimeUtil;
 import com.gionee.autotest.field.ui.network_switch.model.IToast;
 import com.gionee.autotest.field.ui.network_switch.model.NetworkSwitchResult;
-import com.google.gson.Gson;
 
 
 public class SimUtil {
@@ -180,7 +179,7 @@ public class SimUtil {
         return new TestResult(readSimResult, signNetWorkResult, isNetResult);
     }
 
-    public String getResultJson(Context context) {
+    public NetworkSwitchResult getNetworkSwitchResult(Context context) {
         TestResult testResult       = getResult(context);
         int        simId            = Preference.getInt(context,"SimId", 0);
         int        defaultDataSubId = 0;
@@ -197,8 +196,7 @@ public class SimUtil {
         String SimId_String       = Preference.getBoolean(context,"checkBox_Switch_Sim", true) ? "卡" + simId : "";
         String current_isSwitched = Preference.getString(context,"current_isSwitched", "NA");
         Preference.putString(context,"current_isSwitched", "NA");
-        NetworkSwitchResult resultBean = new NetworkSwitchResult().setReadSim_1(testResult.readSimResult.sim1State_now).setReadSim_2(testResult.readSimResult.sim2State_now).setSignNetwork_1(testResult.signNetWorkResult.current_simName_1).setSignNetwork_2(testResult.signNetWorkResult.current_simName_2).setIsNet(SimId_String + testResult.isNetResult).setResult(result).setTest_time(TimeUtil.getTime("yyyy-MM-dd HH:mm:ss")).setIsSwitched(current_isSwitched);
-        return new Gson().toJson(resultBean);
+       return new NetworkSwitchResult().setReadSim_1(testResult.readSimResult.sim1State_now).setReadSim_2(testResult.readSimResult.sim2State_now).setSignNetwork_1(testResult.signNetWorkResult.current_simName_1).setSignNetwork_2(testResult.signNetWorkResult.current_simName_2).setIsNet(SimId_String + testResult.isNetResult).setResult(result).setTest_time(TimeUtil.getTime("yyyy-MM-dd HH:mm:ss")).setIsSwitched(current_isSwitched);
     }
 
     public class TestResult {

@@ -70,7 +70,9 @@ class NetworkSwitchPresenter extends BasePresenter<NetworkSwitchActivity> implem
 
     @Override
     public void startTest(NetworkSwitchParam inputParam) {
-
+        Intent intent = new Intent(mContext, NetworkSwitchService.class);
+        intent.putExtra("params", new Gson().toJson(inputParam));
+        mContext.startService(intent);
     }
 
     @Override
@@ -81,9 +83,6 @@ class NetworkSwitchPresenter extends BasePresenter<NetworkSwitchActivity> implem
             try {
                 NetworkSwitchParam inputParam = getView().getInputParam();
                 startTest(inputParam);
-                Intent intent = new Intent(mContext, NetworkSwitchService.class);
-                intent.putExtra("params", new Gson().toJson(inputParam));
-                mContext.startService(intent);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
                 getView().toast(e.getMessage());
