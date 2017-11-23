@@ -32,8 +32,8 @@ class OutGoingPresenter extends BasePresenter<OutGoingContract.View> implements 
     }
 
     public CallParam getLastParams() {
-        String callParams = Preference.getString(mContext, "callParams");
-        if (callParams == null || callParams.isEmpty()) {
+        String callParams = Preference.getString(mContext, "callParams","");
+        if (callParams == null || "".equals(callParams)) {
             Log.i("gionee.os.autotest", "null");
             return new CallParam();
         } else {

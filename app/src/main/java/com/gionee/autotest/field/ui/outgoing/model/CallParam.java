@@ -3,7 +3,7 @@ package com.gionee.autotest.field.ui.outgoing.model;
 
 public class CallParam {
 
-    public long id;
+    public long id=0;
     public String   number        = "10086,10010";
     public String[] numbers       = new String[]{"10086", "10010"};
     public int       cycle         = 3;
@@ -13,6 +13,7 @@ public class CallParam {
     public boolean  is_speaker_on = false;
 
     public CallParam() {
+        this(0,"10086,10010",new String[]{"10086","10010"},3,10,20,60,false);
     }
 
     public CallParam(long id, String number, String[] numbers, int cycle, int call_time, int gap_time, int call_time_sum, boolean is_speaker_on) {

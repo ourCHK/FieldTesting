@@ -65,14 +65,14 @@ class NetworkSwitchPresenter extends BasePresenter<NetworkSwitchActivity> implem
         NetworkSwitchParam param      = new NetworkSwitchParam();
         String             lastParams = Preference.getString(mContext, "lastParams", "");
         if (null == lastParams || lastParams.equals("")) {
-            try {
-                param = gson.fromJson(lastParams, NetworkSwitchParam.class);
-            } catch (JsonSyntaxException e) {
-                e.printStackTrace();
-                param      = new NetworkSwitchParam();
-            }
+            return param;
         }
-        return param;
+        try {
+            return gson.fromJson(lastParams, NetworkSwitchParam.class);
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+            return param;
+        }
     }
 
     @Override

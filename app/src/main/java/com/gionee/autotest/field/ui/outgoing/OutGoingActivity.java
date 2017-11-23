@@ -29,8 +29,10 @@ public class OutGoingActivity extends BaseActivity implements OutGoingContract.V
     EditText mCallTimeSumET;
     @BindView(R.id.is_speaker_phone_open)
     CheckBox mIsSpeakerPhoneOpenCB;
+
     @BindView(R.id.out_going_start)
-    Button   mStartBtn;
+    Button mStartBtn;
+
     private OutGoingPresenter mOutGoingPresenter;
 
     @OnClick(R.id.out_going_start)
@@ -71,10 +73,10 @@ public class OutGoingActivity extends BaseActivity implements OutGoingContract.V
     @Override
     public void setParams(CallParam p) {
         mNumberET.setText(p.number);
-        mCycleET.setText(p.cycle);
-        mGapTimeET.setText(p.gap_time);
-        mCallTimeET.setText(p.call_time);
-        mCallTimeSumET.setText(p.call_time_sum);
+        mCycleET.setText(String.valueOf(p.cycle));
+        mGapTimeET.setText(String.valueOf(p.gap_time));
+        mCallTimeET.setText(String.valueOf(p.call_time));
+        mCallTimeSumET.setText(String.valueOf(p.call_time_sum));
         mIsSpeakerPhoneOpenCB.setChecked(p.is_speaker_on);
     }
 
