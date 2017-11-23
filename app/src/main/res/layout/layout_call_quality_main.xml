@@ -27,7 +27,6 @@
                 <TextView
                     style="@style/GridLayoutElementTextView"
                     android:text="@string/phone_num"
-
                     />
 
                 <EditText
