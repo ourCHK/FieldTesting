@@ -1,12 +1,14 @@
 package com.gionee.autotest.field.ui.network_switch;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 
 import com.gionee.autotest.common.Preference;
 import com.gionee.autotest.field.ui.base.BasePresenter;
-import com.gionee.autotest.field.ui.base.BaseView;
 import com.gionee.autotest.field.ui.incoming.InComingReportActivity;
 import com.gionee.autotest.field.ui.network_switch.model.NetworkSwitchParam;
 import com.google.gson.Gson;
@@ -17,7 +19,7 @@ import com.google.gson.Gson;
  * Presenter for signal
  */
 
-class NetworkSwitchPresenter extends BasePresenter<BaseView> implements NetworkSwitchContract.Presenter {
+class NetworkSwitchPresenter extends BasePresenter<NetworkSwitchActivity> implements NetworkSwitchContract.Presenter {
     private Context mContext;
 
     NetworkSwitchPresenter(Context context) {
@@ -42,6 +44,14 @@ class NetworkSwitchPresenter extends BasePresenter<BaseView> implements NetworkS
 
     @Override
     public void initialize(Bundle extras) {
+        NetworkSwitchParam lastParams = getLastParams();
+        getView().updateParams(lastParams);
+        LocalBroadcastManager.getInstance(mContext).registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                getView().updateViews();
+            }
+        }, new IntentFilter("updateView_autoSwitchSimCard"));
     }
 
     @Override
@@ -53,5 +63,10 @@ class NetworkSwitchPresenter extends BasePresenter<BaseView> implements NetworkS
             param = gson.fromJson(lastParams, NetworkSwitchParam.class);
         }
         return param;
+    }
+
+    @Override
+    public void startTest(NetworkSwitchParam inputParam) {
+
     }
 }

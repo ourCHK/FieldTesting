@@ -3,7 +3,7 @@ package com.gionee.autotest.field.ui.network_switch.model;
 
 public class NetworkSwitchParam {
     public  boolean flightMode;
-    private boolean reboot;
+    public boolean reboot;
     public  boolean isSwitchSim;
     public  long    testRound;
     public  boolean signNetwork;
@@ -24,6 +24,16 @@ public class NetworkSwitchParam {
         this.isNet = isNet;
     }
 
+    public NetworkSwitchParam setReboot(boolean reboot) {
+        this.reboot = reboot;
+        return this;
+    }
+
+    public NetworkSwitchParam setTestRound(long testRound) {
+        this.testRound = testRound;
+        return this;
+    }
+
     public NetworkSwitchParam setFlightMode(boolean flightMode) {
         this.flightMode = flightMode;
         return this;
@@ -31,11 +41,6 @@ public class NetworkSwitchParam {
 
     public NetworkSwitchParam setSwitchSim(boolean switchSim) {
         isSwitchSim = switchSim;
-        return this;
-    }
-
-    public NetworkSwitchParam setTestRound(int testRound) {
-        this.testRound = testRound;
         return this;
     }
 

@@ -13,6 +13,9 @@ interface NetworkSwitchContract {
 
     interface View extends BaseView {
 
+        void updateParams(NetworkSwitchParam param);
+
+        void updateViews();
     }
 
     interface Presenter {
@@ -24,5 +27,7 @@ interface NetworkSwitchContract {
         void exportExcelFile();
 
         NetworkSwitchParam getLastParams();
+
+        void startTest(NetworkSwitchParam inputParam);
     }
 }
