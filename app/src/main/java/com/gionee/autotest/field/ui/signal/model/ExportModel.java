@@ -38,8 +38,6 @@ import jxl.write.WriteException;
 
 public class ExportModel {
 
-    private static final String SEPARATOR = "::" ;
-
     public void exportExcel(final File target, final File destination, final BaseCallback<String> callback){
         Observable.create(new ObservableOnSubscribe<String>() {
             @Override
@@ -108,8 +106,8 @@ public class ExportModel {
         String line ;
         int i = 1 ;
         while((line = mReader.readLine()) != null){
-            if (line.contains(SEPARATOR)){
-                String[] items = line.split(SEPARATOR) ;
+            if (line.contains(Constant.SEPARATOR)){
+                String[] items = line.split(Constant.SEPARATOR) ;
                 if (items.length == 9){
                     //should use another sheet now...
                     if (i > SHEET_MAX_LINES){

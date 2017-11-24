@@ -20,6 +20,10 @@ public class Constant {
     public static final String SIGNAL_DIR              = "signal";
     public static final String SIGNAL_DATA_NAME        = "signal_data.txt";
     public static final String EXPORT_SIGNAL_DATA_NAME = "signal_%s.xls";
+    public static final String CALL_QUALITY_HOME       = "call_quality" ;
+    public static final String CALL_QUALITY_DATA_NAME  = "call_quality_data.txt" ;
+
+    public static final String SEPARATOR               = "::" ;
 
     //Preferences constants
     public static final String PREF_KEY_FIRST_LAUNCH                = "first_launch";

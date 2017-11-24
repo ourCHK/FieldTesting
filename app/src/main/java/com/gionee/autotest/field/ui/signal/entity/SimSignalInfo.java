@@ -2,11 +2,11 @@ package com.gionee.autotest.field.ui.signal.entity;
 
 public class SimSignalInfo {
 
-    public int mLevel = -1;
-
     public boolean mIsActive = false;
 
     public String mNetType = "N/A";
+
+    public int mLevel = -1;
 
     public String mSignal = "N/A";
 

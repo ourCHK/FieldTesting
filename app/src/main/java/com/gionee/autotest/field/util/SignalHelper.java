@@ -119,6 +119,13 @@ public final class SignalHelper {
         return mSim2SignalInfo ;
     }
 
+    public boolean isSimExist(@SIMID int simId){
+        if (simId == SIM_CARD_0){
+            return mSim1SignalInfo != null && mSim1SignalInfo.mIsActive ;
+        }
+        return mSim2SignalInfo != null && mSim2SignalInfo.mIsActive ;
+    }
+
     /**
      * release all resources when all done
      */

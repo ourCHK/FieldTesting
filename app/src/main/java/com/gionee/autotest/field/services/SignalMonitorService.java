@@ -18,6 +18,9 @@ import com.gionee.autotest.field.ui.signal.entity.SimSignalInfo;
 import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.SignalHelper;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -32,8 +35,6 @@ import java.util.TimerTask;
  */
 
 public class SignalMonitorService extends Service{
-
-    private static final String SEPARATOR = "::" ;
 
     private static final int NOTIFICATION_ID = 111 ;
 
@@ -140,21 +141,21 @@ public class SignalMonitorService extends Service{
     private void writeContentToFile(String time, SimSignalInfo infoSim0, SimSignalInfo infoSim2){
         StringBuilder content = new StringBuilder() ;
         content.append(time) ;
-        content.append(SEPARATOR) ;
+        content.append(Constant.SEPARATOR) ;
         content.append(infoSim0.mIsActive) ;
-        content.append(SEPARATOR) ;
+        content.append(Constant.SEPARATOR) ;
         content.append(infoSim0.mLevel) ;
-        content.append(SEPARATOR) ;
+        content.append(Constant.SEPARATOR) ;
         content.append(infoSim0.mNetType) ;
-        content.append(SEPARATOR) ;
+        content.append(Constant.SEPARATOR) ;
         content.append(infoSim0.mSignal) ;
-        content.append(SEPARATOR) ;
+        content.append(Constant.SEPARATOR) ;
         content.append(infoSim2.mIsActive) ;
-        content.append(SEPARATOR) ;
+        content.append(Constant.SEPARATOR) ;
         content.append(infoSim2.mLevel) ;
-        content.append(SEPARATOR) ;
+        content.append(Constant.SEPARATOR) ;
         content.append(infoSim2.mNetType) ;
-        content.append(SEPARATOR) ;
+        content.append(Constant.SEPARATOR) ;
         content.append(infoSim2.mSignal) ;
         try {
             writer.write(content.toString());
