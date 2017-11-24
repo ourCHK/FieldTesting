@@ -66,6 +66,8 @@ dependencies {
     compile 'io.reactivex.rxjava2:rxjava:2.1.5'
     // https://mvnrepository.com/artifact/net.sourceforge.jexcelapi/jxl
     compile group: 'net.sourceforge.jexcelapi', name: 'jxl', version: '2.6.12'
+    // https://mvnrepository.com/artifact/commons-io/commons-io
+    compile group: 'commons-io', name: 'commons-io', version: '2.6'
     compile 'com.android.support:preference-v7:25.4.0'
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test:runner:1.0.0'
