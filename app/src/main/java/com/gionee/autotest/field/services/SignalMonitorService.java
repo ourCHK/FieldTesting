@@ -141,6 +141,7 @@ public class SignalMonitorService extends Service{
     private void writeContentToFile(String time, SimSignalInfo infoSim0, SimSignalInfo infoSim2){
         StringBuilder content = new StringBuilder() ;
         content.append(time) ;
+        if (infoSim0 == null) infoSim0 = new SimSignalInfo() ;
         content.append(Constant.SEPARATOR) ;
         content.append(infoSim0.mIsActive) ;
         content.append(Constant.SEPARATOR) ;
@@ -150,6 +151,7 @@ public class SignalMonitorService extends Service{
         content.append(Constant.SEPARATOR) ;
         content.append(infoSim0.mSignal) ;
         content.append(Constant.SEPARATOR) ;
+        if (infoSim2 == null) infoSim2 = new SimSignalInfo() ;
         content.append(infoSim2.mIsActive) ;
         content.append(Constant.SEPARATOR) ;
         content.append(infoSim2.mLevel) ;
