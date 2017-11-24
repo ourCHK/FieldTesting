@@ -37,8 +37,4 @@ public  interface DataResetContract {
 
     }
 
-//    interface RefreshUi{
-//
-//         void setRefreshUi(boolean isRunning);
-//    }
 }

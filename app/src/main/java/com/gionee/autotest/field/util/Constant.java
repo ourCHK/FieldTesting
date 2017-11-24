@@ -3,6 +3,8 @@ package com.gionee.autotest.field.util;
 import android.os.Environment;
 import android.provider.BaseColumns;
 
+import java.io.File;
+
 /**
  * Created by viking on 11/6/17.
  * <p>
@@ -20,7 +22,6 @@ public class Constant {
     public static final String SIGNAL_DIR              = "signal";
     public static final String SIGNAL_DATA_NAME        = "signal_data.txt";
     public static final String EXPORT_SIGNAL_DATA_NAME = "signal_%s.xls";
-
     public static final String CALL_QUALITY_HOME       = "call_quality" ;
     public static final String CALL_QUALITY_LAST_TIME  = "call_quality_last_time" ;
     public static final String CALL_QUALITY_DATA_NAME  = "call_quality_data.txt" ;
@@ -50,6 +51,13 @@ public class Constant {
 
     public static final String DATA_RESET_RECEIVER = "com.gionee.autotest.field.data.reset.receiver"; //数据重激活完成广播
 
+    public static final String PREF_KEY_MESSAGE_INTERVAL = "message_interval";
+    public static final String PREF_KEY_MESSAGE_PHONE = "message_phone";
+    public static final String PREF_KEY_MESSAGE_DATA_COLLECT_RUNNING  = "message_data_collect_running";
+    public static final String PREF_KEY_MESSAGE_DATA_COLLECT_CURRENT_CYCLE  = "message_data_collect_current_cycle";
+    public static final String MESSAGE_PRESENTATION_NAME  = "message_presentation_name";
+
+
 
     public static final String PREF_NAME = "field_prefs";
 
@@ -59,9 +67,10 @@ public class Constant {
 
     //SD
     // --------------应用缓存文件基本信息-----------------------
-    public static final String PATH_SD = Environment.getExternalStorageDirectory() + "/field/";
+    public static final String PATH_SD = Environment.getExternalStorageDirectory() + File.separator+HOME+File.separator;
 
     public static final String DIR_DATA_RESET = PATH_SD + "data_reset/";
+    public static final String DIR_MESSAGE = PATH_SD + "message/";
 
 
     public static final class APPDB implements BaseColumns {

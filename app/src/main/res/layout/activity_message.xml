@@ -177,7 +177,7 @@
         android:layout_marginLeft="50dp">
 
         <Button
-            android:id="@+id/bt_start_testing"
+            android:id="@+id/bt_message_start_testing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -185,7 +185,7 @@
             android:textColor="@color/colorPrimary"
             android:background="@drawable/bg_stroke"/>
         <Button
-            android:id="@+id/bt_stop_testing"
+            android:id="@+id/bt_message_stop_testing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

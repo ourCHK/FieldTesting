@@ -34,5 +34,10 @@ public class FieldApplication extends Application{
             DIR_DATA_RESET.mkdirs();
         }
 
+        File DIR_MESSAGE = new File(Constant.DIR_MESSAGE);
+        if (!DIR_MESSAGE.exists()){
+            DIR_MESSAGE.mkdirs();
+        }
+
     }
 }

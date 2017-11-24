@@ -191,6 +191,7 @@
         <service android:name=".services.SignalMonitorService"/>
         <service android:name=".services.DataResetServices"/>
         <service android:name=".services.NetworkSwitchService"/>
+        <service android:name=".services.MessageServices"/>
     </application>
 
 </manifest>
