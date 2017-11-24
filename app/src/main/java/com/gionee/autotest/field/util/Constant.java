@@ -24,7 +24,7 @@ public class Constant {
     public static final String CALL_QUALITY_HOME       = "call_quality" ;
     public static final String CALL_QUALITY_LAST_TIME  = "call_quality_last_time" ;
     public static final String CALL_QUALITY_DATA_NAME  = "call_quality_data.txt" ;
-    public static final String CALL_QUALITY_ROUND_NAME = "round_data.txt" ;
+    public static final String EXPORT_CALL_QUALITY_DATA_NAME = "call_quality_%s.xls";
 
     public static final String TIME_STAMP_DIR_FORMAT   = "yyyy-MM-dd_HH-mm-ss" ;
 

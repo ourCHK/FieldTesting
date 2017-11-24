@@ -6,12 +6,19 @@ import android.util.Log;
 import android.view.View;
 
 import com.gionee.autotest.common.Preference;
+import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.services.SignalMonitorService;
 import com.gionee.autotest.field.ui.base.BasePresenter;
+import com.gionee.autotest.field.ui.base.listener.BaseCallback;
 import com.gionee.autotest.field.ui.call_quality.entity.CallQualityConstant;
 import com.gionee.autotest.field.ui.call_quality.entity.QualityEvent;
+import com.gionee.autotest.field.ui.call_quality.model.DataExport;
 import com.gionee.autotest.field.ui.call_quality.model.DataRecord;
+import com.gionee.autotest.field.ui.signal.model.ExportModel;
 import com.gionee.autotest.field.util.Constant;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by Viking on 2017/11/22.
@@ -90,6 +97,40 @@ public class CallQualityPresenter extends BasePresenter<CallQualityContract.View
         Preference.putBoolean(mContext, Constant.PREF_KEY_CALL_QUALITY_RUNNING, false) ;
         mRecord.endTimerTask();
         getView().stopWithSuccessfully();
+    }
+
+    @Override
+    public void doExport(String phone_num, String phone_num_o, File target, File destination) {
+        //first check signal_data.txt exist or not
+        if (!target.exists()){
+            getView().showExportErrorInformation(CallQualityContract.EXPORT_ERROR_CODE_NO_DATA);
+            return ;
+        }
+        try {
+            if (!destination.exists() && !destination.createNewFile()){
+                getView().showExportErrorInformation(CallQualityContract.EXPORT_ERROR_CODE_FAIL_CREATE_DESTINATION_FILE);
+                return ;
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        //do export
+        getView().showLoading(mContext.getString(R.string.export_loading));
+        DataExport export = new DataExport() ;
+        export.exportExcel(phone_num, phone_num_o, target, destination, new BaseCallback<String>() {
+            @Override
+            public void onSuccess(String path) {
+                getView().hideLoading();
+                getView().showExportSuccessInformation(path);
+            }
+
+            @Override
+            public void onFail() {
+                getView().hideLoading();
+                getView().showExportErrorInformation(CallQualityContract.EXPORT_ERROR_CODE_FAILURE);
+            }
+        });
     }
 
     private void startSignalCollectService(){

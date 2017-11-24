@@ -1,15 +1,22 @@
 package com.gionee.autotest.field.ui.call_quality;
 
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.gionee.autotest.common.Preference;
+import com.gionee.autotest.common.TimeUtil;
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.ui.base.BaseActivity;
 import com.gionee.autotest.field.ui.call_quality.entity.CallQualityConstant;
+import com.gionee.autotest.field.util.Constant;
+
+import java.io.File;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -369,6 +376,17 @@ public class CallQualityActivity extends BaseActivity implements CallQualityCont
         setEnableState(btnStart, true);
         setEnableState(btnStop, false);
         setEnableState(mViews, false);
+
+        String quality_dir = Environment.getExternalStorageDirectory()
+                + File.separator + Constant.HOME + File.separator + Constant.CALL_QUALITY_HOME
+                + File.separator + Preference.getString(getApplicationContext(), Constant.CALL_QUALITY_LAST_TIME) ;
+        File target = new File(quality_dir, Constant.CALL_QUALITY_DATA_NAME) ;
+        File destination = new File(quality_dir,
+                String.format(Constant.EXPORT_CALL_QUALITY_DATA_NAME, TimeUtil.getTime("yyyy-MM-dd_HH-mm-ss"))) ;
+        Log.i(Constant.TAG, "call quality target path : " + target.getAbsolutePath()) ;
+        Log.i(Constant.TAG, "call quality destination path : " + destination.getAbsolutePath()) ;
+        mPresenter.doExport(phoneNum.getText().toString(), phoneNumO.getText().toString(),
+                target, destination);
     }
 
     @Override
@@ -499,5 +517,26 @@ public class CallQualityActivity extends BaseActivity implements CallQualityCont
                 setEnableState(btnLoseCallMultiO, false);
                 break ;
         }
+    }
+
+    @Override
+    public void showExportErrorInformation(int errorCode) {
+        switch (errorCode){
+            case CallQualityContract.EXPORT_ERROR_CODE_NO_DATA :
+                Toast.makeText(this, R.string.export_signal_error_no_data, Toast.LENGTH_SHORT).show();
+                break ;
+            case CallQualityContract.EXPORT_ERROR_CODE_FAIL_CREATE_DESTINATION_FILE:
+                Toast.makeText(this, R.string.export_signal_error_create_excel_failure, Toast.LENGTH_SHORT).show();
+                break ;
+            case CallQualityContract.EXPORT_ERROR_CODE_FAILURE:
+                Toast.makeText(this, R.string.export_signal_error_failure, Toast.LENGTH_SHORT).show();
+                break ;
+        }
+    }
+
+    @Override
+    public void showExportSuccessInformation(String path) {
+        Toast.makeText(this, String.format(getString(R.string.export_signal_success), path),
+                Toast.LENGTH_SHORT).show();
     }
 }

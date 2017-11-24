@@ -86,79 +86,81 @@ public class ExportModel {
     private void doConvertStuff(File target, File destination) throws Exception{
         FileReader fr = new FileReader(target) ;
         BufferedReader mReader = new BufferedReader(fr) ;
+        try {
+            int sheetFrom = 0 ;
+            Workbook workbook     = null;
+            WritableWorkbook book = Workbook.createWorkbook(destination) ;
+            WritableSheet   sheet = book.createSheet(String.format(Locale.US, SHEET_NAME, sheetFrom + 1), sheetFrom) ;
 
-        int sheetFrom = 0 ;
-        Workbook workbook     = null;
-        WritableWorkbook book = Workbook.createWorkbook(destination) ;
-        WritableSheet   sheet = book.createSheet(String.format(Locale.US, SHEET_NAME, sheetFrom + 1), sheetFrom) ;
+            WritableFont bold2 = new WritableFont(WritableFont.ARIAL, 12, WritableFont.NO_BOLD);
+            bold2.setColour(Colour.BLACK);
 
-        WritableFont bold2 = new WritableFont(WritableFont.ARIAL, 12, WritableFont.NO_BOLD);
-        bold2.setColour(Colour.BLACK);
+            WritableCellFormat contentFormat = new WritableCellFormat(bold2);
+            contentFormat.setAlignment(Alignment.CENTRE);
+            contentFormat.setVerticalAlignment(VerticalAlignment.CENTRE);
+            contentFormat.setBorder(Border.ALL, BorderLineStyle.THIN);
+            contentFormat.setBackground(Colour.GRAY_25);
 
-        WritableCellFormat contentFormat = new WritableCellFormat(bold2);
-        contentFormat.setAlignment(Alignment.CENTRE);
-        contentFormat.setVerticalAlignment(VerticalAlignment.CENTRE);
-        contentFormat.setBorder(Border.ALL, BorderLineStyle.THIN);
-        contentFormat.setBackground(Colour.GRAY_25);
+            addHeadTitle(sheet);
 
-        addHeadTitle(sheet);
+            String line ;
+            int i = 1 ;
+            while((line = mReader.readLine()) != null){
+                if (line.contains(Constant.SEPARATOR)){
+                    String[] items = line.split(Constant.SEPARATOR) ;
+                    if (items.length == 9){
+                        //should use another sheet now...
+                        if (i > SHEET_MAX_LINES){
+                            book.write();
+                            book.close();
 
-        String line ;
-        int i = 1 ;
-        while((line = mReader.readLine()) != null){
-            if (line.contains(Constant.SEPARATOR)){
-                String[] items = line.split(Constant.SEPARATOR) ;
-                if (items.length == 9){
-                    //should use another sheet now...
-                    if (i > SHEET_MAX_LINES){
-                        book.write();
-                        book.close();
+                            workbook = Workbook.getWorkbook(destination) ;
+                            book = Workbook.createWorkbook(destination, workbook) ;
 
-                        workbook = Workbook.getWorkbook(destination) ;
-                        book = Workbook.createWorkbook(destination, workbook) ;
+                            sheetFrom ++ ;
+                            sheet = book.createSheet(String.format(Locale.US, SHEET_NAME, sheetFrom + 1), sheetFrom) ;
+                            addHeadTitle(sheet);
+                            //reset content from tag
+                            i = 1 ;
+                        }
 
-                        sheetFrom ++ ;
-                        sheet = book.createSheet(String.format(Locale.US, SHEET_NAME, sheetFrom + 1), sheetFrom) ;
-                        addHeadTitle(sheet);
-                        //reset content from tag
-                        i = 1 ;
+                        Label timeLabel             = new Label(0, i, items[0], contentFormat);
+
+                        boolean isSim1Active = Boolean.valueOf(items[1]) ;
+                        Label sim0ActiveLabel       = new Label(1, i, isSim1Active ? "存在" : "不存在", contentFormat);
+                        Label sim0Type              = new Label(2, i, items[2], contentFormat);
+                        Label sim0Level             = new Label(3, i, items[3], contentFormat);
+                        Label sim0Signal            = new Label(4, i, items[4], contentFormat);
+
+                        boolean isSim2Active = Boolean.valueOf(items[1]) ;
+                        Label sim1ActiveLabel       = new Label(5, i, isSim2Active ? "存在" : "不存在", contentFormat);
+                        Label sim1Type              = new Label(6, i, items[6], contentFormat);
+                        Label sim1Level             = new Label(7, i, items[7], contentFormat);
+                        Label sim1Signal            = new Label(8, i, items[8], contentFormat);
+
+                        sheet.addCell(timeLabel);
+                        sheet.addCell(sim0ActiveLabel);
+                        sheet.addCell(sim0Type);
+                        sheet.addCell(sim0Level);
+                        sheet.addCell(sim0Signal);
+                        sheet.addCell(sim1ActiveLabel);
+                        sheet.addCell(sim1Type);
+                        sheet.addCell(sim1Level);
+                        sheet.addCell(sim1Signal);
+                        i ++ ;
                     }
-
-                    Label timeLabel             = new Label(0, i, items[0], contentFormat);
-
-                    boolean isSim1Active = Boolean.valueOf(items[1]) ;
-                    Label sim0ActiveLabel       = new Label(1, i, isSim1Active ? "存在" : "不存在", contentFormat);
-                    Label sim0Type              = new Label(2, i, items[2], contentFormat);
-                    Label sim0Level             = new Label(3, i, items[3], contentFormat);
-                    Label sim0Signal            = new Label(4, i, items[4], contentFormat);
-
-                    boolean isSim2Active = Boolean.valueOf(items[1]) ;
-                    Label sim1ActiveLabel       = new Label(5, i, isSim2Active ? "存在" : "不存在", contentFormat);
-                    Label sim1Type              = new Label(6, i, items[6], contentFormat);
-                    Label sim1Level             = new Label(7, i, items[7], contentFormat);
-                    Label sim1Signal            = new Label(8, i, items[8], contentFormat);
-
-                    sheet.addCell(timeLabel);
-                    sheet.addCell(sim0ActiveLabel);
-                    sheet.addCell(sim0Type);
-                    sheet.addCell(sim0Level);
-                    sheet.addCell(sim0Signal);
-                    sheet.addCell(sim1ActiveLabel);
-                    sheet.addCell(sim1Type);
-                    sheet.addCell(sim1Level);
-                    sheet.addCell(sim1Signal);
-                    i ++ ;
                 }
             }
-        }
 
-        book.write();
-        book.close();
-        if (workbook != null){
-            workbook.close();
+            book.write();
+            book.close();
+            if (workbook != null){
+                workbook.close();
+            }
+        }finally {
+            fr.close();
+            mReader.close();
         }
-        fr.close();
-        mReader.close();
     }
 
     private void addHeadTitle(WritableSheet sheet) throws WriteException {
