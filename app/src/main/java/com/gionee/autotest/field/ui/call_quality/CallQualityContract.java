@@ -31,9 +31,9 @@ interface CallQualityContract {
 
     interface Presenter {
 
-        void checkRunningSingle(android.view.View view) ;
+        void checkRunningSingle(android.view.View view, int phone_num, int quality_type, int event_type) ;
 
-        void checkRunningMulti(android.view.View view) ;
+        void checkRunningMulti(android.view.View view, int phone_num, int quality_type, int event_type) ;
 
         void onStartClicked(String phone_num, String phone_num_o) ;
 

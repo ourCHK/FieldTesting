@@ -8,6 +8,8 @@ import android.view.View;
 import com.gionee.autotest.common.Preference;
 import com.gionee.autotest.field.services.SignalMonitorService;
 import com.gionee.autotest.field.ui.base.BasePresenter;
+import com.gionee.autotest.field.ui.call_quality.entity.CallQualityConstant;
+import com.gionee.autotest.field.ui.call_quality.entity.QualityEvent;
 import com.gionee.autotest.field.ui.call_quality.model.DataRecord;
 import com.gionee.autotest.field.util.Constant;
 
@@ -36,7 +38,7 @@ public class CallQualityPresenter extends BasePresenter<CallQualityContract.View
     }
 
     @Override
-    public void checkRunningSingle(View view) {
+    public void checkRunningSingle(View view, int phone_num, int quality_type, int event_type) {
         Log.i(Constant.TAG, "checkRunningSingle.") ;
         if (!Preference.getBoolean(mContext, Constant.PREF_KEY_CALL_QUALITY_RUNNING, false)){
             getView().showNotRunningMsg();
@@ -45,10 +47,11 @@ public class CallQualityPresenter extends BasePresenter<CallQualityContract.View
         }
         Log.i(Constant.TAG, "checkRunningSingle change multi button state to true.") ;
         getView().onSingleClicked(view);
+        mRecord.onEventClicked(new QualityEvent(phone_num, quality_type, event_type)) ;
     }
 
     @Override
-    public void checkRunningMulti(View view) {
+    public void checkRunningMulti(View view, int phone_num, int quality_type, int event_type) {
         Log.i(Constant.TAG, "checkRunningMulti.") ;
         if (!Preference.getBoolean(mContext, Constant.PREF_KEY_CALL_QUALITY_RUNNING, false)){
             getView().showNotRunningMsg();
@@ -57,7 +60,9 @@ public class CallQualityPresenter extends BasePresenter<CallQualityContract.View
         }
         Log.i(Constant.TAG, "checkRunningMulti change multi button state to false.") ;
         getView().onMultiClicked(view);
+        mRecord.onEventClicked(new QualityEvent(phone_num, quality_type, event_type)) ;
     }
+
 
     @Override
     public void onStartClicked(String phone_num, String phone_num_o) {
@@ -74,6 +79,8 @@ public class CallQualityPresenter extends BasePresenter<CallQualityContract.View
             getView().startWithSuccessfully();
         }else{
             getView().onNextRoundClicked();
+            //SEND next event
+            mRecord.onEventClicked(new QualityEvent(CallQualityConstant.NEXT_ROUND, -1, -1));
         }
     }
 

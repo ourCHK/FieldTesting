@@ -4,12 +4,12 @@ import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 
+import com.gionee.autotest.common.Preference;
 import com.gionee.autotest.common.TimeUtil;
+import com.gionee.autotest.field.ui.call_quality.entity.QualityEvent;
 import com.gionee.autotest.field.ui.signal.entity.SimSignalInfo;
 import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.SignalHelper;
-
-import org.apache.commons.io.FileUtils;
 
 import java.io.BufferedWriter;
 import java.io.Closeable;
@@ -27,20 +27,40 @@ import java.util.TimerTask;
 
 public class DataRecord {
 
+    private static final int INTERVAL   = 1000 ;
+
     private Context mContext ;
 
     private Timer mTimer ;
 
     private FileWriter      fw          = null ;
     private BufferedWriter  writer      = null ;
-    private FileWriter      fwRound     = null ;
-    private BufferedWriter  writerRound = null ;
+/*    private FileWriter      fwRound     = null ;
+    private BufferedWriter  writerRound = null ;*/
 
     private SimSignalInfo   mSim1SignalInfo ;
     private SimSignalInfo   mSim2SignalInfo ;
 
     public DataRecord(Context mContext){
         this.mContext = mContext ;
+    }
+
+    public void onEventClicked(QualityEvent event){
+        synchronized (this){
+            String time = TimeUtil.getTime() ;
+            StringBuilder content = new StringBuilder() ;
+            content.append(time) ;
+            content.append(Constant.SEPARATOR) ;
+            content.append(event.toString()) ;
+            try {
+                writer.write(content.toString());
+                writer.newLine();
+                writer.flush();
+            }catch (IOException e){
+                Log.i(Constant.TAG, "write sim signal info to file exception : " + e.getMessage()) ;
+                e.printStackTrace();
+            }
+        }
     }
 
     public void initEnvironment(){
@@ -52,16 +72,22 @@ public class DataRecord {
         //make sure signal directory exist
         File call_quality_home = new File(Environment.getExternalStorageDirectory()
                 + File.separator + Constant.HOME, Constant.CALL_QUALITY_HOME);
-        if (call_quality_home.exists() && call_quality_home.isDirectory()){
-            Log.i(Constant.TAG, "delete call quality...") ;
-            FileUtils.deleteQuietly(call_quality_home);
-        }
         if (!call_quality_home.exists() && !call_quality_home.mkdirs()){
             Log.i(Constant.TAG, "make call quality directory failed...") ;
             return ;
         }
+
+        String time_stamp = TimeUtil.getTime(Constant.TIME_STAMP_DIR_FORMAT) ;
+        Preference.putString(mContext, Constant.CALL_QUALITY_LAST_TIME, time_stamp) ;
+
+        File time_dir = new File(call_quality_home, time_stamp) ;
+        if (!time_dir.exists() && !time_dir.mkdirs()){
+            Log.i(Constant.TAG, "make call quality time stamp directory failed...") ;
+            return ;
+        }
+
         //for call quality signal data
-        File call_quality_data = new File(call_quality_home, Constant.CALL_QUALITY_DATA_NAME) ;
+        File call_quality_data = new File(time_dir, Constant.CALL_QUALITY_DATA_NAME) ;
         if (call_quality_data.exists() && !call_quality_data.delete()){
             Log.i(Constant.TAG, "fail to delete exist signal data file...") ;
             return ;
@@ -76,7 +102,7 @@ public class DataRecord {
         }catch (IOException e){ e.printStackTrace();}
 
         //for call qualify round info
-        File call_quality_round_data = new File(call_quality_home, Constant.CALL_QUALITY_ROUND_NAME) ;
+/*        File call_quality_round_data = new File(time_dir, Constant.CALL_QUALITY_ROUND_NAME) ;
         if (call_quality_round_data.exists() && !call_quality_round_data.delete()){
             Log.i(Constant.TAG, "fail to delete exist round data file...") ;
             return ;
@@ -88,7 +114,7 @@ public class DataRecord {
             }
             fwRound = new FileWriter(call_quality_round_data, true) ;
             writerRound = new BufferedWriter(fwRound) ;
-        }catch (IOException e){ e.printStackTrace();}
+        }catch (IOException e){ e.printStackTrace();}*/
     }
 
     public void startTimerTask(){
@@ -113,38 +139,41 @@ public class DataRecord {
                 writeContentToFile(mSim1SignalInfo, mSim2SignalInfo) ;
             }
         } ;
-        mTimer.schedule(mTask, 3 * 1000, 1000);
+        // delay 3 seconds...
+        mTimer.schedule(mTask, 3 * INTERVAL, INTERVAL);
     }
 
     private void writeContentToFile(SimSignalInfo infoSim0, SimSignalInfo infoSim2){
-        String time = TimeUtil.getTime() ;
-        StringBuilder content = new StringBuilder() ;
-        content.append(time) ;
-        if (infoSim0 == null) infoSim0 = new SimSignalInfo() ;
-        content.append(Constant.SEPARATOR) ;
-        content.append(infoSim0.mIsActive) ;
-        content.append(Constant.SEPARATOR) ;
-        content.append(infoSim0.mLevel) ;
-        content.append(Constant.SEPARATOR) ;
-        content.append(infoSim0.mNetType) ;
-        content.append(Constant.SEPARATOR) ;
-        content.append(infoSim0.mSignal) ;
-        content.append(Constant.SEPARATOR) ;
-        if (infoSim2 == null) infoSim2 = new SimSignalInfo() ;
-        content.append(infoSim2.mIsActive) ;
-        content.append(Constant.SEPARATOR) ;
-        content.append(infoSim2.mLevel) ;
-        content.append(Constant.SEPARATOR) ;
-        content.append(infoSim2.mNetType) ;
-        content.append(Constant.SEPARATOR) ;
-        content.append(infoSim2.mSignal) ;
-        try {
-            writer.write(content.toString());
-            writer.newLine();
-            writer.flush();
-        }catch (IOException e){
-            Log.i(Constant.TAG, "write sim signal info to file exception : " + e.getMessage()) ;
-            e.printStackTrace();
+        synchronized (this){
+            String time = TimeUtil.getTime() ;
+            StringBuilder content = new StringBuilder() ;
+            content.append(time) ;
+            if (infoSim0 == null) infoSim0 = new SimSignalInfo() ;
+            content.append(Constant.SEPARATOR) ;
+            content.append(infoSim0.mIsActive) ;
+            content.append(Constant.SEPARATOR) ;
+            content.append(infoSim0.mLevel) ;
+            content.append(Constant.SEPARATOR) ;
+            content.append(infoSim0.mNetType) ;
+            content.append(Constant.SEPARATOR) ;
+            content.append(infoSim0.mSignal) ;
+            content.append(Constant.SEPARATOR) ;
+            if (infoSim2 == null) infoSim2 = new SimSignalInfo() ;
+            content.append(infoSim2.mIsActive) ;
+            content.append(Constant.SEPARATOR) ;
+            content.append(infoSim2.mLevel) ;
+            content.append(Constant.SEPARATOR) ;
+            content.append(infoSim2.mNetType) ;
+            content.append(Constant.SEPARATOR) ;
+            content.append(infoSim2.mSignal) ;
+            try {
+                writer.write(content.toString());
+                writer.newLine();
+                writer.flush();
+            }catch (IOException e){
+                Log.i(Constant.TAG, "write sim signal info to file exception : " + e.getMessage()) ;
+                e.printStackTrace();
+            }
         }
     }
 
@@ -156,8 +185,8 @@ public class DataRecord {
         //close all stream
         closeQuietly(fw);
         closeQuietly(writer);
-        closeQuietly(fwRound);
-        closeQuietly(writerRound);
+/*        closeQuietly(fwRound);
+        closeQuietly(writerRound);*/
     }
 
     private void closeQuietly(Closeable stream){

@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.ui.base.BaseActivity;
+import com.gionee.autotest.field.ui.call_quality.entity.CallQualityConstant;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -162,30 +163,176 @@ public class CallQualityActivity extends BaseActivity implements CallQualityCont
         }
     }
 
-    @OnClick({R.id.quality_continue_single, R.id.quality_continue_single_other,
-        R.id.quality_low_vol_single, R.id.quality_low_vol_single_other,
-        R.id.quality_noise_single, R.id.quality_noise_single_other,
-        R.id.quality_loop_single, R.id.quality_loop_single_other,
-        R.id.quality_no_vol_single, R.id.quality_no_vol_single_other,
-        R.id.quality_lose_vol_single, R.id.quality_lose_vol_single_other,
-        R.id.quality_current_single, R.id.quality_current_single_other,
-        R.id.quality_hao_single, R.id.quality_hao_single_other,
-        R.id.quality_lose_call_single, R.id.quality_lose_call_single_other})
+    @OnClick({R.id.quality_continue_single,
+        R.id.quality_low_vol_single,
+        R.id.quality_noise_single,
+        R.id.quality_loop_single,
+        R.id.quality_no_vol_single,
+        R.id.quality_lose_vol_single,
+        R.id.quality_current_single,
+        R.id.quality_hao_single,
+        R.id.quality_lose_call_single})
     void onSingleButtonClicked(View view){
-        mPresenter.checkRunningSingle(view);
+        int quality_type = CallQualityConstant.QUALITY_TYPE_UNKNOWN ;
+        switch (view.getId()){
+            case R.id.quality_continue_single :
+                quality_type = CallQualityConstant.QUALITY_TYPE_CONTINUE ;
+                break ;
+            case R.id.quality_low_vol_single :
+                quality_type = CallQualityConstant.QUALITY_TYPE_LOW_VOL ;
+                break ;
+            case R.id.quality_noise_single :
+                quality_type = CallQualityConstant.QUALITY_TYPE_NOISE ;
+                break ;
+            case R.id.quality_loop_single :
+                quality_type = CallQualityConstant.QUALITY_TYPE_LOOP ;
+                break ;
+            case R.id.quality_no_vol_single :
+                quality_type = CallQualityConstant.QUALITY_TYPE_NO_VOL ;
+                break ;
+            case R.id.quality_lose_vol_single :
+                quality_type = CallQualityConstant.QUALITY_TYPE_LOSE_VOL ;
+                break ;
+            case R.id.quality_current_single :
+                quality_type = CallQualityConstant.QUALITY_TYPE_CURRENT ;
+                break ;
+            case R.id.quality_hao_single :
+                quality_type = CallQualityConstant.QUALITY_TYPE_HAO ;
+                break ;
+            case R.id.quality_lose_call_single :
+                quality_type = CallQualityConstant.QUALITY_TYPE_LOSE_CALL ;
+                break ;
+        }
+        mPresenter.checkRunningSingle(view, CallQualityConstant.PHONE_NUM_1, quality_type, CallQualityConstant.EVENT_TYPE_SINGLE);
     }
 
-    @OnClick({R.id.quality_continue_multi, R.id.quality_continue_multi_other,
-            R.id.quality_low_vol_multi, R.id.quality_low_vol_multi_other,
-            R.id.quality_noise_multi, R.id.quality_noise_multi_other,
-            R.id.quality_loop_multi, R.id.quality_loop_multi_other,
-            R.id.quality_no_vol_multi, R.id.quality_no_vol_multi_other,
-            R.id.quality_lose_vol_multi, R.id.quality_lose_vol_multi_other,
-            R.id.quality_current_multi, R.id.quality_current_multi_other,
-            R.id.quality_hao_multi, R.id.quality_hao_multi_other,
-            R.id.quality_lose_call_multi, R.id.quality_lose_call_multi_other})
+    @OnClick({R.id.quality_continue_multi,
+            R.id.quality_low_vol_multi,
+            R.id.quality_noise_multi,
+            R.id.quality_loop_multi,
+            R.id.quality_no_vol_multi,
+            R.id.quality_lose_vol_multi,
+            R.id.quality_current_multi,
+            R.id.quality_hao_multi,
+            R.id.quality_lose_call_multi})
     void onMultiButtonClicked(View view){
-        mPresenter.checkRunningMulti(view);
+        int quality_type = CallQualityConstant.QUALITY_TYPE_UNKNOWN ;
+        switch (view.getId()){
+            case R.id.quality_continue_multi :
+                quality_type = CallQualityConstant.QUALITY_TYPE_CONTINUE ;
+                break ;
+            case R.id.quality_low_vol_multi :
+                quality_type = CallQualityConstant.QUALITY_TYPE_LOW_VOL ;
+                break ;
+            case R.id.quality_noise_multi :
+                quality_type = CallQualityConstant.QUALITY_TYPE_NOISE ;
+                break ;
+            case R.id.quality_loop_multi :
+                quality_type = CallQualityConstant.QUALITY_TYPE_LOOP ;
+                break ;
+            case R.id.quality_no_vol_multi :
+                quality_type = CallQualityConstant.QUALITY_TYPE_NO_VOL ;
+                break ;
+            case R.id.quality_lose_vol_multi :
+                quality_type = CallQualityConstant.QUALITY_TYPE_LOSE_VOL ;
+                break ;
+            case R.id.quality_current_multi :
+                quality_type = CallQualityConstant.QUALITY_TYPE_CURRENT ;
+                break ;
+            case R.id.quality_hao_multi :
+                quality_type = CallQualityConstant.QUALITY_TYPE_HAO ;
+                break ;
+            case R.id.quality_lose_call_multi :
+                quality_type = CallQualityConstant.QUALITY_TYPE_LOSE_CALL ;
+                break ;
+        }
+        mPresenter.checkRunningMulti(view, CallQualityConstant.PHONE_NUM_1, quality_type, CallQualityConstant.EVENT_TYPE_MULTI);
+    }
+
+    @OnClick({R.id.quality_continue_single_other,
+            R.id.quality_low_vol_single_other,
+            R.id.quality_noise_single_other,
+            R.id.quality_loop_single_other,
+            R.id.quality_no_vol_single_other,
+            R.id.quality_lose_vol_single_other,
+            R.id.quality_current_single_other,
+            R.id.quality_hao_single_other,
+            R.id.quality_lose_call_single_other})
+    void onSingleOtherButtonClicked(View view){
+        int quality_type = CallQualityConstant.QUALITY_TYPE_UNKNOWN ;
+        switch (view.getId()){
+            case R.id.quality_continue_single_other :
+                quality_type = CallQualityConstant.QUALITY_TYPE_CONTINUE ;
+                break ;
+            case R.id.quality_low_vol_single_other :
+                quality_type = CallQualityConstant.QUALITY_TYPE_LOW_VOL ;
+                break ;
+            case R.id.quality_noise_single_other :
+                quality_type = CallQualityConstant.QUALITY_TYPE_NOISE ;
+                break ;
+            case R.id.quality_loop_single_other :
+                quality_type = CallQualityConstant.QUALITY_TYPE_LOOP ;
+                break ;
+            case R.id.quality_no_vol_single_other :
+                quality_type = CallQualityConstant.QUALITY_TYPE_NO_VOL;
+                break ;
+            case R.id.quality_lose_vol_single_other :
+                quality_type = CallQualityConstant.QUALITY_TYPE_LOSE_VOL ;
+                break ;
+            case R.id.quality_current_single_other :
+                quality_type = CallQualityConstant.QUALITY_TYPE_CURRENT ;
+                break ;
+            case R.id.quality_hao_single_other :
+                quality_type = CallQualityConstant.QUALITY_TYPE_HAO ;
+                break ;
+            case R.id.quality_lose_call_single_other :
+                quality_type = CallQualityConstant.QUALITY_TYPE_LOSE_CALL ;
+                break ;
+        }
+        mPresenter.checkRunningSingle(view, CallQualityConstant.PHONE_NUM_2, quality_type, CallQualityConstant.EVENT_TYPE_SINGLE);
+    }
+
+    @OnClick({R.id.quality_continue_multi_other,
+            R.id.quality_low_vol_multi_other,
+            R.id.quality_noise_multi_other,
+            R.id.quality_loop_multi_other,
+            R.id.quality_no_vol_multi_other,
+            R.id.quality_lose_vol_multi_other,
+            R.id.quality_current_multi_other,
+            R.id.quality_hao_multi_other,
+            R.id.quality_lose_call_multi_other})
+    void onMultiOtherButtonClicked(View view){
+        int quality_type = CallQualityConstant.QUALITY_TYPE_UNKNOWN ;
+        switch (view.getId()){
+            case R.id.quality_continue_multi_other :
+                quality_type = CallQualityConstant.QUALITY_TYPE_CONTINUE ;
+                break ;
+            case R.id.quality_low_vol_multi_other :
+                quality_type = CallQualityConstant.QUALITY_TYPE_LOW_VOL ;
+                break ;
+            case R.id.quality_noise_multi_other :
+                quality_type = CallQualityConstant.QUALITY_TYPE_NOISE ;
+                break ;
+            case R.id.quality_loop_multi_other :
+                quality_type = CallQualityConstant.QUALITY_TYPE_LOOP ;
+                break ;
+            case R.id.quality_no_vol_multi_other :
+                quality_type = CallQualityConstant.QUALITY_TYPE_NO_VOL ;
+                break ;
+            case R.id.quality_lose_vol_multi_other :
+                quality_type = CallQualityConstant.QUALITY_TYPE_LOSE_VOL ;
+                break ;
+            case R.id.quality_current_multi_other :
+                quality_type = CallQualityConstant.QUALITY_TYPE_CURRENT ;
+                break ;
+            case R.id.quality_hao_multi_other :
+                quality_type = CallQualityConstant.QUALITY_TYPE_HAO ;
+                break ;
+            case R.id.quality_lose_call_multi_other :
+                quality_type = CallQualityConstant.QUALITY_TYPE_LOSE_CALL ;
+                break ;
+        }
+        mPresenter.checkRunningMulti(view, CallQualityConstant.PHONE_NUM_2, quality_type, CallQualityConstant.EVENT_TYPE_MULTI);
     }
 
     @OnClick(R.id.call_quality_start)
