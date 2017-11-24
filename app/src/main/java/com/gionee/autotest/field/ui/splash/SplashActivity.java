@@ -178,7 +178,12 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
     }
 
     private void realNavigateToMainScreen(){
+        //TODO fix this!!!
         //init signal monitor service
+        Log.i(Constant.TAG, "PREF_KEY_MONITOR_SIGNAL : "
+                + Preference.getBoolean(getApplicationContext(), Constant.PREF_KEY_MONITOR_SIGNAL, false)) ;
+        Log.i(Constant.TAG, "PREF_KEY_MANUAL_STOP_MONITOR_SIGNAL : "
+                + Preference.getBoolean(getApplicationContext(), Constant.PREF_KEY_MANUAL_STOP_MONITOR_SIGNAL, false)) ;
         if(!Preference.getBoolean(getApplicationContext(), Constant.PREF_KEY_MONITOR_SIGNAL, false)
                 //is manual stop service?
                 && !Preference.getBoolean(getApplicationContext(), Constant.PREF_KEY_MANUAL_STOP_MONITOR_SIGNAL, false)){
