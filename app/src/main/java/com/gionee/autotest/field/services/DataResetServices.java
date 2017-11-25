@@ -28,7 +28,7 @@ public class DataResetServices extends Service {
         //获取报告名字
         String data_reset_presentation_name = Preference.getString(getApplicationContext(), Constant.DATA_RESET_PRESENTATION_NAME, "");
         //添加标题
-        DataResetHelper.exportExcel(Constant.DIR_DATA_RESET+data_reset_presentation_name+".xls");
+        DataResetHelper.exportExcel(Constant.DIR_DATA_RESET+data_reset_presentation_name);
 
         new Thread(new Runnable() {
             @Override

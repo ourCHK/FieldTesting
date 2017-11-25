@@ -13,6 +13,7 @@ import com.gionee.autotest.field.ui.base.BasePresenter;
 import com.gionee.autotest.field.ui.data_reset.DataResetContract;
 import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.DataResetHelper;
+import com.gionee.autotest.field.util.MessageHelper;
 import com.gionee.autotest.field.util.RegexUtils;
 
 /**
@@ -43,15 +44,17 @@ public class MessagePresenter extends BasePresenter<MessageContract.View> implem
 //            return ;
 //        }
         //read time interval
-//        long interval = Preference.getLong(context, Constant.PREF_KEY_DATA_RESET_INTERVAL, 1) ;
-//        getView().setDefaultInterval(interval + "");
-//        if (Preference.getBoolean(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_RUNNING, false)){
-//            getView().setStartButtonVisibility(false);
-//            getView().setStopButtonVisibility(true);
-//        }else {
-//            getView().setStartButtonVisibility(true);
-//            getView().setStopButtonVisibility(false);
-//        }
+//        Preference.putLong(context, Constant.PREF_KEY_MESSAGE_INTERVAL, Long.parseLong(time)) ;
+        long interval = Preference.getLong(context, Constant.PREF_KEY_MESSAGE_INTERVAL, 5) ;
+        String phone = Preference.getString(context, Constant.PREF_KEY_MESSAGE_PHONE, "");
+        getView().setDefaultInterval(interval + "",phone);
+        if (Preference.getBoolean(context, Constant.PREF_KEY_MESSAGE_DATA_COLLECT_RUNNING, false)){
+            getView().setStartButtonVisibility(false);
+            getView().setStopButtonVisibility(true);
+        }else {
+            getView().setStartButtonVisibility(true);
+            getView().setStopButtonVisibility(false);
+        }
     }
 
 
@@ -102,22 +105,22 @@ public class MessagePresenter extends BasePresenter<MessageContract.View> implem
     @Override
     public void setInterval(String et_phone,String time) {
 
-        Preference.putString(context,Constant.MESSAGE_PRESENTATION_NAME, DataResetHelper.getTimeData());
+        Preference.putString(context,Constant.MESSAGE_PRESENTATION_NAME, MessageHelper.getTimeData()+".xls");
         Preference.putBoolean(context, Constant.PREF_KEY_MESSAGE_DATA_COLLECT_RUNNING, true) ;
         Preference.putLong(context, Constant.PREF_KEY_MESSAGE_DATA_COLLECT_CURRENT_CYCLE, 1) ;
 
         Preference.putLong(context, Constant.PREF_KEY_MESSAGE_INTERVAL, Long.parseLong(time)) ;
-        Preference.putLong(context, Constant.PREF_KEY_MESSAGE_PHONE, Long.parseLong(et_phone)) ;
+        Preference.putString(context, Constant.PREF_KEY_MESSAGE_PHONE,et_phone) ;
 
     }
 
     @Override
     public void registerMessageListener(String phone,String interval,int message_type) {
-        setInterval(interval,phone);
+        setInterval(phone,interval);
         setMessageRunning(true);
         Intent intent = new Intent(context, MessageServices.class);
         Bundle bundle = new Bundle();
-        bundle.putString("phone",phone);
+//        bundle.putString("phone",phone);
         bundle.putInt("message_type",message_type);
         intent.putExtras(bundle);
         context.startService(intent);
@@ -128,6 +131,7 @@ public class MessagePresenter extends BasePresenter<MessageContract.View> implem
     @Override
     public void unregisterMessageListener() {
         setMessageRunning(false);
+        Preference.putBoolean(context, Constant.PREF_KEY_MESSAGE_DATA_COLLECT_RUNNING, false) ;
         Intent intent = new Intent(context, MessageServices.class);
         context.stopService(intent);
     }

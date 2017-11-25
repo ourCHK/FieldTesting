@@ -57,6 +57,13 @@ public class Constant {
     public static final String PREF_KEY_MESSAGE_DATA_COLLECT_CURRENT_CYCLE  = "message_data_collect_current_cycle";
     public static final String MESSAGE_PRESENTATION_NAME  = "message_presentation_name";
 
+    public static final String MESSAGE_CENTEXT  = "message_centext";
+
+    public static final String MESSAGE_RECEIVER = "com.gionee.autotest.field.message.receiver"; //信息发送完成广播
+
+    // 自定义ACTION常数作为Intent Filter识别常数
+    public static final String SMS_SEND_ACTION = "message_sms_send_action";
+
 
 
     public static final String PREF_NAME = "field_prefs";

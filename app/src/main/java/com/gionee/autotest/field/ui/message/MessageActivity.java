@@ -1,5 +1,9 @@
 package com.gionee.autotest.field.ui.message;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.support.annotation.IdRes;
 import android.support.annotation.RequiresApi;
@@ -14,8 +18,10 @@ import android.widget.Toast;
 import com.gionee.autotest.common.information.SMSUtils;
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.ui.base.BaseActivity;
+import com.gionee.autotest.field.ui.data_reset.DataResetActivity;
 import com.gionee.autotest.field.ui.data_reset.DataResetContract;
 import com.gionee.autotest.field.ui.data_reset.DataResetPresenter;
+import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.RegexUtils;
 
 import butterknife.BindView;
@@ -69,6 +75,8 @@ public class MessageActivity extends BaseActivity implements RadioGroup.OnChecke
      */
     private int sim;
 
+    private LocalMessageReceiver localMessageReceiver;
+
 
     @Override
     protected int layoutResId() {
@@ -83,6 +91,12 @@ public class MessageActivity extends BaseActivity implements RadioGroup.OnChecke
         rg_message_type.setOnCheckedChangeListener(this);
         rg_sim.setOnCheckedChangeListener(this);
 
+        //注册广播
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Constant.MESSAGE_RECEIVER);
+        localMessageReceiver = new LocalMessageReceiver();
+        registerReceiver(localMessageReceiver, intentFilter);
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -95,7 +109,6 @@ public class MessageActivity extends BaseActivity implements RadioGroup.OnChecke
     void onDataResetStopClicked() {
         Toast.makeText(this, R.string.stop_testing, Toast.LENGTH_SHORT).show();
         mMessagePresenter.unregisterMessageListener();
-//        mDataResetPresenter.unregisterDataResetListener();
     }
 
     @Override
@@ -155,8 +168,11 @@ public class MessageActivity extends BaseActivity implements RadioGroup.OnChecke
 
     }
 
+
     @Override
-    public void setDefaultInterval(String time) {
+    public void setDefaultInterval(String time, String phone) {
+        et_frequency.setText(time);
+        et_phone.setText(phone);
 
     }
 
@@ -173,6 +189,11 @@ public class MessageActivity extends BaseActivity implements RadioGroup.OnChecke
     @Override
     public void showPhoneError() {
         Toast.makeText(this, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void setDefaultInterval(String time) {
+
     }
 
     @Override
@@ -193,5 +214,16 @@ public class MessageActivity extends BaseActivity implements RadioGroup.OnChecke
     @Override
     public void setStopButtonVisibility(boolean visibility) {
         bt_message_stop_testing.setEnabled(visibility);
+    }
+
+    class LocalMessageReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Toast.makeText(context,"测试完成",Toast.LENGTH_SHORT).show();
+            bt_message_start_testing.setEnabled(true);
+            bt_message_stop_testing.setEnabled(false);
+
+        }
     }
 }

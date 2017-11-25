@@ -10,7 +10,7 @@ public interface MessageContract {
 
     interface View extends BaseView {
 
-        void setDefaultInterval(String time) ;
+        void setDefaultInterval(String time,String phone) ;
 
         void showMessageTypeError() ;
 

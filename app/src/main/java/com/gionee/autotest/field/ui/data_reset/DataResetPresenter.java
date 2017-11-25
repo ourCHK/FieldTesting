@@ -83,7 +83,7 @@ public class DataResetPresenter extends BasePresenter<DataResetContract.View> im
     public void registerDataResetListener(String interval) {
         setInterval(interval);
         setDataResetRunning(true);
-        Preference.putString(context,Constant.DATA_RESET_PRESENTATION_NAME, DataResetHelper.getTimeData());
+        Preference.putString(context,Constant.DATA_RESET_PRESENTATION_NAME, DataResetHelper.getTimeData()+".xls");
         Preference.putBoolean(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_RUNNING, true) ;
         Preference.putLong(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, 1) ;
 //        YUtils.setMobileDataState(context,true);
