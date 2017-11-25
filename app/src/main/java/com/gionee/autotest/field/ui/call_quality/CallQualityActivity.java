@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import com.gionee.autotest.common.Preference;
 import com.gionee.autotest.common.TimeUtil;
 import com.gionee.autotest.field.R;
+import com.gionee.autotest.field.ui.about.AboutActivity;
 import com.gionee.autotest.field.ui.base.BaseActivity;
 import com.gionee.autotest.field.ui.call_quality.entity.CallQualityConstant;
 import com.gionee.autotest.field.util.Constant;
@@ -127,6 +129,21 @@ public class CallQualityActivity extends BaseActivity implements CallQualityCont
     @Override
     protected int layoutResId() {
         return R.layout.activity_call_quality;
+    }
+
+    @Override
+    protected int menuResId() {
+        return R.menu.menu_signal;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.about:
+                startActivity(AboutActivity.getAboutIntent(this, getString(R.string.signal_about), true));
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -344,15 +361,15 @@ public class CallQualityActivity extends BaseActivity implements CallQualityCont
 
     @OnClick(R.id.call_quality_start)
     void onStartClicked(){
-        String quality_dir = Environment.getExternalStorageDirectory()
+        //FOR TEST ONLY!!!
+/*        String quality_dir = Environment.getExternalStorageDirectory()
                 + File.separator + Constant.HOME + File.separator + Constant.CALL_QUALITY_HOME;
         File target = new File(quality_dir, Constant.CALL_QUALITY_DATA_NAME) ;
         File destination = new File(quality_dir,
                 String.format(Constant.EXPORT_CALL_QUALITY_DATA_NAME, TimeUtil.getTime("yyyy-MM-dd_HH-mm-ss"))) ;
         mPresenter.doExport(phoneNum.getText().toString(), phoneNumO.getText().toString(),
-                target, destination);
-
-//        mPresenter.onStartClicked(phoneNum.getText().toString(), phoneNumO.getText().toString());
+                target, destination);*/
+        mPresenter.onStartClicked(phoneNum.getText().toString(), phoneNumO.getText().toString());
     }
 
     @OnClick(R.id.call_quality_end)
