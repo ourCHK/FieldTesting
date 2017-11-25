@@ -4,13 +4,17 @@ import android.util.Log;
 
 import com.gionee.autotest.field.ui.base.listener.BaseCallback;
 import com.gionee.autotest.field.ui.call_quality.entity.BaseEvent;
+import com.gionee.autotest.field.ui.call_quality.entity.CallQualityConstant;
 import com.gionee.autotest.field.ui.call_quality.entity.QualityEventWrapper;
+import com.gionee.autotest.field.ui.call_quality.entity.RoundInfoData;
 import com.gionee.autotest.field.ui.call_quality.entity.SimSignalInfoWrapper;
 import com.gionee.autotest.field.util.Constant;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -72,6 +76,36 @@ public class DataExport {
     }
 
     private void doConvertStuff(String phone_num, String phone_num_o, File target, File destination) throws Exception{
+
+        List<BaseEvent> data = convertDataFromFile(target) ;
+
+        List<RoundInfoData> roundInfos = analysisData(data) ;
+
+        int i = 1 ;
+        for (RoundInfoData round : roundInfos){
+            Log.i(Constant.TAG, "-------------- round " + i + " ----------------") ;
+            List<QualityEventWrapper> events = round.getRoundDatas() ;
+            if (events != null && events.size() > 0){
+                for (QualityEventWrapper event : events){
+                    Log.i(Constant.TAG, "quality event -------------") ;
+                    Log.i(Constant.TAG, event.getTime() + " " + event.getPhone_num() + " "
+                            + event.getQuality_type() + " " + event.getEvent_type()) ;
+                    List<SimSignalInfoWrapper> signals = event.getSignals() ;
+                    if (signals != null && signals.size() > 0){
+                        for (SimSignalInfoWrapper signal : signals){
+                            Log.i(Constant.TAG, signal.getTime() + " " + signal.getmIsActive() + " "
+                                    + signal.getmLevel() + " " + signal.getmNetType() + " " + signal.getmSignal()
+                                    + " " + signal.getmIsActiveO() + " " + signal.getmLevelO() + " "
+                                    + signal.getmNetTypeO() + " " + signal.getmSignalO()) ;
+                        }
+                    }
+                }
+            }
+            i++ ;
+        }
+    }
+
+    private List<BaseEvent> convertDataFromFile(File target) throws IOException{
         List<BaseEvent> data = new LinkedList<>() ;
         FileReader fr = new FileReader(target) ;
         BufferedReader mReader = new BufferedReader(fr) ;
@@ -100,15 +134,91 @@ public class DataExport {
                     }
                 }
             }
+            return data ;
         }finally {
             fr.close();
             mReader.close();
         }
+    }
 
+    private List<RoundInfoData> analysisData(List<BaseEvent> data){
+        //if no data, throw exception
         if (data.isEmpty()){
             Log.i(Constant.TAG, "data is empty") ;
             throw new IllegalStateException("data is empty") ;
         }
+        // print it out
+        for (BaseEvent event : data){
+            if (event instanceof QualityEventWrapper){
+                QualityEventWrapper wrapper = (QualityEventWrapper) event ;
+                Log.i(Constant.TAG, event.getTime() + " " + wrapper.getPhone_num() + " "
+                        + wrapper.getQuality_type() + " " + wrapper.getEvent_type()) ;
+            }else if (event instanceof SimSignalInfoWrapper){
+                SimSignalInfoWrapper wrapper = (SimSignalInfoWrapper) event ;
+                Log.i(Constant.TAG, event.getTime() + " " + wrapper.getmIsActive() + " "
+                        + wrapper.getmLevel() + " " + wrapper.getmNetType() + " " + wrapper.getmSignal()
+                        + " " + wrapper.getmIsActiveO() + " " + wrapper.getmLevelO() + " "
+                        + wrapper.getmNetTypeO() + " " + wrapper.getmSignalO()) ;
+            }
+        }
 
+        //analysis it
+        List<RoundInfoData>   roundInfos = new ArrayList<>() ;
+
+        List<QualityEventWrapper> roundInfo = new ArrayList<>() ;
+
+        for (int i = 0 ; i < data.size() ; i++){
+            BaseEvent event = data.get(i) ;
+            if (event instanceof QualityEventWrapper){
+                QualityEventWrapper qualityEvent = (QualityEventWrapper) event;
+                //new round info reached
+                if (qualityEvent.isNextRoundEvent()){
+                    //check it empty or not first
+                    if (!roundInfo.isEmpty()){
+                        RoundInfoData roundInfoData = new RoundInfoData() ;
+                        roundInfoData.setRoundDatas(roundInfo);
+                        roundInfos.add(roundInfoData) ;
+                    }
+                    //init all variables
+                    roundInfo = new ArrayList<>() ;
+                    continue;
+                }else{
+                    int event_type = qualityEvent.getEvent_type() ;
+                    int quality_type = qualityEvent.getQuality_type() ;
+                    List<SimSignalInfoWrapper> signals = new ArrayList<>() ;
+                    //if just a single event , find last signal information for it
+                    if (event_type == CallQualityConstant.EVENT_TYPE_SINGLE){
+                        for (int j = i - 1 ; j >= 0 ; j--){
+                            BaseEvent event_ = data.get(j) ;
+                            if (event_ instanceof SimSignalInfoWrapper){
+                                signals.add((SimSignalInfoWrapper) event_) ;
+                                qualityEvent.setSignals(signals);
+                                break;
+                            }
+                        }
+                    }else{
+                        //this will complicate....
+                        for (int j = i - 1; j > 0 ; j--){
+                            BaseEvent event_ = data.get(j) ;
+                            if (event_ instanceof QualityEventWrapper){
+                                QualityEventWrapper qualityEvent_ = (QualityEventWrapper) event_;
+                                if ((qualityEvent_.getQuality_type() == quality_type
+                                        && qualityEvent_.getEvent_type() == CallQualityConstant.EVENT_TYPE_SINGLE)
+                                        || qualityEvent_.isNextRoundEvent()) {
+                                    //should end here...
+                                    qualityEvent.setSignals(signals);
+                                    break;
+                                }
+                            }else if (event_ instanceof SimSignalInfoWrapper){
+                                SimSignalInfoWrapper simSignalEvent_ = (SimSignalInfoWrapper) event_;
+                                signals.add(simSignalEvent_) ;
+                            }
+                        }
+                    }
+                    roundInfo.add(qualityEvent) ;
+                }
+            }
+        }
+        return roundInfos ;
     }
 }

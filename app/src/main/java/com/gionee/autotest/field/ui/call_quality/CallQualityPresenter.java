@@ -95,6 +95,8 @@ public class CallQualityPresenter extends BasePresenter<CallQualityContract.View
     public void onStopClicked() {
         Preference.putBoolean(mContext, Constant.PREF_KEY_CALL_QUALITY_FIRST_ROUND, true) ;
         Preference.putBoolean(mContext, Constant.PREF_KEY_CALL_QUALITY_RUNNING, false) ;
+        //SEND next event
+        mRecord.onEventClicked(new QualityEvent(CallQualityConstant.NEXT_ROUND, -1, -1));
         mRecord.endTimerTask();
         getView().stopWithSuccessfully();
     }
