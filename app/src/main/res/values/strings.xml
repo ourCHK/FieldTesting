@@ -50,8 +50,8 @@
     <string name="permission_read_phone_state_rationale">获取信号需要读取手机状态信息权限，确认授予?</string>
     <string name="permission_read_phone_state_rationale_denied">读取手机状态信息权限已被否决，使用此程序必须拥有此权限.</string>
     <string name="frequency_set_error">测试频率设置错误，间隔必须大于0，小于300．</string>
-    <string name="signal_foreground_service_title">信号监控</string>
-    <string name="signal_foreground_service_subtitle">信号监控</string>
+    <string name="signal_foreground_service_title">场测工具正在运行</string>
+    <string name="signal_foreground_service_subtitle">信号监控中…</string>
     <string name="signal_monitor_started">信号监控已开启.</string>
     <string name="signal_monitor_stopped">信号监控已停止.</string>
     <string name="export_loading">正在导出数据.</string>

@@ -234,7 +234,7 @@ public class SignalMonitorService extends Service{
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         builder.setContentIntent(pendingIntent);
         builder.setAutoCancel(false);
-        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
+        builder.setSmallIcon(R.mipmap.ic_launcher);
         builder.setContentTitle(getString(R.string.signal_foreground_service_title));
         builder.setContentText(getString(R.string.signal_foreground_service_subtitle));
         startForeground(NOTIFICATION_ID, builder.build());
