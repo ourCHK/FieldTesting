@@ -31,6 +31,7 @@
 
                 <EditText
                     android:id="@+id/phone_num"
+                    android:maxLength="10"
                     style="@style/GridLayoutElementTextView"
                     app:layout_columnSpan="2"
                     app:layout_columnWeight="1" />
@@ -190,6 +191,7 @@
                     />
 
                 <EditText
+                    android:maxLength="10"
                     android:id="@+id/phone_num_other"
                     style="@style/GridLayoutElementTextView"
                     app:layout_columnSpan="2"
