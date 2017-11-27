@@ -12,6 +12,8 @@ import android.util.Log;
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.data.db.model.App;
 import com.gionee.autotest.field.data.db.model.AppList;
+import com.gionee.autotest.field.ui.main.MainActivity;
+import com.gionee.autotest.field.views.NoticeInfoDialog;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
@@ -95,4 +97,11 @@ public class Util {
         builder.show() ;
     }
 
+    public static void showNoticeDialog(Context context) {
+        new NoticeInfoDialog(context)
+                .setTopColorRes(R.color.colorPrimary)
+                .setIcon(R.drawable.ic_info_outline_white_36dp)
+                .setMessage(R.string.info_message)
+                .show();
+    }
 }

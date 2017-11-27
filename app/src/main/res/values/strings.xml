@@ -29,6 +29,7 @@
     <string name="delete_app_message">确定要移除此应用?</string>
     <string name="delete_app_btn_ok">确定</string>
     <string name="delete_app_btn_discard">取消</string>
+    <string name="info_message">1. 在测试开始前，请确保将此应用添加到系统管家的清理白名单.\n\n</string>
 
     <!-- install resources -->
     <string name="install_label_name">添加应用</string>

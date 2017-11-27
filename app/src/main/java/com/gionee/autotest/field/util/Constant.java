@@ -33,6 +33,7 @@ public class Constant {
 
     //Preferences constants
     public static final String PREF_KEY_FIRST_LAUNCH                = "first_launch";
+    public static final String PREF_KEY_FIRST_NOTICE_LAUNCH         = "first_notice_launch";
     public static final String PREF_KEY_APP_VERSION                 = "app_version";
     public static final String PREF_KEY_SIGNAL_INTERVAL             = "signal_interval";
     public static final String PREF_KEY_SIGNAL_DATA_COLLECT_RUNNING = "signal_data_collect_running";

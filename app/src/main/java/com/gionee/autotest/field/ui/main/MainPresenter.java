@@ -1,9 +1,13 @@
 package com.gionee.autotest.field.ui.main;
 
+import android.content.Context;
+
+import com.gionee.autotest.common.Preference;
 import com.gionee.autotest.field.data.db.model.App;
 import com.gionee.autotest.field.ui.base.BasePresenter;
 import com.gionee.autotest.field.ui.base.listener.BaseCallback;
 import com.gionee.autotest.field.ui.main.model.MainBiz;
+import com.gionee.autotest.field.util.Constant;
 
 import java.util.List;
 
@@ -44,6 +48,15 @@ class MainPresenter extends BasePresenter<MainContract.View> implements MainCont
                 //do nothing
             }
         }, app);
+    }
+
+    @Override
+    public void shouldShowNoticeOrNot(Context context) {
+        if (Preference.getBoolean(context, Constant.PREF_KEY_FIRST_NOTICE_LAUNCH, true)){
+            getView().showNoticeDialog();
+            //set it to false
+            Preference.putBoolean(context, Constant.PREF_KEY_FIRST_NOTICE_LAUNCH, false) ;
+        }
     }
 
     private void showList(boolean isVisible) {

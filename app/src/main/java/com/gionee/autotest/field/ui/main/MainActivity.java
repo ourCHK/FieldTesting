@@ -24,6 +24,7 @@ import com.gionee.autotest.field.ui.base.listener.RecyclerItemListener;
 import com.gionee.autotest.field.ui.install.InstallAppActivity;
 import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.NpaGridLayoutManager;
+import com.gionee.autotest.field.util.Util;
 import com.gionee.autotest.field.views.GNRecyclerView;
 
 import java.util.List;
@@ -81,6 +82,7 @@ public class MainActivity extends BaseActivity implements RecyclerItemListener<A
                 if (fab != null){
                     fab.setClickable(true);
                 }
+                mainPresenter.shouldShowNoticeOrNot(MainActivity.this) ;
             }
         }, 1000) ;
     }
@@ -196,5 +198,10 @@ public class MainActivity extends BaseActivity implements RecyclerItemListener<A
                 return true ;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void showNoticeDialog() {
+        Util.showNoticeDialog(this) ;
     }
 }
