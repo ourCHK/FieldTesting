@@ -113,7 +113,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     public void about() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setIcon(R.mipmap.ic_launcher);
-        builder.setTitle("上传下载性能测试");
+        builder.setTitle(getResources().getString(R.string.throughputtest));
         builder.setView(AboutView.getAboutView(this, "刘思琦"));
         builder.setPositiveButton("确定", null);
         builder.show();

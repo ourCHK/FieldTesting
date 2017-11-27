@@ -58,7 +58,7 @@ public class MainPresenter {
     }
 
     public void download(final String uri, final String fileName, final String type, final String way, final String web, final int mWaitTimeInt, final int mDownTimesInt) {
-//        Helper.i("uri 地址为：" + uri + ",fileName的名称是：" + fileName + ",type为：" + type + ",way的值为：" + way + "，取到的web为：" + web);
+        Helper.i("uri 地址为：" + uri + ",fileName的名称是：" + fileName + ",type为：" + type + ",way的值为：" + way + "，取到的web为：" + web);
         PowerManager powerManager = (PowerManager) iMain.getContext()
                 .getSystemService(Context.POWER_SERVICE);
         PowerManager.WakeLock wakeLock = powerManager.newWakeLock(

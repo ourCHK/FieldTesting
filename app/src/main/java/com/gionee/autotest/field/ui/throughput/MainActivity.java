@@ -264,7 +264,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 finish();
-                Process.killProcess(Process.myPid());
+//                Process.killProcess(Process.myPid());
             }
         });
         dialog.setNegativeButton("取消", null);

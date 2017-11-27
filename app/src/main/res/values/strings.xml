@@ -171,6 +171,8 @@
     <string name="SIM2">SIM2</string>
     <string name="exportReports">下载速率汇总表</string>
     <string name="throughput">吞吐率</string>
+    <string name="throughputtest">吞吐率性能测试</string>
+
 
     <!-- network_switch  resources-->
     <string name="toolsTips">条件：\n1、请把本工具加入系统管家允许自启\n2、请不要设置锁屏密码和SIM卡密码\n\n目的：\n开关飞行模式、重启手机、切换数据连接使用卡后，检查是否识卡、是否驻网成功和是否能上网。</string>

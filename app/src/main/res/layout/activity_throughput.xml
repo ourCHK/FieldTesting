@@ -142,7 +142,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="开始测试" />
+                android:text="开始测试"
+                android:textColor="@color/colorPrimary"
+                android:background="@drawable/bg_stroke"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
