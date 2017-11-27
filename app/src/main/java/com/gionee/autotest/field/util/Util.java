@@ -90,11 +90,12 @@ public class Util {
     }
 
     public static void showFinishDialog(Context context, String message){
-        AlertDialog.Builder builder = new AlertDialog.Builder(context)
+        new NoticeInfoDialog(context)
+                .setTopColorRes(R.color.colorPrimary)
+                .setIcon(R.drawable.ic_info_outline_white_36dp)
                 .setTitle(R.string.finished_title)
                 .setMessage(message)
-                .setPositiveButton(android.R.string.ok, null) ;
-        builder.show() ;
+                .show();
     }
 
     public static void showNoticeDialog(Context context) {
