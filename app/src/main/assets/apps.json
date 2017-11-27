@@ -61,7 +61,7 @@
       "key": 8,
       "label":"吞吐率",
       "icon":"phone_swap",
-      "activity":"",
+      "activity":".ui.throughput.MainActivity",
       "installed": true
     }
   ]

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:showAsAction="never">
+
+    <item
+        android:id="@+id/menu_result"
+        android:title="测试结果"/>
+    <item
+        android:id="@+id/menu_clear"
+        android:title="清空结果"/>
+    <item
+        android:id="@+id/menu_goto"
+        android:title="导出结果"/>
+    <item
+        android:id="@+id/menu_about"
+        android:title="关于"
+        />
+
+</menu>

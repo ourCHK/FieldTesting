@@ -48,11 +48,11 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:25.4.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     //latest android-common-util
-    compile "com.gionee.autotest.android.common:android-common-utility:1.0.4.beta2"
+    compile 'com.gionee.autotest.android.common:android-common-utility:1.0.4.beta2'
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     compile 'com.android.support:recyclerview-v7:25.4.0'
@@ -65,12 +65,16 @@ dependencies {
     // explicitly depend on RxJava's latest version for bug fixes and new features.
     compile 'io.reactivex.rxjava2:rxjava:2.1.5'
     // https://mvnrepository.com/artifact/net.sourceforge.jexcelapi/jxl
-    compile group: 'net.sourceforge.jexcelapi', name: 'jxl', version: '2.6.12'
+    compile 'net.sourceforge.jexcelapi:jxl:2.6.12'
     // https://mvnrepository.com/artifact/commons-io/commons-io
-    compile group: 'commons-io', name: 'commons-io', version: '2.6'
+    compile 'commons-io:commons-io:2.6'
     compile 'com.android.support:preference-v7:25.4.0'
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test:runner:1.0.0'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.0'
     compile 'com.klinkerapps:android-smsmms:4.2.3'
+    compile 'com.squareup.okhttp:okhttp:2.4.0'
+    compile 'com.squareup.okio:okio:1.5.0'
+    //    compile(name: 'coreprogress-0.0.3', ext: 'aar')
+//    compile 'cn.edu.zafu:coreprogress:+'
 }
