@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -499,6 +500,10 @@ public class DataExport {
                                         && qualityEvent_.getEvent_type() == CallQualityConstant.EVENT_TYPE_SINGLE)
                                         || qualityEvent_.isNextRoundEvent()) {
                                     //should end here...
+                                    if (!signals.isEmpty()){
+                                        //reverse all signal info
+                                        Collections.reverse(signals);
+                                    }
                                     qualityEvent.setSignals(signals);
                                     break;
                                 }

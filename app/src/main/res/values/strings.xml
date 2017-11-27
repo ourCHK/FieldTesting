@@ -210,4 +210,7 @@
     <string name="call_quality_not_running">请先开始测试！</string>
     <string name="finished_title">测试已完成</string>
 
+    <!-- for debug activity-->
+    <string name="debug_label">调试功能</string>
+
 </resources>

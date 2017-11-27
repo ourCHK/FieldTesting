@@ -21,6 +21,7 @@ import com.gionee.autotest.field.data.db.model.App;
 import com.gionee.autotest.field.ui.about.AboutActivity;
 import com.gionee.autotest.field.ui.base.BaseActivity;
 import com.gionee.autotest.field.ui.base.listener.RecyclerItemListener;
+import com.gionee.autotest.field.ui.debug.DebugActivity;
 import com.gionee.autotest.field.ui.install.InstallAppActivity;
 import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.NpaGridLayoutManager;
@@ -189,12 +190,12 @@ public class MainActivity extends BaseActivity implements RecyclerItemListener<A
                 break ;*/
             case R.id.about:
                 startActivity(AboutActivity.getAboutIntent(this, getString(R.string.about_version), true));
-//                Toast.makeText(getApplicationContext(), R.string.not_implemented_yet, Toast.LENGTH_SHORT).show();
-                //                startActivity(new Intent(this, AboutActivity.class));
                 return true;
             case R.id.help:
-                Toast.makeText(getApplicationContext(), R.string.not_implemented_yet, Toast.LENGTH_SHORT).show();
-                //                startActivity(new Intent(this, AboutActivity.class));
+                Util.showNoticeDialog(this);
+                return true ;
+            case R.id.debug:
+                startActivity(new Intent(this, DebugActivity.class));
                 return true ;
         }
         return super.onOptionsItemSelected(item);
