@@ -2,8 +2,10 @@ package com.gionee.autotest.field.util;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.support.v7.app.AlertDialog;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -83,6 +85,14 @@ public class Util {
         }
 
         return progressDialog;
+    }
+
+    public static void showFinishDialog(Context context, String message){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context)
+                .setTitle(R.string.finished_title)
+                .setMessage(message)
+                .setPositiveButton(android.R.string.ok, null) ;
+        builder.show() ;
     }
 
 }

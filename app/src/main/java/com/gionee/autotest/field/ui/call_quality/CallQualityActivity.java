@@ -17,6 +17,7 @@ import com.gionee.autotest.field.ui.about.AboutActivity;
 import com.gionee.autotest.field.ui.base.BaseActivity;
 import com.gionee.autotest.field.ui.call_quality.entity.CallQualityConstant;
 import com.gionee.autotest.field.util.Constant;
+import com.gionee.autotest.field.util.Util;
 
 import java.io.File;
 
@@ -561,7 +562,9 @@ public class CallQualityActivity extends BaseActivity implements CallQualityCont
 
     @Override
     public void showExportSuccessInformation(String path) {
-        Toast.makeText(this, String.format(getString(R.string.export_signal_success), path),
-                Toast.LENGTH_SHORT).show();
+/*        Toast.makeText(this, String.format(getString(R.string.export_signal_success), path),
+                Toast.LENGTH_SHORT).show();*/
+        Util.showFinishDialog(this, String.format(getString(R.string.export_signal_success), path));
+
     }
 }

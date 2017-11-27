@@ -57,7 +57,7 @@
     <string name="export_signal_error_no_data">无测试数据导出.</string>
     <string name="export_signal_error_create_excel_failure">无法创建导出文件.</string>
     <string name="export_signal_error_failure">导出数据出现异常.</string>
-    <string name="export_signal_success">导出数据成功，路径：%s</string>
+    <string name="export_signal_success">测试数据路径：%s</string>
     <string name="signal_about">开发者: 邓望建[dengwj@gione.com]</string>
 
     <!-- incoming resources -->
@@ -203,5 +203,6 @@
     <string name="quality_next_round">下轮测试</string>
     <string name="call_quality_error_phone_num">请输入机型/编号！</string>
     <string name="call_quality_not_running">请先开始测试！</string>
+    <string name="finished_title">测试已完成</string>
 
 </resources>
