@@ -18,6 +18,7 @@ import com.gionee.autotest.field.ui.call_quality.model.DataExport;
 import com.gionee.autotest.field.ui.call_quality.model.DataRecord;
 import com.gionee.autotest.field.ui.signal.model.ExportModel;
 import com.gionee.autotest.field.util.Constant;
+import com.gionee.autotest.field.views.StandardDialog;
 
 import java.io.File;
 import java.io.IOException;
@@ -142,24 +143,23 @@ public class CallQualityPresenter extends BasePresenter<CallQualityContract.View
     }
 
     public void handleBackPressedAction(final CallQualityActivity context){
-        AlertDialog.Builder builder = new AlertDialog.Builder(context) ;
-        builder.setTitle(R.string.running_title) ;
-        builder.setMessage(R.string.running_message) ;
-        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Preference.putBoolean(mContext, Constant.PREF_KEY_CALL_QUALITY_FIRST_ROUND, true) ;
-                Preference.putBoolean(mContext, Constant.PREF_KEY_CALL_QUALITY_RUNNING, false) ;
-                // do nothing
-                context.finish();
-            }
-        }) ;
-        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        }) ;
-        builder.show() ;
+        new StandardDialog(context)
+                .setTopColorRes(R.color.colorPrimary)
+                .setButtonsColorRes(R.color.colorPrimary)
+                .setIcon(R.drawable.ic_info_outline_white_36dp)
+                .setTitle(R.string.running_title)
+                .setMessage(R.string.running_message)
+                .setPositiveButton(android.R.string.ok, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Preference.putBoolean(mContext, Constant.PREF_KEY_CALL_QUALITY_FIRST_ROUND, true) ;
+                        Preference.putBoolean(mContext, Constant.PREF_KEY_CALL_QUALITY_RUNNING, false) ;
+                        // do nothing
+                        context.finish();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .show();
     }
 
 }

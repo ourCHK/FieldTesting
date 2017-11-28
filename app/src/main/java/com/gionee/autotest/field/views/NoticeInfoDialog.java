@@ -46,7 +46,7 @@ public class NoticeInfoDialog extends AbsDialog<NoticeInfoDialog> {
 
     @Override
     protected int getLayout() {
-        return R.layout.notice_info;
+        return R.layout.dialog_info;
     }
 
 }

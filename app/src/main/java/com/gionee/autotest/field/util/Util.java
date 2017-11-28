@@ -3,6 +3,8 @@ package com.gionee.autotest.field.util;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.support.v7.app.AlertDialog;
@@ -17,6 +19,7 @@ import com.gionee.autotest.field.views.NoticeInfoDialog;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
@@ -104,5 +107,14 @@ public class Util {
                 .setIcon(R.drawable.ic_info_outline_white_36dp)
                 .setMessage(R.string.info_message)
                 .show();
+    }
+
+    public static void openExcelWithIntent(Context context, String excelPath){
+        Intent intent = new Intent("android.intent.action.VIEW");
+        intent.addCategory("android.intent.category.DEFAULT");
+        intent.addFlags (Intent.FLAG_ACTIVITY_NEW_TASK);
+        Uri uri = Uri.fromFile(new File(excelPath));
+        intent.setDataAndType (uri, "application/vnd.ms-excel");
+        context.startActivity(intent);
     }
 }
