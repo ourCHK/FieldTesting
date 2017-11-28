@@ -143,8 +143,19 @@ public class CallQualityActivity extends BaseActivity implements CallQualityCont
             case R.id.about:
                 startActivity(AboutActivity.getAboutIntent(this, getString(R.string.signal_about), true));
                 return true;
+            case android.R.id.home :
+                handleBackPressedAction() ;
+                return true ;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void handleBackPressedAction(){
+        if (btnStop.isEnabled()){
+            mPresenter.handleBackPressedAction(this);
+        }else{
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -562,9 +573,11 @@ public class CallQualityActivity extends BaseActivity implements CallQualityCont
 
     @Override
     public void showExportSuccessInformation(String path) {
-/*        Toast.makeText(this, String.format(getString(R.string.export_signal_success), path),
-                Toast.LENGTH_SHORT).show();*/
         Util.showFinishDialog(this, String.format(getString(R.string.export_signal_success), path));
+    }
 
+    @Override
+    public void onBackPressed() {
+        handleBackPressedAction() ;
     }
 }

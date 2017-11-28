@@ -1,7 +1,9 @@
 package com.gionee.autotest.field.ui.call_quality;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 
@@ -70,7 +72,6 @@ public class CallQualityPresenter extends BasePresenter<CallQualityContract.View
         mRecord.onEventClicked(new QualityEvent(phone_num, quality_type, event_type)) ;
     }
 
-
     @Override
     public void onStartClicked(String phone_num, String phone_num_o) {
         if (Preference.getBoolean(mContext, Constant.PREF_KEY_CALL_QUALITY_FIRST_ROUND, true)){
@@ -138,6 +139,27 @@ public class CallQualityPresenter extends BasePresenter<CallQualityContract.View
     private void startSignalCollectService(){
         Intent signalService = new Intent(mContext, SignalMonitorService.class) ;
         mContext.startService(signalService) ;
+    }
+
+    public void handleBackPressedAction(final CallQualityActivity context){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context) ;
+        builder.setTitle(R.string.running_title) ;
+        builder.setMessage(R.string.running_message) ;
+        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Preference.putBoolean(mContext, Constant.PREF_KEY_CALL_QUALITY_FIRST_ROUND, true) ;
+                Preference.putBoolean(mContext, Constant.PREF_KEY_CALL_QUALITY_RUNNING, false) ;
+                // do nothing
+                context.finish();
+            }
+        }) ;
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        }) ;
+        builder.show() ;
     }
 
 }

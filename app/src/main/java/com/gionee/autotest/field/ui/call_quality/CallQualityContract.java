@@ -1,5 +1,7 @@
 package com.gionee.autotest.field.ui.call_quality;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.view.View;
 
 import com.gionee.autotest.field.ui.base.BaseView;
@@ -50,5 +52,7 @@ interface CallQualityContract {
         void onStopClicked() ;
 
         void doExport(String phone_num, String phone_num_o, File target, File destination) ;
+
+        void handleBackPressedAction(CallQualityActivity context) ;
     }
 }

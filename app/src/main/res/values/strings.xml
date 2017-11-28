@@ -212,5 +212,7 @@
 
     <!-- for debug activity-->
     <string name="debug_label">调试功能</string>
+    <string name="running_title">注意</string>
+    <string name="running_message">测试正在进行中，确认要退出?</string>
 
 </resources>
