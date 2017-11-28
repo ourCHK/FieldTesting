@@ -1,9 +1,7 @@
 package com.gionee.autotest.field.ui.call_quality;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 
@@ -16,7 +14,6 @@ import com.gionee.autotest.field.ui.call_quality.entity.CallQualityConstant;
 import com.gionee.autotest.field.ui.call_quality.entity.QualityEvent;
 import com.gionee.autotest.field.ui.call_quality.model.DataExport;
 import com.gionee.autotest.field.ui.call_quality.model.DataRecord;
-import com.gionee.autotest.field.ui.signal.model.ExportModel;
 import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.views.StandardDialog;
 

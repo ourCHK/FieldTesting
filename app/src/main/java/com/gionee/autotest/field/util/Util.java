@@ -2,27 +2,25 @@ package com.gionee.autotest.field.util;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.net.wifi.WifiManager;
 import android.os.Build;
-import android.support.v7.app.AlertDialog;
-import android.telephony.TelephonyManager;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.data.db.model.App;
 import com.gionee.autotest.field.data.db.model.AppList;
-import com.gionee.autotest.field.ui.main.MainActivity;
 import com.gionee.autotest.field.views.NoticeInfoDialog;
+import com.gionee.autotest.field.views.StandardDialog;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Method;
 import java.text.Collator;
 import java.util.Comparator;
 
@@ -92,12 +90,26 @@ public class Util {
         return progressDialog;
     }
 
-    public static void showFinishDialog(Context context, String message){
-        new NoticeInfoDialog(context)
+    public static void showFinishDialog(final Context context, final String path){
+/*        new NoticeInfoDialog(context)
                 .setTopColorRes(R.color.colorPrimary)
                 .setIcon(R.drawable.ic_info_outline_white_36dp)
                 .setTitle(R.string.finished_title)
                 .setMessage(message)
+                .show();*/
+        new StandardDialog(context)
+                .setTopColorRes(R.color.colorPrimary)
+                .setButtonsColorRes(R.color.colorPrimary)
+                .setIcon(R.drawable.ic_info_outline_white_36dp)
+                .setTitle(R.string.finished_title)
+                .setMessage(String.format(context.getString(R.string.export_signal_success), path))
+                .setPositiveButton(R.string.open_msg, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        openExcelWithIntent(context, path);
+                    }
+                })
+                .setNegativeButton(R.string.cancel_msg, null)
                 .show();
     }
 
@@ -110,11 +122,20 @@ public class Util {
     }
 
     public static void openExcelWithIntent(Context context, String excelPath){
-        Intent intent = new Intent("android.intent.action.VIEW");
-        intent.addCategory("android.intent.category.DEFAULT");
-        intent.addFlags (Intent.FLAG_ACTIVITY_NEW_TASK);
-        Uri uri = Uri.fromFile(new File(excelPath));
-        intent.setDataAndType (uri, "application/vnd.ms-excel");
-        context.startActivity(intent);
+        try {
+            Intent intent = new Intent("android.intent.action.VIEW");
+            intent.addCategory("android.intent.category.DEFAULT");
+            intent.addFlags (Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//            Uri uri = Uri.fromFile(new File(excelPath));
+            Uri uri = FileProvider.getUriForFile(context,
+                    context.getApplicationContext().getPackageName() + ".provider", new File(excelPath));
+            intent.setDataAndType (uri, "application/vnd.ms-excel");
+            context.startActivity(intent);
+        }catch (Exception e){
+            e.printStackTrace();
+            Toast.makeText(context, R.string.go_to_file_manager, Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

@@ -573,7 +573,7 @@ public class CallQualityActivity extends BaseActivity implements CallQualityCont
 
     @Override
     public void showExportSuccessInformation(String path) {
-        Util.showFinishDialog(this, String.format(getString(R.string.export_signal_success), path));
+        Util.showFinishDialog(this, path);
     }
 
     @Override
