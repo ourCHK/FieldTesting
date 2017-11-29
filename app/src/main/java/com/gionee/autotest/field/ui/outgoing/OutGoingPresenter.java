@@ -83,8 +83,8 @@ class OutGoingPresenter extends BasePresenter<OutGoingContract.View> implements 
     @Override
     public void startCallTest() {
         try {
-            CallParam p = getView().getUserParams();
             OutGoingUtil.isTest = true;
+            CallParam p = getView().getUserParams();
             outGoingModel.start(p);
         } catch (Exception e) {
            outGoingModel.stop();
