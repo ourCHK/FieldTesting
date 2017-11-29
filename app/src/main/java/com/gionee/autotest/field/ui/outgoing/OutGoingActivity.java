@@ -74,6 +74,11 @@ public class OutGoingActivity extends BaseActivity implements OutGoingContract.V
         mOutGoingPresenter.onAttach(this);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mOutGoingPresenter.obtainCallRate();
+    }
 
     @Override
     public void setParams(CallParam p) {

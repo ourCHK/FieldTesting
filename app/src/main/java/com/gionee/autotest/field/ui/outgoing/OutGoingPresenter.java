@@ -45,11 +45,11 @@ class OutGoingPresenter extends BasePresenter<OutGoingContract.View> implements 
         getView().setParams(getLastParams());
         myReceiver = new MyReceiver();
         LocalBroadcastManager.getInstance(mContext).registerReceiver(myReceiver, new IntentFilter("AutoCallUpdateViews"));
-        obtainCallRate();
         outGoingModel = new OutGoingModel(mContext);
+        obtainCallRate();
     }
 
-    private void obtainCallRate() {
+    public void obtainCallRate() {
         new CallRateTask(mContext, new CallBack() {
             @Override
             public void call(Object o) {
