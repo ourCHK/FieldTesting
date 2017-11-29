@@ -3,7 +3,7 @@
     package="com.gionee.autotest.field"
     android:sharedUserId="android.uid.system">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
@@ -219,29 +219,25 @@
         <activity
             android:name=".ui.throughput.SpeedActivity"
             android:screenOrientation="portrait" />
-
-
         <activity
             android:name=".ui.data_stability.DataStabilityActivity"
             android:label="@string/data_stability_label"
             android:parentActivityName=".ui.main.MainActivity"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.gionee.autotest.field.ui.main.MainActivity" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.data_stability.WebViewActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppNoActionBarTheme"/>
-
+            android:theme="@style/AppNoActionBarTheme" />
         <activity
             android:name=".ui.data_stability.report.ReportActivity"
             android:screenOrientation="portrait" />
@@ -250,7 +246,8 @@
         <service android:name=".services.DataResetServices" />
         <service android:name=".services.NetworkSwitchService" />
         <service android:name=".services.MessageServices" />
-        <service android:name=".services.WebViewService"/>
+        <service android:name=".services.WebViewService" />
+
         <provider
             android:name=".util.GenericFileProvider"
             android:authorities="${applicationId}.provider"
@@ -263,6 +260,10 @@
 
         <service
             android:name=".ui.outgoing.OutGoingService"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".ui.incoming.InComingService"
             android:enabled="true"
             android:exported="true"></service>
     </application>

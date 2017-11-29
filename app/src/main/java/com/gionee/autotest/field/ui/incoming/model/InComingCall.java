@@ -14,7 +14,7 @@ import io.reactivex.functions.Consumer;
 
 public class InComingCall {
     @SuppressLint("StaticFieldLeak")
-    public void writeData(CallMonitorResult callMonitorResult) {
+    public static void writeData(CallMonitorResult callMonitorResult) {
         new AsyncTask<CallMonitorResult, Void, Void>() {
             @Override
             protected Void doInBackground(CallMonitorResult... data) {
@@ -25,7 +25,7 @@ public class InComingCall {
     }
 
     @SuppressLint("StaticFieldLeak")
-    public void clearAllReport() {
+    public static void clearAllReport() {
         new AsyncTask<Void, Void, Void>() {
 
             @Override
@@ -37,7 +37,7 @@ public class InComingCall {
     }
 
     @SuppressLint("StaticFieldLeak")
-    public void getBatchList(final Consumer<ArrayList<String>> c) {
+    public static void getBatchList(final Consumer<ArrayList<String>> c) {
         new AsyncTask<Void, Void, ArrayList<String>>() {
 
             @Override
@@ -59,7 +59,7 @@ public class InComingCall {
     }
 
     @SuppressLint("StaticFieldLeak")
-    public void insertListData(final int batchId, final Consumer<InComingReportBean> c) {
+    public static void insertListData(final int batchId, final Consumer<InComingReportBean> c) {
         new AsyncTask<Integer, Void, InComingReportBean>() {
 
             @Override

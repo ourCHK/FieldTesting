@@ -12,6 +12,7 @@ import com.gionee.autotest.field.data.db.model.InComingReportBean;
 import com.gionee.autotest.field.ui.base.BasePresenter;
 import com.gionee.autotest.field.ui.base.BaseView;
 import com.gionee.autotest.field.ui.incoming.model.InComingCall;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -23,15 +24,11 @@ import io.reactivex.functions.Consumer;
  * Presenter for signal
  */
 
-class InComingPresenter extends BasePresenter<BaseView> implements InComingContract.Presenter, CallMonitor.MonitorListener {
-    private final InComingCall inComingCall;
+class InComingPresenter extends BasePresenter<BaseView> implements InComingContract.Presenter{
     private       Context      mContext;
-    private       long         batchId;
-    private       CallMonitor  callMonitor;
 
     InComingPresenter(Context context) {
         mContext = context;
-        inComingCall = new InComingCall();
     }
 
     private InComingContract.ReportView getReportView() {
@@ -44,17 +41,16 @@ class InComingPresenter extends BasePresenter<BaseView> implements InComingContr
 
     @Override
     public void startMonitor(CallMonitorParam callMonitorParam) {
-        batchId = InComingDBManager.addBatch(callMonitorParam);
-        callMonitor = new CallMonitor(mContext, callMonitorParam);
-        callMonitor.setMonitorListener(this);
-        callMonitor.startMonitor();
+        long batchId = InComingDBManager.addBatch(callMonitorParam);
+        Intent intent = new Intent(mContext, InComingService.class);
+        intent.putExtra("batchID",batchId);
+        intent.putExtra("params",new Gson().toJson(callMonitorParam));
+        mContext.startService(intent);
     }
 
     @Override
     public void stopMonitor() {
-        if (callMonitor != null) {
-            callMonitor.cancel();
-        }
+        mContext.stopService(new Intent(mContext,InComingService.class));
     }
 
     @Override
@@ -66,7 +62,7 @@ class InComingPresenter extends BasePresenter<BaseView> implements InComingContr
 
     @Override
     public void clearAllReport() {
-        inComingCall.clearAllReport();
+        InComingCall.clearAllReport();
     }
 
     @Override
@@ -76,7 +72,7 @@ class InComingPresenter extends BasePresenter<BaseView> implements InComingContr
 
     @Override
     public void updateBatchList() {
-        inComingCall.getBatchList(new Consumer<ArrayList<String>>() {
+        InComingCall.getBatchList(new Consumer<ArrayList<String>>() {
             @Override
             public void accept(ArrayList<String> strings) throws Exception {
                 getReportView().updateBatch(strings);
@@ -86,7 +82,7 @@ class InComingPresenter extends BasePresenter<BaseView> implements InComingContr
 
     @Override
     public void insertListData(int i) {
-        inComingCall.insertListData(i, new Consumer<InComingReportBean>() {
+        InComingCall.insertListData(i, new Consumer<InComingReportBean>() {
             @Override
             public void accept(InComingReportBean inComingReportBean) throws Exception {
                 getReportView().updateListData(inComingReportBean);
@@ -99,9 +95,4 @@ class InComingPresenter extends BasePresenter<BaseView> implements InComingContr
     public void initialize(Bundle extras) {
     }
 
-    @Override
-    public void onChanged(CallMonitorResult callMonitorResult) {
-        callMonitorResult.batchId = batchId;
-        inComingCall.writeData(callMonitorResult);
-    }
 }
