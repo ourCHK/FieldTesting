@@ -157,19 +157,23 @@ public class DataExport {
                             for (SimSignalInfoWrapper signal : signals) {
                                 Label timeLabel             = new Label(2, row_num, signal.getTime(), getContentFormat());
                                 Label sim0ActiveLabel       = new Label(3, row_num, signal.getmIsActive(), getContentFormat());
-                                Label sim0Type              = new Label(4, row_num, signal.getmNetType(), getContentFormat());
-                                Label sim0Level             = new Label(5, row_num, signal.getmLevel() +"", getContentFormat());
-                                Label sim0Signal            = new Label(6, row_num, signal.getmSignal(), getContentFormat());
-                                Label sim1ActiveLabel       = new Label(7, row_num, signal.getmIsActiveO(), getContentFormat());
-                                Label sim1Type              = new Label(8, row_num, signal.getmNetTypeO(), getContentFormat());
-                                Label sim1Level             = new Label(9, row_num, signal.getmLevelO() +"", getContentFormat());
-                                Label sim1Signal            = new Label(10,row_num, signal.getmSignalO(), getContentFormat());
+                                Label sim0Operator          = new Label(4, row_num, signal.getmOperator(), getContentFormat());
+                                Label sim0Type              = new Label(5, row_num, signal.getmNetType(), getContentFormat());
+                                Label sim0Level             = new Label(6, row_num, signal.getmLevel() + "", getContentFormat());
+                                Label sim0Signal            = new Label(7, row_num, signal.getmSignal(), getContentFormat());
+                                Label sim1ActiveLabel       = new Label(8, row_num, signal.getmIsActiveO(), getContentFormat());
+                                Label sim1Operator          = new Label(9, row_num, signal.getmOperatorO(), getContentFormat());
+                                Label sim1Type              = new Label(10, row_num, signal.getmNetTypeO(), getContentFormat());
+                                Label sim1Level             = new Label(11, row_num, signal.getmLevelO() + "", getContentFormat());
+                                Label sim1Signal            = new Label(12,row_num, signal.getmSignalO(), getContentFormat());
                                 sheet.addCell(timeLabel);
                                 sheet.addCell(sim0ActiveLabel);
+                                sheet.addCell(sim0Operator);
                                 sheet.addCell(sim0Type);
                                 sheet.addCell(sim0Level);
                                 sheet.addCell(sim0Signal);
                                 sheet.addCell(sim1ActiveLabel);
+                                sheet.addCell(sim1Operator);
                                 sheet.addCell(sim1Type);
                                 sheet.addCell(sim1Level);
                                 sheet.addCell(sim1Signal);
@@ -180,34 +184,38 @@ public class DataExport {
                         List<SimSignalInfoWrapper> signals = event.getSignals() ;
                         if (signals != null && signals.size() > 0) {
                             for (int k = 0; k < signals.size() ; k++){
-                                Label qualityNameLabel = new Label(11, row_num_o + k, qualityName, getTitleFormat()) ;
-                                Label eventNameLabel   = new Label(12, row_num_o + k, eventName, getTitleFormat()) ;
+                                Label qualityNameLabel = new Label(13, row_num_o + k, qualityName, getTitleFormat()) ;
+                                Label eventNameLabel   = new Label(14, row_num_o + k, eventName, getTitleFormat()) ;
                                 sheet.addCell(qualityNameLabel);
                                 sheet.addCell(eventNameLabel);
                             }
                             if (signals.size() > 1){
                                 //merge cells
-                                sheet.mergeCells(11, row_num_o, 11, row_num_o + (signals.size() - 1)) ;
-                                sheet.mergeCells(12, row_num_o, 12, row_num_o + (signals.size() - 1)) ;
+                                sheet.mergeCells(13, row_num_o, 13, row_num_o + (signals.size() - 1)) ;
+                                sheet.mergeCells(14, row_num_o, 14, row_num_o + (signals.size() - 1)) ;
                             }
 
 
                             for (SimSignalInfoWrapper signal : signals) {
-                                Label timeLabel             = new Label(13, row_num_o, signal.getTime(), getContentFormat());
-                                Label sim0ActiveLabel       = new Label(14, row_num_o, signal.getmIsActive(), getContentFormat());
-                                Label sim0Type              = new Label(15, row_num_o, signal.getmNetType(), getContentFormat());
-                                Label sim0Level             = new Label(16, row_num_o, signal.getmLevel() +"", getContentFormat());
-                                Label sim0Signal            = new Label(17, row_num_o, signal.getmSignal(), getContentFormat());
-                                Label sim1ActiveLabel       = new Label(18, row_num_o, signal.getmIsActiveO(), getContentFormat());
-                                Label sim1Type              = new Label(19, row_num_o, signal.getmNetTypeO(), getContentFormat());
-                                Label sim1Level             = new Label(20, row_num_o, signal.getmLevelO() +"", getContentFormat());
-                                Label sim1Signal            = new Label(21, row_num_o, signal.getmSignalO(), getContentFormat());
+                                Label timeLabel             = new Label(15, row_num_o, signal.getTime(), getContentFormat());
+                                Label sim0ActiveLabel       = new Label(16, row_num_o, signal.getmIsActive(), getContentFormat());
+                                Label sim0Operator          = new Label(17, row_num_o, signal.getmOperator(), getContentFormat());
+                                Label sim0Type              = new Label(18, row_num_o, signal.getmNetType(), getContentFormat());
+                                Label sim0Level             = new Label(19, row_num_o, signal.getmLevel() + "", getContentFormat());
+                                Label sim0Signal            = new Label(20, row_num_o, signal.getmSignal(), getContentFormat());
+                                Label sim1ActiveLabel       = new Label(21, row_num_o, signal.getmIsActiveO(), getContentFormat());
+                                Label sim1Operator          = new Label(22, row_num_o, signal.getmOperatorO(), getContentFormat());
+                                Label sim1Type              = new Label(23, row_num_o, signal.getmNetTypeO(), getContentFormat());
+                                Label sim1Level             = new Label(24, row_num_o, signal.getmLevelO() + "", getContentFormat());
+                                Label sim1Signal            = new Label(25, row_num_o, signal.getmSignalO(), getContentFormat());
                                 sheet.addCell(timeLabel);
                                 sheet.addCell(sim0ActiveLabel);
+                                sheet.addCell(sim0Operator);
                                 sheet.addCell(sim0Type);
                                 sheet.addCell(sim0Level);
                                 sheet.addCell(sim0Signal);
                                 sheet.addCell(sim1ActiveLabel);
+                                sheet.addCell(sim1Operator);
                                 sheet.addCell(sim1Type);
                                 sheet.addCell(sim1Level);
                                 sheet.addCell(sim1Signal);
@@ -323,45 +331,53 @@ public class DataExport {
         sheet.setColumnView(10, 15);
         sheet.setColumnView(11, 15);
         sheet.setColumnView(12, 15);
-        sheet.setColumnView(13, 28);
+        sheet.setColumnView(13, 15);
         sheet.setColumnView(14, 15);
-        sheet.setColumnView(15, 15);
+        sheet.setColumnView(15, 28);
         sheet.setColumnView(16, 15);
         sheet.setColumnView(17, 15);
         sheet.setColumnView(18, 15);
         sheet.setColumnView(19, 15);
         sheet.setColumnView(20, 15);
         sheet.setColumnView(21, 15);
+        sheet.setColumnView(22, 15);
+        sheet.setColumnView(23, 15);
+        sheet.setColumnView(24, 15);
+        sheet.setColumnView(25, 15);
         //for round information
         Label roundLabel            = new Label(0, 0, String.format(Locale.US, SHEET_NAME, round), getHeadFormat()) ;
-        Label roundLabel1            = new Label(21, 0, String.format(Locale.US, SHEET_NAME, round), getHeadFormat()) ;
+        Label roundLabel1            = new Label(25, 0, String.format(Locale.US, SHEET_NAME, round), getHeadFormat()) ;
         //for title
         Label phone_num_label       = new Label(0, 1, "机型/编号:" + phone_num, getTitleFormat()) ;
-        Label phone_num_label_o     = new Label(11, 1, "机型/编号:" + phone_num_o, getTitleFormat()) ;
+        Label phone_num_label_o     = new Label(13, 1, "机型/编号:" + phone_num_o, getTitleFormat()) ;
         //for device one
         Label qualityLabel          = new Label(0, 2, "类型", getTitleFormat());
         Label eventLabel            = new Label(1, 2, "事件", getTitleFormat());
         Label timeLabel             = new Label(2, 2, "时间", getTitleFormat());
         Label sim0ActiveLabel       = new Label(3, 2, "卡1是否存在", getTitleFormat());
-        Label sim0Type              = new Label(4, 2, "卡1网络类型", getTitleFormat());
-        Label sim0Level             = new Label(5, 2, "卡1信号级别", getTitleFormat());
-        Label sim0Signal            = new Label(6, 2, "卡1信号", getTitleFormat());
-        Label sim1ActiveLabel       = new Label(7, 2, "卡2是否存在", getTitleFormat());
-        Label sim1Type              = new Label(8, 2, "卡2网络类型", getTitleFormat());
-        Label sim1Level             = new Label(9, 2, "卡2信号级别", getTitleFormat());
-        Label sim1Signal            = new Label(10, 2, "卡2信号", getTitleFormat());
+        Label sim0Operator          = new Label(4, 2, "卡1网络运营商", getTitleFormat());
+        Label sim0Type              = new Label(5, 2, "卡1网络类型", getTitleFormat());
+        Label sim0Level             = new Label(6, 2, "卡1信号级别", getTitleFormat());
+        Label sim0Signal            = new Label(7, 2, "卡1信号", getTitleFormat());
+        Label sim1Operator          = new Label(8, 2, "卡2是否存在", getTitleFormat());
+        Label sim1ActiveLabel       = new Label(9, 2, "卡2网络运营商", getTitleFormat());
+        Label sim1Type              = new Label(10, 2, "卡2网络类型", getTitleFormat());
+        Label sim1Level             = new Label(11, 2, "卡2信号级别", getTitleFormat());
+        Label sim1Signal            = new Label(12, 2, "卡2信号", getTitleFormat());
         //for device two
-        Label qualityLabelO         = new Label(11, 2, "类型", getTitleFormat());
-        Label eventLabelO           = new Label(12, 2, "事件", getTitleFormat());
-        Label timeLabelO            = new Label(13, 2, "时间", getTitleFormat());
-        Label sim0ActiveLabelO      = new Label(14, 2, "卡1是否存在", getTitleFormat());
-        Label sim0TypeO             = new Label(15, 2, "卡1网络类型", getTitleFormat());
-        Label sim0LevelO            = new Label(16, 2, "卡1信号级别", getTitleFormat());
-        Label sim0SignalO           = new Label(17, 2, "卡1信号", getTitleFormat());
-        Label sim1ActiveLabelO      = new Label(18, 2, "卡2是否存在", getTitleFormat());
-        Label sim1TypeO             = new Label(19, 2, "卡2网络类型", getTitleFormat());
-        Label sim1LevelO            = new Label(20, 2, "卡2信号级别", getTitleFormat());
-        Label sim1SignalO           = new Label(21, 2, "卡2信号", getTitleFormat());
+        Label qualityLabelO         = new Label(13, 2, "类型", getTitleFormat());
+        Label eventLabelO           = new Label(14, 2, "事件", getTitleFormat());
+        Label timeLabelO            = new Label(15, 2, "时间", getTitleFormat());
+        Label sim0ActiveLabelO      = new Label(16, 2, "卡1是否存在", getTitleFormat());
+        Label sim0OperatorO         = new Label(17, 2, "卡1网络运营商", getTitleFormat());
+        Label sim0TypeO             = new Label(18, 2, "卡1网络类型", getTitleFormat());
+        Label sim0LevelO            = new Label(19, 2, "卡1信号级别", getTitleFormat());
+        Label sim0SignalO           = new Label(20, 2, "卡1信号", getTitleFormat());
+        Label sim1ActiveLabelO      = new Label(21, 2, "卡2是否存在", getTitleFormat());
+        Label sim1OperatorO         = new Label(22, 2, "卡2网络运营商", getTitleFormat());
+        Label sim1TypeO             = new Label(23, 2, "卡2网络类型", getTitleFormat());
+        Label sim1LevelO            = new Label(24, 2, "卡2信号级别", getTitleFormat());
+        Label sim1SignalO           = new Label(25, 2, "卡2信号", getTitleFormat());
 
         sheet.addCell(roundLabel);
         sheet.addCell(roundLabel1);
@@ -373,10 +389,12 @@ public class DataExport {
         sheet.addCell(eventLabel);
         sheet.addCell(timeLabel);
         sheet.addCell(sim0ActiveLabel);
+        sheet.addCell(sim0Operator);
         sheet.addCell(sim0Type);
         sheet.addCell(sim0Level);
         sheet.addCell(sim0Signal);
         sheet.addCell(sim1ActiveLabel);
+        sheet.addCell(sim1Operator);
         sheet.addCell(sim1Type);
         sheet.addCell(sim1Level);
         sheet.addCell(sim1Signal);
@@ -385,19 +403,21 @@ public class DataExport {
         sheet.addCell(eventLabelO);
         sheet.addCell(timeLabelO);
         sheet.addCell(sim0ActiveLabelO);
+        sheet.addCell(sim0OperatorO);
         sheet.addCell(sim0TypeO);
         sheet.addCell(sim0LevelO);
         sheet.addCell(sim0SignalO);
         sheet.addCell(sim1ActiveLabelO);
+        sheet.addCell(sim1OperatorO);
         sheet.addCell(sim1TypeO);
         sheet.addCell(sim1LevelO);
         sheet.addCell(sim1SignalO);
 
         //merge cells
-        sheet.mergeCells(0, 0, 21, 0) ;
+        sheet.mergeCells(0, 0, 25, 0) ;
 
-        sheet.mergeCells(0, 1, 10, 1) ;
-        sheet.mergeCells(11, 1, 21, 1) ;
+        sheet.mergeCells(0, 1, 12, 1) ;
+        sheet.mergeCells(13, 1, 25, 1) ;
     }
 
     private List<BaseEvent> convertDataFromFile(File target) throws IOException{
@@ -411,12 +431,12 @@ public class DataExport {
             while((line = mReader.readLine()) != null) {
                 if (line.contains(Constant.SEPARATOR)) {
                     String[] items = line.split(Constant.SEPARATOR) ;
-                    if (items.length == 9){
+                    if (items.length == 11){
                         simSignalInfoWrapper = new SimSignalInfoWrapper(
-                                Boolean.valueOf(items[1]) ?"存在" : "不存在",
-                                items[3], Integer.valueOf(items[2]), items[4],
-                                Boolean.valueOf(items[5]) ?"存在" : "不存在",
-                                items[7], Integer.valueOf(items[6]), items[8]) ;
+                                Boolean.valueOf(items[1]) ?"存在" : "不存在", items[2],
+                                items[4], Integer.valueOf(items[3]), items[5],
+                                Boolean.valueOf(items[6]) ?"存在" : "不存在", items[7],
+                                items[9], Integer.valueOf(items[8]), items[10]) ;
                         simSignalInfoWrapper.setTime(items[0]);
                         data.add(simSignalInfoWrapper) ;
                     }else if (items.length == 4){
@@ -450,9 +470,9 @@ public class DataExport {
                         + wrapper.getQuality_type() + " " + wrapper.getEvent_type()) ;
             }else if (event instanceof SimSignalInfoWrapper){
                 SimSignalInfoWrapper wrapper = (SimSignalInfoWrapper) event ;
-                Log.i(Constant.TAG, event.getTime() + " " + wrapper.getmIsActive() + " "
+                Log.i(Constant.TAG, event.getTime() + " " + wrapper.getmIsActive() + " " + wrapper.getmOperator()
                         + wrapper.getmLevel() + " " + wrapper.getmNetType() + " " + wrapper.getmSignal()
-                        + " " + wrapper.getmIsActiveO() + " " + wrapper.getmLevelO() + " "
+                        + " " + wrapper.getmIsActiveO()  + " " + wrapper.getmOperatorO() + " " + wrapper.getmLevelO() + " "
                         + wrapper.getmNetTypeO() + " " + wrapper.getmSignalO()) ;
             }
         }

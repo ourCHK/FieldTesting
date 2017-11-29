@@ -35,8 +35,6 @@ public class DataRecord {
 
     private FileWriter      fw          = null ;
     private BufferedWriter  writer      = null ;
-/*    private FileWriter      fwRound     = null ;
-    private BufferedWriter  writerRound = null ;*/
 
     private SimSignalInfo   mSim1SignalInfo ;
     private SimSignalInfo   mSim2SignalInfo ;
@@ -100,21 +98,6 @@ public class DataRecord {
             fw = new FileWriter(call_quality_data, true) ;
             writer = new BufferedWriter(fw) ;
         }catch (IOException e){ e.printStackTrace();}
-
-        //for call qualify round info
-/*        File call_quality_round_data = new File(time_dir, Constant.CALL_QUALITY_ROUND_NAME) ;
-        if (call_quality_round_data.exists() && !call_quality_round_data.delete()){
-            Log.i(Constant.TAG, "fail to delete exist round data file...") ;
-            return ;
-        }
-        try{
-            if (!call_quality_round_data.createNewFile()){
-                Log.i(Constant.TAG, "create round data file fail...") ;
-                return ;
-            }
-            fwRound = new FileWriter(call_quality_round_data, true) ;
-            writerRound = new BufferedWriter(fwRound) ;
-        }catch (IOException e){ e.printStackTrace();}*/
     }
 
     public void startTimerTask(){
@@ -152,6 +135,8 @@ public class DataRecord {
             content.append(Constant.SEPARATOR) ;
             content.append(infoSim0.mIsActive) ;
             content.append(Constant.SEPARATOR) ;
+            content.append(infoSim0.mOperator) ;
+            content.append(Constant.SEPARATOR) ;
             content.append(infoSim0.mLevel) ;
             content.append(Constant.SEPARATOR) ;
             content.append(infoSim0.mNetType) ;
@@ -160,6 +145,8 @@ public class DataRecord {
             content.append(Constant.SEPARATOR) ;
             if (infoSim2 == null) infoSim2 = new SimSignalInfo() ;
             content.append(infoSim2.mIsActive) ;
+            content.append(Constant.SEPARATOR) ;
+            content.append(infoSim2.mOperator) ;
             content.append(Constant.SEPARATOR) ;
             content.append(infoSim2.mLevel) ;
             content.append(Constant.SEPARATOR) ;
@@ -185,8 +172,6 @@ public class DataRecord {
         //close all stream
         closeQuietly(fw);
         closeQuietly(writer);
-/*        closeQuietly(fwRound);
-        closeQuietly(writerRound);*/
     }
 
     private void closeQuietly(Closeable stream){

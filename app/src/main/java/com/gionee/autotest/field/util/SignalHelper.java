@@ -82,6 +82,9 @@ public final class SignalHelper {
             if (operator != null && operator.equals("CMCC")){
                 operator = "中国移动" ;
             }
+            if (operator == null || "".equals(operator)){
+                operator = "N/A" ;
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
