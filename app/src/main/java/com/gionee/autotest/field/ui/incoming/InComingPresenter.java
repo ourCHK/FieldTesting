@@ -94,13 +94,14 @@ class InComingPresenter extends BasePresenter<BaseView> implements InComingContr
         });
     }
 
-    @Override
-    public void onInComing(CallMonitorResult callMonitorResult) {
-        callMonitorResult.batchId = batchId;
-        inComingCall.writeData(callMonitorResult);
-    }
 
     @Override
     public void initialize(Bundle extras) {
+    }
+
+    @Override
+    public void onChanged(CallMonitorResult callMonitorResult) {
+        callMonitorResult.batchId = batchId;
+        inComingCall.writeData(callMonitorResult);
     }
 }

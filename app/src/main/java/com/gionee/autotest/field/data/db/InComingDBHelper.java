@@ -38,7 +38,7 @@ public class InComingDBHelper extends DBHelper {
         cv.put(InComingData.BATCH_ID, data.batchId);
         cv.put(InComingData.NUMBER, data.number);
         cv.put(InComingData.RESULT, data.result ? 1 : 0);
-        cv.put(InComingData.TEST_INDEX, data.testIndex);
+        cv.put(InComingData.TEST_INDEX, data.index);
         cv.put(InComingData.TIME, data.time);
         cv.put(InComingData.FAIL_MSG, data.failMsg);
         mDb.insert(InComingData.NAME, null, cv);
@@ -64,7 +64,7 @@ public class InComingDBHelper extends DBHelper {
         ArrayList list   = new ArrayList<CallMonitorResult>();
         while (cursor.moveToNext()) {
             try {
-                long   number    = cursor.getLong(cursor.getColumnIndex(InComingData.NUMBER));
+                String   number    = cursor.getString(cursor.getColumnIndex(InComingData.NUMBER));
                 int    testIndex = cursor.getInt(cursor.getColumnIndex(InComingData.TEST_INDEX));
                 int    result    = cursor.getInt(cursor.getColumnIndex(InComingData.RESULT));
                 String time      = cursor.getString(cursor.getColumnIndex(InComingData.TIME));

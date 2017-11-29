@@ -24,6 +24,7 @@
             android:id="@+id/isAutoRejectCB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:text="@string/distinguish_text"
             android:textColor="@color/colorPrimary"/>
 
@@ -57,6 +58,7 @@
         <CheckBox
             android:id="@+id/isAutoAnswer"
             android:layout_width="wrap_content"
+            android:checked="true"
             android:layout_height="wrap_content"
             android:text="@string/is_auto_answer"
             android:textColor="@color/colorPrimary"/>
@@ -65,21 +67,21 @@
             android:id="@+id/isAnswertHangup_cb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="false"
+            android:checked="true"
             android:text="@string/is_auto_end"
             android:textColor="@color/colorPrimary"
-            android:visibility="gone"/>
+            android:visibility="visible"/>
 
         <LinearLayout
             android:id="@+id/autoAnswerHangup_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <TextView
                 android:id="@+id/autoEndText"
-                android:layout_width="fill_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/auto_end_time_text"
@@ -87,18 +89,26 @@
 
             <EditText
                 android:id="@+id/answerHangupTime_et"
-                android:layout_width="fill_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:enabled="false"
                 android:gravity="center"
                 android:inputType="number"
                 android:text="@string/default_end_time"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="秒自动挂断"
+                android:textColor="@color/colorPrimary"
+                />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <TextView

@@ -44,7 +44,7 @@ class DBHelper extends SQLiteOpenHelper {
                 + InComingBatch.AUTO_REJECT_TIME + " Integer," + InComingBatch.GAP_TIME + " Integer,"
                 + InComingBatch.TIME + " TIMESTAMP(14))");
         db.execSQL("create table " + InComingData.NAME + "(" + InComingData._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + InComingData.BATCH_ID + " Integer," + InComingData.NUMBER + " Long,"
+                + InComingData.BATCH_ID + " Integer," + InComingData.NUMBER + " text,"
                 + InComingData.RESULT + " Integer," + InComingData.TEST_INDEX + " Integer,"
                 + InComingData.FAIL_MSG + " text," + InComingData.TIME + " TIMESTAMP(14))");
         db.execSQL("create table " + OutGoingBatch.NAME + "(" + OutGoingBatch._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
