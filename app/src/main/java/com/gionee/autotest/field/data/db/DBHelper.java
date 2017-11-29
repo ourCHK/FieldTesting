@@ -50,11 +50,11 @@ class DBHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + OutGoingBatch.NAME + "(" + OutGoingBatch._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + OutGoingBatch.NUMBERS + " text," + OutGoingBatch.CYCLE + " Integer," + OutGoingBatch.GAP_TIME + " Integer,"
                 + OutGoingBatch.CALL_TIME + " Integer," + OutGoingBatch.CALL_TIME_SUM + " Integer,"
-                + OutGoingBatch.IS_SPEAKER_ON + " Integer," + OutGoingBatch.TIME + " TIMESTAMP(14))");
-        db.execSQL("create table "+ OutGoingData.NAME+"("+OutGoingData._ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"
-                +OutGoingData.BATCH_ID+" Long,"+OutGoingData.CYCLE_INDEX+" Long,"+OutGoingData.NUMBER+" Long,"
-                +OutGoingData.DIAL_TIME+" TIMESTAMP(14),"+OutGoingData.OFF_HOOK_TIME+" TIMESTAMP(14),"
-                +OutGoingData.HANG_UP_TIME+" TIMESTAMP(14),"+OutGoingData.RESULT+" Integer,"+OutGoingData.TIME+" TIMESTAMP(14))");
+                + OutGoingBatch.IS_SPEAKER_ON + " Integer," + OutGoingBatch.VERIFY_COUNT + " Integer," + OutGoingBatch.TIME + " TIMESTAMP(14))");
+        db.execSQL("create table " + OutGoingData.NAME + "(" + OutGoingData._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + OutGoingData.BATCH_ID + " Long," + OutGoingData.CYCLE_INDEX + " Long," + OutGoingData.NUMBER + " Long,"
+                + OutGoingData.DIAL_TIME + " TIMESTAMP(14)," + OutGoingData.OFF_HOOK_TIME + " TIMESTAMP(14),"
+                + OutGoingData.HANG_UP_TIME + " TIMESTAMP(14)," + OutGoingData.RESULT + " Integer," +OutGoingData.IS_VERIFY+" Integer,"+ OutGoingData.TIME + " TIMESTAMP(14))");
         db.execSQL("create table networkSwitch(_id INTEGER PRIMARY KEY AUTOINCREMENT,resultFileName text,result text,time TIMESTAMP(14))");
     }
 

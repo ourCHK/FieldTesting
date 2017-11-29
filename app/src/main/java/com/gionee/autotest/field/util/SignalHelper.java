@@ -45,8 +45,8 @@ public final class SignalHelper {
 
     private SimStateReceiver                        mSimStateReceiver;
 
-    private int                                     mSubId0;
-    private int                                     mSubId1;
+    private int                                     mSubId0 = -1 ;
+    private int                                     mSubId1 = -1 ;
 
     private Sim1SignalStrengthsListener             mSim1SignalListener ;
     private Sim2SignalStrengthsListener             mSim2SignalListener ;
@@ -81,6 +81,9 @@ public final class SignalHelper {
             operator =  (String) method.invoke(mTelephonyManager, simId);
             if (operator != null && operator.equals("CMCC")){
                 operator = "中国移动" ;
+            }
+            if (operator == null || "".equals(operator)){
+                operator = "N/A" ;
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -127,11 +130,13 @@ public final class SignalHelper {
     @Retention(RetentionPolicy.SOURCE)
     @interface SIMID{}
 
-    public SimSignalInfo getSimSignalInfo(@SIMID int simId){
-        if (simId == SIM_CARD_0){
+    public SimSignalInfo getSimSignalInfo(int subId){
+        if (subId == mSubId0){
             return mSim1SignalInfo ;
+        }else if (subId == mSubId1){
+            return mSim2SignalInfo ;
         }
-        return mSim2SignalInfo ;
+        return null ;
     }
 
     public boolean isSimExist(@SIMID int simId){
@@ -227,7 +232,7 @@ public final class SignalHelper {
             if (sub1 != null && null == mSim2SignalListener) {
                 mSubId1 = sub1.getSubscriptionId();
                 mSim2SignalListener = new Sim2SignalStrengthsListener(mSubId1);
-                Log.i(Constant.TAG, "init sim listeners mSubId0 : " + mSubId1) ;
+                Log.i(Constant.TAG, "init sim listeners mSubId1 : " + mSubId1) ;
             }
             mTelephonyManager.listen(mSim2SignalListener, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
         }
@@ -255,7 +260,6 @@ public final class SignalHelper {
         Sim1SignalStrengthsListener(int subId) {
             super();
             setFieldValue(this, "mSubId", subId);
-//            mSim1SignalInfo.mNetType = getNetTypeName(getNetworkType(mSubId0));
         }
 
         @Override
@@ -274,7 +278,6 @@ public final class SignalHelper {
         Sim2SignalStrengthsListener(int subId) {
             super();
             setFieldValue(this, "mSubId", subId);
-//            mSim2SignalInfo.mNetType = getNetTypeName(getNetworkType(mSubId1));
         }
 
         @Override

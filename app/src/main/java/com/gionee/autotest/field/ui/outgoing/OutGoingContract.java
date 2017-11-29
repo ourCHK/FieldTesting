@@ -13,13 +13,15 @@ interface OutGoingContract {
 
     interface View extends BaseView {
 
-        void updateViews(boolean testing);
+        void updateViews();
 
         void setParams(CallParam lastParams);
 
         CallParam getUserParams();
 
         void showDialog(String message);
+
+        void updateCallRate(String s);
     }
 
 

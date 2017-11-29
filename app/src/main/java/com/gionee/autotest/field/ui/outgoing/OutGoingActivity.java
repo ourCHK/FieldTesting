@@ -2,11 +2,14 @@ package com.gionee.autotest.field.ui.outgoing;
 
 
 import android.app.AlertDialog;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 
+import com.gionee.autotest.common.About;
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.ui.base.BaseActivity;
 import com.gionee.autotest.field.ui.outgoing.model.CallParam;
@@ -32,6 +35,8 @@ public class OutGoingActivity extends BaseActivity implements OutGoingContract.V
 
     @BindView(R.id.out_going_start)
     Button mStartBtn;
+    @BindView(R.id.callRateET)
+    TextView mCallRateET;
 
     private OutGoingPresenter mOutGoingPresenter;
 
@@ -41,9 +46,9 @@ public class OutGoingActivity extends BaseActivity implements OutGoingContract.V
     }
 
     @Override
-    public void updateViews(boolean testing) {
-        mStartBtn.setText(testing ? "停止测试" : "开始测试");
-        setViewEnabled(testing, mNumberET, mCycleET, mGapTimeET, mCallTimeET, mCallTimeSumET, mIsSpeakerPhoneOpenCB);
+    public void updateViews() {
+        mStartBtn.setText(OutGoingUtil.isTest ? "停止测试" : "开始测试");
+        setViewEnabled(OutGoingUtil.isTest, mNumberET, mCycleET, mGapTimeET, mCallTimeET, mCallTimeSumET, mIsSpeakerPhoneOpenCB);
     }
 
     private void setViewEnabled(boolean testing, View... v) {
@@ -69,6 +74,11 @@ public class OutGoingActivity extends BaseActivity implements OutGoingContract.V
         mOutGoingPresenter.onAttach(this);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mOutGoingPresenter.obtainCallRate();
+    }
 
     @Override
     public void setParams(CallParam p) {
@@ -110,5 +120,35 @@ public class OutGoingActivity extends BaseActivity implements OutGoingContract.V
                 builder.setPositiveButton("确定", null);
             }
         }).show();
+    }
+
+    @Override
+    public void updateCallRate(String s) {
+        mCallRateET.setText(s);
+    }
+
+    @Override
+    protected int menuResId() {
+        return R.menu.outgoing_menu;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+//            case R.id.show_report:
+//                mOutGoingPresenter.showReport();
+//                break;
+//            case R.id.clear_report:
+//                mOutGoingPresenter.clearAllReport();
+//                break;
+            case R.id.export_excel:
+                mOutGoingPresenter.exportExcelFile();
+                break;
+            case R.id.action_abouts:
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

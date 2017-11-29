@@ -10,9 +10,11 @@ public  interface DataResetContract {
 
     interface View extends BaseView {
 
-        void setDefaultInterval(String time) ;
+        void setDefaultInterval(String time,String retest_times) ;
 
         void showFrequencyError() ;
+
+        void showRetesTimesError();
 
         void showStartToast() ;
 
@@ -24,11 +26,11 @@ public  interface DataResetContract {
 
      interface Presenter {
 
-         void isIntervalValid(String time);
+         void isIntervalValid(String time,String retest_times);
 
-         void setInterval(String time) ;
+         void setInterval(String time,String retest_times) ;
 
-         void registerDataResetListener(String interval) ;
+         void registerDataResetListener(String interval,String retest_times) ;
 
          void unregisterDataResetListener() ;
 

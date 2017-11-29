@@ -49,7 +49,7 @@ public class CallTask extends AsyncTask<Void, Object, Void> {
     }
 
     private OutGoingCallResult call(int callIndex) {
-        OutGoingCallResult result = new OutGoingCallResult().setNumber(Long.parseLong(param.numbers[callIndex])).setCycleIndex(cycleIndex);
+        OutGoingCallResult result = new OutGoingCallResult().setNumber((param.numbers[callIndex])).setCycleIndex(cycleIndex);
         try {
             callUtil.call(param.numbers[callIndex]);
             result.setDialTime(TimeUtil.getTime());

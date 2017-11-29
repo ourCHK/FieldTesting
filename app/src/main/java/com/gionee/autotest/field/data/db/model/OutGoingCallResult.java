@@ -5,15 +5,15 @@ public class OutGoingCallResult {
 
     public long    batchId;
     public int     cycleIndex;
-    public long    number;
+    public String    number;
     public String  dialTime;
     public String  offHookTime;
     public String  hangUpTime;
     public boolean result;
     public String time;
+    public boolean isVerify;
 
-    public OutGoingCallResult(long batchId, int cycleIndex, long number, String dialTime, String offHookTime, String hangUpTime, boolean result,String time) {
-
+    public OutGoingCallResult(long batchId, int cycleIndex, String number, String dialTime, String offHookTime, String hangUpTime, boolean result,String time,boolean isVerify) {
         this.batchId = batchId;
         this.cycleIndex = cycleIndex;
         this.number = number;
@@ -22,10 +22,11 @@ public class OutGoingCallResult {
         this.hangUpTime = hangUpTime;
         this.result = result;
         this.time = time;
+        this.isVerify = isVerify;
     }
 
     public OutGoingCallResult() {
-        this(0, 0, 10086, "", "", "", true,"");
+        this(0, 0, "10086", "", "", "", true,"",false);
     }
 
     public OutGoingCallResult setBatchId(long batchId) {
@@ -38,7 +39,7 @@ public class OutGoingCallResult {
         return this;
     }
 
-    public OutGoingCallResult setNumber(long number) {
+    public OutGoingCallResult setNumber(String number) {
         this.number = number;
         return this;
     }
@@ -65,6 +66,11 @@ public class OutGoingCallResult {
 
     public OutGoingCallResult setTime(String time) {
         this.time = time;
+        return this;
+    }
+
+    public OutGoingCallResult setVerify(boolean verify) {
+        isVerify = verify;
         return this;
     }
 }

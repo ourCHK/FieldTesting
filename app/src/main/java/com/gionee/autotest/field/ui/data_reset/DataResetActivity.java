@@ -32,6 +32,9 @@ public class DataResetActivity extends BaseActivity implements DataResetContract
     @BindView(R.id.et_frequency)
     EditText et_frequency;
 
+    @BindView(R.id.et_retest_times)
+    EditText et_retest_times;
+
     private LocalReceiver localReceiver;
 
 
@@ -83,7 +86,7 @@ public class DataResetActivity extends BaseActivity implements DataResetContract
 
     @OnClick(R.id.bt_start_testing)
     void onDataResetStartClicked(){
-        mDataResetPresenter.isIntervalValid(et_frequency.getText().toString()) ;
+        mDataResetPresenter.isIntervalValid(et_frequency.getText().toString(),et_retest_times.getText().toString()) ;
     }
 
     @OnClick(R.id.bt_stop_testing)
@@ -93,19 +96,28 @@ public class DataResetActivity extends BaseActivity implements DataResetContract
     }
 
     @Override
-    public void setDefaultInterval(String time) {
+    public void setDefaultInterval(String time,String retest_times) {
         et_frequency.setText(time);
+        et_retest_times.setText(retest_times);
+
     }
 
     @Override
     public void showFrequencyError() {
         Toast.makeText(getApplicationContext(), R.string.cycle_erro, Toast.LENGTH_SHORT).show();
+
     }
+
+    @Override
+    public void showRetesTimesError() {
+        Toast.makeText(getApplicationContext(), R.string.retest_erro, Toast.LENGTH_SHORT).show();
+    }
+
 
     @Override
     public void showStartToast() {
         Toast.makeText(this, R.string.start_testing, Toast.LENGTH_SHORT).show();
-        mDataResetPresenter.registerDataResetListener(et_frequency.getText().toString());
+        mDataResetPresenter.registerDataResetListener(et_frequency.getText().toString(),et_retest_times.getText().toString());
     }
 
     @Override

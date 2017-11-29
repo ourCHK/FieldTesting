@@ -19,6 +19,7 @@ public final class DBManager {
     public static void initAllDB(Context context) {
         AppsDBManager.initDatabase(context);
         InComingDBManager.init(context);
+        OutGoingDBManager.init(context);
     }
 
     /**

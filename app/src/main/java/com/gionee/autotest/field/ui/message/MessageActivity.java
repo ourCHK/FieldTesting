@@ -31,7 +31,7 @@ import butterknife.OnClick;
  * Created by xhk on 2017/11/15.
  */
 
-public class MessageActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, DataResetContract.View, MessageContract.View {
+public class MessageActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, MessageContract.View {
 
     @BindView(R.id.rg_message_type)
     RadioGroup rg_message_type;
@@ -191,10 +191,6 @@ public class MessageActivity extends BaseActivity implements RadioGroup.OnChecke
         Toast.makeText(this, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void setDefaultInterval(String time) {
-
-    }
 
     @Override
     public void showFrequencyError() {
