@@ -85,6 +85,7 @@
 
         <LinearLayout
             android:layout_width="fill_parent"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
@@ -110,6 +111,7 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <TextView
@@ -134,6 +136,7 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <TextView
@@ -176,6 +179,14 @@
             android:background="@drawable/bg_stroke"
             android:text="@string/start"
             android:textColor="@color/colorPrimary"/>
+
+        <TextView
+            android:id="@+id/callRateET"
+            android:layout_marginTop="10dp"
+            android:textSize="20sp"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
 </LinearLayout>

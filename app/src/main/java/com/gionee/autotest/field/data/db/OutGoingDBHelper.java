@@ -57,7 +57,8 @@ public class OutGoingDBHelper extends DBHelper {
                 int    call_time_sum = query.getInt(query.getColumnIndex(OutGoingBatch.CALL_TIME_SUM));
                 int    gap_time      = query.getInt(query.getColumnIndex(OutGoingBatch.GAP_TIME));
                 int    is_speaker_on = query.getInt(query.getColumnIndex(OutGoingBatch.IS_SPEAKER_ON));
-                batchs.add(new CallParam(id, numbers, new String[0], cycle, call_time, call_time_sum, gap_time, is_speaker_on == 1));
+                int    verify_count = query.getInt(query.getColumnIndex(OutGoingBatch.VERIFY_COUNT));
+                batchs.add(new CallParam(id, numbers, new String[0], cycle, call_time, call_time_sum, gap_time, is_speaker_on == 1,verify_count));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -99,13 +100,14 @@ public class OutGoingDBHelper extends DBHelper {
         while (cursor.moveToNext()) {
             try {
                 int    cycleIndex  = cursor.getInt(cursor.getColumnIndex(OutGoingData.CYCLE_INDEX));
-                long   number      = cursor.getLong(cursor.getColumnIndex(OutGoingData.NUMBER));
+                String   number      = cursor.getString(cursor.getColumnIndex(OutGoingData.NUMBER));
                 String dialTime    = cursor.getString(cursor.getColumnIndex(OutGoingData.DIAL_TIME));
                 String offHookTime = cursor.getString(cursor.getColumnIndex(OutGoingData.OFF_HOOK_TIME));
                 String hangUpTime  = cursor.getString(cursor.getColumnIndex(OutGoingData.HANG_UP_TIME));
                 int    result      = cursor.getInt(cursor.getColumnIndex(OutGoingData.RESULT));
+                int    isVerify      = cursor.getInt(cursor.getColumnIndex(OutGoingData.IS_VERIFY));
                 String time        = cursor.getString(cursor.getColumnIndex(OutGoingData.TIME));
-                calls.add(new OutGoingCallResult().setBatchId(batchId).setCycleIndex(cycleIndex).setNumber(number).setDialTime(dialTime).
+                calls.add(new OutGoingCallResult().setVerify(isVerify==1).setBatchId(batchId).setCycleIndex(cycleIndex).setNumber(number).setDialTime(dialTime).
                         setOffHookTime(offHookTime).setHangUpTime(hangUpTime).setResult(result == 1).setTime(time));
             } catch (Exception e) {
                 e.printStackTrace();
