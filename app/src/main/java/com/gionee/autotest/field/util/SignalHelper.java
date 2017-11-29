@@ -45,8 +45,8 @@ public final class SignalHelper {
 
     private SimStateReceiver                        mSimStateReceiver;
 
-    public int                                     mSubId0;
-    public int                                     mSubId1;
+    private int                                     mSubId0 = -1 ;
+    private int                                     mSubId1 = -1 ;
 
     private Sim1SignalStrengthsListener             mSim1SignalListener ;
     private Sim2SignalStrengthsListener             mSim2SignalListener ;
@@ -130,11 +130,13 @@ public final class SignalHelper {
     @Retention(RetentionPolicy.SOURCE)
     @interface SIMID{}
 
-    public SimSignalInfo getSimSignalInfo(@SIMID int simId){
-        if (simId == SIM_CARD_0){
+    public SimSignalInfo getSimSignalInfo(@SIMID int subId){
+        if (subId == mSubId0){
             return mSim1SignalInfo ;
+        }else if (subId == mSubId1){
+            return mSim2SignalInfo ;
         }
-        return mSim2SignalInfo ;
+        return null ;
     }
 
     public boolean isSimExist(@SIMID int simId){
