@@ -1,8 +1,11 @@
 package com.gionee.autotest.field.util;
 
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 import android.os.SystemClock;
+import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -235,4 +238,10 @@ public class SimUtil {
             this.current_simName_2 = current_simName_2;
         }
     }
+
+    @TargetApi(Build.VERSION_CODES.N)
+    public static int getDefaultDataSubId(Context context){
+        return SubscriptionManager.getDefaultDataSubscriptionId();
+    }
+
 }

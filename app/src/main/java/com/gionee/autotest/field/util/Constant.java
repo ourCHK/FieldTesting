@@ -46,6 +46,7 @@ public class Constant {
     public static final String PREF_KEY_CALL_QUALITY_RUNNING = "call_quality_running";
 
     public static final String PREF_KEY_DATA_RESET_INTERVAL = "data_reset_interval";
+    public static final String PREF_KEY_DATA_RESET_RETEST_TIMES = "data_reset_retest_times";
     public static final String PREF_KEY_DATA_RESET_DATA_COLLECT_RUNNING = "data_reset_data_collect_running";
     public static final String PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE = "data_reset_data_collect_current_cycle";
     public static final String DATA_RESET_PRESENTATION_NAME = "data_reset_presentation_name";
