@@ -79,7 +79,7 @@ public class Constant {
     public static final String DIR_DATA_RESET = PATH_SD + "data_reset/";
     public static final String DIR_MESSAGE = PATH_SD + "message/";
     // outgoing
-    public static final String DIR_OUT_GOING ="outgoing/";
+    public static final String DIR_OUT_GOING =PATH_SD+"outgoing/";
     public static final String OUT_GOING_EXCEL_PATH=DIR_OUT_GOING+"outGoingCallRecord.xls";
 
     public static final class APPDB implements BaseColumns {
