@@ -38,6 +38,7 @@ public final class SignalHelper {
 
     public static final int                        SIM_CARD_0  = 0 ;
     public static final int                        SIM_CARD_1  = 1 ;
+
     private WeakReference<Context>                  mContext ;
     private TelephonyManager                        mTelephonyManager;
     private SubscriptionManager                     mSubscriptionManager;
@@ -71,6 +72,20 @@ public final class SignalHelper {
             Log.i(Constant.TAG, "register mSimStateReceiver") ;
             mContext.get().registerReceiver(mSimStateReceiver, intentFilter);
         }
+    }
+
+    private String getSimOperator(int simId){
+        String operator = "N/A" ;
+        try {
+            Method method   = TelephonyManager.class.getMethod("getSimOperatorName", int.class);
+            operator =  (String) method.invoke(mTelephonyManager, simId);
+            if (operator != null && operator.equals("CMCC")){
+                operator = "中国移动" ;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return operator ;
     }
 
     private static volatile SignalHelper sInstance ;
@@ -249,6 +264,7 @@ public final class SignalHelper {
             mSim1SignalInfo.mSignal = String.valueOf(getSignal(signalStrength, SIM_CARD_0));
             mSim1SignalInfo.mNetType = getNetTypeName(getNetworkType(mSubId0));
             mSim1SignalInfo.mLevel = getSignalStrengthsLevel(signalStrength);
+            mSim1SignalInfo.mOperator = getSimOperator(mSubId0) ;
             notifySignalChanged(SIM_CARD_0, mSim1SignalInfo);
         }
     }
@@ -267,6 +283,7 @@ public final class SignalHelper {
             mSim2SignalInfo.mSignal = String.valueOf(getSignal(signalStrength, SIM_CARD_1));
             mSim2SignalInfo.mNetType = getNetTypeName(getNetworkType(mSubId1));
             mSim2SignalInfo.mLevel = getSignalStrengthsLevel(signalStrength);
+            mSim2SignalInfo.mOperator = getSimOperator(mSubId1) ;
             notifySignalChanged(SIM_CARD_1, mSim2SignalInfo);
         }
     }
@@ -287,6 +304,9 @@ public final class SignalHelper {
                 mSim2SignalInfo.mLevel = 0;
                 mSim1SignalInfo.mNetType = getNetTypeName(getNetworkType(mSubId0));
                 mSim2SignalInfo.mNetType = getNetTypeName(getNetworkType(mSubId1));
+                mSim1SignalInfo.mOperator = getSimOperator(mSubId0) ;
+                mSim2SignalInfo.mOperator = getSimOperator(mSubId1) ;
+
                 if (mSim1SignalInfo.mIsActive) {
                     registerSimSignalStrengths(SIM_CARD_0);
                 } else {

@@ -108,7 +108,7 @@ public class ExportModel {
             while((line = mReader.readLine()) != null){
                 if (line.contains(Constant.SEPARATOR)){
                     String[] items = line.split(Constant.SEPARATOR) ;
-                    if (items.length == 9){
+                    if (items.length == 11){
                         //should use another sheet now...
                         if (i > SHEET_MAX_LINES){
                             book.write();
@@ -128,22 +128,26 @@ public class ExportModel {
 
                         boolean isSim1Active = Boolean.valueOf(items[1]) ;
                         Label sim0ActiveLabel       = new Label(1, i, isSim1Active ? "存在" : "不存在", contentFormat);
-                        Label sim0Type              = new Label(2, i, items[2], contentFormat);
+                        Label sim0Operator          = new Label(2, i, items[2], contentFormat) ;
                         Label sim0Level             = new Label(3, i, items[3], contentFormat);
-                        Label sim0Signal            = new Label(4, i, items[4], contentFormat);
+                        Label sim0Type              = new Label(4, i, items[4], contentFormat);
+                        Label sim0Signal            = new Label(5, i, items[5], contentFormat);
 
-                        boolean isSim2Active = Boolean.valueOf(items[1]) ;
-                        Label sim1ActiveLabel       = new Label(5, i, isSim2Active ? "存在" : "不存在", contentFormat);
-                        Label sim1Type              = new Label(6, i, items[6], contentFormat);
-                        Label sim1Level             = new Label(7, i, items[7], contentFormat);
-                        Label sim1Signal            = new Label(8, i, items[8], contentFormat);
+                        boolean isSim2Active = Boolean.valueOf(items[6]) ;
+                        Label sim1ActiveLabel       = new Label(6, i, isSim2Active ? "存在" : "不存在", contentFormat);
+                        Label sim1Operator          = new Label(7, i, items[7], contentFormat) ;
+                        Label sim1Level             = new Label(8, i, items[8], contentFormat);
+                        Label sim1Type              = new Label(9, i, items[9], contentFormat);
+                        Label sim1Signal            = new Label(10, i, items[10], contentFormat);
 
                         sheet.addCell(timeLabel);
                         sheet.addCell(sim0ActiveLabel);
+                        sheet.addCell(sim0Operator);
                         sheet.addCell(sim0Type);
                         sheet.addCell(sim0Level);
                         sheet.addCell(sim0Signal);
                         sheet.addCell(sim1ActiveLabel);
+                        sheet.addCell(sim1Operator);
                         sheet.addCell(sim1Type);
                         sheet.addCell(sim1Level);
                         sheet.addCell(sim1Signal);
@@ -172,20 +176,24 @@ public class ExportModel {
 
         Label timeLabel             = new Label(0, 0, "时间", titleFormat);
         Label sim0ActiveLabel       = new Label(1, 0, "卡1是否存在", titleFormat);
-        Label sim0Type              = new Label(2, 0, "卡1网络类型", titleFormat);
-        Label sim0Level             = new Label(3, 0, "卡1信号级别", titleFormat);
-        Label sim0Signal            = new Label(4, 0, "卡1信号", titleFormat);
-        Label sim1ActiveLabel       = new Label(5, 0, "卡2是否存在", titleFormat);
-        Label sim1Type              = new Label(6, 0, "卡2网络类型", titleFormat);
-        Label sim1Level             = new Label(7, 0, "卡2信号级别", titleFormat);
-        Label sim1Signal            = new Label(8, 0, "卡2信号", titleFormat);
+        Label sim0Operator          = new Label(2, 0, "卡1网络运营商", titleFormat);
+        Label sim0Level             = new Label(3, 0, "卡1信号格数", titleFormat);
+        Label sim0Type              = new Label(4, 0, "卡1网络类型", titleFormat);
+        Label sim0Signal            = new Label(5, 0, "卡1信号强度", titleFormat);
+        Label sim1ActiveLabel       = new Label(6, 0, "卡2是否存在", titleFormat);
+        Label sim1Operator          = new Label(7, 0, "卡2网络运营商", titleFormat);
+        Label sim1Level             = new Label(8, 0, "卡2信号格数", titleFormat);
+        Label sim1Type              = new Label(9, 0, "卡2网络类型", titleFormat);
+        Label sim1Signal            = new Label(10, 0,"卡2信号强度", titleFormat);
 
         sheet.addCell(timeLabel);
         sheet.addCell(sim0ActiveLabel);
+        sheet.addCell(sim0Operator);
         sheet.addCell(sim0Type);
         sheet.addCell(sim0Level);
         sheet.addCell(sim0Signal);
         sheet.addCell(sim1ActiveLabel);
+        sheet.addCell(sim1Operator);
         sheet.addCell(sim1Type);
         sheet.addCell(sim1Level);
         sheet.addCell(sim1Signal);
@@ -199,5 +207,7 @@ public class ExportModel {
         sheet.setColumnView(6, 20);
         sheet.setColumnView(7, 20);
         sheet.setColumnView(8, 20);
+        sheet.setColumnView(9, 20);
+        sheet.setColumnView(10, 20);
     }
 }

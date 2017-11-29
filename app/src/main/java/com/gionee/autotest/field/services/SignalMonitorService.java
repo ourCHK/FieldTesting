@@ -145,6 +145,8 @@ public class SignalMonitorService extends Service{
         content.append(Constant.SEPARATOR) ;
         content.append(infoSim0.mIsActive) ;
         content.append(Constant.SEPARATOR) ;
+        content.append(infoSim0.mOperator) ;
+        content.append(Constant.SEPARATOR) ;
         content.append(infoSim0.mLevel) ;
         content.append(Constant.SEPARATOR) ;
         content.append(infoSim0.mNetType) ;
@@ -153,6 +155,8 @@ public class SignalMonitorService extends Service{
         content.append(Constant.SEPARATOR) ;
         if (infoSim2 == null) infoSim2 = new SimSignalInfo() ;
         content.append(infoSim2.mIsActive) ;
+        content.append(Constant.SEPARATOR) ;
+        content.append(infoSim2.mOperator) ;
         content.append(Constant.SEPARATOR) ;
         content.append(infoSim2.mLevel) ;
         content.append(Constant.SEPARATOR) ;

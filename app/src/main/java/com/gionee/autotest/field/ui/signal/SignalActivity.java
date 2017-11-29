@@ -128,9 +128,7 @@ public class SignalActivity extends BaseActivity implements SignalContract.View,
 
     @Override
     public void showSignalExportSuccess(String filePath) {
-/*        Toast.makeText(this, String.format(getString(R.string.export_signal_success), filePath),
-                Toast.LENGTH_SHORT).show();*/
-        Util.showFinishDialog(this, String.format(getString(R.string.export_signal_success), filePath));
+        Util.showFinishDialog(this, filePath);
     }
 
     @OnClick(R.id.signal_stop)
