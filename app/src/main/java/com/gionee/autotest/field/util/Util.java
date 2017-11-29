@@ -106,7 +106,7 @@ public class Util {
                 .setPositiveButton(R.string.open_msg, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        openExcelWithIntent(context, path);
+                        openExcelByIntent(context, path);
                     }
                 })
                 .setNegativeButton(R.string.cancel_msg, null)
@@ -121,7 +121,7 @@ public class Util {
                 .show();
     }
 
-    public static void openExcelWithIntent(Context context, String excelPath){
+    public static void openExcelByIntent(Context context, String excelPath){
         try {
             Intent intent = new Intent("android.intent.action.VIEW");
             intent.addCategory("android.intent.category.DEFAULT");
