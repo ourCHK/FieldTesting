@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.gionee.autotest.field.ui.data_stability.DataStabilityActivity"
+    tools:showIn="@layout/activity_data_stability">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/waitTimeET"
+                android:layout_alignLeft="@+id/waitTimeET"
+                android:paddingLeft="5dp"
+                android:text="等待时长:"
+                android:textSize="18sp"/>
+
+            <EditText
+                android:id="@+id/waitTimeET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:maxLength="6"
+                android:text="5"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/testTimes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_alignBaseline="@+id/testTimesET"
+                android:layout_alignLeft="@+id/testTimesET"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:text="测试次数:"
+                android:textSize="18sp"/>
+
+            <EditText
+                android:id="@+id/testTimesET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:maxLength="5"
+                android:text="5"/>
+        </RelativeLayout>
+
+        <CheckBox
+            android:id="@+id/forbidSleepCB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="阻止进入深度休眠"/>
+
+        <Button
+            android:id="@+id/startBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="开始测试"/>
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>

@@ -210,6 +210,22 @@
     <string name="call_quality_not_running">请先开始测试！</string>
     <string name="finished_title">测试已完成</string>
 
+    <!-- data_stability  resources-->
+    <!--<string name="app_name">AutoDataStabilityTest</string>-->
+    <!--<string name="action_settings">Settings</string>-->
+    <string name="title_activity_web_view">WebViewActivity</string>
+
+    <!--<string name="action_abouts">关于</string>-->
+    <!--<string name="action_version">版本号</string>-->
+    <!--<string name="action_author">金立OS中心 自动化组</string>-->
+    <!--<string name="author_name">——宋研聪</string>-->
+    <!--<string name="testTime">测试时长(分钟/模块)</string>-->
+    <!--<string name="testReport">测试报告</string>-->
+    <!--<string name="number">序号</string>-->
+    <string name="data_stability_label">数据稳定性</string>
+    <string name="noReport">当前没有测试数据</string>
+    <string name="selectTips">选择批次:</string>
+
     <!-- for debug activity-->
     <string name="debug_label">调试功能</string>
     <string name="open_msg">打开查看</string>

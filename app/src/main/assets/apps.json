@@ -54,7 +54,7 @@
       "key": 7,
       "label":"数据稳定性",
       "icon":"phone_stability",
-      "activity":"",
+      "activity":".ui.data_stability.DataStabilityActivity",
       "installed": true
     },
     {
