@@ -54,6 +54,9 @@ public class WebViewActivity extends AppCompatActivity implements IWebViewActivi
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent("testFinish"));
     }
 
+    /**
+     * SystemUid的进程无法使用WebView，使用该方法去绕开系统检查
+     */
     public static void hookWebView() {
         int sdkInt = Build.VERSION.SDK_INT;
         try {
@@ -87,7 +90,7 @@ public class WebViewActivity extends AppCompatActivity implements IWebViewActivi
                 Log.i("WebViewActivity","sProviderInstance:{}");
                 field.set("sProviderInstance", sProviderInstance);
             }
-//            log.debug("Hook done!");
+             Log.i("WebViewActivity","hook done!");
         } catch (Throwable e) {
 //            log.error(e);
             Log.i("WebActivity","error:"+e);
