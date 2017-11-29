@@ -130,7 +130,7 @@ public final class SignalHelper {
     @Retention(RetentionPolicy.SOURCE)
     @interface SIMID{}
 
-    public SimSignalInfo getSimSignalInfo(@SIMID int subId){
+    public SimSignalInfo getSimSignalInfo(int subId){
         if (subId == mSubId0){
             return mSim1SignalInfo ;
         }else if (subId == mSubId1){
