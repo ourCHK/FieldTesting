@@ -241,6 +241,10 @@
         <activity
             android:name=".ui.data_stability.report.ReportActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.data_reset.DataResetPresentationActivity"
+            android:label="@string/data_reset_test_list"
+            android:screenOrientation="portrait"/>
 
         <service android:name=".services.SignalMonitorService" />
         <service android:name=".services.DataResetServices" />

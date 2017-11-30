@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import jxl.Sheet;
@@ -161,6 +162,20 @@ public class DataResetHelper {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public static ArrayList<File> getDirFileXls(String path){
+        ArrayList<File> fileArrayList = new ArrayList<>();
+        File file = new File(path);
+        File[] listFiles = file.listFiles();
+        for (int i = 0; i < listFiles.length; i++) {
+            if (listFiles[i].isFile()){
+                if (listFiles[i].getName().contains(".xls")){
+                    fileArrayList.add(listFiles[i].getAbsoluteFile());
+                }
+            }
+        }
+        return fileArrayList;
     }
 
 

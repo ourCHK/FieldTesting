@@ -13,6 +13,11 @@ import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.ui.about.AboutActivity;
 import com.gionee.autotest.field.ui.base.BaseActivity;
 import com.gionee.autotest.field.util.Constant;
+import com.gionee.autotest.field.util.DataResetHelper;
+
+import java.io.File;
+import java.io.Serializable;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -66,19 +71,28 @@ public class DataResetActivity extends BaseActivity implements DataResetContract
 
     @Override
     protected int menuResId() {
-        return R.menu.menu_main;
+        return R.menu.menu_data_reset;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.about:
-                Toast.makeText(getApplicationContext(), R.string.not_implemented_yet, Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(this, AboutActivity.class));
+            case R.id.data_reset_about:
+//                Toast.makeText(getApplicationContext(), R.string.not_implemented_yet, Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, AboutActivity.class));
                 return true;
-            case R.id.help:
-                Toast.makeText(getApplicationContext(), R.string.not_implemented_yet, Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(this, AboutActivity.class));
+            case R.id.data_reset_test:
+
+                ArrayList<File> dirFileXls = DataResetHelper.getDirFileXls(Constant.DIR_DATA_RESET);
+                if (dirFileXls.size()==0){
+                    Toast.makeText(getApplicationContext(), R.string.data_reset_erro, Toast.LENGTH_SHORT).show();
+                }else{
+                    Intent intent = new Intent(this,DataResetPresentationActivity.class);
+                    intent.putExtra("dirFileXls",(Serializable)dirFileXls);
+                    startActivity(intent);
+
+                }
+
                 return true ;
         }
         return super.onOptionsItemSelected(item);
