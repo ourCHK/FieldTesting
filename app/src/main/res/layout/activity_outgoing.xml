@@ -187,7 +187,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/support_single_sim"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/colorPrimary"
+            android:textSize="10sp" />
 
         <Button
             android:id="@+id/out_going_start"
@@ -204,9 +205,10 @@
         android:id="@+id/callRateET"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimary"
+        android:layout_margin="10dp"
         android:layout_marginTop="10dp"
-        android:textSize="20sp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
         android:visibility="visible" />
 </LinearLayout>
 
