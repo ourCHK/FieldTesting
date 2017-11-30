@@ -1,8 +1,6 @@
 package com.gionee.autotest.field.ui.outgoing.model;
 
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -15,12 +13,9 @@ import com.gionee.autotest.field.util.Constant;
 import java.util.ArrayList;
 
 public class CallRateTask extends AsyncTask<Void, Void, String> {
-    @SuppressLint("StaticFieldLeak")
-    private Context context;
     private CallBack callBack;
 
-    public CallRateTask(Context context, CallBack callBack) {
-        this.context = context;
+    public CallRateTask( CallBack callBack) {
         this.callBack = callBack;
     }
 

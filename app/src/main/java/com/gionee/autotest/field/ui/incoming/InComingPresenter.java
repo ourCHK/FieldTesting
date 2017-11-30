@@ -7,9 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.gionee.autotest.common.call.CallMonitor;
 import com.gionee.autotest.common.call.CallMonitorParam;
-import com.gionee.autotest.common.call.CallMonitorResult;
 import com.gionee.autotest.field.data.db.InComingDBManager;
 import com.gionee.autotest.field.data.db.model.InComingReportBean;
 import com.gionee.autotest.field.ui.base.BasePresenter;
@@ -25,12 +23,6 @@ import com.google.gson.JsonSyntaxException;
 import java.util.ArrayList;
 
 import io.reactivex.functions.Consumer;
-
-/**
- * Created by viking on 11/13/17.
- * <p>
- * Presenter for signal
- */
 
 class InComingPresenter extends BasePresenter<BaseView> implements InComingContract.Presenter {
     private Context mContext;
@@ -125,8 +117,6 @@ class InComingPresenter extends BasePresenter<BaseView> implements InComingContr
     public void initialize(Bundle extras) {
         if (getView() instanceof InComingContract.View) {
             getMainView().setParams(getLastParams());
-        } else {
-
         }
     }
 

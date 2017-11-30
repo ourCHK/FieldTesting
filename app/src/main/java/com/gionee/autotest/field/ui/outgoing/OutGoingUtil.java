@@ -8,6 +8,7 @@ import android.util.SparseArray;
 
 import com.gionee.autotest.field.data.db.OutGoingDBManager;
 import com.gionee.autotest.field.data.db.model.OutGoingCallResult;
+import com.gionee.autotest.field.ui.outgoing.model.CallParam;
 import com.gionee.autotest.field.ui.signal.entity.SimSignalInfo;
 import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.SignalHelper;
@@ -154,5 +155,58 @@ public class OutGoingUtil {
             }
         }.execute();
     }
+    @SuppressLint("StaticFieldLeak")
+    public static void addBatch(CallParam p, final Consumer<CallParam> c) {
+        new AsyncTask<CallParam, Void, CallParam>() {
+            @Override
+            protected CallParam doInBackground(CallParam... params) {
+                CallParam param = params[0];
+                param.setId(OutGoingDBManager.addBatch(param));
+                return param;
+            }
 
+            @Override
+            protected void onPostExecute(CallParam p) {
+                super.onPostExecute(p);
+                if (c != null) {
+                    try {
+                        c.accept(p);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }.execute(p);
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public static void exportExcelFile(final Consumer<Integer> c){
+        new AsyncTask<Void, Void, Integer>() {
+            @Override
+            protected Integer doInBackground(Void... voids) {
+                ArrayList<ArrayList<OutGoingCallResult>> results = new ArrayList<>();
+                ArrayList<String> allBatch = OutGoingDBManager.getAllBatch();
+                if (allBatch.size() == 0) {
+                    return 0;
+                }
+                for (String batch : allBatch) {
+                    results.add(OutGoingDBManager.getReportBean(Integer.parseInt(batch)));
+                }
+                OutGoingUtil.writeBook(Constant.OUT_GOING_EXCEL_PATH, results);
+                return allBatch.size();
+            }
+
+            @Override
+            protected void onPostExecute(Integer size) {
+                super.onPostExecute(size);
+                if (c!=null){
+                    try {
+                        c.accept(size);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }.execute();
+    }
 }

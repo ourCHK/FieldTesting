@@ -31,6 +31,8 @@ import com.google.gson.Gson;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import io.reactivex.functions.Consumer;
+
 public class OutGoingService extends Service {
 
     private CallParam params;
@@ -66,7 +68,7 @@ public class OutGoingService extends Service {
         if (paramsJson != null) {
             cycleIndex = 0;
             numberIndex = 0;
-            params = new Gson().fromJson(paramsJson, CallParam.class);
+            this.params = new Gson().fromJson(paramsJson, CallParam.class);
             startCycle();
         }
         return super.onStartCommand(intent, flags, startId);
@@ -169,7 +171,7 @@ public class OutGoingService extends Service {
             } else {
                 cancelListener();
                 Log.i(Constant.TAG, "拨号失败，开始验证拨号");
-                new VerifyCall(getApplicationContext(), callBean.number, params,cycleIndex, new CallBack() {
+                new VerifyCall(getApplicationContext(), callBean.number, params, cycleIndex, new CallBack() {
                     @Override
                     public void call(Object o) {
                         startListener();

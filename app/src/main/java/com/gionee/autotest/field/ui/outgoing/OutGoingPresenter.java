@@ -25,7 +25,6 @@ import com.gionee.autotest.field.ui.base.BasePresenter;
 import com.gionee.autotest.field.ui.base.BaseView;
 import com.gionee.autotest.field.ui.outgoing.model.CallParam;
 import com.gionee.autotest.field.ui.outgoing.model.CallRateTask;
-import com.gionee.autotest.field.ui.outgoing.model.OutGoingModel;
 import com.gionee.autotest.field.ui.outgoing.report.OutGoingReportActivity;
 import com.gionee.autotest.field.ui.outgoing.report.OutGoingReportAdapter;
 import com.gionee.autotest.field.util.Constant;
@@ -39,7 +38,6 @@ import io.reactivex.functions.Consumer;
 
 public class OutGoingPresenter extends BasePresenter<BaseView> implements OutGoingContract.Presenter, AdapterView.OnItemSelectedListener {
     private Context mContext;
-    private OutGoingModel outGoingModel;
     private MyReceiver myReceiver;
     private ArrayAdapter mSpinnerAdapter;
     private ArrayList<String> batchs = new ArrayList<>();
@@ -50,11 +48,11 @@ public class OutGoingPresenter extends BasePresenter<BaseView> implements OutGoi
         mContext = context;
     }
 
-    OutGoingContract.View getMainView() {
+    private OutGoingContract.View getMainView() {
         return (OutGoingContract.View) getView();
     }
 
-    public OutGoingContract.ReportView getReportView() {
+    private OutGoingContract.ReportView getReportView() {
         return (OutGoingContract.ReportView) super.getView();
     }
 
@@ -65,7 +63,6 @@ public class OutGoingPresenter extends BasePresenter<BaseView> implements OutGoi
             getMainView().setParams(getLastParams());
             myReceiver = new MyReceiver();
             LocalBroadcastManager.getInstance(mContext).registerReceiver(myReceiver, new IntentFilter("AutoCallUpdateViews"));
-            outGoingModel = new OutGoingModel(mContext);
             obtainCallRate();
         } else {
             myAdapter = new OutGoingReportAdapter();
@@ -85,7 +82,7 @@ public class OutGoingPresenter extends BasePresenter<BaseView> implements OutGoi
     }
 
     void obtainCallRate() {
-        new CallRateTask(mContext, new CallBack() {
+        new CallRateTask(new CallBack() {
             @Override
             public void call(Object o) {
                 String sum = (String) o;
@@ -119,19 +116,29 @@ public class OutGoingPresenter extends BasePresenter<BaseView> implements OutGoi
     public void startCallTest() {
         try {
             OutGoingUtil.isTest = true;
-            CallParam p = getMainView().getUserParams();
+            final CallParam p = getMainView().getUserParams();
             Preference.putString(mContext, "outGoingParams", new Gson().toJson(p));
-            outGoingModel.start(p);
-            mContext.startService(new Intent(mContext, SignalMonitorService.class));
+            OutGoingUtil.addBatch(p, new Consumer<CallParam>() {
+                @Override
+                public void accept(CallParam callParam) throws Exception {
+                    mContext.startService(new Intent(mContext, OutGoingService.class).putExtra("params", new Gson().toJson(p)));
+                    mContext.startService(new Intent(mContext, SignalMonitorService.class));
+                }
+            });
         } catch (Exception e) {
-            outGoingModel.stop();
+            stop();
         }
+    }
+
+    private void stop() {
+        OutGoingUtil.isTest = false;
+        mContext.stopService(new Intent(mContext, OutGoingService.class));
     }
 
     @Override
     public void handleStartBtnClicked() {
         if (OutGoingUtil.isTest) {
-            outGoingModel.stop();
+            stop();
         } else {
             startCallTest();
         }
@@ -163,24 +170,9 @@ public class OutGoingPresenter extends BasePresenter<BaseView> implements OutGoi
 
     @SuppressLint("StaticFieldLeak")
     void exportExcelFile() {
-        new AsyncTask<Void, Void, Integer>() {
+        OutGoingUtil.exportExcelFile(new Consumer<Integer>() {
             @Override
-            protected Integer doInBackground(Void... voids) {
-                ArrayList<ArrayList<OutGoingCallResult>> results = new ArrayList<>();
-                ArrayList<String> allBatch = OutGoingDBManager.getAllBatch();
-                if (allBatch.size() == 0) {
-                    return 0;
-                }
-                for (String batch : allBatch) {
-                    results.add(OutGoingDBManager.getReportBean(Integer.parseInt(batch)));
-                }
-                OutGoingUtil.writeBook(Constant.OUT_GOING_EXCEL_PATH, results);
-                return allBatch.size();
-            }
-
-            @Override
-            protected void onPostExecute(Integer size) {
-                super.onPostExecute(size);
+            public void accept(Integer size) throws Exception {
                 if (size == 0) {
                     Toast.makeText(mContext, "无报告", Toast.LENGTH_LONG).show();
                 } else {
@@ -198,7 +190,7 @@ public class OutGoingPresenter extends BasePresenter<BaseView> implements OutGoi
                     }).show();
                 }
             }
-        }.execute();
+        });
     }
 
     @SuppressLint("StaticFieldLeak")

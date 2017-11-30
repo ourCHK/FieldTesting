@@ -8,7 +8,10 @@ import android.util.Log;
 import com.gionee.autotest.common.call.CallMonitorResult;
 import com.gionee.autotest.field.data.db.InComingDBManager;
 import com.gionee.autotest.field.data.db.model.InComingReportBean;
+import com.gionee.autotest.field.ui.signal.entity.SimSignalInfo;
 import com.gionee.autotest.field.util.Constant;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -49,8 +52,7 @@ public class InComingCall {
 
             @Override
             protected ArrayList<String> doInBackground(Void... voids) {
-                ArrayList<String> allBatch = InComingDBManager.getAllBatch();
-                return allBatch;
+                return InComingDBManager.getAllBatch();
             }
 
             @Override
@@ -92,13 +94,13 @@ public class InComingCall {
             @Override
             protected Integer doInBackground(Void... voids) {
                 try {
-                    ArrayList<InComingReportBean> reportBeans =new  ArrayList<>();
+                    ArrayList<InComingReportBean> reportBeans = new ArrayList<>();
                     ArrayList<String> allBatch = InComingDBManager.getAllBatch();
                     for (String batch : allBatch) {
                         InComingReportBean reportBean = InComingDBManager.getReportBean(Integer.parseInt(batch));
                         reportBeans.add(reportBean);
                     }
-                    writeAllExcel(reportBeans,Constant.INCOMING_EXCEL_PATH);
+                    writeAllExcel(reportBeans, Constant.INCOMING_EXCEL_PATH);
                     return reportBeans.size();
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
@@ -109,25 +111,31 @@ public class InComingCall {
             @Override
             protected void onPostExecute(Integer size) {
                 super.onPostExecute(size);
-                    try {
-                        c.accept(size);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    c.accept(size);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }.execute();
     }
 
-    static void writeAllExcel(ArrayList<InComingReportBean> beans, String filePath){
+    private static void writeAllExcel(ArrayList<InComingReportBean> beans, String filePath) {
         WritableWorkbook workBook = null;
         try {
-            File file =new  File(filePath);
+            File file = new File(filePath);
             if (!file.getParentFile().exists()) {
-                file.getParentFile().mkdir();
+                boolean mkdirs = file.getParentFile().mkdir();
+                Log.i(Constant.TAG, "incoming excelFilePath mkdirs " + mkdirs);
             }
-            if (file.exists()) file.delete();
-            file.createNewFile();
+            if (file.exists()) {
+                boolean delete = file.delete();
+                Log.i(Constant.TAG,"incoming excelFile delete "+delete);
+            }
+            boolean newFile = file.createNewFile();
+            Log.i(Constant.TAG,"incoming excel file create "+newFile);
             workBook = Workbook.createWorkbook(file);
+            Gson gson = new Gson();
             for (int batchIndex = 0; batchIndex < beans.size(); batchIndex++) {
                 InComingReportBean bean = beans.get(batchIndex);
                 WritableSheet sheet = workBook.createSheet("第" + (batchIndex + 1) + "批次", batchIndex);
@@ -138,25 +146,42 @@ public class InComingCall {
                 sheet.addCell(new Label(4, 0, "失败原因"));
                 for (int callIndex = 0; callIndex < bean.data.size(); callIndex++) {
                     CallMonitorResult result = bean.data.get(callIndex);
-                    sheet.addCell(new Label(0, callIndex + 1, (result.index + 1)+""));
+                    SimSignalInfo simSignalInfo = null;
+                    try {
+                        simSignalInfo = gson.fromJson(result.failMsg, SimSignalInfo.class);
+                    } catch (JsonSyntaxException e) {
+                        e.printStackTrace();
+                    }
+                    sheet.addCell(new Label(0, callIndex + 1, (result.index + 1) + ""));
                     sheet.addCell(new Label(1, callIndex + 1, result.number));
                     sheet.addCell(new Label(2, callIndex + 1, result.time));
-                    sheet.addCell(new Label(3, callIndex + 1, result.result?"成功" : "失败"));
-                    sheet.addCell(new Label(4, callIndex + 1, result.failMsg));
+                    sheet.addCell(new Label(3, callIndex + 1, result.result ? "成功" : "失败"));
+                    sheet.addCell(new Label(4, callIndex + 1, simSignalInfo == null ? "" : simSignalInfo.toString()));
                 }
             }
             workBook.write();
             workBook.close();
         } catch (Exception e) {
-            Log.i(Constant.TAG,e.toString());
+            Log.i(Constant.TAG, e.toString());
         } finally {
             if (workBook != null) {
                 try {
                     workBook.close();
                 } catch (Exception e) {
-                    Log.i(Constant.TAG,e.toString());
+                    Log.i(Constant.TAG, e.toString());
                 }
 
             }
-        }}
+        }
+    }
+
+    public static String getSumString(InComingReportBean bean) {
+        int success = 0;
+        for (CallMonitorResult result : bean.data) {
+            if (result.result) {
+                success++;
+            }
+        }
+        return "总共" + bean.data.size() + "\n成功接通" + success + "\n失败" + (bean.data.size() - success);
+    }
 }
