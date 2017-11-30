@@ -2,11 +2,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".main.MainActivity">
-    <!--<item-->
-        <!--android:id="@+id/show_report"-->
-        <!--android:orderInCategory="100"-->
-        <!--android:title="@string/show_report"-->
-        <!--app:showAsAction="never" />-->
+    <item
+        android:id="@+id/show_report"
+        android:orderInCategory="100"
+        android:title="@string/show_report"
+        app:showAsAction="never" />
     <item
         android:id="@+id/clear_report"
         android:orderInCategory="100"

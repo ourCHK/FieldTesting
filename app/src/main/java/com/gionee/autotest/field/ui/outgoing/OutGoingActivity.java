@@ -142,9 +142,9 @@ public class OutGoingActivity extends BaseActivity implements OutGoingContract.V
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-//            case R.id.show_report:
-//                mOutGoingPresenter.showReport();
-//                break;
+            case R.id.show_report:
+                mOutGoingPresenter.showReport();
+                break;
             case R.id.clear_report:
                 mOutGoingPresenter.clearAllReport();
                 break;

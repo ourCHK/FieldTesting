@@ -11,6 +11,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ExpandableListView;
 import android.widget.Toast;
 
 import com.gionee.autotest.common.Preference;
@@ -18,9 +22,12 @@ import com.gionee.autotest.field.data.db.OutGoingDBManager;
 import com.gionee.autotest.field.data.db.model.OutGoingCallResult;
 import com.gionee.autotest.field.services.SignalMonitorService;
 import com.gionee.autotest.field.ui.base.BasePresenter;
+import com.gionee.autotest.field.ui.base.BaseView;
 import com.gionee.autotest.field.ui.outgoing.model.CallParam;
 import com.gionee.autotest.field.ui.outgoing.model.CallRateTask;
 import com.gionee.autotest.field.ui.outgoing.model.OutGoingModel;
+import com.gionee.autotest.field.ui.outgoing.report.OutGoingReportActivity;
+import com.gionee.autotest.field.ui.outgoing.report.OutGoingReportAdapter;
 import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.DialogHelper;
 import com.gionee.autotest.field.util.Util;
@@ -28,23 +35,53 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
-class OutGoingPresenter extends BasePresenter<OutGoingContract.View> implements OutGoingContract.Presenter {
+import io.reactivex.functions.Consumer;
+
+public class OutGoingPresenter extends BasePresenter<BaseView> implements OutGoingContract.Presenter, AdapterView.OnItemSelectedListener {
     private Context mContext;
     private OutGoingModel outGoingModel;
     private MyReceiver myReceiver;
+    private ArrayAdapter mSpinnerAdapter;
+    private ArrayList<String> batchs = new ArrayList<>();
+    private ArrayList<String> batchIndex = new ArrayList<>();
+    private OutGoingReportAdapter myAdapter;
 
-    OutGoingPresenter(Context context) {
+    public OutGoingPresenter(Context context) {
         mContext = context;
+    }
+
+    OutGoingContract.View getMainView() {
+        return (OutGoingContract.View) getView();
+    }
+
+    public OutGoingContract.ReportView getReportView() {
+        return (OutGoingContract.ReportView) super.getView();
     }
 
     @Override
     public void initialize(Bundle extras) {
         super.initialize(extras);
-        getView().setParams(getLastParams());
-        myReceiver = new MyReceiver();
-        LocalBroadcastManager.getInstance(mContext).registerReceiver(myReceiver, new IntentFilter("AutoCallUpdateViews"));
-        outGoingModel = new OutGoingModel(mContext);
-        obtainCallRate();
+        if (getView() instanceof OutGoingContract.View) {
+            getMainView().setParams(getLastParams());
+            myReceiver = new MyReceiver();
+            LocalBroadcastManager.getInstance(mContext).registerReceiver(myReceiver, new IntentFilter("AutoCallUpdateViews"));
+            outGoingModel = new OutGoingModel(mContext);
+            obtainCallRate();
+        } else {
+            myAdapter = new OutGoingReportAdapter();
+            getReportView().getListView().setAdapter(myAdapter);
+            getReportView().getListView().setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+                @Override
+                public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                    return true;
+                }
+            });
+            mSpinnerAdapter = new ArrayAdapter(mContext, android.R.layout.simple_spinner_item, batchIndex);
+            mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            getReportView().getSpinner().setAdapter(mSpinnerAdapter);
+            getReportView().getSpinner().setOnItemSelectedListener(this);
+            updateBatchList();
+        }
     }
 
     void obtainCallRate() {
@@ -52,7 +89,7 @@ class OutGoingPresenter extends BasePresenter<OutGoingContract.View> implements 
             @Override
             public void call(Object o) {
                 String sum = (String) o;
-                getView().updateCallRate(sum);
+                getMainView().updateCallRate(sum);
             }
         }).execute();
     }
@@ -82,7 +119,7 @@ class OutGoingPresenter extends BasePresenter<OutGoingContract.View> implements 
     public void startCallTest() {
         try {
             OutGoingUtil.isTest = true;
-            CallParam p = getView().getUserParams();
+            CallParam p = getMainView().getUserParams();
             Preference.putString(mContext, "outGoingParams", new Gson().toJson(p));
             outGoingModel.start(p);
             mContext.startService(new Intent(mContext, SignalMonitorService.class));
@@ -98,7 +135,7 @@ class OutGoingPresenter extends BasePresenter<OutGoingContract.View> implements 
         } else {
             startCallTest();
         }
-        getView().updateViews();
+        getMainView().updateViews();
     }
 
     @Override
@@ -112,9 +149,16 @@ class OutGoingPresenter extends BasePresenter<OutGoingContract.View> implements 
                         OutGoingDBManager.delete();
                     }
                 });
-                builder.setNegativeButton("取消",null);
+                builder.setNegativeButton("取消", null);
             }
         }).show();
+    }
+
+    @Override
+    public void showReport() {
+        Intent intent = new Intent(mContext, OutGoingReportActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mContext.startActivity(intent);
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -128,8 +172,7 @@ class OutGoingPresenter extends BasePresenter<OutGoingContract.View> implements 
                     return 0;
                 }
                 for (String batch : allBatch) {
-                    ArrayList<OutGoingCallResult> reportBean = OutGoingDBManager.getReportBean(Integer.parseInt(batch));
-                    results.add(reportBean);
+                    results.add(OutGoingDBManager.getReportBean(Integer.parseInt(batch)));
                 }
                 OutGoingUtil.writeBook(Constant.OUT_GOING_EXCEL_PATH, results);
                 return allBatch.size();
@@ -155,14 +198,69 @@ class OutGoingPresenter extends BasePresenter<OutGoingContract.View> implements 
                     }).show();
                 }
             }
-
         }.execute();
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private void insertListData(int batchId) {
+        OutGoingUtil.getReportListData(batchId, new Consumer<ArrayList<ArrayList<OutGoingCallResult>>>() {
+            @Override
+            public void accept(ArrayList<ArrayList<OutGoingCallResult>> outGoingCallResults) throws Exception {
+                myAdapter.updateData(outGoingCallResults);
+                for (int i = 0; i < myAdapter.getGroupCount(); i++) {
+                    getReportView().getListView().expandGroup(i);
+                }
+            }
+        });
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private void updateBatchList() {
+        new AsyncTask<Void, Void, ArrayList<String>>() {
+            @Override
+            protected ArrayList<String> doInBackground(Void... voids) {
+                ArrayList<String> allBatch = OutGoingDBManager.getAllBatch();
+                Log.i(Constant.TAG, "allBatchs" + allBatch.size());
+                batchs.clear();
+                batchs.addAll(allBatch);
+                batchIndex.clear();
+                for (int i = 1; i < batchs.size() + 1; i++) {
+                    batchIndex.add(String.valueOf(i));
+                }
+                return allBatch;
+            }
+
+            @Override
+            protected void onPostExecute(ArrayList<String> strings) {
+                super.onPostExecute(strings);
+                try {
+                    mSpinnerAdapter.notifyDataSetChanged();
+                    if (strings.size() != 0) {
+                        getReportView().getSpinner().setSelection(Integer.parseInt(batchIndex.get(strings.size() - 1)));
+                    }
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.execute();
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if (position == -1) return;
+        insertListData(Integer.parseInt(batchs.get(position)));
+        Log.i(Constant.TAG, "打开" + position + "的报告");
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 
     class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            getView().updateViews();
+            getMainView().updateViews();
         }
     }
 

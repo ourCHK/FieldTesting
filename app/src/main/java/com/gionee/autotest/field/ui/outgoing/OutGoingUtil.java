@@ -1,8 +1,12 @@
 package com.gionee.autotest.field.ui.outgoing;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
+import android.util.SparseArray;
 
+import com.gionee.autotest.field.data.db.OutGoingDBManager;
 import com.gionee.autotest.field.data.db.model.OutGoingCallResult;
 import com.gionee.autotest.field.ui.signal.entity.SimSignalInfo;
 import com.gionee.autotest.field.util.Constant;
@@ -13,7 +17,9 @@ import com.google.gson.JsonSyntaxException;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import io.reactivex.functions.Consumer;
 import jxl.Workbook;
 import jxl.write.Label;
 import jxl.write.WritableSheet;
@@ -109,4 +115,44 @@ public class OutGoingUtil {
         }
         return "总拨号" + results.size() + "通\n测试" + (results.size() - verifyCount) + "通\n复测" + verifyCount + "通\n接通率为" + ((float) testSuccess / results.size()) * 100 + "%";
     }
+
+    @SuppressLint("StaticFieldLeak")
+    public static void getReportListData(final int batchId, final Consumer<ArrayList<ArrayList<OutGoingCallResult>>> consumer) {
+        new AsyncTask<Void, Void, ArrayList<ArrayList<OutGoingCallResult>>>() {
+            @Override
+            protected ArrayList<ArrayList<OutGoingCallResult>> doInBackground(Void... voids) {
+                ArrayList<OutGoingCallResult> reportBean = OutGoingDBManager.getReportBean(batchId);
+                ArrayList<ArrayList<OutGoingCallResult>> data = new ArrayList<>();
+                SparseArray<ArrayList<OutGoingCallResult>> array = new SparseArray<>();
+                for (OutGoingCallResult result : reportBean) {
+                    if (array.indexOfKey(result.cycleIndex) >= 0) {
+                        ArrayList<OutGoingCallResult> results = array.get(result.cycleIndex);
+                        results.add(result);
+                        array.put(result.cycleIndex,results);
+                    } else {
+                        ArrayList<OutGoingCallResult> results = new ArrayList<>();
+                        results.add(result);
+                        array.put(result.cycleIndex, results);
+                    }
+                }
+                for (int i = 0; i < array.size(); i++) {
+                    data.add(array.valueAt(i));
+                }
+                return data;
+            }
+
+            @Override
+            protected void onPostExecute(ArrayList<ArrayList<OutGoingCallResult>> outGoingCallResults) {
+                super.onPostExecute(outGoingCallResults);
+                if (consumer != null) {
+                    try {
+                        consumer.accept(outGoingCallResults);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }.execute();
+    }
+
 }

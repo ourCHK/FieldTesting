@@ -29,23 +29,6 @@ public class CallRateTask extends AsyncTask<Void, Void, String> {
         int lastBatch = OutGoingDBManager.getLastBatch();
         ArrayList<OutGoingCallResult> allCalls = OutGoingDBManager.getReportBean(lastBatch);
         Log.i(Constant.TAG, "CallRate reportBeanSize="+allCalls.size());
-//        ArrayList<OutGoingCallResult> calls = new ArrayList<>();
-//        for (OutGoingCallResult bean : allCalls) {
-//            if (!bean.isVerify) {
-//                calls.add(bean);
-//            }
-//        }
-//        Log.i(Constant.TAG," allSize="+calls.size());
-//        if (calls.size() == 0) {
-//            return 0f;
-//        }
-//        int success = 0;
-//        for (OutGoingCallResult callBean : calls) {
-//            if (callBean.result) {
-//                success++;
-//            }
-//        }
-//        Log.i(Constant.TAG,"CallRate success="+success+" allSize="+calls.size());
         return OutGoingUtil.getSumString(allCalls);
     }
 
