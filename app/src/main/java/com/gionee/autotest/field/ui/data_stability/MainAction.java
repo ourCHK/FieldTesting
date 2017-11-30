@@ -7,12 +7,12 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import com.gionee.autotest.common.Preference;
 import com.gionee.autotest.field.data.db.DatabaseHelper;
 import com.gionee.autotest.field.data.db.DatabaseUtil;
 import com.gionee.autotest.field.services.WebViewService;
 import com.gionee.autotest.field.ui.data_stability.report.ReportActivity;
 import com.gionee.autotest.field.util.Configurator;
-import com.gionee.autotest.field.util.Preference;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
