@@ -37,6 +37,8 @@ public class OutGoingActivity extends BaseActivity implements OutGoingContract.V
     Button mStartBtn;
     @BindView(R.id.callRateET)
     TextView mCallRateET;
+    @BindView(R.id.verifyCount)
+    EditText mVerifyCountET;
 
     private OutGoingPresenter mOutGoingPresenter;
 
@@ -48,7 +50,7 @@ public class OutGoingActivity extends BaseActivity implements OutGoingContract.V
     @Override
     public void updateViews() {
         mStartBtn.setText(OutGoingUtil.isTest ? "停止测试" : "开始测试");
-        setViewEnabled(OutGoingUtil.isTest, mNumberET, mCycleET, mGapTimeET, mCallTimeET, mCallTimeSumET, mIsSpeakerPhoneOpenCB);
+        setViewEnabled(!OutGoingUtil.isTest, mNumberET, mCycleET, mGapTimeET, mCallTimeET, mCallTimeSumET, mIsSpeakerPhoneOpenCB);
     }
 
     private void setViewEnabled(boolean testing, View... v) {
@@ -88,6 +90,7 @@ public class OutGoingActivity extends BaseActivity implements OutGoingContract.V
         mCallTimeET.setText(String.valueOf(p.call_time));
         mCallTimeSumET.setText(String.valueOf(p.call_time_sum));
         mIsSpeakerPhoneOpenCB.setChecked(p.is_speaker_on);
+        mVerifyCountET.setText(p.verifyCount+"");
     }
 
     @Override
@@ -98,6 +101,7 @@ public class OutGoingActivity extends BaseActivity implements OutGoingContract.V
         int      callTime    = Integer.parseInt(mCallTimeET.getText().toString().trim());
         int      callTimeSum = Integer.parseInt(mCallTimeSumET.getText().toString().trim());
         boolean  isSpeakOn   = mIsSpeakerPhoneOpenCB.isChecked();
+        int verifyCount = Integer.parseInt(mVerifyCountET.getText().toString().trim());
         String[] numbers     = new String[0];
         if (number.contains(",")) {
             try {
@@ -109,7 +113,7 @@ public class OutGoingActivity extends BaseActivity implements OutGoingContract.V
             numbers = new String[]{number};
         }
         return new CallParam().setNumber(number).setNumbers(numbers).setCall_time(callTime).setCall_time_sum(callTimeSum).setCycle(count)
-                .setGap_time(gapTime).setIs_speaker_on(isSpeakOn);
+                .setGap_time(gapTime).setIs_speaker_on(isSpeakOn).setVerifyCount(verifyCount);
     }
 
     @Override

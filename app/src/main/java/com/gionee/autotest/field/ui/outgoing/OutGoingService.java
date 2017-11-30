@@ -5,6 +5,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.database.ContentObserver;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
@@ -52,6 +53,7 @@ public class OutGoingService extends Service {
     public void onCreate() {
         super.onCreate();
         mTm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        myListener=new MyListener();
         startListener();
     }
 
@@ -63,6 +65,7 @@ public class OutGoingService extends Service {
             cycleIndex = 0;
             numberIndex = 0;
             params = new Gson().fromJson(paramsJson, CallParam.class);
+            startCycle();
         }
         return super.onStartCommand(intent, flags, startId);
     }
@@ -101,13 +104,13 @@ public class OutGoingService extends Service {
     }
 
     private void startCycle() {
-        Log.i(Constant.TAG, "开始第${cycleIndex + 1}轮测试");
+        Log.i(Constant.TAG, "开始第"+(cycleIndex+1)+"轮测试");
         numberIndex = 0;
         startCall();
     }
 
     private void startCall() {
-        Log.i(Constant.TAG, "开始拨打第${numberIndex + 1}个号码");
+        Log.i(Constant.TAG, "开始拨打第"+(numberIndex + 1)+"个号码");
         String currentNumber = params.numbers[numberIndex];
         callBean = new OutGoingCallResult().setNumber(currentNumber);
         try {
@@ -121,38 +124,11 @@ public class OutGoingService extends Service {
 
     @SuppressLint("MissingPermission")
     private void dial(String number) {
-        Log.i(Constant.TAG, "拨号$number");
+        Log.i(Constant.TAG, "拨号"+number);
         Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + number));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
-
-    private ContentObserver mCallLogObserver = new ContentObserver(new Handler()) {
-        @Override
-        public void onChange(boolean selfChange) {
-            super.onChange(selfChange);
-            if (!OutGoingUtil.isTest||!isCalled) return;
-            isCalled = false;
-            callBean.hangUpTime = TimeUtil.getTime();
-            CallLogUtil.CallLogBean lastCallLog = new CallLogUtil().getLastCallLog(getApplicationContext());
-            callBean.result = lastCallLog.type == CallLog.Calls.OUTGOING_TYPE && lastCallLog.duration > 0;
-            Log.i(Constant.TAG, "写入测试结果");
-            OutGoingDBManager.writeData(callBean);
-            if (callBean.result) {
-                goTest();
-            } else {
-                cancelListener();
-                Log.i(Constant.TAG, "拨号失败，开始验证拨号");
-                new VerifyCall(getApplicationContext(), callBean.number, params, new CallBack() {
-                    @Override
-                    public void call(Object o) {
-                        startListener();
-                        goTest();
-                    }
-                }).start();
-            }
-        }
-    };
 
     public void goTest() {
         if (numberIndex < params.numbers.length - 1) {
@@ -183,7 +159,32 @@ public class OutGoingService extends Service {
             }
         }
     }
-
+    private ContentObserver mCallLogObserver = new ContentObserver(new Handler()) {
+        @Override
+        public void onChange(boolean selfChange) {
+            super.onChange(selfChange);
+            if (!OutGoingUtil.isTest||!isCalled) return;
+            isCalled = false;
+            callBean.hangUpTime = TimeUtil.getTime();
+            CallLogUtil.CallLogBean lastCallLog = new CallLogUtil().getLastCallLog(getApplicationContext());
+            callBean.result = lastCallLog.type == CallLog.Calls.OUTGOING_TYPE && lastCallLog.duration > 0;
+            Log.i(Constant.TAG, "写入测试结果");
+            OutGoingDBManager.writeData(callBean);
+            if (callBean.result) {
+                goTest();
+            } else {
+                cancelListener();
+                Log.i(Constant.TAG, "拨号失败，开始验证拨号");
+                new VerifyCall(getApplicationContext(), callBean.number, params, new CallBack() {
+                    @Override
+                    public void call(Object o) {
+                        startListener();
+                        goTest();
+                    }
+                }).start();
+            }
+        }
+    };
 
     class MyListener extends PhoneStateListener {
         @Override
@@ -199,8 +200,11 @@ public class OutGoingService extends Service {
                     Log.i(Constant.TAG, "state_offHook");
                     isCalled = true;
                     callBean.offHookTime = TimeUtil.getTime();
-//                    i("接通=${Util.time},号码=$incomingNumber")
-//                    Util.setHandOn(this@MyService, params.isSpeakOn)
+                    Log.i(Constant.TAG,"接通="+TimeUtil.getTime()+",号码="+incomingNumber);
+                    AudioManager mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+                    if (mAudioManager != null) {
+                        mAudioManager.setSpeakerphoneOn(params.is_speaker_on);
+                    }
                     break;
                 case TelephonyManager.CALL_STATE_IDLE:
                     Log.i(Constant.TAG, "state_idle");

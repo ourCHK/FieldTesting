@@ -9,16 +9,15 @@ public class CallParam {
     public int       cycle         = 3;
     public int      call_time     = 10;
     public int      gap_time      = 20;
-    public int      call_time_sum = 60;
-    public boolean  is_speaker_on = false;
-    public int verifyCount;
+    public int      call_time_sum = 10;
+    public boolean  is_speaker_on = true;
+    public int verifyCount=5;
 
     public CallParam() {
-        this(0,"10086,10010",new String[]{"10086","10010"},3,10,20,60,false,5);
+        this(0,"10086,10010",new String[]{"10086","10010"},3,10,20,10,true,5);
     }
 
     public CallParam(long id, String number, String[] numbers, int cycle, int call_time, int gap_time, int call_time_sum, boolean is_speaker_on,int verifyCount) {
-
         this.id = id;
         this.number = number;
         this.numbers = numbers;

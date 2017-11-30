@@ -1,6 +1,7 @@
 package com.gionee.autotest.field.util;
 
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -132,7 +133,7 @@ public class Util {
                     context.getApplicationContext().getPackageName() + ".provider", new File(excelPath));
             intent.setDataAndType (uri, "application/vnd.ms-excel");
             context.startActivity(intent);
-        }catch (Exception e){
+        }catch (ActivityNotFoundException e){
             e.printStackTrace();
             Toast.makeText(context, R.string.go_to_file_manager, Toast.LENGTH_SHORT).show();
         }
