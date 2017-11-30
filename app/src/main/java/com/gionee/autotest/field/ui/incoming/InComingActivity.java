@@ -23,6 +23,8 @@ public class InComingActivity extends BaseActivity implements InComingContract.V
     CheckBox mAutoRejectCB;
     @BindView(R.id.isAnswertHangup_cb)
     CheckBox mAnswerHangUpCB;
+    @BindView(R.id.isHandUpPressPower)
+    CheckBox mHangUpPressPower;
     @BindView(R.id.answerHangupTime_et)
     EditText mAnswerHangupTimeET;
     @BindView(R.id.autoReject_layout)
@@ -65,7 +67,7 @@ public class InComingActivity extends BaseActivity implements InComingContract.V
         mInComingPresenter = new InComingPresenter(getApplicationContext());
         super.presenter = mInComingPresenter;
         mInComingPresenter.onAttach(this);
-        mAutoRejectCB.setOnCheckedChangeListener(this);
+//        mAutoRejectCB.setOnCheckedChangeListener(this);
         mAnswerHangUpCB.setOnCheckedChangeListener(this);
         mAutoAnswerCB.setOnCheckedChangeListener(this);
     }
@@ -73,12 +75,13 @@ public class InComingActivity extends BaseActivity implements InComingContract.V
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
-            case R.id.isAutoRejectCB:
-                mAutoReject_layout.setVisibility(isChecked ? VISIBLE : GONE);
-                setAutoAnswerViewEnable(!isChecked);
-                break;
+//            case R.id.isAutoRejectCB:
+//                mAutoReject_layout.setVisibility(isChecked ? VISIBLE : GONE);
+//                setAutoAnswerViewEnable(!isChecked);
+//                break;
             case R.id.isAnswertHangup_cb:
                 mAnswerHangupTimeET.setEnabled(isChecked);
+                mHangUpPressPower.setVisibility(isChecked ? VISIBLE : GONE);
                 break;
             case R.id.isAutoAnswer:
                 mAnswerHangUpCB.setVisibility(isChecked ? VISIBLE : GONE);
@@ -93,7 +96,7 @@ public class InComingActivity extends BaseActivity implements InComingContract.V
         int autoEndTime = Integer.parseInt(mAnswerHangupTimeET.getText().toString().trim());
         String distinguishTime_text = mAutoRejectET.getText().toString().trim();
         int distinguishEndTime = distinguishTime_text.isEmpty() ? 0 : Integer.parseInt(distinguishTime_text);
-        return new CallMonitorParam(mAutoRejectCB.isChecked(), distinguishEndTime, mAutoAnswerCB.isChecked(), mAnswerHangUpCB.isChecked(), autoEndTime, Integer.parseInt(mSpaceTime.getText().toString()));
+        return new CallMonitorParam(mAutoRejectCB.isChecked(), distinguishEndTime, mAutoAnswerCB.isChecked(), mAnswerHangUpCB.isChecked(), autoEndTime, Integer.parseInt(mSpaceTime.getText().toString()), mHangUpPressPower.isChecked());
     }
 
     private void setAutoAnswerViewEnable(boolean enable) {
@@ -136,5 +139,6 @@ public class InComingActivity extends BaseActivity implements InComingContract.V
         mAutoAnswerCB.setChecked(lastParams.isAutoAnswer);
         mAnswerHangUpCB.setChecked(lastParams.isAnswerHangup);
         mAnswerHangupTimeET.setText(String.valueOf(lastParams.answerHangUptime));
+        mHangUpPressPower.setChecked(lastParams.isHangUpPressPower);
     }
 }

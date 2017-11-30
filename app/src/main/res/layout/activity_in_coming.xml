@@ -104,6 +104,13 @@
                 android:textColor="@color/colorPrimary" />
         </LinearLayout>
 
+        <CheckBox
+            android:id="@+id/isHandUpPressPower"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="挂断后自动短按Power键"
+            android:textColor="@color/colorPrimary" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
