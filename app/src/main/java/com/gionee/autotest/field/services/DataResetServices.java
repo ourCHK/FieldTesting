@@ -1,6 +1,7 @@
 package com.gionee.autotest.field.services;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.SystemClock;
@@ -25,6 +26,7 @@ import java.io.File;
 
 public class DataResetServices extends Service {
 
+    private  ShellUtil.CommandResult commandResult;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -57,8 +59,6 @@ public class DataResetServices extends Service {
                         YUtils.setMobileDataState(getApplicationContext(),true);
                         SystemClock.sleep(1000);
 
-                        String start_time = DataResetHelper.getTimeDatas();
-
                         ShellUtil.execCommand("ping -c 1 www.baidu.com", false);
                         SystemClock.sleep(1000);
 
@@ -71,7 +71,7 @@ public class DataResetServices extends Service {
 
                         //开启数据
                         YUtils.setMobileDataState(getApplicationContext(),true);
-                        SystemClock.sleep(1000);
+                        String start_time = DataResetHelper.getTimeDatas();
 
                         ShellUtil.CommandResult commandResult = ShellUtil.execCommand("ping -c 1 www.baidu.com", false);
                         int result = commandResult.result;
@@ -79,16 +79,17 @@ public class DataResetServices extends Service {
                             //失败
                             FLog.i("resulterrs2="+result);
                             FLog.i("resulterrs22="+commandResult.errorMsg);
-                            DataResetHelper.addExcel(new File(Constant.DIR_DATA_RESET+data_reset_presentation_name),new String[]{
-                                    start_time,DataResetHelper.getTimeDatas(),"失败"
-                            });
+//                            DataResetHelper.addExcel(new File(Constant.DIR_DATA_RESET+data_reset_presentation_name),new String[]{
+//                                    start_time,DataResetHelper.getTimeDatas(),"失败"
+//                            });
+                            getPing(getApplicationContext(),start_time);
 
                         }else{
                             //成功
                             FLog.i("resultsuree1="+result);
                             FLog.i("resultsuree11="+commandResult.successMsg);
 
-                            int subId = SimUtil.getDefaultDataSubId(getApplicationContext());
+                            int subId = SimUtil.getDefaultDataSubId();
                             SimSignalInfo simSignalInfo = SignalHelper.getInstance(getApplicationContext()).getSimSignalInfo(subId);
 
                             DataResetHelper.addExcel(new File(Constant.DIR_DATA_RESET+data_reset_presentation_name),new String[]{
@@ -108,6 +109,45 @@ public class DataResetServices extends Service {
 
     }
 
+
+    private static void getPing(Context context,String start_time){
+        ShellUtil.CommandResult commandResults = ShellUtil.execCommand("ping -c 1 www.baidu.com", false);
+        if (commandResults.result!=0){
+            long aLong = Preference.getLong(context, Constant.PREF_KEY_DATA_RESET_RETEST_TIMES_CURRENT_CYCLE, -1);
+            long aLong1 = Preference.getLong(context, Constant.PREF_KEY_DATA_RESET_RETEST_TIMES, -1);
+            if (aLong ==aLong1){
+
+            }else{
+                if (DataResetHelper.getTimeDifference(start_time,DataResetHelper.getTimeDatas())){
+
+                }
+
+            }
+
+            getPing(context,start_time);
+
+
+
+
+        }else{
+            //次数
+
+            String data_reset_presentation_name = Preference.getString(context, Constant.DATA_RESET_PRESENTATION_NAME, "");
+            long data_reset_current_cycle = Preference.getLong(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, 1);
+
+            int subId = SimUtil.getDefaultDataSubId();
+            SimSignalInfo simSignalInfo = SignalHelper.getInstance(context).getSimSignalInfo(subId);
+
+            DataResetHelper.addExcel(new File(Constant.DIR_DATA_RESET+data_reset_presentation_name),new String[]{
+                    start_time,DataResetHelper.getTimeDatas(),"成功",simSignalInfo.mOperator,simSignalInfo.mNetType,simSignalInfo.mLevel+"",simSignalInfo.mSignal
+            });
+
+            Preference.putLong(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, data_reset_current_cycle+1);
+            FLog.i("data_reset_current_cycle="+Preference.getLong(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, 1));
+            SystemClock.sleep(1000);
+        }
+
+    }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 

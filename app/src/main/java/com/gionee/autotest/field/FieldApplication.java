@@ -17,13 +17,13 @@ import java.io.File;
  */
 public class FieldApplication extends Application{
 
-    public static Context context = null;
+    public static Context context ;
 
     @Override
     public void onCreate() {
         super.onCreate();
         //init preference
-        context=this.getApplicationContext();
+        context=getApplicationContext();
         Preference.initName(Constant.PREF_NAME);
         DBManager.initAllDB(getApplicationContext());
         makeDirects();//创建文件夹

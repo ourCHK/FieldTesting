@@ -2,6 +2,7 @@ package com.gionee.autotest.field.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -138,6 +139,27 @@ public class DataResetHelper {
             e.printStackTrace();
         } catch (WriteException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static boolean getTimeDifference(String starttime, String endtime) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date1 = null;
+        Date date2 = null;
+        try {
+            date1 = sdf.parse(starttime);
+            date2= sdf.parse(endtime);
+
+            long l = date2.getTime() - date1.getTime();
+
+            if (l>20*1000){
+                return false;
+            }else{
+                return true;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 
