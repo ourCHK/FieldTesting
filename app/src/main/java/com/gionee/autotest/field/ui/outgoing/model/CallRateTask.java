@@ -9,12 +9,14 @@ import android.util.Log;
 import com.gionee.autotest.field.data.db.OutGoingDBManager;
 import com.gionee.autotest.field.data.db.model.OutGoingCallResult;
 import com.gionee.autotest.field.ui.outgoing.CallBack;
+import com.gionee.autotest.field.ui.outgoing.OutGoingUtil;
+import com.gionee.autotest.field.util.Constant;
 
 import java.util.ArrayList;
 
-public class CallRateTask extends AsyncTask<Void, Void, Float> {
+public class CallRateTask extends AsyncTask<Void, Void, String> {
     @SuppressLint("StaticFieldLeak")
-    private Context  context;
+    private Context context;
     private CallBack callBack;
 
     public CallRateTask(Context context, CallBack callBack) {
@@ -23,33 +25,32 @@ public class CallRateTask extends AsyncTask<Void, Void, Float> {
     }
 
     @Override
-    protected Float doInBackground(Void... voids) {
-        int                 lastBatch    = OutGoingDBManager.getLastBatch();
-        ArrayList<OutGoingCallResult> reportBean = OutGoingDBManager.getReportBean(lastBatch);
-        Log.i("gionee.os.autotest",reportBean.size()+"");
-        if (reportBean.size()==0){
-            return 0f;
-        }
-        ArrayList<OutGoingCallResult>  callBeans    = new ArrayList<>();
-        for (OutGoingCallResult bean : callBeans) {
-                if (!bean.isVerify) {
-                    callBeans.add(bean);
-            }
-        }
-        if (callBeans.size()==0){
-            return 0f;
-        }
-        int success = 0;
-        for (OutGoingCallResult callBean : callBeans) {
-            if (callBean.result) {
-                success++;
-            }
-        }
-        return (float) success / (float) callBeans.size();
+    protected String doInBackground(Void... voids) {
+        int lastBatch = OutGoingDBManager.getLastBatch();
+        ArrayList<OutGoingCallResult> allCalls = OutGoingDBManager.getReportBean(lastBatch);
+        Log.i(Constant.TAG, "CallRate reportBeanSize="+allCalls.size());
+//        ArrayList<OutGoingCallResult> calls = new ArrayList<>();
+//        for (OutGoingCallResult bean : allCalls) {
+//            if (!bean.isVerify) {
+//                calls.add(bean);
+//            }
+//        }
+//        Log.i(Constant.TAG," allSize="+calls.size());
+//        if (calls.size() == 0) {
+//            return 0f;
+//        }
+//        int success = 0;
+//        for (OutGoingCallResult callBean : calls) {
+//            if (callBean.result) {
+//                success++;
+//            }
+//        }
+//        Log.i(Constant.TAG,"CallRate success="+success+" allSize="+calls.size());
+        return OutGoingUtil.getSumString(allCalls);
     }
 
     @Override
-    protected void onPostExecute(Float callRate) {
+    protected void onPostExecute(String callRate) {
         super.onPostExecute(callRate);
         if (callBack != null) {
             callBack.call(callRate);

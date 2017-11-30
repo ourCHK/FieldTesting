@@ -4,9 +4,11 @@ package com.gionee.autotest.field.data.db;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
 import com.gionee.autotest.field.data.db.model.OutGoingCallResult;
 import com.gionee.autotest.field.ui.outgoing.model.CallParam;
+import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.Constant.OutGoingDB.OutGoingBatch;
 import com.gionee.autotest.field.util.Constant.OutGoingDB.OutGoingData;
 
@@ -41,7 +43,9 @@ public class OutGoingDBHelper extends DBHelper {
         cv.put(OutGoingData.HANG_UP_TIME, result.hangUpTime);
         cv.put(OutGoingData.RESULT, result.result ? 1 : 0);
         cv.put(OutGoingData.TIME, result.time);
+        cv.put(OutGoingData.IS_VERIFY, result.isVerify?1:0);
         cv.put(OutGoingData.SIM_NET_INFO, result.simNetInfo);
+        Log.i(Constant.TAG,"writeCallData="+result.toString());
         return mDb.insert(OutGoingData.NAME, null, cv);
     }
 
@@ -96,7 +100,7 @@ public class OutGoingDBHelper extends DBHelper {
 
     public ArrayList<OutGoingCallResult> getCallBean(long batchId) {
         Cursor    cursor = mDb.rawQuery("select * from " + OutGoingData.NAME + " where " + OutGoingData.BATCH_ID + " =" + batchId + "", null);
-        ArrayList<OutGoingCallResult> calls  = new ArrayList();
+        ArrayList<OutGoingCallResult> calls  = new ArrayList<>();
         if (cursor == null || cursor.getCount() == 0) return calls;
         while (cursor.moveToNext()) {
             try {

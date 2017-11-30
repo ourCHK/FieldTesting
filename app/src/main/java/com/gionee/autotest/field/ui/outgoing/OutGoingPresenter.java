@@ -1,7 +1,6 @@
 package com.gionee.autotest.field.ui.outgoing;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -15,7 +14,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.gionee.autotest.common.Preference;
-import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.data.db.OutGoingDBManager;
 import com.gionee.autotest.field.data.db.model.OutGoingCallResult;
 import com.gionee.autotest.field.services.SignalMonitorService;
@@ -29,12 +27,6 @@ import com.gionee.autotest.field.util.Util;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-
-/**
- * Created by viking on 11/13/17.
- * <p>
- * Presenter for signal
- */
 
 class OutGoingPresenter extends BasePresenter<OutGoingContract.View> implements OutGoingContract.Presenter {
     private Context mContext;
@@ -55,12 +47,12 @@ class OutGoingPresenter extends BasePresenter<OutGoingContract.View> implements 
         obtainCallRate();
     }
 
-    public void obtainCallRate() {
+    void obtainCallRate() {
         new CallRateTask(mContext, new CallBack() {
             @Override
             public void call(Object o) {
-                Float f = (float) o;
-                getView().updateCallRate("接通率:" + f * 100 + "%");
+                String sum = (String) o;
+                getView().updateCallRate(sum);
             }
         }).execute();
     }
@@ -75,7 +67,7 @@ class OutGoingPresenter extends BasePresenter<OutGoingContract.View> implements 
         }
     }
 
-    public CallParam getLastParams() {
+    private CallParam getLastParams() {
         String callParams = Preference.getString(mContext, "outGoingParams", "");
         if (callParams == null || "".equals(callParams)) {
             Log.i("gionee.os.autotest", "null");
@@ -109,36 +101,59 @@ class OutGoingPresenter extends BasePresenter<OutGoingContract.View> implements 
         getView().updateViews();
     }
 
-    @SuppressLint("StaticFieldLeak")
-    public void exportExcelFile() {
-        new AsyncTask<Void, Void, Void>() {
+    @Override
+    public void clearAllReport() {
+        DialogHelper.create(mContext, "警告", "确定要清除全部报告数据?", new DialogHelper.OnBeforeCreate() {
             @Override
-            protected Void doInBackground(Void... voids) {
+            public void setOther(AlertDialog.Builder builder) {
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        OutGoingDBManager.delete();
+                    }
+                });
+                builder.setNegativeButton("取消",null);
+            }
+        }).show();
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    void exportExcelFile() {
+        new AsyncTask<Void, Void, Integer>() {
+            @Override
+            protected Integer doInBackground(Void... voids) {
                 ArrayList<ArrayList<OutGoingCallResult>> results = new ArrayList<>();
                 ArrayList<String> allBatch = OutGoingDBManager.getAllBatch();
+                if (allBatch.size() == 0) {
+                    return 0;
+                }
                 for (String batch : allBatch) {
                     ArrayList<OutGoingCallResult> reportBean = OutGoingDBManager.getReportBean(Integer.parseInt(batch));
                     results.add(reportBean);
                 }
                 OutGoingUtil.writeBook(Constant.OUT_GOING_EXCEL_PATH, results);
-                return null;
+                return allBatch.size();
             }
 
             @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                DialogHelper.create(mContext, "导出成功", "导出成功:" + Constant.OUT_GOING_EXCEL_PATH + ",立即打开?", new DialogHelper.OnBeforeCreate() {
-                    @Override
-                    public void setOther(AlertDialog.Builder builder) {
-                        builder.setPositiveButton("打开", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Util.openExcelByIntent(mContext, Constant.OUT_GOING_EXCEL_PATH);
-                            }
-                        });
-                        builder.setNegativeButton("取消", null);
-                    }
-                }).show();
+            protected void onPostExecute(Integer size) {
+                super.onPostExecute(size);
+                if (size == 0) {
+                    Toast.makeText(mContext, "无报告", Toast.LENGTH_LONG).show();
+                } else {
+                    DialogHelper.create(mContext, "导出成功", "导出成功:" + Constant.OUT_GOING_EXCEL_PATH + ",立即打开?", new DialogHelper.OnBeforeCreate() {
+                        @Override
+                        public void setOther(AlertDialog.Builder builder) {
+                            builder.setPositiveButton("打开", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Util.openExcelByIntent(mContext, Constant.OUT_GOING_EXCEL_PATH);
+                                }
+                            });
+                            builder.setNegativeButton("取消", null);
+                        }
+                    }).show();
+                }
             }
 
         }.execute();

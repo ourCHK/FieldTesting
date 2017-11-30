@@ -30,5 +30,7 @@ interface OutGoingContract {
         void startCallTest();
 
         void handleStartBtnClicked();
+
+        void clearAllReport();
     }
 }

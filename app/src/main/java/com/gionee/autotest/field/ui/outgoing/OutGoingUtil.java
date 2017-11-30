@@ -1,6 +1,15 @@
 package com.gionee.autotest.field.ui.outgoing;
 
+import android.content.Context;
+import android.util.Log;
+
 import com.gionee.autotest.field.data.db.model.OutGoingCallResult;
+import com.gionee.autotest.field.ui.signal.entity.SimSignalInfo;
+import com.gionee.autotest.field.util.Constant;
+import com.gionee.autotest.field.util.SignalHelper;
+import com.gionee.autotest.field.util.SimUtil;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -12,17 +21,32 @@ import jxl.write.WritableWorkbook;
 
 
 public class OutGoingUtil {
-    public static boolean isTest=false;
+    public static boolean isTest = false;
 
-    public static  void writeBook(String filePath, ArrayList<ArrayList<OutGoingCallResult>> list) {
-        WritableWorkbook workBook= null;
+    public static String getSimNetInfo(Context context) {
+        SimSignalInfo simSignalInfo = SignalHelper.getInstance(context).getSimSignalInfo(SimUtil.getDefaultDataSubId());
+        if (simSignalInfo == null) return "";
         try {
-            File file =new  File(filePath);
+            return new Gson().toJson(simSignalInfo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public static void writeBook(String filePath, ArrayList<ArrayList<OutGoingCallResult>> list) {
+        WritableWorkbook workBook = null;
+        try {
+            File file = new File(filePath);
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+            }
             if (file.exists()) {
                 file.delete();
             }
-                file.createNewFile();
+            file.createNewFile();
             workBook = Workbook.createWorkbook(file);
+            Gson gson = new Gson();
             for (int i = 0; i < list.size(); i++) {
                 WritableSheet sheet = workBook.createSheet("第" + (i + 1) + "批次", i);
                 sheet.addCell(new Label(0, 0, "轮次"));
@@ -30,25 +54,31 @@ public class OutGoingUtil {
                 sheet.addCell(new Label(2, 0, "拨号时间"));
                 sheet.addCell(new Label(3, 0, "挂断时间"));
                 sheet.addCell(new Label(4, 0, "结果"));
-                int roundRow=1;
-                int cycleIndex=0;
-                int callsSize=0;
+                sheet.addCell(new Label(5, 0, "失败点网络信息"));
+                int cycleIndex = -1;
                 ArrayList<OutGoingCallResult> results = list.get(i);
                 for (int j = 0; j < results.size(); j++) {
+                    int rowIndex = j + 1;
                     OutGoingCallResult result = results.get(j);
-                    if (result.cycleIndex!=cycleIndex){
-                            cycleIndex=result.cycleIndex;
-                            callsSize=0;
-                         sheet.addCell(new Label(0, roundRow, "第"+(cycleIndex+1)+"轮"));
+                    if (result.cycleIndex != cycleIndex) {
+                        cycleIndex = result.cycleIndex;
+                        sheet.addCell(new Label(0, rowIndex, "第" + (cycleIndex + 1) + "轮"));
                     }
-                    callsSize++;
-                    sheet.addCell(new Label(1, roundRow + j, result.number));
-                    sheet.addCell(new Label(2, roundRow + j, result.dialTime));
-                    sheet.addCell(new Label(3, roundRow + j, result.hangUpTime));
-                    sheet.addCell(new Label(4, roundRow + j,  (result.result? "成功" : "失败")+(result.isVerify? "(复测)" : "")));
-                    roundRow += callsSize;
+                    Log.i(Constant.TAG, result.toString());
+                    sheet.addCell(new Label(1, rowIndex, result.number));
+                    sheet.addCell(new Label(2, rowIndex, result.dialTime));
+                    sheet.addCell(new Label(3, rowIndex, result.hangUpTime));
+                    sheet.addCell(new Label(4, rowIndex, (result.result ? "成功" : "失败") + (result.isVerify ? "(复测)" : "")));
+                    try {
+                        if (result.simNetInfo != null && !"".equals(result.simNetInfo)) {
+                            SimSignalInfo simSignalInfo = gson.fromJson(result.simNetInfo, SimSignalInfo.class);
+                            sheet.addCell(new Label(5, rowIndex, simSignalInfo.toString()));
+                        }
+                    } catch (JsonSyntaxException e) {
+                        e.printStackTrace();
+                    }
                 }
-
+                sheet.addCell(new Label(0, results.size() + 1, getSumString(results)));
             }
             workBook.write();
         } catch (Exception e) {
@@ -63,5 +93,20 @@ public class OutGoingUtil {
 
             }
         }
+    }
+
+    public static String getSumString(ArrayList<OutGoingCallResult> results) {
+        int verifyCount = 0;
+        int testSuccess = 0;
+        for (OutGoingCallResult result : results) {
+            if (result.isVerify) {
+                verifyCount++;
+            } else {
+                if (result.result) {
+                    testSuccess++;
+                }
+            }
+        }
+        return "总拨号" + results.size() + "通\n测试" + (results.size() - verifyCount) + "通\n复测" + verifyCount + "通\n接通率为" + ((float) testSuccess / results.size()) * 100 + "%";
     }
 }

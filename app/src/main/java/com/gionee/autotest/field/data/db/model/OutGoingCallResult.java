@@ -86,4 +86,9 @@ public class OutGoingCallResult extends CallResult {
     public static OutGoingCallResult parse(CallResult r) {
         return new OutGoingCallResult().setNumber(r.number).setDialTime(r.dialTime).setHangUpTime(r.hangUpTime).setOffHookTime(r.offHookTime).setResult(r.result).setTime(r.time);
     }
+
+    @Override
+    public String toString() {
+        return "id"+batchId+"cycleIndex"+cycleIndex+"simNetInfo"+simNetInfo+"number"+number+"dialTime"+dialTime+"offHookTime"+offHookTime+"hangUpTime"+hangUpTime+"result"+result+"time"+time+"isVerify"+isVerify;
+    }
 }
