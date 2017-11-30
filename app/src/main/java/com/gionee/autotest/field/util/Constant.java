@@ -84,6 +84,10 @@ public class Constant {
     public static final String DIR_OUT_GOING = PATH_SD + "outgoing/";
     public static final String OUT_GOING_EXCEL_PATH = DIR_OUT_GOING + "outGoingCallRecord.xls";
 
+    //incoming
+    public static final String DIR_INCOMING = PATH_SD + "incoming/";
+    public static final String INCOMING_EXCEL_PATH=DIR_INCOMING+"incomingCallRecord.xls";
+
     public static final class APPDB implements BaseColumns {
 
         private APPDB() {
