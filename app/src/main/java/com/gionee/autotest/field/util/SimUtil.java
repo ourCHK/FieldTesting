@@ -240,7 +240,7 @@ public class SimUtil {
     }
 
     @TargetApi(Build.VERSION_CODES.N)
-    public static int getDefaultDataSubId(Context context){
+    public static int getDefaultDataSubId(){
         return SubscriptionManager.getDefaultDataSubscriptionId();
     }
 

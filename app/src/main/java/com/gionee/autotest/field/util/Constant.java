@@ -50,6 +50,7 @@ public class Constant {
     public static final String PREF_KEY_DATA_RESET_DATA_COLLECT_RUNNING = "data_reset_data_collect_running";
     public static final String PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE = "data_reset_data_collect_current_cycle";
     public static final String DATA_RESET_PRESENTATION_NAME = "data_reset_presentation_name";
+    public static final String PREF_KEY_DATA_RESET_RETEST_TIMES_CURRENT_CYCLE = "data_reset_retest_times_current_cycle";
 
     public static final String DATA_RESET_RECEIVER = "com.gionee.autotest.field.data.reset.receiver"; //数据重激活完成广播
 
@@ -80,8 +81,12 @@ public class Constant {
     public static final String DIR_DATA_RESET = PATH_SD + "data_reset/";
     public static final String DIR_MESSAGE = PATH_SD + "message/";
     // outgoing
-    public static final String DIR_OUT_GOING =PATH_SD+"outgoing/";
-    public static final String OUT_GOING_EXCEL_PATH=DIR_OUT_GOING+"outGoingCallRecord.xls";
+    public static final String DIR_OUT_GOING = PATH_SD + "outgoing/";
+    public static final String OUT_GOING_EXCEL_PATH = DIR_OUT_GOING + "outGoingCallRecord.xls";
+
+    //incoming
+    public static final String DIR_INCOMING = PATH_SD + "incoming/";
+    public static final String INCOMING_EXCEL_PATH=DIR_INCOMING+"incomingCallRecord.xls";
 
     public static final class APPDB implements BaseColumns {
 
@@ -158,6 +163,7 @@ public class Constant {
             public static final String RESULT = "result";
             public static final String TIME = "time";
             public static final String IS_VERIFY = "isVerify";
+            public static final String SIM_NET_INFO = "simNetInfo";
             public static final String NAME = "out_going_data";
         }
 

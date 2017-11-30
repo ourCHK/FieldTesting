@@ -16,6 +16,7 @@ interface InComingContract {
 
     interface View extends BaseView {
 
+        void setParams(CallMonitorParam lastParams);
     }
 
     interface ReportView extends BaseView{

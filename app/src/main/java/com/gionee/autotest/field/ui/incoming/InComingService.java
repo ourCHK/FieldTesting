@@ -7,7 +7,11 @@ import android.os.IBinder;
 import com.gionee.autotest.common.call.CallMonitor;
 import com.gionee.autotest.common.call.CallMonitorParam;
 import com.gionee.autotest.common.call.CallMonitorResult;
+import com.gionee.autotest.field.services.SignalMonitorService;
 import com.gionee.autotest.field.ui.incoming.model.InComingCall;
+import com.gionee.autotest.field.ui.signal.entity.SimSignalInfo;
+import com.gionee.autotest.field.util.SignalHelper;
+import com.gionee.autotest.field.util.SimUtil;
 import com.google.gson.Gson;
 
 public class InComingService extends Service implements CallMonitor.MonitorListener {
@@ -23,6 +27,7 @@ public class InComingService extends Service implements CallMonitor.MonitorListe
     @Override
     public void onCreate() {
         super.onCreate();
+        startService(new Intent(this, SignalMonitorService.class));
     }
 
     @Override
@@ -49,6 +54,15 @@ public class InComingService extends Service implements CallMonitor.MonitorListe
     @Override
     public void onChanged(CallMonitorResult callMonitorResult) {
         callMonitorResult.batchId = batchId;
+        if (!callMonitorResult.result){
+            try {
+                SimSignalInfo simSignalInfo = SignalHelper.getInstance(this).getSimSignalInfo(SimUtil.getDefaultDataSubId());
+                String simNetInfo = new Gson().toJson(simSignalInfo);
+                callMonitorResult.setFailMsg(simNetInfo);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         InComingCall.writeData(callMonitorResult);
     }
 }

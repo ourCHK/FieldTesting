@@ -1,8 +1,11 @@
 package com.gionee.autotest.field.ui.outgoing;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
@@ -15,11 +18,14 @@ import com.gionee.autotest.common.Preference;
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.data.db.OutGoingDBManager;
 import com.gionee.autotest.field.data.db.model.OutGoingCallResult;
+import com.gionee.autotest.field.services.SignalMonitorService;
 import com.gionee.autotest.field.ui.base.BasePresenter;
 import com.gionee.autotest.field.ui.outgoing.model.CallParam;
 import com.gionee.autotest.field.ui.outgoing.model.CallRateTask;
 import com.gionee.autotest.field.ui.outgoing.model.OutGoingModel;
 import com.gionee.autotest.field.util.Constant;
+import com.gionee.autotest.field.util.DialogHelper;
+import com.gionee.autotest.field.util.Util;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -70,7 +76,7 @@ class OutGoingPresenter extends BasePresenter<OutGoingContract.View> implements 
     }
 
     public CallParam getLastParams() {
-        String callParams = Preference.getString(mContext, "callParams", "");
+        String callParams = Preference.getString(mContext, "outGoingParams", "");
         if (callParams == null || "".equals(callParams)) {
             Log.i("gionee.os.autotest", "null");
             return new CallParam();
@@ -85,9 +91,11 @@ class OutGoingPresenter extends BasePresenter<OutGoingContract.View> implements 
         try {
             OutGoingUtil.isTest = true;
             CallParam p = getView().getUserParams();
+            Preference.putString(mContext, "outGoingParams", new Gson().toJson(p));
             outGoingModel.start(p);
+            mContext.startService(new Intent(mContext, SignalMonitorService.class));
         } catch (Exception e) {
-           outGoingModel.stop();
+            outGoingModel.stop();
         }
     }
 
@@ -119,7 +127,18 @@ class OutGoingPresenter extends BasePresenter<OutGoingContract.View> implements 
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                Toast.makeText(mContext, "导出成功:" + Constant.OUT_GOING_EXCEL_PATH, Toast.LENGTH_LONG).show();
+                DialogHelper.create(mContext, "导出成功", "导出成功:" + Constant.OUT_GOING_EXCEL_PATH + ",立即打开?", new DialogHelper.OnBeforeCreate() {
+                    @Override
+                    public void setOther(AlertDialog.Builder builder) {
+                        builder.setPositiveButton("打开", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Util.openExcelByIntent(mContext, Constant.OUT_GOING_EXCEL_PATH);
+                            }
+                        });
+                        builder.setNegativeButton("取消", null);
+                    }
+                }).show();
             }
 
         }.execute();

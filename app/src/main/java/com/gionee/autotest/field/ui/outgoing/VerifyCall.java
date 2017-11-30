@@ -3,10 +3,11 @@ package com.gionee.autotest.field.ui.outgoing;
 
 import android.content.Context;
 
+import com.gionee.autotest.common.call.CallLogUtil;
+import com.gionee.autotest.common.call.CallResult;
 import com.gionee.autotest.field.data.db.OutGoingDBManager;
 import com.gionee.autotest.field.data.db.model.OutGoingCallResult;
 import com.gionee.autotest.field.ui.outgoing.model.CallParam;
-import com.gionee.autotest.field.util.CallLogUtil;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -40,10 +41,11 @@ public class VerifyCall implements CallLogUtil.CallLogListener {
     }
 
     @Override
-    public void onChanged(OutGoingCallResult callbean) {
-        callbean.setBatchId(params.id);
-        callbean.setVerify(true);
-        OutGoingDBManager.writeData(callbean);
+    public void onChanged(CallResult callbean) {
+        OutGoingCallResult result = OutGoingCallResult.parse(callbean);
+        result.setBatchId(params.id);
+        result.setVerify(true);
+        OutGoingDBManager.writeData(result);
         if (callIndex < params.verifyCount - 1) {
             callIndex++;
             start();

@@ -54,7 +54,7 @@ class DBHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + OutGoingData.NAME + "(" + OutGoingData._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + OutGoingData.BATCH_ID + " Long," + OutGoingData.CYCLE_INDEX + " Long," + OutGoingData.NUMBER + " Long,"
                 + OutGoingData.DIAL_TIME + " TIMESTAMP(14)," + OutGoingData.OFF_HOOK_TIME + " TIMESTAMP(14),"
-                + OutGoingData.HANG_UP_TIME + " TIMESTAMP(14)," + OutGoingData.RESULT + " Integer," +OutGoingData.IS_VERIFY+" Integer,"+ OutGoingData.TIME + " TIMESTAMP(14))");
+                + OutGoingData.HANG_UP_TIME + " TIMESTAMP(14)," + OutGoingData.RESULT + " Integer," +OutGoingData.IS_VERIFY+" Integer,"+OutGoingData.SIM_NET_INFO+" text,"+ OutGoingData.TIME + " TIMESTAMP(14))");
         db.execSQL("create table networkSwitch(_id INTEGER PRIMARY KEY AUTOINCREMENT,resultFileName text,result text,time TIMESTAMP(14))");
     }
 

@@ -90,8 +90,8 @@
     <string name="is_auto_answer">来电后自动接听</string>
     <string name="is_auto_end">接通后自动挂断</string>
     <string name="hangup">挂断</string>
-    <string name="auto_end_time_text">接通后定时挂断(秒)</string>
-    <string name="default_end_time" translatable="false">60</string>
+    <string name="auto_end_time_text">接通后</string>
+    <string name="default_end_time" translatable="false">5</string>
     <string name="gap_time_text">最大间隔时间(单位:秒)</string>
     <string name="start_test">开始</string>
     <string name="max_space_time" translatable="false">60</string>

@@ -96,6 +96,8 @@ public class DataResetPresenter extends BasePresenter<DataResetContract.View> im
         Preference.putString(context,Constant.DATA_RESET_PRESENTATION_NAME, DataResetHelper.getTimeData()+".xls");
         Preference.putBoolean(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_RUNNING, true) ;
         Preference.putLong(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, 0) ;
+        Preference.putLong(context, Constant.PREF_KEY_DATA_RESET_RETEST_TIMES_CURRENT_CYCLE, -1) ;
+
 //        YUtils.setMobileDataState(context,true);
         context.startService(new Intent(context, SignalMonitorService.class));
         Intent intent = new Intent(context, DataResetServices.class);
@@ -110,6 +112,7 @@ public class DataResetPresenter extends BasePresenter<DataResetContract.View> im
         Preference.putBoolean(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_RUNNING, false) ;
 //        YUtils.setMobileDataState(context,false);
         Preference.putLong(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, 0) ;
+        Preference.putLong(context, Constant.PREF_KEY_DATA_RESET_RETEST_TIMES_CURRENT_CYCLE, -1) ;
         Intent intent = new Intent(context, DataResetServices.class);
         context.stopService(intent);
     }

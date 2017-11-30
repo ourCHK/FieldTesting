@@ -20,23 +20,23 @@ import static android.view.View.VISIBLE;
 public class InComingActivity extends BaseActivity implements InComingContract.View, CompoundButton.OnCheckedChangeListener {
 
     @BindView(R.id.isAutoRejectCB)
-    CheckBox     mAutoRejectCB;
+    CheckBox mAutoRejectCB;
     @BindView(R.id.isAnswertHangup_cb)
-    CheckBox     mAnswerHangUpCB;
+    CheckBox mAnswerHangUpCB;
     @BindView(R.id.answerHangupTime_et)
-    EditText     mAnswerHangupTimeET;
+    EditText mAnswerHangupTimeET;
     @BindView(R.id.autoReject_layout)
     LinearLayout mAutoReject_layout;
     @BindView(R.id.autoAnswerHangup_layout)
     LinearLayout mAutoAnswerHangup_layout;
     @BindView(R.id.isAutoAnswer)
-    CheckBox     mAutoAnswerCB;
+    CheckBox mAutoAnswerCB;
     @BindView(R.id.isAutoReject_et)
-    EditText     mAutoRejectET;
+    EditText mAutoRejectET;
     @BindView(R.id.spaceTime)
-    EditText     mSpaceTime;
+    EditText mSpaceTime;
     @BindView(R.id.incoming_start_btn)
-    Button       mStartBtn;
+    Button mStartBtn;
     private InComingPresenter mInComingPresenter;
 
     @OnClick(R.id.incoming_start_btn)
@@ -90,9 +90,9 @@ public class InComingActivity extends BaseActivity implements InComingContract.V
     }
 
     private CallMonitorParam getCallMonitorParam() {
-        int              autoEndTime          = Integer.parseInt(mAnswerHangupTimeET.getText().toString().trim());
-        String           distinguishTime_text = mAutoRejectET.getText().toString().trim();
-        int              distinguishEndTime   = distinguishTime_text.isEmpty() ? 0 : Integer.parseInt(distinguishTime_text);
+        int autoEndTime = Integer.parseInt(mAnswerHangupTimeET.getText().toString().trim());
+        String distinguishTime_text = mAutoRejectET.getText().toString().trim();
+        int distinguishEndTime = distinguishTime_text.isEmpty() ? 0 : Integer.parseInt(distinguishTime_text);
         return new CallMonitorParam(mAutoRejectCB.isChecked(), distinguishEndTime, mAutoAnswerCB.isChecked(), mAnswerHangUpCB.isChecked(), autoEndTime, Integer.parseInt(mSpaceTime.getText().toString()));
     }
 
@@ -131,4 +131,10 @@ public class InComingActivity extends BaseActivity implements InComingContract.V
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void setParams(CallMonitorParam lastParams) {
+        mAutoAnswerCB.setChecked(lastParams.isAutoAnswer);
+        mAnswerHangUpCB.setChecked(lastParams.isAnswerHangup);
+        mAnswerHangupTimeET.setText(String.valueOf(lastParams.answerHangUptime));
+    }
 }
