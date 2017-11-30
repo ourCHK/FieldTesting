@@ -1,21 +1,19 @@
 package com.gionee.autotest.field.data.db.model;
 
 
-public class OutGoingCallResult {
+import com.gionee.autotest.common.call.CallResult;
 
-    public long    batchId;
-    public int     cycleIndex;
-    public String    number;
-    public String  dialTime;
-    public String  offHookTime;
-    public String  hangUpTime;
-    public boolean result;
-    public String time;
+public class OutGoingCallResult extends CallResult {
+
+    public long batchId;
+    public int cycleIndex;
+    public String simNetInfo;
     public boolean isVerify;
 
-    public OutGoingCallResult(long batchId, int cycleIndex, String number, String dialTime, String offHookTime, String hangUpTime, boolean result,String time,boolean isVerify) {
+    public OutGoingCallResult(long batchId, int cycleIndex, String number, String dialTime, String offHookTime, String hangUpTime, boolean result, String time, boolean isVerify,String simNetInfo) {
         this.batchId = batchId;
         this.cycleIndex = cycleIndex;
+        this.simNetInfo = simNetInfo;
         this.number = number;
         this.dialTime = dialTime;
         this.offHookTime = offHookTime;
@@ -26,7 +24,7 @@ public class OutGoingCallResult {
     }
 
     public OutGoingCallResult() {
-        this(0, 0, "10086", "", "", "", true,"",false);
+        this(0, 0, "10086", "", "", "", true, "", false,"");
     }
 
     public OutGoingCallResult setBatchId(long batchId) {
@@ -39,38 +37,53 @@ public class OutGoingCallResult {
         return this;
     }
 
-    public OutGoingCallResult setNumber(String number) {
-        this.number = number;
-        return this;
-    }
-
-    public OutGoingCallResult setDialTime(String dialTime) {
-        this.dialTime = dialTime;
-        return this;
-    }
-
-    public OutGoingCallResult setOffHookTime(String offHookTime) {
-        this.offHookTime = offHookTime;
-        return this;
-    }
-
-    public OutGoingCallResult setHangUpTime(String hangUpTime) {
-        this.hangUpTime = hangUpTime;
-        return this;
-    }
-
-    public OutGoingCallResult setResult(boolean result) {
-        this.result = result;
-        return this;
-    }
-
-    public OutGoingCallResult setTime(String time) {
-        this.time = time;
-        return this;
-    }
-
     public OutGoingCallResult setVerify(boolean verify) {
         isVerify = verify;
         return this;
+    }
+
+    @Override
+    public OutGoingCallResult setDialTime(String dialTime) {
+        super.setDialTime(dialTime);
+        return this;
+    }
+
+    @Override
+    public OutGoingCallResult setHangUpTime(String hangUpTime) {
+        super.setHangUpTime(hangUpTime);
+        return this;
+    }
+
+    @Override
+    public OutGoingCallResult setNumber(String number) {
+        super.setNumber(number);
+        return this;
+    }
+
+    @Override
+    public OutGoingCallResult setOffHookTime(String offHookTime) {
+        super.setOffHookTime(offHookTime);
+        return this;
+    }
+
+    @Override
+    public OutGoingCallResult setResult(boolean result) {
+        super.setResult(result);
+        return this;
+    }
+
+    @Override
+    public OutGoingCallResult setTime(String time) {
+        super.setTime(time);
+        return this;
+    }
+
+    public OutGoingCallResult setSimNetInfo(String simNetInfo) {
+        this.simNetInfo = simNetInfo;
+        return this;
+    }
+
+    public static OutGoingCallResult parse(CallResult r) {
+        return new OutGoingCallResult().setNumber(r.number).setDialTime(r.dialTime).setHangUpTime(r.hangUpTime).setOffHookTime(r.offHookTime).setResult(r.result).setTime(r.time);
     }
 }

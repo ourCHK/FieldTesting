@@ -41,6 +41,7 @@ public class OutGoingDBHelper extends DBHelper {
         cv.put(OutGoingData.HANG_UP_TIME, result.hangUpTime);
         cv.put(OutGoingData.RESULT, result.result ? 1 : 0);
         cv.put(OutGoingData.TIME, result.time);
+        cv.put(OutGoingData.SIM_NET_INFO, result.simNetInfo);
         return mDb.insert(OutGoingData.NAME, null, cv);
     }
 
@@ -106,9 +107,10 @@ public class OutGoingDBHelper extends DBHelper {
                 String hangUpTime  = cursor.getString(cursor.getColumnIndex(OutGoingData.HANG_UP_TIME));
                 int    result      = cursor.getInt(cursor.getColumnIndex(OutGoingData.RESULT));
                 int    isVerify      = cursor.getInt(cursor.getColumnIndex(OutGoingData.IS_VERIFY));
+                String    simNetInfo      = cursor.getString(cursor.getColumnIndex(OutGoingData.SIM_NET_INFO));
                 String time        = cursor.getString(cursor.getColumnIndex(OutGoingData.TIME));
                 calls.add(new OutGoingCallResult().setVerify(isVerify==1).setBatchId(batchId).setCycleIndex(cycleIndex).setNumber(number).setDialTime(dialTime).
-                        setOffHookTime(offHookTime).setHangUpTime(hangUpTime).setResult(result == 1).setTime(time));
+                        setOffHookTime(offHookTime).setHangUpTime(hangUpTime).setResult(result == 1).setTime(time).setSimNetInfo(simNetInfo));
             } catch (Exception e) {
                 e.printStackTrace();
             }

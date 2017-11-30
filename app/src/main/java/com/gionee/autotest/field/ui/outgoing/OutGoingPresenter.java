@@ -15,6 +15,7 @@ import com.gionee.autotest.common.Preference;
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.data.db.OutGoingDBManager;
 import com.gionee.autotest.field.data.db.model.OutGoingCallResult;
+import com.gionee.autotest.field.services.SignalMonitorService;
 import com.gionee.autotest.field.ui.base.BasePresenter;
 import com.gionee.autotest.field.ui.outgoing.model.CallParam;
 import com.gionee.autotest.field.ui.outgoing.model.CallRateTask;
@@ -86,8 +87,9 @@ class OutGoingPresenter extends BasePresenter<OutGoingContract.View> implements 
             OutGoingUtil.isTest = true;
             CallParam p = getView().getUserParams();
             outGoingModel.start(p);
+            mContext.startService(new Intent(mContext, SignalMonitorService.class));
         } catch (Exception e) {
-           outGoingModel.stop();
+            outGoingModel.stop();
         }
     }
 

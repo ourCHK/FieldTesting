@@ -12,18 +12,20 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.provider.CallLog;
 import android.support.v4.content.LocalBroadcastManager;
-import android.telecom.TelecomManager;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.gionee.autotest.common.TimeUtil;
+import com.gionee.autotest.common.call.CallLogUtil;
 import com.gionee.autotest.common.call.CallUtil;
 import com.gionee.autotest.field.data.db.OutGoingDBManager;
 import com.gionee.autotest.field.data.db.model.OutGoingCallResult;
 import com.gionee.autotest.field.ui.outgoing.model.CallParam;
-import com.gionee.autotest.field.util.CallLogUtil;
+import com.gionee.autotest.field.ui.signal.entity.SimSignalInfo;
 import com.gionee.autotest.field.util.Constant;
+import com.gionee.autotest.field.util.SignalHelper;
+import com.gionee.autotest.field.util.SimUtil;
 import com.google.gson.Gson;
 
 import java.util.Timer;
@@ -98,7 +100,7 @@ public class OutGoingService extends Service {
 
     private void cancelListener() {
         getContentResolver().unregisterContentObserver(mCallLogObserver);
-        if (myListener == null) {
+        if (myListener != null) {
             mTm.listen(myListener, PhoneStateListener.LISTEN_NONE);
         }
     }
@@ -166,8 +168,18 @@ public class OutGoingService extends Service {
             if (!OutGoingUtil.isTest||!isCalled) return;
             isCalled = false;
             callBean.hangUpTime = TimeUtil.getTime();
-            CallLogUtil.CallLogBean lastCallLog = new CallLogUtil().getLastCallLog(getApplicationContext());
+            CallLogUtil.CallLogBean lastCallLog = CallLogUtil.getLastCallLog(getApplicationContext());
             callBean.result = lastCallLog.type == CallLog.Calls.OUTGOING_TYPE && lastCallLog.duration > 0;
+            if (callBean.result){
+                SimSignalInfo simSignalInfo = SignalHelper.getInstance(getApplicationContext()).getSimSignalInfo(SimUtil.getDefaultDataSubId());
+                try {
+                    String s = new Gson().toJson(simSignalInfo);
+                    callBean.setSimNetInfo(s);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    callBean.setSimNetInfo("");
+                }
+            }
             Log.i(Constant.TAG, "写入测试结果");
             OutGoingDBManager.writeData(callBean);
             if (callBean.result) {
