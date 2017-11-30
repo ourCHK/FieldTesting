@@ -153,9 +153,9 @@ public class DataResetHelper {
             long l = date2.getTime() - date1.getTime();
 
             if (l>20*1000){
-                return false;
-            }else{
                 return true;
+            }else{
+                return false;
             }
         } catch (ParseException e) {
             e.printStackTrace();
