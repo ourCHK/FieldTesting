@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.gionee.autotest.common.Preference;
 import com.gionee.autotest.common.call.CallMonitor;
 import com.gionee.autotest.common.call.CallMonitorParam;
 import com.gionee.autotest.common.call.CallMonitorResult;
@@ -17,7 +18,6 @@ import com.gionee.autotest.field.ui.base.BaseView;
 import com.gionee.autotest.field.ui.incoming.model.InComingCall;
 import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.DialogHelper;
-import com.gionee.autotest.field.util.Preference;
 import com.gionee.autotest.field.util.Util;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;

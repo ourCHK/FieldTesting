@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.gionee.autotest.field.ui.data_stability.DataStabilityBean;
 import com.gionee.autotest.field.ui.data_stability.WebViewResultSum;
 import com.gionee.autotest.field.util.DataStabilityUtil;
 import com.google.gson.Gson;
@@ -88,6 +89,32 @@ public class DatabaseUtil {
     public void del(String tableName, String whereClause, String[] whereArgs) {
         db.delete(tableName, whereClause, whereArgs);
     }
+
+    /**
+     * 将数据库查询回来的结果存储至DataStabilityBean
+     * @return 数据库的内容
+     */
+    public ArrayList<DataStabilityBean> getDataStabilityBeans() {
+        Cursor cursor = db.rawQuery("select * from " + DatabaseHelper.TABLE_RESULT,null);
+        ArrayList<DataStabilityBean> dataStabilityBeans = new ArrayList<>();
+        if (cursor == null || cursor.getCount() == 0) {
+            DataStabilityUtil.i("DataStabilityBean's cursor null");
+            cursor.close();
+            return  dataStabilityBeans;
+        }
+        while (cursor.moveToNext()) {
+            int id = cursor.getInt(cursor.getColumnIndex("_id"));
+            int batchId = cursor.getInt(cursor.getColumnIndex("batchId"));
+            int testIndex = cursor.getInt(cursor.getColumnIndex("testIndex"));
+            String result = cursor.getString(cursor.getColumnIndex("result"));
+            DataStabilityBean dataStabilityBean = new DataStabilityBean(id,batchId,testIndex,result);
+            dataStabilityBeans.add(dataStabilityBean);
+
+        }
+        cursor.close();
+        return dataStabilityBeans;
+    }
+
 
     public ArrayList<String> getResultList() {
         Cursor cursor  = db.rawQuery("select result from " + DatabaseHelper.TABLE_RESULT, null);

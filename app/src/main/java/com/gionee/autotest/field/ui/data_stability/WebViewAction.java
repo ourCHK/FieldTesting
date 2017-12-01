@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
+import com.gionee.autotest.field.services.SignalMonitorService;
 import com.gionee.autotest.field.util.AlarmHelper;
 import com.gionee.autotest.field.util.Configurator;
 import com.gionee.autotest.field.util.DataStabilityUtil;
@@ -33,6 +34,7 @@ public class WebViewAction implements CallBack {
         webViewUtil = new WebViewUtil(mWebView);
         myReceiver = new MyReceiver();
         wakeHelper = new WakeHelper(context);
+        startSignalCollectService();
         context.registerReceiver(myReceiver, new IntentFilter("wait_finish"));
     }
 
@@ -87,6 +89,17 @@ public class WebViewAction implements CallBack {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    /**
+     * 启动服务监控网络访问错误时的网络状态
+     */
+    private void startSignalCollectService() {
+        if (context != null) {
+            Intent intent  = new Intent(context, SignalMonitorService.class);
+            context.startService(intent);
+            DataStabilityUtil.i("启动SignalMonitorService服务");
         }
     }
 

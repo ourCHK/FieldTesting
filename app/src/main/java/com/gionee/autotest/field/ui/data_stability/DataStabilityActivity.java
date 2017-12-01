@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.util.About;
@@ -109,6 +110,10 @@ public class DataStabilityActivity extends AppCompatActivity implements View.OnC
         } else if (id == R.id.action_report) {
             mainAction.showReportPage();
             return true;
+        } else if (id == R.id.export_data_stability_excel) {
+            mainAction.exportDataStabilityExcelFile();
+        } else if (id == R.id.open_data_stability_excel) {
+            mainAction.openDataStabilityExcelFile();
         }
         return super.onOptionsItemSelected(item);
     }
