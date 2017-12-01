@@ -1,12 +1,16 @@
 package com.gionee.autotest.field.ui.throughput;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.TrafficStats;
 import android.net.wifi.WifiManager;
 import android.os.Looper;
 import android.os.PowerManager;
 
+import com.gionee.autotest.field.ui.signal.entity.SimSignalInfo;
+import com.gionee.autotest.field.ui.throughput.Util.JExcelUtil;
+import com.gionee.autotest.field.util.SignalHelper;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.MultipartBuilder;
 import com.squareup.okhttp.OkHttpClient;
@@ -27,21 +31,25 @@ import com.gionee.autotest.field.ui.throughput.Util.Helper;
 import com.gionee.autotest.field.ui.throughput.bean.SpeedBean;
 import com.gionee.autotest.field.ui.throughput.bean.SpeedBean.RateBean;
 import com.gionee.autotest.field.ui.throughput.bean.SpeedBean.RateBean.Speed;
+
 import cn.edu.zafu.coreprogress.helper.ProgressHelper;
 import cn.edu.zafu.coreprogress.listener.impl.UIProgressListener;
 
 import static android.content.Context.WIFI_SERVICE;
+import static com.gionee.autotest.field.ui.throughput.Util.Configuration.ERROE_RESULT_PATH;
+import static com.gionee.autotest.field.ui.throughput.Util.Configuration.ERROR_FILE_NAME;
 import static com.gionee.autotest.field.ui.throughput.Util.Configuration.HAS_ERROR;
 import static com.gionee.autotest.field.ui.throughput.Util.Configuration.ISLOADING;
 import static com.gionee.autotest.field.ui.throughput.Util.Configuration.WAIT_STOP;
 import static com.gionee.autotest.field.ui.throughput.Util.Configuration.isGioneeWeb;
 import static com.gionee.autotest.field.ui.throughput.Util.DialogHelper.dialog;
+import static com.gionee.autotest.field.ui.throughput.Util.Helper.getTime;
 import static com.gionee.autotest.field.ui.throughput.Util.Helper.isNetWorkEnable;
 import static com.gionee.autotest.field.ui.throughput.Util.Helper.timerInitialize;
 
 public class MainPresenter {
     private MainActivity iMain;
-    private int lastTimeStamp, nowTime,serial;
+    private int lastTimeStamp, nowTime, serial;
     private long lastTotalBytes;
     private Timer timer = new Timer();
     private int startTime;
@@ -51,7 +59,18 @@ public class MainPresenter {
     ArrayList<Speed> data = new ArrayList<>();
     private Callback myCallback;
 
+    private SimSignalInfo simSignalInfo;
+    private String failTime;
+    private String webType;
+    private String signals;
+    private String signalStrength;
+    private String operator;
+    private String type;//上传或下载的文件大小
+    private String way;//测试方式 -上传/下载
+    private String web;//uri网络状态 -内网/外网
 
+
+    @SuppressLint("WifiManagerLeak")
     public MainPresenter(MainActivity iMain) {
         this.iMain = iMain;
         wifiManager = (WifiManager) iMain.getContext().getSystemService(WIFI_SERVICE);
@@ -67,8 +86,23 @@ public class MainPresenter {
         nowTime = serial - (mDownTimesInt - 1);
         final boolean isDownload = way.equals("下载");
         myCallback = new MyCallback(fileName, way);
-        final UIProgressListener uiProgressListener = new UIProgressListener() {
+        this.type = type;
+        this.way = way;
+        this.web = web;
+        if (Helper.isWifiEnabled(iMain.getContext())) {
+            webType = "无线";
+            signals ="";
+            signalStrength ="";
+            operator = " ";
+        } else {
+            simSignalInfo = SignalHelper.getInstance(iMain.getContext()).getSimSignalInfo(2);
+            webType = simSignalInfo.mNetType;
+            signals = String.valueOf(simSignalInfo.mLevel);
+            signalStrength = simSignalInfo.mSignal;
+            operator = simSignalInfo.mOperator;
+        }
 
+        final UIProgressListener uiProgressListener = new UIProgressListener() {
 
             @Override
             public void onUIProgress(long bytesRead, long contentLength, boolean done) {
@@ -113,7 +147,7 @@ public class MainPresenter {
                 DatabaseUtil db = new DatabaseUtil(iMain.getContext());
                 int times = db.getTimes(type);
                 String start = Preference.getString("start", 0);
-                SpeedBean speedBean = new SpeedBean().setSerial(nowTime).setStart(start).setTime(time).setWay(way).setSpeed(new RateBean().setSpeeds(data)).setSpeed_average(average + "")
+                SpeedBean speedBean = new SpeedBean().setSerial(nowTime).setSuccess("YES").setStart(start).setTime(time).setWay(way).setSpeed(new RateBean().setSpeeds(data)).setSpeed_average(average + "")
                         .setTimes(times + 1).setType(type).setUse_time(useTime).setWeb(web);
                 db.insertData(speedBean);
                 db.close();
@@ -130,9 +164,10 @@ public class MainPresenter {
                             if (isNetWorkEnable(iMain.getContext())) {
                                 download(uri, fileName, type, way, web, mWaitTimeInt, newTime);
                             } else {
-                                ISLOADING=false;
+                                ISLOADING = false;
+//                                onError();
                                 Helper.i("没网了");
-                                Preference.putInt("newTime", nowTime+1);
+                                Preference.putInt("newTime", nowTime + 1);
                                 iMain.dialogNetEnable();
                             }
                         }
@@ -193,6 +228,7 @@ public class MainPresenter {
             Helper.i("网络异常处理");
             ISLOADING = false;
             HAS_ERROR = false;
+            onError();
             iMain.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -213,6 +249,21 @@ public class MainPresenter {
         }
     }
 
+    private void onError() {
+        failTime = getTime();
+
+        DatabaseUtil db = new DatabaseUtil(iMain.getContext());
+        String start = Preference.getString("start", 0);
+        SpeedBean speedBean = new SpeedBean().setSerial(nowTime).setStart(start).setSuccess("NO").setTime(time).setWay(way).setType(type).setWeb(web).setFailTime(failTime).setWebType(webType).setSignals(signals).setSignalStrength(signalStrength).setOperator(operator);
+        db.insertData(speedBean);
+        db.close();
+
+        File file = new File(ERROE_RESULT_PATH, ERROR_FILE_NAME);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        JExcelUtil.exportExcel(new File(ERROR_FILE_NAME));
+    }
 
     private long getTotalRxBytes() {
         return TrafficStats.getUidRxBytes(iMain.getContext().getApplicationInfo().uid) == TrafficStats.UNSUPPORTED ? 0 : (TrafficStats.getTotalRxBytes() / 1024);//转为KB
@@ -235,6 +286,7 @@ public class MainPresenter {
         public void onFailure(Request request, IOException e) {
             Helper.i("请求失败");
             Helper.i("error:" + e.toString());
+            onError();
             iMain.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -243,7 +295,7 @@ public class MainPresenter {
                         Helper.i("内网下载，却没有开启内网");
                         isGioneeWeb = false;
                         dialog(iMain.getContext(), "提醒", "进行内网下载，请连接内网WiFi！");
-                    }else{
+                    } else {
                         iMain.dialogNetEnable();
                     }
                     Helper.i("还原界面");
@@ -252,7 +304,6 @@ public class MainPresenter {
                     iMain.setInitializeView();
                 }
             });
-
         }
 
         @Override

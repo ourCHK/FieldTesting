@@ -27,6 +27,13 @@ public class DatabaseUtil {
     public static final String START = "start";
     public static final String SERIAL = "serial";
 
+    public static final String SUCCESS = "success";
+    public static final String FAILTIME = "failTime";
+    public static final String WEBTYPE = "webType";
+    public static final String SIGNALS = "signals";
+    public static final String SIGNALSTRENGTH = "signalStrength";
+    public static final String OPERATOR = "operator";
+
     public DatabaseUtil(Context context) {
         this.mContext = context;
         open();
@@ -121,12 +128,21 @@ public class DatabaseUtil {
                 String speed = data.getString(data.getColumnIndex(DatabaseUtil.SPEED));
 //                String id = data.getString(data.getColumnIndex("_id"));
                 String id = data.getString(data.getColumnIndex(DatabaseUtil.SERIAL));
+
+                String success = data.getString(data.getColumnIndex(DatabaseUtil.SUCCESS));
+                String failTime = data.getString(data.getColumnIndex(DatabaseUtil.FAILTIME));
+                String webType = data.getString(data.getColumnIndex(DatabaseUtil.WEBTYPE));
+                String signals = data.getString(data.getColumnIndex(DatabaseUtil.SIGNALS));
+                String signalStrength = data.getString(data.getColumnIndex(DatabaseUtil.SIGNALSTRENGTH));
+                String operator = data.getString(data.getColumnIndex(DatabaseUtil.OPERATOR));
+
                 SpeedBean.RateBean rateBean = gson.fromJson(speed, SpeedBean.RateBean.class);
-                list.add(new SpeedBean().setID(id).setWeb(web).setTime(time).setWay(way).setSpeed(rateBean).setSpeed_average(average_speed).setTimes(Integer.parseInt(times)).setType(type).setUse_time(Integer.parseInt(use_time)));
+                list.add(new SpeedBean().setID(id).setSuccess(success).setFailTime(failTime).setWebType(webType).setSignals(signals).setSignalStrength(signalStrength).setOperator(operator).setWeb(web).setTime(time).setWay(way).setSpeed(rateBean).setSpeed_average(average_speed).setTimes(Integer.parseInt(times)).setType(type).setUse_time(Integer.parseInt(use_time)));
             }
         }
         return list;
     }
+
     public ArrayList<String> getstartContent() {
         ArrayList<String> list = new ArrayList<>();
         Cursor data = db.rawQuery("select * from " + DatabaseHelper.TABLE_NAME, null);
@@ -143,7 +159,7 @@ public class DatabaseUtil {
 
     public ArrayList<SpeedBean> getTimeContent(String start) {
         ArrayList<SpeedBean> list = new ArrayList<>();
-        Cursor data = db.rawQuery("select * from " + DatabaseHelper.TABLE_NAME+" where start=\""+start+"\"", null);
+        Cursor data = db.rawQuery("select * from " + DatabaseHelper.TABLE_NAME + " where start=\"" + start + "\"", null);
         Helper.i("------------------");
         Gson gson = new Gson();
         if (data != null && data.getCount() > 0) {
@@ -164,8 +180,16 @@ public class DatabaseUtil {
                 String speed = data.getString(data.getColumnIndex(DatabaseUtil.SPEED));
 //                String id = data.getString(data.getColumnIndex("_id"));
                 String id = data.getString(data.getColumnIndex(DatabaseUtil.SERIAL));
+
+                String success = data.getString(data.getColumnIndex(DatabaseUtil.SUCCESS));
+                String failTime = data.getString(data.getColumnIndex(DatabaseUtil.FAILTIME));
+                String webType = data.getString(data.getColumnIndex(DatabaseUtil.WEBTYPE));
+                String signals = data.getString(data.getColumnIndex(DatabaseUtil.SIGNALS));
+                String signalStrength = data.getString(data.getColumnIndex(DatabaseUtil.SIGNALSTRENGTH));
+                String operator = data.getString(data.getColumnIndex(DatabaseUtil.OPERATOR));
+
                 SpeedBean.RateBean rateBean = gson.fromJson(speed, SpeedBean.RateBean.class);
-                list.add(new SpeedBean().setID(id).setWeb(web).setTime(time).setWay(way).setSpeed(rateBean).setSpeed_average(average_speed).setTimes(Integer.parseInt(times)).setType(type).setUse_time(Integer.parseInt(use_time)));
+                list.add(new SpeedBean().setID(id).setSuccess(success).setFailTime(failTime).setWebType(webType).setSignals(signals).setSignalStrength(signalStrength).setOperator(operator).setWeb(web).setTime(time).setWay(way).setSpeed(rateBean).setSpeed_average(average_speed).setTimes(Integer.parseInt(times)).setType(type).setUse_time(Integer.parseInt(use_time)));
             }
         }
         return list;
@@ -185,6 +209,13 @@ public class DatabaseUtil {
         cv.put(DatabaseUtil.START, speedBean.start);
         cv.put(DatabaseUtil.TIME, speedBean.time);
         cv.put(DatabaseUtil.SERIAL, speedBean.serial);
+
+        cv.put(DatabaseUtil.SUCCESS, speedBean.success);
+        cv.put(DatabaseUtil.FAILTIME, speedBean.failTime);
+        cv.put(DatabaseUtil.WEBTYPE, speedBean.webType);
+        cv.put(DatabaseUtil.SIGNALS, speedBean.signals);
+        cv.put(DatabaseUtil.SIGNALSTRENGTH, speedBean.signalStrength);
+        cv.put(DatabaseUtil.OPERATOR, speedBean.operator);
         insert(cv);
     }
 }

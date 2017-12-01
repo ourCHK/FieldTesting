@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
@@ -27,8 +28,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.gionee.autotest.field.R;
+import com.gionee.autotest.field.services.SignalMonitorService;
 import com.gionee.autotest.field.ui.throughput.Util.DialogHelper;
 import com.gionee.autotest.field.ui.throughput.Util.Helper;
+import com.gionee.autotest.field.util.Util;
 
 import static android.R.layout.simple_spinner_item;
 import static com.gionee.autotest.field.ui.throughput.Util.Configuration.EIGHTY_EIGHT_DOWNLOAD_URL;
@@ -74,6 +77,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_throughput);
         verifyStoragePermissions(this);
+        startSignalCollectService();
         initViews();
         mPresenter = new MainPresenter(this);
     }
@@ -384,5 +388,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    private void startSignalCollectService(){
+        Intent signalService = new Intent (this, SignalMonitorService.class);
+        startService(signalService);
     }
 }

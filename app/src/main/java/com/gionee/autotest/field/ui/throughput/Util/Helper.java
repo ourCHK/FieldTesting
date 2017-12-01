@@ -175,14 +175,12 @@ public class Helper {
     }
     //判断WiFi是否可用
     public static boolean isWifiEnabled(Context mContext) {
-        ConnectivityManager connManager = (ConnectivityManager) mContext.getSystemService(CONNECTIVITY_SERVICE);
-        NetworkInfo mWifi = connManager
-                .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
-        if (mWifi != null && mWifi.isConnected()) {
+        ConnectivityManager connManager = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetInfo = connManager.getActiveNetworkInfo();
+        if (activeNetInfo != null && activeNetInfo.getType() == ConnectivityManager.TYPE_WIFI) {
             return true;
-        } else
-            return false;
+        }
+        return false;
     }
     public static  boolean isNetWorkEnable(Context mContext){
         ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(CONNECTIVITY_SERVICE);
@@ -233,6 +231,8 @@ public class Helper {
         }
         return newList;
     }
+
+
 
 
 }
