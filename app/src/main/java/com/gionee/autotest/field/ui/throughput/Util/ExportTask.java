@@ -7,12 +7,15 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.SystemClock;
+import android.widget.Toast;
 
 import com.gionee.autotest.field.R;
+import com.gionee.autotest.field.util.Util;
 
 import java.io.File;
 import java.util.ArrayList;
 
+import static com.gionee.autotest.field.ui.throughput.Util.Configuration.ERROR_FILE_NAME;
 import static com.gionee.autotest.field.ui.throughput.Util.Configuration.FILE_NAME;
 import static com.gionee.autotest.field.ui.throughput.Util.Configuration.FILE_NAME_LOOK;
 import static com.gionee.autotest.field.ui.throughput.Util.Configuration.RESULT_PATH;
@@ -21,6 +24,7 @@ import static com.gionee.autotest.field.ui.throughput.Util.FileUtil.getExcelFile
 public class ExportTask extends AsyncTask<Integer, Void, Void> {
     private static Context mContext;
     private ArrayList<String> data;
+    private static Util util;
 
     public ExportTask(Context context) {
         this.mContext = context;
@@ -33,6 +37,7 @@ public class ExportTask extends AsyncTask<Integer, Void, Void> {
 
     @Override
     protected void onPreExecute() {
+        util = new Util();
         dialog = new ProgressDialog(mContext);
         dialog.setTitle(mContext.getString(R.string.exportReports));
         dialog.setMessage("正在导出，请稍候……");
@@ -75,20 +80,21 @@ public class ExportTask extends AsyncTask<Integer, Void, Void> {
             public void setOther(android.app.AlertDialog.Builder builder) {
                 boolean is = Build.VERSION.SDK_INT < Build.VERSION_CODES.N;
               Helper.i("if判断的结果是 -- "+is+"&&"+isExported);
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N && isExported) {
+//                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N && isExported) {
+                if (isExported)
                     builder.setPositiveButton("打开", listener);
-                }
+//                }
                 builder.setNegativeButton("确定", null);
             }
 
             DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    try {
-                        Intent excelFileIntent =getExcelFileIntent(new File(FILE_NAME));
-                        mContext.startActivity(excelFileIntent);
-                    } catch (Exception e) {
-                        Helper.i(e.toString());
+                    File file = new File(FILE_NAME);
+                    if (file.exists()) {
+                        util.openExcelByIntent(mContext, FILE_NAME);
+                    }else {
+                        Toast.makeText(mContext,"未发现文件", Toast.LENGTH_SHORT).show();
                     }
                 }
             };
