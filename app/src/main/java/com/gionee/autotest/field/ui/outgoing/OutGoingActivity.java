@@ -58,7 +58,11 @@ public class OutGoingActivity extends BaseActivity implements OutGoingContract.V
 
     private void setViewEnabled(boolean testing, View... v) {
         for (View view : v) {
-            view.setEnabled(testing);
+            try {
+                view.setEnabled(testing);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -82,6 +86,12 @@ public class OutGoingActivity extends BaseActivity implements OutGoingContract.V
     @Override
     protected void onStart() {
         super.onStart();
+        mOutGoingPresenter.obtainCallRate();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         mOutGoingPresenter.obtainCallRate();
     }
 

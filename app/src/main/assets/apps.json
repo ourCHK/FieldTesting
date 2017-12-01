@@ -3,7 +3,7 @@
   "apps":[
     {
       "key": 0,
-      "label":"接通率",
+      "label":"辅助接通",
       "icon":"phone_incoming",
       "activity":".ui.incoming.InComingActivity",
       "installed": true,
@@ -11,7 +11,7 @@
     },
     {
       "key": 1,
-      "label":"拨通率",
+      "label":"接通率",
       "icon":"phone_outgoing",
       "activity":".ui.outgoing.OutGoingActivity",
       "installed": true,

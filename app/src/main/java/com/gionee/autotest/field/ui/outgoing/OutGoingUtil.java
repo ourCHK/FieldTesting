@@ -105,10 +105,15 @@ public class OutGoingUtil {
     public static String getSumString(ArrayList<OutGoingCallResult> results) {
         int verifyCount = 0;
         int testSuccess = 0;
+        int cycle = 0;
+        int cycleIndex = -1;
         for (OutGoingCallResult result : results) {
             if (result.isVerify) {
                 verifyCount++;
             } else {
+                if (result.cycleIndex != cycleIndex) {
+                    cycle++;
+                }
                 if (result.result) {
                     testSuccess++;
                 }

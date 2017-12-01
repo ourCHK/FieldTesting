@@ -146,7 +146,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.incoming.InComingReportActivity"
-            android:label="接通率报告"
+            android:label="辅助接通报告"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.network_switch.NetworkSwitchActivity"
@@ -249,7 +249,7 @@
             android:label="@string/data_reset_test_list"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.outgoing.report.OutGoingReportActivity"
-            android:label="拨通率报告"
+            android:label="接通率报告"
             android:screenOrientation="portrait"/>
 
         <service android:name=".services.SignalMonitorService" />
