@@ -1,6 +1,8 @@
 package com.gionee.autotest.field.ui.outgoing;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -17,19 +19,18 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.gionee.autotest.common.TimeUtil;
-import com.gionee.autotest.common.call.CallLogUtil;
 import com.gionee.autotest.common.call.CallUtil;
+import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.data.db.OutGoingDBManager;
 import com.gionee.autotest.field.data.db.model.OutGoingCallResult;
 import com.gionee.autotest.field.ui.outgoing.model.CallParam;
-import com.gionee.autotest.field.ui.signal.entity.SimSignalInfo;
 import com.gionee.autotest.field.util.Constant;
-import com.gionee.autotest.field.util.SignalHelper;
-import com.gionee.autotest.field.util.SimUtil;
+import com.gionee.autotest.field.util.call.CallLogUtil;
 import com.google.gson.Gson;
 
 import java.util.Timer;
 import java.util.TimerTask;
+
 
 public class OutGoingService extends Service {
 
@@ -55,8 +56,18 @@ public class OutGoingService extends Service {
     public void onCreate() {
         super.onCreate();
         mTm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        myListener=new MyListener();
+        myListener = new MyListener();
         startListener();
+        Notification.Builder builder = new Notification.Builder(this.getApplicationContext());
+        Intent nfIntent = new Intent(this, OutGoingActivity.class);
+        builder.setContentIntent(PendingIntent.getActivity(this, 0, nfIntent, 0))
+                .setContentTitle("接通率")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentText("测试中")
+                .setWhen(System.currentTimeMillis());
+        Notification notification = builder.build();
+        notification.defaults = Notification.DEFAULT_SOUND;
+        startForeground(520, notification);
     }
 
 
@@ -66,67 +77,56 @@ public class OutGoingService extends Service {
         if (paramsJson != null) {
             cycleIndex = 0;
             numberIndex = 0;
-            params = new Gson().fromJson(paramsJson, CallParam.class);
+            this.params = new Gson().fromJson(paramsJson, CallParam.class);
             startCycle();
         }
         return super.onStartCommand(intent, flags, startId);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        cycleIndex = 0;
-        numberIndex = 0;
-        try {
-            timer.cancel();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (mTm.getCallState() == TelephonyManager.CALL_STATE_OFFHOOK) {
-            try {
-                new CallUtil(this).getITelephony().endCall();
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
-        }
-        cancelListener();
-    }
-
-
-    private void startListener() {
-        mTm.listen(myListener, PhoneStateListener.LISTEN_CALL_STATE);
-        getContentResolver().registerContentObserver(CONTENT_URI, false, mCallLogObserver);
-    }
-
-    private void cancelListener() {
-        getContentResolver().unregisterContentObserver(mCallLogObserver);
-        if (myListener != null) {
-            mTm.listen(myListener, PhoneStateListener.LISTEN_NONE);
-        }
-    }
-
     private void startCycle() {
-        Log.i(Constant.TAG, "开始第"+(cycleIndex+1)+"轮测试");
+        Log.i(Constant.TAG, "开始第" + (cycleIndex + 1) + "轮测试");
         numberIndex = 0;
         startCall();
     }
 
     private void startCall() {
-        Log.i(Constant.TAG, "开始拨打第"+(numberIndex + 1)+"个号码");
+        Log.i(Constant.TAG, "开始拨打第" + (numberIndex + 1) + "个号码");
         String currentNumber = params.numbers[numberIndex];
         callBean = new OutGoingCallResult().setNumber(currentNumber);
         try {
             dial(currentNumber);
-            callBean.setDialTime(TimeUtil.getTime());
+            callBean.setDialTime(TimeUtil.getTime()).setBatchId(params.id).setCycleIndex(cycleIndex);
             Log.i(Constant.TAG, "拔号=" + TimeUtil.getTime());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stopForeground(true);
+        cycleIndex = 0;
+        numberIndex = 0;
+        try {
+            if (timer != null) timer.cancel();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            if (mTm.getCallState() == TelephonyManager.CALL_STATE_OFFHOOK) {
+                new CallUtil(this).getITelephony().endCall();
+            }
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        cancelListener();
+    }
+
+
     @SuppressLint("MissingPermission")
     private void dial(String number) {
-        Log.i(Constant.TAG, "拨号"+number);
+        Log.i(Constant.TAG, "拨号" + number);
         Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + number));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
@@ -154,31 +154,25 @@ public class OutGoingService extends Service {
                     }
                 }, params.call_time_sum * 1000L);
             } else {
-                OutGoingUtil.isTest=false;
+                OutGoingUtil.isTest = false;
                 Log.i(Constant.TAG, "测试完成，发送结束广播");
                 LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent("AutoCallUpdateViews"));
                 stopSelf();
             }
         }
     }
+
     private ContentObserver mCallLogObserver = new ContentObserver(new Handler()) {
         @Override
         public void onChange(boolean selfChange) {
             super.onChange(selfChange);
-            if (!OutGoingUtil.isTest||!isCalled) return;
+            if (!OutGoingUtil.isTest || !isCalled) return;
             isCalled = false;
             callBean.hangUpTime = TimeUtil.getTime();
             CallLogUtil.CallLogBean lastCallLog = CallLogUtil.getLastCallLog(getApplicationContext());
             callBean.result = lastCallLog.type == CallLog.Calls.OUTGOING_TYPE && lastCallLog.duration > 0;
-            if (callBean.result){
-                SimSignalInfo simSignalInfo = SignalHelper.getInstance(getApplicationContext()).getSimSignalInfo(SimUtil.getDefaultDataSubId());
-                try {
-                    String s = new Gson().toJson(simSignalInfo);
-                    callBean.setSimNetInfo(s);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    callBean.setSimNetInfo("");
-                }
+            if (!callBean.result) {
+                callBean.setSimNetInfo(OutGoingUtil.getSimNetInfo(getApplicationContext()));
             }
             Log.i(Constant.TAG, "写入测试结果");
             OutGoingDBManager.writeData(callBean);
@@ -187,7 +181,7 @@ public class OutGoingService extends Service {
             } else {
                 cancelListener();
                 Log.i(Constant.TAG, "拨号失败，开始验证拨号");
-                new VerifyCall(getApplicationContext(), callBean.number, params, new CallBack() {
+                new VerifyCall(getApplicationContext(), callBean.number, params, cycleIndex, new CallBack() {
                     @Override
                     public void call(Object o) {
                         startListener();
@@ -198,11 +192,23 @@ public class OutGoingService extends Service {
         }
     };
 
+    private void startListener() {
+        mTm.listen(myListener, PhoneStateListener.LISTEN_CALL_STATE);
+        getContentResolver().registerContentObserver(CONTENT_URI, false, mCallLogObserver);
+    }
+
+    private void cancelListener() {
+        getContentResolver().unregisterContentObserver(mCallLogObserver);
+        if (myListener != null) {
+            mTm.listen(myListener, PhoneStateListener.LISTEN_NONE);
+        }
+    }
+
     class MyListener extends PhoneStateListener {
         @Override
         public void onCallStateChanged(int state, String incomingNumber) {
             super.onCallStateChanged(state, incomingNumber);
-            if (!OutGoingUtil.isTest)return;
+            if (!OutGoingUtil.isTest) return;
             Log.i(Constant.TAG, "state=" + state);
             switch (state) {
                 case TelephonyManager.CALL_STATE_RINGING:
@@ -212,7 +218,7 @@ public class OutGoingService extends Service {
                     Log.i(Constant.TAG, "state_offHook");
                     isCalled = true;
                     callBean.offHookTime = TimeUtil.getTime();
-                    Log.i(Constant.TAG,"接通="+TimeUtil.getTime()+",号码="+incomingNumber);
+                    Log.i(Constant.TAG, "接通=" + TimeUtil.getTime() + ",号码=" + incomingNumber);
                     AudioManager mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
                     if (mAudioManager != null) {
                         mAudioManager.setSpeakerphoneOn(params.is_speaker_on);

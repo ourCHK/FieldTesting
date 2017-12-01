@@ -54,8 +54,7 @@ public class OutGoingModel {
         addBatch(p, new Consumer<CallParam>() {
             @Override
             public void accept(CallParam p) throws Exception {
-                isTesting = true;
-                mContext.startService(new Intent(mContext, OutGoingService.class).putExtra("params", new Gson().toJson(p)));
+                startTest(p);
             }
         });
     }
@@ -70,6 +69,8 @@ public class OutGoingModel {
     }
 
     private void startTest(CallParam p) {
+        isTesting = true;
+        mContext.startService(new Intent(mContext, OutGoingService.class).putExtra("params", new Gson().toJson(p)));
 //        new CallTask(mContext, p, new CallTask.Callback() {
 //            @Override
 //            public void call(CallParam param, OutGoingCallResult value) {

@@ -16,17 +16,56 @@ public class SpeedBean {
     public String start;//一轮循环的开始时间
     public int serial;//一轮循环的序号
 
+    public String success;
+    public String failTime;
+    public String webType;
+    public String signals;
+    public String signalStrength;
+    public String operator;
+
+
+    public SpeedBean setSuccess(String success) {
+        this.success = success;
+        return this;
+    }
+
+    public SpeedBean setFailTime(String failTime) {
+        this.failTime = failTime;
+        return this;
+    }
+
+    public SpeedBean setWebType(String webType) {
+        this.webType = webType;
+        return this;
+    }
+
+    public SpeedBean setSignals(String signals) {
+        this.signals = signals;
+        return this;
+    }
+
+    public SpeedBean setSignalStrength(String signalStrength) {
+        this.signalStrength = signalStrength;
+        return this;
+    }
+
+    public SpeedBean setOperator(String operator) {
+        this.operator = operator;
+        return this;
+    }
+
     public SpeedBean setType(String type) {
         this.type = type;
         return this;
     }
 
     public SpeedBean setWeb(String web) {
-        this.web=web;
+        this.web = web;
         return this;
     }//
+
     public SpeedBean setStart(String start) {
-        this.start=start;
+        this.start = start;
         return this;
     }//一轮循环的开始时间
 

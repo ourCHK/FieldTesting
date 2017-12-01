@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <include layout="@layout/layout_header"/>
+    <include layout="@layout/layout_header" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_margin="15dp"
         android:layout_height="match_parent"
+        android:layout_margin="15dp"
         android:orientation="vertical">
 
         <TextView
@@ -17,16 +17,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/tool_tips"
-            android:textColor="@color/colorPrimary"/>
+            android:textColor="@color/colorPrimary" />
 
 
         <CheckBox
             android:id="@+id/isAutoRejectCB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:text="@string/distinguish_text"
-            android:textColor="@color/colorPrimary"/>
+            android:textColor="@color/colorPrimary"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/autoReject_layout"
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/isDistinguishEndStr"
-                android:textColor="@color/colorPrimary"/>
+                android:textColor="@color/colorPrimary" />
 
             <EditText
                 android:id="@+id/isAutoReject_et"
@@ -51,17 +51,17 @@
                 android:gravity="center"
                 android:inputType="number"
                 android:text="5"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
         </LinearLayout>
 
 
         <CheckBox
             android:id="@+id/isAutoAnswer"
             android:layout_width="wrap_content"
-            android:checked="true"
             android:layout_height="wrap_content"
+            android:checked="true"
             android:text="@string/is_auto_answer"
-            android:textColor="@color/colorPrimary"/>
+            android:textColor="@color/colorPrimary" />
 
         <CheckBox
             android:id="@+id/isAnswertHangup_cb"
@@ -70,7 +70,7 @@
             android:checked="true"
             android:text="@string/is_auto_end"
             android:textColor="@color/colorPrimary"
-            android:visibility="visible"/>
+            android:visibility="visible" />
 
         <LinearLayout
             android:id="@+id/autoAnswerHangup_layout"
@@ -81,11 +81,10 @@
 
             <TextView
                 android:id="@+id/autoEndText"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="@string/auto_end_time_text"
-                android:textColor="@color/colorPrimary"/>
+                android:textColor="@color/colorPrimary" />
 
             <EditText
                 android:id="@+id/answerHangupTime_et"
@@ -94,21 +93,29 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:inputType="number"
-                android:text="@string/default_end_time"/>
+                android:text="@string/default_end_time"
+                android:textColor="@color/colorPrimary" />
+
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:text="秒自动挂断"
-                android:textColor="@color/colorPrimary"
-                />
+                android:textColor="@color/colorPrimary" />
         </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/isHandUpPressPower"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="挂断后自动短按Power键"
+            android:textColor="@color/colorPrimary" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/spaceTimeText"
@@ -116,7 +123,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/gap_time_text"
-                android:textColor="@color/colorPrimary"/>
+                android:textColor="@color/colorPrimary" />
 
             <EditText
                 android:id="@+id/spaceTime"
@@ -125,7 +132,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:inputType="number"
-                android:text="@string/max_space_time"/>
+                android:text="@string/max_space_time" />
         </LinearLayout>
 
 
@@ -136,7 +143,7 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/bg_stroke"
             android:text="@string/start_test"
-            android:textColor="@color/colorPrimary"/>
+            android:textColor="@color/colorPrimary" />
     </LinearLayout>
 
 

@@ -13,6 +13,7 @@ package com.gionee.autotest.field.ui.throughput;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -25,20 +26,29 @@ import android.widget.Toast;
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.ui.throughput.Util.ExportTask;
 import com.gionee.autotest.field.ui.throughput.Util.Helper;
+import com.gionee.autotest.field.util.Util;
 
+import java.io.File;
+
+import static com.gionee.autotest.field.ui.throughput.Util.Configuration.ERROE_RESULT_PATH;
+import static com.gionee.autotest.field.ui.throughput.Util.Configuration.ERROR_FILE_NAME;
+import static com.gionee.autotest.field.ui.throughput.Util.Configuration.FILE_NAME;
 import static com.gionee.autotest.field.ui.throughput.Util.Configuration.ISLOADING;
 import static com.gionee.autotest.field.ui.throughput.Util.Configuration.RESULT_PATH;
 
 
 public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener {
     private Helper mHelper;
+    private Util util;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setLogo();
         mHelper = new Helper();
+        util = new Util();
         super.onCreate(savedInstanceState);
     }
+
     private void setLogo() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -59,7 +69,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     protected void initDatas() {
     }
 
-    ;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -72,6 +81,9 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         switch (item.getItemId()) {
             case R.id.menu_about:
                 about();
+                break;
+            case R.id.menu_error:
+                error();
                 break;
             case R.id.menu_result:
                 result();
@@ -91,6 +103,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             Helper.delAllFiles(RESULT_PATH);
+                            Helper.delAllFiles(ERROE_RESULT_PATH);
                             onClearData();
                             Toast.makeText(BaseActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
                         }
@@ -131,6 +144,16 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     }
 
 
+    public void error() {
+        File file = new File(ERROR_FILE_NAME);
+        if (file.exists()) {
+            util.openExcelByIntent(this, ERROR_FILE_NAME);
+        }else {
+            Toast.makeText(this,"未发现文件", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
     @Override
     public void onBackPressed() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
@@ -150,7 +173,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onClick(View view) {
     }
-
 
 
 }

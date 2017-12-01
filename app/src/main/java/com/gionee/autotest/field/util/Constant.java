@@ -86,7 +86,7 @@ public class Constant {
 
     //incoming
     public static final String DIR_INCOMING = PATH_SD + "incoming/";
-    public static final String INCOMING_EXCEL_PATH=DIR_INCOMING+"incomingCallRecord.xls";
+    public static final String INCOMING_EXCEL_PATH = DIR_INCOMING + "incomingCallRecord.xls";
 
     //dataStability
     public static final String DIR_DATA_STABILITY = PATH_SD+"data_stability";
@@ -114,6 +114,8 @@ public class Constant {
 
         public static final String COLUMN_NAME_INSTALLED = "app_installed";
 
+        public static final String COLUMN_NAME_REQUIRE_SYS_PERM = "app_require_sys_perm";
+
     }
 
     public static final class InComingDB implements BaseColumns {
@@ -138,6 +140,7 @@ public class Constant {
             public static final String AUTO_ANSWER_HANGUP = "autoAnswerHangup";
             public static final String ANSWER_HANGUP_TIME = "answerHangupTime";
             public static final String GAP_TIME = "gapTime";
+            public static final String IS_HANG_UP_PRESS_POWER = "isHangUpPressPower";
             public static final String TIME = "time";
             public static final String NAME = "table_batch";
         }

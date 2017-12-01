@@ -6,63 +6,72 @@
       "label":"接通率",
       "icon":"phone_incoming",
       "activity":".ui.incoming.InComingActivity",
-      "installed": true
+      "installed": true,
+      "requireSysPerm": false
     },
     {
       "key": 1,
       "label":"拨通率",
       "icon":"phone_outgoing",
       "activity":".ui.outgoing.OutGoingActivity",
-      "installed": true
+      "installed": true,
+      "requireSysPerm": true
     },
     {
       "key": 2,
       "label":"通话质量",
       "icon":"phone_quality",
       "activity":".ui.call_quality.CallQualityActivity",
-      "installed": true
+      "installed": true,
+      "requireSysPerm": false
     },
     {
       "key": 3,
       "label":"信号强度",
       "icon":"phone_signal",
       "activity":".ui.signal.SignalActivity",
-      "installed": true
+      "installed": true,
+      "requireSysPerm": false
     },
     {
       "key": 4,
       "label":"网络切换",
       "icon":"phone_network_switch",
       "activity":".ui.network_switch.NetworkSwitchActivity",
-      "installed": true
+      "installed": true,
+      "requireSysPerm": false
     },
     {
       "key": 5,
       "label":"信息收发",
       "icon":"phone_ms",
       "activity":".ui.message.MessageActivity",
-      "installed": true
+      "installed": true,
+      "requireSysPerm": false
     },
     {
       "key": 6,
       "label":"数据重激活",
       "icon":"phone_data_reset",
       "activity":".ui.data_reset.DataResetActivity",
-      "installed": true
+      "installed": true,
+      "requireSysPerm": false
     },
     {
       "key": 7,
       "label":"数据稳定性",
       "icon":"phone_stability",
       "activity":".ui.data_stability.DataStabilityActivity",
-      "installed": true
+      "installed": true,
+      "requireSysPerm": true
     },
     {
       "key": 8,
       "label":"吞吐率",
       "icon":"phone_swap",
       "activity":".ui.throughput.MainActivity",
-      "installed": true
+      "installed": true,
+      "requireSysPerm": false
     }
   ]
 }

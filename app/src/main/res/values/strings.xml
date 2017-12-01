@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">场测</string>
 
     <!-- for menus-->
     <string name="settings">设置</string>
@@ -30,6 +29,7 @@
     <string name="delete_app_btn_ok">确定</string>
     <string name="delete_app_btn_discard">取消</string>
     <string name="info_message">1. 在测试开始前，请确保将此应用添加到系统管家的清理白名单.\n\n</string>
+    <string name="to_use_system_app_notice">当前功能只针对系统签名版本开放，请安装系统签名版本</string>
 
     <!-- install resources -->
     <string name="install_label_name">添加应用</string>
@@ -116,7 +116,7 @@
 
 
     <!-- outgoing  resources-->
-    <string name="out_going_label_name">接通率</string>
+    <string name="out_going_label_name">拨通率</string>
     <string name="successfulCount">成功个数</string>
     <string name="failedCount">失败个数</string>
     <string name="fail">失败</string>
@@ -155,12 +155,15 @@
     <string name="start_testing">开始测试</string>
     <string name="stop_testing">停止测试</string>
     <string name="cycle_index">循环次数：</string>
-    <string name="menu_about">关于</string>
+    <string name="data_reset_about">关于</string>
     <string name="matters_needing_attention">注意事项</string>
     <string name="data_reactivation">数据重激活</string>
     <string name="cycle_erro">请输入正确的循环次数</string>
     <string name="retest_times">复测次数：</string>
     <string name="retest_erro">请输入正确的复测次数</string>
+    <string name="data_reset_test">查看数据重激活报告</string>
+    <string name="data_reset_erro">还没有测试报告，请测试后再查看</string>
+    <string name="data_reset_test_list">测试报告列表</string>
 
     <!-- message  resources-->
     <string name="message_send">信息收发</string>

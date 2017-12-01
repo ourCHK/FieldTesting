@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.gionee.autotest.field"
-    android:sharedUserId="android.uid.system">
+    package="com.gionee.autotest.field">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -14,7 +13,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.MODIFY_PHONE_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
@@ -146,7 +144,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.incoming.InComingReportActivity" />
+        <activity android:name=".ui.incoming.InComingReportActivity"
+            android:label="接通率报告"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.network_switch.NetworkSwitchActivity"
             android:label="@string/network_switch"
@@ -241,6 +241,13 @@
         <activity
             android:name=".ui.data_stability.report.ReportActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.data_reset.DataResetPresentationActivity"
+            android:label="@string/data_reset_test_list"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.outgoing.report.OutGoingReportActivity"
+            android:label="拨通率报告"
+            android:screenOrientation="portrait"/>
 
         <service android:name=".services.SignalMonitorService" />
         <service android:name=".services.DataResetServices" />

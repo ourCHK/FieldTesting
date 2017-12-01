@@ -7,23 +7,21 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.gionee.autotest.common.call.CallMonitorResult;
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.data.db.model.InComingReportBean;
+import com.gionee.autotest.field.util.call.CallMonitorResult;
 
 public class InComingReportAdapter extends BaseAdapter {
-    private       InComingReportBean mData;
-    private final Context            context;
+    private InComingReportBean mData;
+    private Context context;
 
-    public final InComingReportBean getMData() {
-        return this.mData;
+    InComingReportAdapter(Context context) {
+        super();
+        this.context = context;
+        this.mData = new InComingReportBean();
     }
 
-    public final void setMData(InComingReportBean var1) {
-        this.mData = var1;
-    }
-
-    public final void updateData(InComingReportBean data) {
+    void updateData(InComingReportBean data) {
         this.mData = data;
         this.notifyDataSetChanged();
     }
@@ -61,16 +59,6 @@ public class InComingReportAdapter extends BaseAdapter {
         return v;
     }
 
-
-    public final Context getContext() {
-        return this.context;
-    }
-
-    public InComingReportAdapter(Context context) {
-        super();
-        this.context = context;
-        this.mData = new InComingReportBean();
-    }
 
     public static final class ResultViewHolder {
 

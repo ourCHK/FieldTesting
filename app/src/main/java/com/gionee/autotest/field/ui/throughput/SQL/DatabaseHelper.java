@@ -6,10 +6,27 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 8;
-    public static final String DATABASE_NAME ="WifiProperty";
-    public static final String TABLE_NAME ="WifiProperty";
+    public static final String DATABASE_NAME = "WifiProperty";
+    public static final String TABLE_NAME = "WifiProperty";
     private static final String DATABASE_CREATE =
-            "create table WifiProperty(_id INTEGER PRIMARY KEY AUTOINCREMENT,serial INTEGER,start text,type text,averageSpeed text,web text,useTime text,times Integer,speed text,way text,time TEXT(10))";
+            "create table WifiProperty(_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "serial INTEGER," +
+                    "success text," +//是否成功
+                    "start text," +
+                    "type text," +
+                    "averageSpeed text," +
+                    "web text," +
+                    "useTime text," +
+                    "times Integer," +
+                    "speed text," +
+                    "way text," +
+                    "time TEXT(10)," +
+                    "failTime text," +//失败时间
+                    "webType text," +//网络类型
+                    "signals text," +//信号格数
+                    "signalStrength text," +//信号强度
+                    "operator text)";//运营商
+//            "create table WifiProperty(_id INTEGER PRIMARY KEY AUTOINCREMENT,serial INTEGER,start text,type text,averageSpeed text,web text,useTime text,times Integer,speed text,way text,time TEXT(10))";
 
     public DatabaseHelper(Context context) {
         super(new DatabaseContext(context), DATABASE_NAME, null, DATABASE_VERSION);

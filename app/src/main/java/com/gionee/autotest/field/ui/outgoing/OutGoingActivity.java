@@ -32,7 +32,6 @@ public class OutGoingActivity extends BaseActivity implements OutGoingContract.V
     EditText mCallTimeSumET;
     @BindView(R.id.is_speaker_phone_open)
     CheckBox mIsSpeakerPhoneOpenCB;
-
     @BindView(R.id.out_going_start)
     Button mStartBtn;
     @BindView(R.id.callRateET)
@@ -49,8 +48,12 @@ public class OutGoingActivity extends BaseActivity implements OutGoingContract.V
 
     @Override
     public void updateViews() {
-        mStartBtn.setText(OutGoingUtil.isTest ? "停止测试" : "开始测试");
-        setViewEnabled(!OutGoingUtil.isTest, mNumberET, mCycleET, mGapTimeET, mCallTimeET, mCallTimeSumET, mIsSpeakerPhoneOpenCB);
+        try {
+            mStartBtn.setText(OutGoingUtil.isTest ? "停止测试" : "开始测试");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        setViewEnabled(!OutGoingUtil.isTest, mNumberET, mCycleET, mGapTimeET, mCallTimeET, mCallTimeSumET, mIsSpeakerPhoneOpenCB, mVerifyCountET);
     }
 
     private void setViewEnabled(boolean testing, View... v) {
@@ -90,19 +93,19 @@ public class OutGoingActivity extends BaseActivity implements OutGoingContract.V
         mCallTimeET.setText(String.valueOf(p.call_time));
         mCallTimeSumET.setText(String.valueOf(p.call_time_sum));
         mIsSpeakerPhoneOpenCB.setChecked(p.is_speaker_on);
-        mVerifyCountET.setText(p.verifyCount+"");
+        mVerifyCountET.setText(String.valueOf(p.verifyCount));
     }
 
     @Override
     public CallParam getUserParams() {
-        String   number      = mNumberET.getText().toString().trim();
-        int      count       = Integer.parseInt(mCycleET.getText().toString().trim());
-        int      gapTime     = Integer.parseInt(mGapTimeET.getText().toString().trim());
-        int      callTime    = Integer.parseInt(mCallTimeET.getText().toString().trim());
-        int      callTimeSum = Integer.parseInt(mCallTimeSumET.getText().toString().trim());
-        boolean  isSpeakOn   = mIsSpeakerPhoneOpenCB.isChecked();
+        String number = mNumberET.getText().toString().trim();
+        int count = Integer.parseInt(mCycleET.getText().toString().trim());
+        int gapTime = Integer.parseInt(mGapTimeET.getText().toString().trim());
+        int callTime = Integer.parseInt(mCallTimeET.getText().toString().trim());
+        int callTimeSum = Integer.parseInt(mCallTimeSumET.getText().toString().trim());
+        boolean isSpeakOn = mIsSpeakerPhoneOpenCB.isChecked();
         int verifyCount = Integer.parseInt(mVerifyCountET.getText().toString().trim());
-        String[] numbers     = new String[0];
+        String[] numbers = new String[0];
         if (number.contains(",")) {
             try {
                 numbers = number.split(",");
@@ -139,12 +142,12 @@ public class OutGoingActivity extends BaseActivity implements OutGoingContract.V
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-//            case R.id.show_report:
-//                mOutGoingPresenter.showReport();
-//                break;
-//            case R.id.clear_report:
-//                mOutGoingPresenter.clearAllReport();
-//                break;
+            case R.id.show_report:
+                mOutGoingPresenter.showReport();
+                break;
+            case R.id.clear_report:
+                mOutGoingPresenter.clearAllReport();
+                break;
             case R.id.export_excel:
                 mOutGoingPresenter.exportExcelFile();
                 break;

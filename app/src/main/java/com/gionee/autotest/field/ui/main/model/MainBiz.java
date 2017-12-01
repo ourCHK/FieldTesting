@@ -1,8 +1,11 @@
 package com.gionee.autotest.field.ui.main.model;
 
+import android.util.Log;
+
 import com.gionee.autotest.field.data.db.AppsDBManager;
 import com.gionee.autotest.field.data.db.model.App;
 import com.gionee.autotest.field.ui.base.listener.BaseCallback;
+import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.Util;
 
 import java.util.Collections;
@@ -28,8 +31,12 @@ public class MainBiz {
             @Override
             public void subscribe(ObservableEmitter<List<App>> e) throws Exception {
                 //fetch data from db
+                Log.i(Constant.TAG, "fetch all apps start...") ;
                 List<App> mApps = AppsDBManager.fetchAllApps(true) ;
                 Collections.sort(mApps, Util.APP_COMPARATOR);
+                for (App app : mApps){
+                    Log.i(Constant.TAG, "fetched app : " + app.getLabel()) ;
+                }
                 e.onNext(mApps);
                 e.onComplete();
             }

@@ -3,6 +3,7 @@ package com.gionee.autotest.field.data.db;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
 import com.gionee.autotest.field.data.db.model.App;
 import com.gionee.autotest.field.util.Constant;
@@ -27,7 +28,9 @@ class AppsDBHelper extends DBHelper {
         cv.put(Constant.APPDB.COLUMN_NAME_ICON , app.getIcon());
         cv.put(Constant.APPDB.COLUMN_NAME_ACTIVITY , app.getActivity());
         cv.put(Constant.APPDB.COLUMN_NAME_INSTALLED , app.isInstalled() ? "1": "0");
-        mDb.insert(Constant.APPDB.TABLE_NAME, null, cv);
+        cv.put(Constant.APPDB.COLUMN_NAME_REQUIRE_SYS_PERM , app.isRequireSysPerm() ? "1": "0");
+        long result = mDb.insert(Constant.APPDB.TABLE_NAME, null, cv);
+        Log.i(Constant.TAG, "insert app : " +app.getLabel() + " result : " + result) ;
     }
 
     protected boolean insertApps(List<App> apps){
@@ -55,14 +58,17 @@ class AppsDBHelper extends DBHelper {
         List<App> apps = new ArrayList<>();
         Cursor query = mDb.query(Constant.APPDB.TABLE_NAME, null, where, whereValue, null, null, Constant.APPDB.ORDER_BY) ;
         try {
+            Log.i(Constant.TAG, "query....") ;
             if (query != null && query.getCount() > 0){
-
+                Log.i(Constant.TAG, "query count : " + query.getCount()) ;
                 while(query.moveToNext()){
                     int key         = query.getInt(query.getColumnIndex(Constant.APPDB.COLUMN_NAME_KEY)) ;
                     String label    = query.getString(query.getColumnIndex(Constant.APPDB.COLUMN_NAME_LABEL)) ;
                     String icon     = query.getString(query.getColumnIndex(Constant.APPDB.COLUMN_NAME_ICON)) ;
                     String activity = query.getString(query.getColumnIndex(Constant.APPDB.COLUMN_NAME_ACTIVITY)) ;
-                    apps.add(new App(key, label, icon, activity, installed)) ;
+                    int requireSysPerm = query.getInt(query.getColumnIndex(Constant.APPDB.COLUMN_NAME_REQUIRE_SYS_PERM)) ;
+                    Log.i(Constant.TAG, "query app : " +label) ;
+                    apps.add(new App(key, label, icon, activity, installed, requireSysPerm == 1)) ;
                 }
             }
         }finally {

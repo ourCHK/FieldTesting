@@ -1,8 +1,8 @@
 package com.gionee.autotest.field.ui.incoming;
 
-import com.gionee.autotest.common.call.CallMonitorParam;
 import com.gionee.autotest.field.data.db.model.InComingReportBean;
 import com.gionee.autotest.field.ui.base.BaseView;
+import com.gionee.autotest.field.util.call.CallMonitorParam;
 
 import java.util.ArrayList;
 
@@ -15,6 +15,8 @@ import java.util.ArrayList;
 interface InComingContract {
 
     interface View extends BaseView {
+
+        void updateViews();
 
         void setParams(CallMonitorParam lastParams);
     }

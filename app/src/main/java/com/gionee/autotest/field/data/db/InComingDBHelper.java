@@ -5,12 +5,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
-import com.gionee.autotest.common.call.CallMonitorParam;
-import com.gionee.autotest.common.call.CallMonitorResult;
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.data.db.model.InComingReportBean;
 import com.gionee.autotest.field.util.Constant.InComingDB.InComingBatch;
 import com.gionee.autotest.field.util.Constant.InComingDB.InComingData;
+import com.gionee.autotest.field.util.call.CallMonitorParam;
+import com.gionee.autotest.field.util.call.CallMonitorResult;
 
 import java.util.ArrayList;
 
@@ -30,6 +30,7 @@ public class InComingDBHelper extends DBHelper {
         cv.put(InComingBatch.AUTO_ANSWER_HANGUP, params.isAnswerHangup ? 1 : 0);
         cv.put(InComingBatch.ANSWER_HANGUP_TIME, params.answerHangUptime);
         cv.put(InComingBatch.GAP_TIME, params.gapTime);
+        cv.put(InComingBatch.IS_HANG_UP_PRESS_POWER, params.isAnswerHangup ? 1 : 0);
         return mDb.insert(InComingBatch.NAME, null, cv);
     }
 
@@ -45,30 +46,31 @@ public class InComingDBHelper extends DBHelper {
     }
 
     public InComingReportBean getReportBean(int batchId) {
-        Cursor           query      = mDb.rawQuery("select * from " + InComingBatch.NAME + " where " + InComingBatch._ID + " =" + batchId, null);
+        Cursor query = mDb.rawQuery("select * from " + InComingBatch.NAME + " where " + InComingBatch._ID + " =" + batchId, null);
         CallMonitorParam testParams = new CallMonitorParam();
         while (query.moveToNext()) {
             try {
-                int isAutoReject       = query.getInt(query.getColumnIndex(InComingBatch.AUTO_REJECT));
-                int rejectTime         = query.getInt(query.getColumnIndex(InComingBatch.AUTO_REJECT_TIME));
-                int isAutoAnswer       = query.getInt(query.getColumnIndex(InComingBatch.AUTO_ANSWER));
+                int isAutoReject = query.getInt(query.getColumnIndex(InComingBatch.AUTO_REJECT));
+                int rejectTime = query.getInt(query.getColumnIndex(InComingBatch.AUTO_REJECT_TIME));
+                int isAutoAnswer = query.getInt(query.getColumnIndex(InComingBatch.AUTO_ANSWER));
                 int isAutoAnswerHangup = query.getInt(query.getColumnIndex(InComingBatch.AUTO_ANSWER_HANGUP));
-                int answerHangupTime   = query.getInt(query.getColumnIndex(InComingBatch.ANSWER_HANGUP_TIME));
-                int gapTime            = query.getInt(query.getColumnIndex(InComingBatch.GAP_TIME));
-                testParams = new CallMonitorParam(isAutoReject == 1, rejectTime, isAutoAnswer == 1, isAutoAnswerHangup == 1, answerHangupTime, gapTime);
+                int answerHangupTime = query.getInt(query.getColumnIndex(InComingBatch.ANSWER_HANGUP_TIME));
+                int gapTime = query.getInt(query.getColumnIndex(InComingBatch.GAP_TIME));
+                int isHangUpPressPower = query.getInt(query.getColumnIndex(InComingBatch.IS_HANG_UP_PRESS_POWER));
+                testParams = new CallMonitorParam(isAutoReject == 1, rejectTime, isAutoAnswer == 1, isAutoAnswerHangup == 1, answerHangupTime, gapTime, isHangUpPressPower == 1);
             } catch (Exception e) {
 //                Log.i(e.toString());
             }
         }
-        Cursor    cursor = mDb.rawQuery("select * from " + InComingData.NAME + " where " + InComingData.BATCH_ID + " =" + batchId, null);
-        ArrayList list   = new ArrayList<CallMonitorResult>();
+        Cursor cursor = mDb.rawQuery("select * from " + InComingData.NAME + " where " + InComingData.BATCH_ID + " =" + batchId, null);
+        ArrayList list = new ArrayList<CallMonitorResult>();
         while (cursor.moveToNext()) {
             try {
-                String   number    = cursor.getString(cursor.getColumnIndex(InComingData.NUMBER));
-                int    testIndex = cursor.getInt(cursor.getColumnIndex(InComingData.TEST_INDEX));
-                int    result    = cursor.getInt(cursor.getColumnIndex(InComingData.RESULT));
-                String time      = cursor.getString(cursor.getColumnIndex(InComingData.TIME));
-                String failMsg   = cursor.getString(cursor.getColumnIndex(InComingData.FAIL_MSG));
+                String number = cursor.getString(cursor.getColumnIndex(InComingData.NUMBER));
+                int testIndex = cursor.getInt(cursor.getColumnIndex(InComingData.TEST_INDEX));
+                int result = cursor.getInt(cursor.getColumnIndex(InComingData.RESULT));
+                String time = cursor.getString(cursor.getColumnIndex(InComingData.TIME));
+                String failMsg = cursor.getString(cursor.getColumnIndex(InComingData.FAIL_MSG));
                 list.add(new CallMonitorResult(batchId, number, result == 1, testIndex, failMsg, time));
             } catch (Exception e) {
 //                i(e.toString())
@@ -89,8 +91,8 @@ public class InComingDBHelper extends DBHelper {
     }
 
     public int getLastBatch() {
-        Cursor rawQuery  = mDb.rawQuery("select * from " + InComingBatch.NAME + " where " + InComingBatch._ID + " in (select max(" + InComingBatch._ID + ") from " + InComingBatch.NAME + ")", null);
-        int    lastBatch = 0;
+        Cursor rawQuery = mDb.rawQuery("select * from " + InComingBatch.NAME + " where " + InComingBatch._ID + " in (select max(" + InComingBatch._ID + ") from " + InComingBatch.NAME + ")", null);
+        int lastBatch = 0;
         while (rawQuery.moveToNext()) {
             try {
                 lastBatch = rawQuery.getInt(rawQuery.getColumnIndex(InComingBatch._ID));
@@ -102,8 +104,8 @@ public class InComingDBHelper extends DBHelper {
     }
 
     public ArrayList<String> getAllBatch() {
-        Cursor            rawQuery = mDb.rawQuery("select " + InComingBatch._ID + " from " + InComingBatch.NAME, null);
-        ArrayList<String> list     = new ArrayList<>();
+        Cursor rawQuery = mDb.rawQuery("select " + InComingBatch._ID + " from " + InComingBatch.NAME, null);
+        ArrayList<String> list = new ArrayList<>();
         while (rawQuery.moveToNext()) {
             try {
                 String batch = rawQuery.getString(rawQuery.getColumnIndex(InComingBatch._ID));

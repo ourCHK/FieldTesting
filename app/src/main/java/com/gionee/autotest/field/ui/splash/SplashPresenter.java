@@ -41,10 +41,12 @@ class SplashPresenter extends BasePresenter<SplashContract.View> implements Spla
         if (Preference.getBoolean(context, Constant.PREF_KEY_FIRST_LAUNCH, true)){
             Log.i(Constant.TAG, "first time launch") ;
             AppList appList = Util.parseAppJsonFile(context) ;
-            //TODO change throw exception to Dialog display
             if (appList == null) throw new IllegalArgumentException("Can not fetch all app's information.") ;
             String version = appList.getVersion() ;
             List<App> apps = appList.getApps() ;
+            for (App app : apps){
+                Log.i(Constant.TAG , "app : " + app.getLabel()) ;
+            }
             Log.i(Constant.TAG, "version : " + version) ;
             Preference.putString(context, Constant.PREF_KEY_APP_VERSION, version) ;
             AppsDBManager.insertApps(apps) ;
@@ -53,7 +55,6 @@ class SplashPresenter extends BasePresenter<SplashContract.View> implements Spla
         }else{
             //maybe there is a new version
             AppList appList = Util.parseAppJsonFile(context) ;
-            //TODO change throw exception to Dialog display
             if (appList == null) throw new IllegalArgumentException("Can not fetch all app's information.") ;
             String version = appList.getVersion() ;
             Log.i(Constant.TAG, "new version : " + version) ;
