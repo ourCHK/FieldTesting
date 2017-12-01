@@ -17,12 +17,12 @@
         android:textSize="18sp"/>
 
     <TextView
-        android:id="@+id/out_going_group_timeTV"
+        android:id="@+id/out_going_group_cycleSumTV"
         android:layout_width="0dp"
         android:textColor="#ffffff"
         android:layout_height="wrap_content"
         android:layout_weight="4"
         android:gravity="center"
-        android:textSize="18sp"/>
+        android:textSize="16sp"/>
 
 </LinearLayout>

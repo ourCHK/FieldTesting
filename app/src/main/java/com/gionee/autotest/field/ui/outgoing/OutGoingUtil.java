@@ -9,6 +9,7 @@ import android.util.SparseArray;
 import com.gionee.autotest.field.data.db.OutGoingDBManager;
 import com.gionee.autotest.field.data.db.model.OutGoingCallResult;
 import com.gionee.autotest.field.ui.outgoing.model.CallParam;
+import com.gionee.autotest.field.ui.outgoing.model.OutGoingReportCycle;
 import com.gionee.autotest.field.ui.signal.entity.SimSignalInfo;
 import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.SignalHelper;
@@ -18,7 +19,6 @@ import com.google.gson.JsonSyntaxException;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import io.reactivex.functions.Consumer;
 import jxl.Workbook;
@@ -114,36 +114,52 @@ public class OutGoingUtil {
                 }
             }
         }
-        return "总拨号" + results.size() + "通\n测试" + (results.size() - verifyCount) + "通\n复测" + verifyCount + "通\n接通率为" + ((float) testSuccess / results.size()) * 100 + "%";
+        int allSize = results.size();
+        return "总拨号" + allSize + "通\n测试" + (allSize - verifyCount) + "通\n复测" + verifyCount + "通\n成功" + testSuccess + "通\n失败" + (allSize - testSuccess) + "通\n接通率为" + ((float) testSuccess / allSize) * 100 + "%";
+    }
+
+    public static String getCycleSumString(ArrayList<OutGoingCallResult> results) {
+        int success = 0;
+        int verify = 0;
+        for (OutGoingCallResult result : results) {
+            if (result.isVerify) {
+                verify++;
+            }
+            if (result.result) {
+                success++;
+            }
+        }
+        int allSize = results.size();
+        return String.format("测试%1$s通 成功%2$s通 失败%3$s通 复测%4$s通", String.valueOf(allSize), String.valueOf(success), String.valueOf(allSize - success), String.valueOf(verify));
     }
 
     @SuppressLint("StaticFieldLeak")
-    public static void getReportListData(final int batchId, final Consumer<ArrayList<ArrayList<OutGoingCallResult>>> consumer) {
-        new AsyncTask<Void, Void, ArrayList<ArrayList<OutGoingCallResult>>>() {
+    public static void getReportListData(final int batchId, final Consumer<ArrayList<OutGoingReportCycle>> consumer) {
+        new AsyncTask<Void, Void, ArrayList<OutGoingReportCycle>>() {
             @Override
-            protected ArrayList<ArrayList<OutGoingCallResult>> doInBackground(Void... voids) {
+            protected ArrayList<OutGoingReportCycle> doInBackground(Void... voids) {
                 ArrayList<OutGoingCallResult> reportBean = OutGoingDBManager.getReportBean(batchId);
-                ArrayList<ArrayList<OutGoingCallResult>> data = new ArrayList<>();
-                SparseArray<ArrayList<OutGoingCallResult>> array = new SparseArray<>();
+                ArrayList<OutGoingReportCycle> data = new ArrayList<>();
+                SparseArray<OutGoingReportCycle> array = new SparseArray<>();
                 for (OutGoingCallResult result : reportBean) {
                     if (array.indexOfKey(result.cycleIndex) >= 0) {
-                        ArrayList<OutGoingCallResult> results = array.get(result.cycleIndex);
-                        results.add(result);
-                        array.put(result.cycleIndex,results);
+                        OutGoingReportCycle outGoingReportCycle = array.get(result.cycleIndex).addResult(result);
+                        array.put(result.cycleIndex, outGoingReportCycle);
                     } else {
-                        ArrayList<OutGoingCallResult> results = new ArrayList<>();
-                        results.add(result);
-                        array.put(result.cycleIndex, results);
+                        OutGoingReportCycle outGoingReportCycle = new OutGoingReportCycle().addResult(result);
+                        array.put(result.cycleIndex, outGoingReportCycle);
                     }
                 }
                 for (int i = 0; i < array.size(); i++) {
-                    data.add(array.valueAt(i));
+                    OutGoingReportCycle outGoingReportCycle = array.valueAt(i);
+                    outGoingReportCycle.setSumString(getCycleSumString(outGoingReportCycle.results));
+                    data.add(outGoingReportCycle);
                 }
                 return data;
             }
 
             @Override
-            protected void onPostExecute(ArrayList<ArrayList<OutGoingCallResult>> outGoingCallResults) {
+            protected void onPostExecute(ArrayList<OutGoingReportCycle> outGoingCallResults) {
                 super.onPostExecute(outGoingCallResults);
                 if (consumer != null) {
                     try {
@@ -155,6 +171,7 @@ public class OutGoingUtil {
             }
         }.execute();
     }
+
     @SuppressLint("StaticFieldLeak")
     public static void addBatch(CallParam p, final Consumer<CallParam> c) {
         new AsyncTask<CallParam, Void, CallParam>() {
@@ -180,7 +197,7 @@ public class OutGoingUtil {
     }
 
     @SuppressLint("StaticFieldLeak")
-    public static void exportExcelFile(final Consumer<Integer> c){
+    public static void exportExcelFile(final Consumer<Integer> c) {
         new AsyncTask<Void, Void, Integer>() {
             @Override
             protected Integer doInBackground(Void... voids) {
@@ -199,7 +216,7 @@ public class OutGoingUtil {
             @Override
             protected void onPostExecute(Integer size) {
                 super.onPostExecute(size);
-                if (c!=null){
+                if (c != null) {
                     try {
                         c.accept(size);
                     } catch (Exception e) {

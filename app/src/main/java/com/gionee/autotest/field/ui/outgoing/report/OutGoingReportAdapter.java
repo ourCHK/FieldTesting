@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.data.db.model.OutGoingCallResult;
+import com.gionee.autotest.field.ui.outgoing.OutGoingUtil;
+import com.gionee.autotest.field.ui.outgoing.model.OutGoingReportCycle;
 
 import java.util.ArrayList;
 
@@ -16,9 +18,9 @@ import static com.gionee.autotest.field.FieldApplication.context;
 
 
 public class OutGoingReportAdapter extends BaseExpandableListAdapter {
-    private ArrayList<ArrayList<OutGoingCallResult>> data = new ArrayList<>();
+    private ArrayList<OutGoingReportCycle> data = new ArrayList<>();
 
-    public void updateData(ArrayList<ArrayList<OutGoingCallResult>> list) {
+    public void updateData(ArrayList<OutGoingReportCycle> list) {
         data.clear();
         data.addAll(list);
         notifyDataSetChanged();
@@ -31,7 +33,7 @@ public class OutGoingReportAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return data.get(groupPosition).size();
+        return data.get(groupPosition).results.size();
     }
 
     @Override
@@ -41,7 +43,7 @@ public class OutGoingReportAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return data.get(groupPosition).get(childPosition);
+        return data.get(groupPosition).results.get(childPosition);
     }
 
     @Override
@@ -75,6 +77,7 @@ public class OutGoingReportAdapter extends BaseExpandableListAdapter {
             gHolder = (GroupHolder) convertView.getTag();
         }
         gHolder.cycleID.setText(String.format("第%1$s轮", groupPosition + 1));
+        gHolder.cycleSumTV.setText(data.get(groupPosition).sumString);
         return convertView;
     }
 
@@ -87,7 +90,7 @@ public class OutGoingReportAdapter extends BaseExpandableListAdapter {
         } else {
             cHolder = (ChildHolder) convertView.getTag();
         }
-        OutGoingCallResult result = data.get(groupPosition).get(childPosition);
+        OutGoingCallResult result = data.get(groupPosition).results.get(childPosition);
         cHolder.numberTV.setText(result.number + (result.isVerify ? "(复测)" : ""));
         cHolder.resultTV.setText(result.result ? "成功" : "失败");
         cHolder.root.setBackgroundResource(result.result ? R.drawable.item_color_green : R.drawable.item_color_red);
@@ -99,11 +102,11 @@ public class OutGoingReportAdapter extends BaseExpandableListAdapter {
 
     class GroupHolder {
         TextView cycleID;
-        TextView timeTV;
+        TextView cycleSumTV;
 
         GroupHolder(View v) {
             cycleID = (TextView) v.findViewById(R.id.out_going_group_cycle_id);
-            timeTV = (TextView) v.findViewById(R.id.out_going_group_timeTV);
+            cycleSumTV = (TextView) v.findViewById(R.id.out_going_group_cycleSumTV);
         }
     }
 
