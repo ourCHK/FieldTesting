@@ -36,13 +36,15 @@ android {
             minifyEnabled false
             signingConfig signingConfigs.config
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            applicationVariants.all { variant ->
-                variant.outputs.each { output ->
-                    def file = output.outputFile
-                    def fileName = "FieldTesting_${defaultConfig.versionName}.apk"
-                    output.outputFile = new File(file.parent, fileName)
-                }
-            }
+        }
+    }
+    productFlavors{
+        normal{
+            applicationId "com.gionee.autotest.field.normal"
+        }
+
+        system{
+            applicationId "com.gionee.autotest.field.system"
         }
     }
 }

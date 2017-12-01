@@ -110,6 +110,8 @@ public class Constant {
 
         public static final String COLUMN_NAME_INSTALLED = "app_installed";
 
+        public static final String COLUMN_NAME_REQUIRE_SYS_PERM = "app_require_sys_perm";
+
     }
 
     public static final class InComingDB implements BaseColumns {

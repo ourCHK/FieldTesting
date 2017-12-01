@@ -23,6 +23,7 @@ import com.gionee.autotest.field.ui.base.BaseActivity;
 import com.gionee.autotest.field.ui.base.listener.RecyclerItemListener;
 import com.gionee.autotest.field.ui.debug.DebugActivity;
 import com.gionee.autotest.field.ui.install.InstallAppActivity;
+import com.gionee.autotest.field.util.BuildConfig;
 import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.NpaGridLayoutManager;
 import com.gionee.autotest.field.util.Util;
@@ -102,10 +103,16 @@ public class MainActivity extends BaseActivity implements RecyclerItemListener<A
             Toast.makeText(getApplicationContext(), R.string.not_implemented_yet, Toast.LENGTH_SHORT).show();
             return ;
         }
+
+        if ( (!BuildConfig.IS_SYSTEM_APP) && item.isRequireSysPerm()) {
+            Toast.makeText(getApplicationContext(), R.string.to_use_system_app_notice, Toast.LENGTH_SHORT).show();
+            return ;
+        }
+
         try {
             Intent intent = new Intent() ;
             intent.setComponent(new ComponentName(getPackageName(),
-                    activity.startsWith(".") ? getPackageName() + activity : activity)) ;
+                    activity.startsWith(".") ? "com.gionee.autotest.field" + activity : activity)) ;
             startActivity(intent);
         }catch (Exception e){
             e.printStackTrace();

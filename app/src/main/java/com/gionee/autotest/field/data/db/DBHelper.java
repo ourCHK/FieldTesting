@@ -36,7 +36,8 @@ class DBHelper extends SQLiteOpenHelper {
                 + Constant.APPDB.COLUMN_NAME_LABEL + " TEXT,"
                 + Constant.APPDB.COLUMN_NAME_ICON + " TEXT,"
                 + Constant.APPDB.COLUMN_NAME_ACTIVITY + " TEXT,"
-                + Constant.APPDB.COLUMN_NAME_INSTALLED + " INTEGER"
+                + Constant.APPDB.COLUMN_NAME_INSTALLED + " INTEGER,"
+                + Constant.APPDB.COLUMN_NAME_REQUIRE_SYS_PERM + " INTEGER"
                 + ");");
         db.execSQL("create table " + InComingBatch.NAME + "(" + InComingBatch._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + InComingBatch.AUTO_ANSWER + " Integer," + InComingBatch.AUTO_ANSWER_HANGUP + " Integer,"

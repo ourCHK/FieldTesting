@@ -64,7 +64,7 @@ class MainPresenter extends BasePresenter<MainContract.View> implements MainCont
         getView().setListVisibility(isVisible);
     }
 
-    private final BaseCallback callback = new BaseCallback<List<App>>() {
+    private final BaseCallback<List<App>> callback = new BaseCallback<List<App>>() {
 
         @Override
         public void onSuccess(List<App> apps) {

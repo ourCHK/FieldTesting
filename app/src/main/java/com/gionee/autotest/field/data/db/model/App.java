@@ -18,12 +18,15 @@ public class App {
 
     private boolean installed ;
 
-    public App(int key, String label, String icon, String activity, boolean installed) {
+    private boolean requireSysPerm ;
+
+    public App(int key, String label, String icon, String activity, boolean installed, boolean requireSysPerm) {
         this.key = key;
         this.label = label;
         this.icon = icon;
         this.activity = activity;
         this.installed = installed ;
+        this.requireSysPerm = requireSysPerm ;
     }
 
     public int getKey() {
@@ -48,6 +51,10 @@ public class App {
 
     public boolean isInstalled(){
         return installed ;
+    }
+
+    public boolean isRequireSysPerm() {
+        return requireSysPerm;
     }
 
     @Override
