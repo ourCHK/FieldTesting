@@ -14,7 +14,6 @@ import android.webkit.WebViewClient;
 
 import com.gionee.autotest.field.FieldApplication;
 import com.gionee.autotest.field.ui.signal.entity.SimSignalInfo;
-import com.gionee.autotest.field.util.Configurator;
 import com.gionee.autotest.field.util.DataStabilityUtil;
 import com.gionee.autotest.field.util.SignalHelper;
 
@@ -26,6 +25,7 @@ public class WebViewUtil extends WebViewClient implements MyWebView.OnLoadFinish
     private WebViewResult webViewResult;
     private boolean redirect = false;
     private boolean start    = false;
+    private long loadTime;
 
     public WebViewUtil(MyWebView webView) {
         mWebView = webView;
@@ -41,6 +41,7 @@ public class WebViewUtil extends WebViewClient implements MyWebView.OnLoadFinish
         if (callBack != null) {
             this.callBack = callBack;
         }
+        loadTime = System.currentTimeMillis();
         webViewResult = new WebViewResult();
         redirect = false;
         mWebView.loadUrl(urls);
@@ -71,6 +72,8 @@ public class WebViewUtil extends WebViewClient implements MyWebView.OnLoadFinish
             if (redirect) {
                 redirect = false;
             } else {
+                long loadWebTime = System.currentTimeMillis() - loadTime;
+                webViewResult.setLoadWebTime(loadWebTime);
                 webViewResult.setResult(webViewResult.errorMsg.equals(""));
                 new AsyncTask<Void, Void, Void>() {
 
@@ -158,7 +161,7 @@ public class WebViewUtil extends WebViewClient implements MyWebView.OnLoadFinish
         public String netType2 = "N/A";
         public String signal2 = "N/A";
         public String operator2 = "N/A";
-
+        public long loadWebTime;
 
 
         public WebViewResult() {
@@ -238,6 +241,11 @@ public class WebViewUtil extends WebViewClient implements MyWebView.OnLoadFinish
 
         public void setOperator2(String operator2) {
             this.operator2 = operator2;
+        }
+
+        public WebViewResult setLoadWebTime(long loadWebTime) {
+            this.loadWebTime = loadWebTime;
+            return this;
         }
     }
 }
