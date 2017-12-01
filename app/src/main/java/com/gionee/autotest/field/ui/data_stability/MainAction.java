@@ -38,14 +38,14 @@ class MainAction {
 
     void startTest(DataParam p) {
         String paramJson = new Gson().toJson(p);
-        Preference.putString(mContext, "lastParams", paramJson);
+        Preference.putString(mContext, "DataStabilityLastParams", paramJson);
         Intent intent = new Intent(mContext, WebViewService.class);
         Configurator.getInstance().setParam(p);
         mContext.startService(intent);
     }
 
     DataParam getLastParam() {
-        String lastParams = Preference.getString(mContext, "lastParams", "");
+        String lastParams = Preference.getString(mContext, "DataStabilityLastParams", "");
         if (lastParams.equals("")) {
             return new DataParam();
         }
