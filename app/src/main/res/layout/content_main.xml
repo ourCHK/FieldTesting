@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -27,7 +26,7 @@
                 android:layout_alignLeft="@+id/waitTimeET"
                 android:paddingLeft="5dp"
                 android:text="等待时长:"
-                android:textSize="18sp"/>
+                android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/waitTimeET"
@@ -35,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:maxLength="6"
-                android:text="5"/>
+                android:text="5" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -46,12 +45,12 @@
 
             <TextView
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/testTimesET"
                 android:layout_alignLeft="@+id/testTimesET"
-                android:layout_height="wrap_content"
                 android:paddingLeft="5dp"
                 android:text="测试次数:"
-                android:textSize="18sp"/>
+                android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/testTimesET"
@@ -59,20 +58,85 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:maxLength="5"
-                android:text="5"/>
+                android:text="5" />
         </RelativeLayout>
 
-        <CheckBox
-            android:id="@+id/forbidSleepCB"
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/forbidSleepCB"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="阻止进入深度休眠" />
+
+            <RadioButton
+                android:id="@+id/sleepAfterTestCB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="循环测试完后按Power键待机" />
+
+            <RadioButton
+                android:id="@+id/callAfterTestCB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="循环测试完后拨打10086" />
+        </RadioGroup>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="阻止进入深度休眠"/>
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="挂断"
+                android:textColor="#000000" />
+
+            <EditText
+                android:id="@+id/timeOfCallET"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="5" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="秒后进行上网"
+                android:textColor="#000000" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/webViewTestVerifyCount"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:text="复测次数"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/webViewTestVerifyCount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="5" />
+        </RelativeLayout>
 
         <Button
             android:id="@+id/startBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="开始测试"/>
+            android:text="开始测试" />
     </LinearLayout>
 
 

@@ -7,14 +7,13 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.RadioButton;
 
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.util.About;
@@ -25,14 +24,16 @@ public class DataStabilityActivity extends AppCompatActivity implements View.OnC
     private EditText mWaitTimeET;
     private EditText mTestTimesET;
     private MainAction mainAction;
-    private CheckBox forbidSleepCB;
+    private RadioButton forbidSleepCB;
+    private RadioButton mSleepAfterTestCB;
+    private RadioButton mCallAfterTestCB;
+    private EditText mVerifyCount;
+    private EditText mTimeOfCallET;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_stability);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
         initViews();
         mainAction = new MainAction(this);
         DataParam lastParam = mainAction.getLastParam();
@@ -47,9 +48,12 @@ public class DataStabilityActivity extends AppCompatActivity implements View.OnC
     }
 
     private void updateParams(DataParam lastParam) {
-        mWaitTimeET.setText(lastParam.waitTime + "");
-        mTestTimesET.setText(lastParam.testTimes + "");
+        mWaitTimeET.setText(String.valueOf(lastParam.waitTime));
+        mTestTimesET.setText(String.valueOf(lastParam.testTimes));
         forbidSleepCB.setChecked(lastParam.isForbidSleep);
+        mSleepAfterTestCB.setChecked(lastParam.sleepAfterTest);
+        mCallAfterTestCB.setChecked(lastParam.callAfterTest);
+        mVerifyCount.setText(String.valueOf(lastParam.verifyCount));
     }
 
     @Override
@@ -71,24 +75,23 @@ public class DataStabilityActivity extends AppCompatActivity implements View.OnC
     }
 
     DataParam getInputParam() {
-        int     waitTimeInt   = Integer.parseInt(mWaitTimeET.getText().toString());
-        int     testTimes     = Integer.parseInt(mTestTimesET.getText().toString());
+        int waitTimeInt = Integer.parseInt(mWaitTimeET.getText().toString());
+        int testTimes = Integer.parseInt(mTestTimesET.getText().toString());
+        int verifyCount = Integer.parseInt(mVerifyCount.getText().toString());
+        int timeOfCall = Integer.parseInt(mTimeOfCallET.getText().toString());
         boolean isForbidSleep = forbidSleepCB.isChecked();
-        return new DataParam(waitTimeInt, testTimes, isForbidSleep);
+        return new DataParam(waitTimeInt, testTimes, isForbidSleep, mSleepAfterTestCB.isChecked(), mCallAfterTestCB.isChecked(), verifyCount,timeOfCall);
     }
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        DataStabilityUtil.i("requestCode=" + requestCode + "resultCode=" + resultCode);
-//        mainAction.onActivityResults(requestCode, resultCode, data);
-//        super.onActivityResult(requestCode, resultCode, data);
-//    }
 
     private void initViews() {
         mStartBtn = (Button) findViewById(R.id.startBtn);
         mWaitTimeET = (EditText) findViewById(R.id.waitTimeET);
         mTestTimesET = (EditText) findViewById(R.id.testTimesET);
-        forbidSleepCB = (CheckBox) findViewById(R.id.forbidSleepCB);
+        forbidSleepCB = (RadioButton) findViewById(R.id.forbidSleepCB);
+        mSleepAfterTestCB = (RadioButton) findViewById(R.id.sleepAfterTestCB);
+        mCallAfterTestCB = (RadioButton) findViewById(R.id.callAfterTestCB);
+        mVerifyCount = (EditText) findViewById(R.id.webViewTestVerifyCount);
+        mTimeOfCallET = (EditText) findViewById(R.id.timeOfCallET);
         mStartBtn.setOnClickListener(this);
     }
 
@@ -126,7 +129,7 @@ public class DataStabilityActivity extends AppCompatActivity implements View.OnC
     @Override
     public void updateViews() {
         mStartBtn.setText(DataStabilityUtil.isTest ? "停止测试" : "开始测试");
-        setViewsEnabled(!DataStabilityUtil.isTest, mWaitTimeET, mTestTimesET, forbidSleepCB);
+        setViewsEnabled(!DataStabilityUtil.isTest, mWaitTimeET, mTestTimesET, forbidSleepCB, mCallAfterTestCB, mSleepAfterTestCB);
     }
 
     public void setViewsEnabled(boolean isEnabled, View... views) {
