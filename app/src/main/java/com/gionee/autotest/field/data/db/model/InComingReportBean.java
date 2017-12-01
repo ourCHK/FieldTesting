@@ -1,12 +1,13 @@
 package com.gionee.autotest.field.data.db.model;
 
-import com.gionee.autotest.common.call.CallMonitorParam;
-import com.gionee.autotest.common.call.CallMonitorResult;
+
+import com.gionee.autotest.field.util.call.CallMonitorParam;
+import com.gionee.autotest.field.util.call.CallMonitorResult;
 
 import java.util.ArrayList;
 
 public class InComingReportBean {
-    public CallMonitorParam             param = new CallMonitorParam();
+    public CallMonitorParam param = new CallMonitorParam();
     public ArrayList<CallMonitorResult> data  = new ArrayList<>();
     public String                       type  = "";
 
