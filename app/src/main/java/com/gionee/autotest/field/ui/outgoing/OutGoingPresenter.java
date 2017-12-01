@@ -25,6 +25,7 @@ import com.gionee.autotest.field.ui.base.BasePresenter;
 import com.gionee.autotest.field.ui.base.BaseView;
 import com.gionee.autotest.field.ui.outgoing.model.CallParam;
 import com.gionee.autotest.field.ui.outgoing.model.CallRateTask;
+import com.gionee.autotest.field.ui.outgoing.model.OutGoingReportCycle;
 import com.gionee.autotest.field.ui.outgoing.report.OutGoingReportActivity;
 import com.gionee.autotest.field.ui.outgoing.report.OutGoingReportAdapter;
 import com.gionee.autotest.field.util.Constant;
@@ -195,9 +196,9 @@ public class OutGoingPresenter extends BasePresenter<BaseView> implements OutGoi
 
     @SuppressLint("StaticFieldLeak")
     private void insertListData(int batchId) {
-        OutGoingUtil.getReportListData(batchId, new Consumer<ArrayList<ArrayList<OutGoingCallResult>>>() {
+        OutGoingUtil.getReportListData(batchId, new Consumer<ArrayList<OutGoingReportCycle>>() {
             @Override
-            public void accept(ArrayList<ArrayList<OutGoingCallResult>> outGoingCallResults) throws Exception {
+            public void accept(ArrayList<OutGoingReportCycle> outGoingCallResults) throws Exception {
                 myAdapter.updateData(outGoingCallResults);
                 for (int i = 0; i < myAdapter.getGroupCount(); i++) {
                     getReportView().getListView().expandGroup(i);
