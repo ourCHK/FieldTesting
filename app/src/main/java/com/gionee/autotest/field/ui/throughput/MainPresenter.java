@@ -4,6 +4,7 @@ package com.gionee.autotest.field.ui.throughput;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.TrafficStats;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Looper;
 import android.os.PowerManager;
@@ -46,6 +47,9 @@ import static com.gionee.autotest.field.ui.throughput.Util.DialogHelper.dialog;
 import static com.gionee.autotest.field.ui.throughput.Util.Helper.getTime;
 import static com.gionee.autotest.field.ui.throughput.Util.Helper.isNetWorkEnable;
 import static com.gionee.autotest.field.ui.throughput.Util.Helper.timerInitialize;
+import static com.gionee.autotest.field.util.SignalHelper.SIM_CARD_0;
+import static com.gionee.autotest.field.util.SignalHelper.SIM_CARD_1;
+import static com.gionee.autotest.field.util.SimUtil.getDefaultDataSubId;
 
 public class MainPresenter {
     private MainActivity iMain;
@@ -89,18 +93,7 @@ public class MainPresenter {
         this.type = type;
         this.way = way;
         this.web = web;
-        if (Helper.isWifiEnabled(iMain.getContext())) {
-            webType = "无线";
-            signals ="";
-            signalStrength ="";
-            operator = " ";
-        } else {
-            simSignalInfo = SignalHelper.getInstance(iMain.getContext()).getSimSignalInfo(2);
-            webType = simSignalInfo.mNetType;
-            signals = String.valueOf(simSignalInfo.mLevel);
-            signalStrength = simSignalInfo.mSignal;
-            operator = simSignalInfo.mOperator;
-        }
+        getSimInfo();
 
         final UIProgressListener uiProgressListener = new UIProgressListener() {
 
@@ -249,6 +242,71 @@ public class MainPresenter {
         }
     }
 
+    private void getSimInfo(){
+        if (Helper.isWifiEnabled(iMain.getContext())) {
+            @SuppressLint("WifiManagerLeak") WifiManager wifiManager = (WifiManager)iMain.getContext().getSystemService(Context.WIFI_SERVICE);
+            // WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+            WifiInfo info = wifiManager.getConnectionInfo();
+            int strength = 0;
+            int speed = 0;
+            String units = " ";
+            String ssid = "";
+            if (info.getBSSID() != null) {
+                // 链接信号强度，5为获取的信号强度值在5以内
+                strength = WifiManager.calculateSignalLevel(info.getRssi(), 5);
+                // 链接速度
+                speed = info.getLinkSpeed();
+                // 链接速度单位
+                units = WifiInfo.LINK_SPEED_UNITS;
+                // Wifi源名称
+                ssid = info.getSSID();
+            }
+
+            webType = "无线";
+            signals = String.valueOf(strength);
+            signalStrength = String.valueOf(speed) + String.valueOf(units);
+            operator = ssid;
+        } else {
+            int id = getDefaultDataSubId();
+            SignalHelper signalHelper = SignalHelper.getInstance(iMain.getContext());
+            if (id == 1){
+                simSignalInfo = signalHelper.getSimSignalInfo(1);
+                webType = "sim1: "+simSignalInfo.mNetType;
+                signals = "sim1: "+String.valueOf(simSignalInfo.mLevel);
+                signalStrength = "sim1: "+simSignalInfo.mSignal;
+                operator = "sim1: "+simSignalInfo.mOperator + "联网 ";
+                boolean isSimExist2 = signalHelper.isSimExist(SIM_CARD_1);
+                if (isSimExist2){
+                    simSignalInfo = signalHelper.getSimSignalInfo(2);
+                    webType = webType+ " - "+"sim2: "+simSignalInfo.mNetType;
+                    signals = signals+ " - "+"sim2: "+String.valueOf(simSignalInfo.mLevel);
+                    signalStrength = signalStrength+ " - "+"sim2: "+simSignalInfo.mSignal;
+                    operator = operator+ " - "+"sim2: "+simSignalInfo.mOperator;
+                }
+            }
+            if (id == 2){
+                simSignalInfo = signalHelper.getSimSignalInfo(2);
+                webType = "sim2: "+simSignalInfo.mNetType;
+                signals = "sim2: "+String.valueOf(simSignalInfo.mLevel);
+                signalStrength = "sim2: "+simSignalInfo.mSignal;
+                operator = "sim2: "+simSignalInfo.mOperator + "联网 ";
+                boolean isSimExist1 = signalHelper.isSimExist(SIM_CARD_0);
+                if (isSimExist1){
+                    simSignalInfo = signalHelper.getSimSignalInfo(1);
+                    webType = webType+ " - "+"sim1: "+simSignalInfo.mNetType;
+                    signals = signals+ " - "+"sim1: "+String.valueOf(simSignalInfo.mLevel);
+                    signalStrength = signalStrength+ " - "+"sim1: "+simSignalInfo.mSignal;
+                    operator = operator+ " - "+"sim1: "+simSignalInfo.mOperator;
+                }
+            }
+
+        }
+    }
+    private void getWifiInfo(){
+            int strength = 0;
+
+    }
+
     private void onError() {
         failTime = getTime();
 
@@ -262,7 +320,7 @@ public class MainPresenter {
         if (!file.exists()) {
             file.mkdirs();
         }
-        JExcelUtil.exportExcel(new File(ERROR_FILE_NAME));
+        JExcelUtil.exportExcel(new File(ERROR_FILE_NAME), "error");
     }
 
     private long getTotalRxBytes() {

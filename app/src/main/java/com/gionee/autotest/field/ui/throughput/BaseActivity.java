@@ -30,6 +30,7 @@ import com.gionee.autotest.field.util.Util;
 
 import java.io.File;
 
+import static com.gionee.autotest.field.ui.throughput.Util.Configuration.ERROE_RESULT_PATH;
 import static com.gionee.autotest.field.ui.throughput.Util.Configuration.ERROR_FILE_NAME;
 import static com.gionee.autotest.field.ui.throughput.Util.Configuration.FILE_NAME;
 import static com.gionee.autotest.field.ui.throughput.Util.Configuration.ISLOADING;
@@ -68,7 +69,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     protected void initDatas() {
     }
 
-    ;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -103,6 +103,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             Helper.delAllFiles(RESULT_PATH);
+                            Helper.delAllFiles(ERROE_RESULT_PATH);
                             onClearData();
                             Toast.makeText(BaseActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
                         }

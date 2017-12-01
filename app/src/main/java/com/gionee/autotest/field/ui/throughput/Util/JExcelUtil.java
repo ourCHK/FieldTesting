@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import jxl.CellView;
 import jxl.Workbook;
 import jxl.format.Alignment;
 import jxl.format.Border;
@@ -33,12 +34,12 @@ import static com.gionee.autotest.field.ui.throughput.Util.Configuration.RESULT_
  */
 public class JExcelUtil {
 
-    public static boolean exportExcel(File file) {
+    public static boolean exportExcel(File file, String type) {
         Helper.i("跳转到JExcelUtil");
-        return createExcel(file);
+        return createExcel(file, type);
     }
 
-    private static boolean createExcel(File file) {
+    private static boolean createExcel(File file, String type) {
         try {
             if (!file.exists()) {
                 boolean isCreated = file.createNewFile();
@@ -49,7 +50,7 @@ public class JExcelUtil {
             }
             Helper.i("创建表格成功");
             WritableWorkbook book = Workbook.createWorkbook(file);
-            createSheet(book);
+            createSheet(book, type);
             book.write();
             book.close();
         } catch (Exception e) {
@@ -61,14 +62,19 @@ public class JExcelUtil {
         return true;
     }
 
-    private static void createSheet(WritableWorkbook book) throws WriteException, IOException {
-        Label content, content1, content2, content3, content4, content5, content6,content7, content8, content9, content10, content11, content12;
+    private static void createSheet(WritableWorkbook book, String type) throws WriteException, IOException {
+        Label content, content1, content2, content3, content4, content5, content6, content7, content8, content9, content10, content11, content12;
         ArrayList newList = Helper.getNewList(FieldApplication.getContext());
-        for (int k=0;k<newList.size();k++) {
+        for (int k = 0; k < newList.size(); k++) {
 //            String string ="第"+(k+1)+"次循环下载结果";
-            String string =newList.get(k).toString();
+            String string = newList.get(k).toString();
             String[] split = string.split(":");
-            String name=split[0]+split[1]+split[2];
+            String name = split[0] + split[1] + split[2];
+
+            ArrayList<SpeedBean> speedBean = new DatabaseUtil(FieldApplication.getContext()).getTimeContent(string);
+            if (type.equals("error") && speedBean.get(speedBean.size()-1).success.equals("YES")) {
+                continue;
+            }
             WritableSheet sheet = book.createSheet(name, 0);//创建第一个表
             WritableFont nf = new WritableFont(WritableFont.createFont("宋体"), 10);
             WritableCellFormat wcfN = new WritableCellFormat(nf);
@@ -78,16 +84,16 @@ public class JExcelUtil {
             // 水平对齐
             wcfN.setWrap(true);
             Helper.i("添加每列标题");
-            String[] firstLine = {"序号", "是否成功","开始时间", "测试类型", "网络类型", "文件大小", "平均速率(KB/S)", "耗时(S)","失败时间", "网络类型", "信号格数", "信号强度", "运营商"};
+            String[] firstLine = {"序号", "是否成功", "开始时间", "测试类型", "网络类型", "文件大小", "平均速率(KB/S)", "耗时(S)", "失败时间", "网络类型", "信号格数", "信号强度", "运营商"};
             for (int i = 0; i < firstLine.length; i++) {
                 Label label = new Label(i, 0, firstLine[i], getTitleFormat());
                 sheet.addCell(label);
             }
-            ArrayList<SpeedBean> speedBean = new DatabaseUtil(FieldApplication.getContext()).getTimeContent(string);
+
             for (int j = 0; j < speedBean.size(); j++) {
                 Helper.i("写到第" + (j + 1) + "行 ；");
 
-                if (speedBean.get(j).success.equals("YES")){
+                if (speedBean.get(j).success.equals("YES")) {
                     content = new Label(0, j + 1, speedBean.get(j).id, getContentFormat());
                     content2 = new Label(2, j + 1, speedBean.get(j).time, getContentFormat());
                     content3 = new Label(3, j + 1, speedBean.get(j).way, getContentFormat());
@@ -102,7 +108,7 @@ public class JExcelUtil {
                     content10 = new Label(10, j + 1, speedBean.get(j).signals, getContentFormat());
                     content11 = new Label(11, j + 1, speedBean.get(j).signalStrength, getContentFormat());
                     content12 = new Label(12, j + 1, speedBean.get(j).operator, getContentFormat());
-                }else {
+                } else {
                     content = new Label(0, j + 1, speedBean.get(j).id, getErrorFormat());
                     content2 = new Label(2, j + 1, speedBean.get(j).time, getErrorFormat());
                     content3 = new Label(3, j + 1, speedBean.get(j).way, getErrorFormat());
@@ -157,6 +163,7 @@ public class JExcelUtil {
         titleFormat.setBackground(Colour.GREEN);
         return titleFormat;
     }
+
     @NonNull
     private static WritableCellFormat getErrorFormat() throws WriteException {
         WritableFont bold = new WritableFont(WritableFont.ARIAL, 12, WritableFont.BOLD);// 设置字体种类和黑体显示,字体为Arial,字号大小为10,采用黑体显示

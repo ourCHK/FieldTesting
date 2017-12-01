@@ -58,7 +58,7 @@ public class ExportTask extends AsyncTask<Integer, Void, Void> {
                 return null;
             }
         }
-        isExported = JExcelUtil.exportExcel(new File(FILE_NAME));
+        isExported = JExcelUtil.exportExcel(new File(FILE_NAME), "success");
         SystemClock.sleep(1000);
         return null;
     }
