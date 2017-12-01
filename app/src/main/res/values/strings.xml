@@ -193,6 +193,17 @@
     <string name="checkBox_identification">是否识卡</string>
     <string name="checkBox_Internet">能否上网</string>
     <string name="start_btn">开始测试</string>
+    <!--network_switch_report_page-->
+    <string name="result_filename_tv_empty">请选择报告文件→</string>
+    <string name="select_file_String">选择文件</string>
+    <string name="listView_HeadLine_Result">测试结果</string>
+    <string name="listView_HeadLine_count">序号</string>
+    <string name="listView_HeadLine_Identification">识卡状态</string>
+    <string name="listView_HeadLine_SearchSimNetwork">驻网状态</string>
+    <string name="listView_HeadLine_Internet">能否上网</string>
+    <string name="report_page_button_string">报告</string>
+    <string name="main_page_button_string">测试</string>
+    <string name="failed_details">失败详情</string>>
 
     <!-- resources for call quality -->
     <string name="call_quality_label">通话质量</string>

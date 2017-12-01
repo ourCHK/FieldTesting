@@ -1,17 +1,20 @@
 package com.gionee.autotest.field.ui.network_switch;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gionee.autotest.common.Preference;
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.ui.base.BaseActivity;
 import com.gionee.autotest.field.ui.network_switch.model.NetworkSwitchParam;
+import com.gionee.autotest.field.util.Constant;
 import com.google.gson.Gson;
 
 import butterknife.BindView;
@@ -27,13 +30,15 @@ public class NetworkSwitchActivity extends BaseActivity implements NetworkSwitch
     @BindView(R.id.testRound)
     EditText mTestRoundET;
     @BindView(R.id.network_switch_startBtn)
-    Button   mStartBtn;
+    Button mStartBtn;
     @BindView(R.id.checkBox_SignNetwork)
     CheckBox mSignNetworkCB;
     @BindView(R.id.checkBox_readSim)
     CheckBox mReadSimCB;
     @BindView(R.id.checkBox_isNet)
     CheckBox mIsNetCB;
+    @BindView(R.id.network_switch_showProcess)
+    TextView mProcessText;
 
     private NetworkSwitchPresenter mPresenter;
 
@@ -55,7 +60,7 @@ public class NetworkSwitchActivity extends BaseActivity implements NetworkSwitch
 
     @Override
     protected void initializePresenter() {
-        mPresenter = new NetworkSwitchPresenter(getApplicationContext());
+        mPresenter = new NetworkSwitchPresenter(this);
         super.presenter = mPresenter;
         mPresenter.onAttach(this);
     }
@@ -70,13 +75,19 @@ public class NetworkSwitchActivity extends BaseActivity implements NetworkSwitch
         mSignNetworkCB.setChecked(param.signNetwork);
         mReadSimCB.setChecked(param.readSim);
         mIsNetCB.setChecked(param.isNet);
+        mProcessText.setText(Preference.getString(this, "ns_processText", ""));
     }
 
     @Override
     public void updateViews() {
         boolean isTest = Preference.getBoolean(this, "isTest");
-        mStartBtn.setText(isTest ? "停止测试" : "开始测试");
+        if(mStartBtn != null) {
+            mStartBtn.setText(isTest ? "停止测试" : "开始测试");
+        }
         setViewsEnable(!isTest, mFlightModeCB, mRebootCB, mSwitchSimCB, mTestRoundET, mSignNetworkCB, mReadSimCB, mIsNetCB);
+        if(mProcessText != null) {
+            mProcessText.setText(Preference.getString(this, "ns_processText", ""));
+        }
     }
 
     @Override
@@ -91,7 +102,9 @@ public class NetworkSwitchActivity extends BaseActivity implements NetworkSwitch
 
     private static void setViewsEnable(boolean isEnable, View... v) {
         for (View mV : v) {
-            mV.setEnabled(isEnable);
+            if(mV != null) {
+                mV.setEnabled(isEnable);
+            }
         }
     }
 
@@ -121,22 +134,25 @@ public class NetworkSwitchActivity extends BaseActivity implements NetworkSwitch
 
     @Override
     protected int menuResId() {
-        return R.menu.incoming_menu;
+        return R.menu.network_switch_menu;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.show_report:
+            case R.id.ns_show_report:
                 mPresenter.showReport();
                 break;
-            case R.id.clear_report:
+            case R.id.ns_clear_report:
                 mPresenter.clearAllReport();
                 break;
-            case R.id.export_excel:
+            case R.id.ns_export_excel:
                 mPresenter.exportExcelFile();
                 break;
-            case R.id.action_abouts:
+            case R.id.ns_fail_details:
+                mPresenter.showFailedDetails();
+                break;
+            case R.id.ns_action_abouts:
 
                 break;
             default:
@@ -145,4 +161,9 @@ public class NetworkSwitchActivity extends BaseActivity implements NetworkSwitch
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Preference.putString(this, "ns_processText", "");
+    }
 }

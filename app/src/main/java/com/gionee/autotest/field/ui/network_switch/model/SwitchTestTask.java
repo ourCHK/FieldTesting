@@ -13,10 +13,10 @@ import com.gionee.autotest.field.util.WakeHelper;
 
 public class SwitchTestTask extends AsyncTask<Void, String, Void> implements IToast {
     @SuppressLint("StaticFieldLeak")
-    private Context               context;
-    private WakeHelper            mWake;
+    private Context context;
+    private WakeHelper mWake;
     private INetworkSwitchService iTestService;
-    private SwitchTest            switchTest;
+    private SwitchTest switchTest;
 
     public SwitchTestTask(INetworkSwitchService iTestService) {
         this.iTestService = iTestService;
@@ -38,7 +38,7 @@ public class SwitchTestTask extends AsyncTask<Void, String, Void> implements ITo
         try {
             switchTest.start();
         } catch (InterruptException e) {
-            Log.i(Constant.TAG,"打断异常出现!!!!!!!,停止测试");
+            Log.i(Constant.TAG, "打断异常出现!!!!!!!,停止测试");
             switchTest.stopTestThread();
         }
         return null;

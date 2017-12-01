@@ -17,6 +17,8 @@ import com.gionee.autotest.field.ui.network_switch.model.IToast;
 import com.gionee.autotest.field.ui.network_switch.model.InterruptException;
 
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 import java.util.function.Function;
 
@@ -248,5 +250,27 @@ public class NetworkSwitchUtil {
             SystemClock.sleep(10);
             assertInterrupted(sn);
         }
+    }
+
+    /**
+     * 获取当前日期
+     *
+     * @Author SONGYC
+     * create at 2016-07-18 16:30
+     */
+    public static String getTimeForFilename() {
+        return getCurrentTime("yyyyMMdd_HHmmss");
+    }
+
+
+    /**
+     * 获取当前时间（传入格式）
+     *
+     * @return create at 2016-08-09 17:53
+     * @Author SONGYC
+     */
+    public static String getCurrentTime(String format) {
+        SimpleDateFormat mFormat = new SimpleDateFormat(format);
+        return mFormat.format(new Date());
     }
 }

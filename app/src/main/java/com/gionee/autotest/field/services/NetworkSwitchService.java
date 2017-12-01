@@ -12,16 +12,19 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.gionee.autotest.field.ui.network_switch.model.NetworkSwitchParam;
+import com.gionee.autotest.field.ui.network_switch.model.NetworkSwitchResult;
 import com.gionee.autotest.field.ui.network_switch.model.SwitchTestTask;
 import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.NotificationHelper;
+import com.gionee.autotest.field.util.Preference;
+import com.gionee.autotest.field.util.SignalHelper;
 import com.google.gson.Gson;
 
 public class NetworkSwitchService extends Service implements INetworkSwitchService {
     private MyReceiver stopReceiver;
     private static final int NOTIFICATION_ID = 1101;
     private NotificationHelper notificationHelper;
-    private SwitchTestTask     switchTestTask;
+    private SwitchTestTask switchTestTask;
     private NetworkSwitchParam networkSwitchParam;
 
     @Override
@@ -45,6 +48,7 @@ public class NetworkSwitchService extends Service implements INetworkSwitchServi
         if (!TextUtils.isEmpty(params)) {
             networkSwitchParam = new Gson().fromJson(params, NetworkSwitchParam.class);
             switchTestTask = new SwitchTestTask(this);
+            startSignalService();
             switchTestTask.execute();
         }
         return super.onStartCommand(intent, flags, startId);
@@ -60,6 +64,7 @@ public class NetworkSwitchService extends Service implements INetworkSwitchServi
             stopReceiver = null;
         }
         notificationHelper.cancelAll();
+        destroySignalService();
     }
 
     private void registerReceiver() {
@@ -107,6 +112,15 @@ public class NetworkSwitchService extends Service implements INetworkSwitchServi
     @Override
     public NetworkSwitchParam getParams() {
         return networkSwitchParam;
+    }
+
+    public void destroySignalService() {
+        SignalHelper.getInstance(this).destroy();
+    }
+
+    private void startSignalService() {
+        Intent signalService = new Intent(this, SignalMonitorService.class);
+        startService(signalService);
     }
 
 }

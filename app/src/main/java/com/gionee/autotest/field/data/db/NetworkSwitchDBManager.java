@@ -26,6 +26,10 @@ public class NetworkSwitchDBManager {
         helper.writeResult(contentValues);
     }
 
+    public static void deleteTable(){
+        helper.deleteTable("networkSwitch");
+    }
+
 
     public static ArrayList<String> getResultFileNameList() {
         return helper.getResultFileNameList();

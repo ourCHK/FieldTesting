@@ -13,6 +13,8 @@ import com.gionee.autotest.common.Preference;
 import com.gionee.autotest.common.TimeUtil;
 import com.gionee.autotest.field.ui.network_switch.model.IToast;
 import com.gionee.autotest.field.ui.network_switch.model.NetworkSwitchResult;
+import com.gionee.autotest.field.ui.signal.entity.SimSignalInfo;
+import com.google.gson.Gson;
 
 
 public class SimUtil {
@@ -20,7 +22,7 @@ public class SimUtil {
     private IToast toast;
     private Context context;
 
-    public SimUtil(IToast toast,Context context) {
+    public SimUtil(IToast toast, Context context) {
         this.toast = toast;
         this.context = context;
     }
@@ -36,8 +38,8 @@ public class SimUtil {
     }
 
     public SimState getSimStateBefore() {
-        int sim1State = Preference.getInt(context,"sim1State", TelephonyManager.SIM_STATE_ABSENT);
-        int sim2State = Preference.getInt(context,"sim2State", TelephonyManager.SIM_STATE_ABSENT);
+        int sim1State = Preference.getInt(context, "sim1State", TelephonyManager.SIM_STATE_ABSENT);
+        int sim2State = Preference.getInt(context, "sim2State", TelephonyManager.SIM_STATE_ABSENT);
         return new SimState(sim1State, sim2State);
     }
 
@@ -77,7 +79,7 @@ public class SimUtil {
                 if (NetworkSwitchUtil.getSim2State() == sim2State_before) {
                     break;
                 } else {
-                    Log.i(Constant.TAG,  i + "等待sim卡2READY");
+                    Log.i(Constant.TAG, i + "等待sim卡2READY");
                     NetworkSwitchUtil.sleep(2000);
                 }
             }
@@ -92,7 +94,7 @@ public class SimUtil {
                 if (NetworkSwitchUtil.isSim2Ready()) {
                     break;
                 } else {
-                    Log.i(Constant.TAG,  i + "等待sim卡2注册");
+                    Log.i(Constant.TAG, i + "等待sim卡2注册");
                     toast.toast("等待sim卡2注册");
                     SystemClock.sleep(5000);
                 }
@@ -108,7 +110,7 @@ public class SimUtil {
                 if (NetworkSwitchUtil.isSim1Ready()) {
                     break;
                 } else {
-                    Log.i(Constant.TAG,  i + "等待sim卡1注册");
+                    Log.i(Constant.TAG, i + "等待sim卡1注册");
                     toast.toast("等待sim卡1注册");
                     NetworkSwitchUtil.sleep(5000);
                 }
@@ -117,9 +119,9 @@ public class SimUtil {
     }
 
     public ReadSimResult checkReadSim(SimState simState_before) {
-        boolean check_readSim = Preference.getBoolean(context,"checkBox_readSim", true);
-        String  sim1State_now = "卡1NA";
-        String  sim2State_now = "卡2NA";
+        boolean check_readSim = Preference.getBoolean(context, "checkBox_readSim", true);
+        String sim1State_now = "卡1NA";
+        String sim2State_now = "卡2NA";
         if (check_readSim) {
             if (simState_before.sim1State == TelephonyManager.SIM_STATE_READY) {
                 sim1State_now = NetworkSwitchUtil.getSim1State() == TelephonyManager.SIM_STATE_READY ? "卡1识卡" : "卡1不识卡";
@@ -132,28 +134,32 @@ public class SimUtil {
     }
 
     public SignNetWorkResult checkSignNetwork(SimState simState_before) {
-        String  current_SimName_1 = "卡1NA";
-        String  current_SimName_2 = "卡2NA";
-        boolean check_SignNetwork = Preference.getBoolean(context,"checkBox_SignNetwork", true);
+        String current_SimName_1 = "卡1NA";
+        String current_SimName_2 = "卡2NA";
+        boolean check_SignNetwork = Preference.getBoolean(context, "checkBox_SignNetwork", true);
         if (check_SignNetwork) {
             String sim1Name = NetworkSwitchUtil.getSim1Name();
             String sim2Name = NetworkSwitchUtil.getSim2Name();
-            Log.i(Constant.TAG,  "sim1:" + sim1Name + "sim2:" + sim2Name);
+            Log.i(Constant.TAG, "sim1:" + sim1Name + "sim2:" + sim2Name);
             if (simState_before.sim1State == TelephonyManager.SIM_STATE_READY) {
-                current_SimName_1 = (sim1Name.equals("") || sim1Name.isEmpty()) ? "卡1失败" : "卡1正常";
+                SimSignalInfo sim1Info = getSimNetInfo(1);
+                String netType = sim1Info == null ? "NA" : sim1Info.mNetType;
+                current_SimName_1 = (sim1Name.equals("") || sim1Name.isEmpty()) ? "卡1失败" : "卡1 " + netType;
             }
             if (simState_before.sim2State == TelephonyManager.SIM_STATE_READY) {
-                current_SimName_2 = (sim2Name.equals("") || sim2Name.isEmpty()) ? "卡2失败" : "卡2正常";
+                SimSignalInfo sim2Info = getSimNetInfo(2);
+                String netType = sim2Info == null ? "NA" : sim2Info.mNetType;
+                current_SimName_2 = (sim2Name.equals("") || sim2Name.isEmpty()) ? "卡2失败" : "卡2 " + netType;
             }
         }
         return new SignNetWorkResult(current_SimName_1, current_SimName_2);
     }
 
     public String checkIsNet(Context context) {
-        boolean check_isNet = Preference.getBoolean(context,"checkBox_isNet", true);
-        Log.i(Constant.TAG,  "check_isNet" + check_isNet);
+        boolean check_isNet = Preference.getBoolean(context, "checkBox_isNet", true);
+        Log.i(Constant.TAG, "check_isNet" + check_isNet);
         if (!check_isNet) {
-            Log.i(Constant.TAG,  "不检查isNet");
+            Log.i(Constant.TAG, "不检查isNet");
         }
         NetworkSwitchUtil.setWifiEnable(context, false);
         int defaultDataSubId = 0;
@@ -167,25 +173,30 @@ public class SimUtil {
             NetworkSwitchUtil.sleep(5000);
             current_isNetwork = NetworkSwitchUtil.isNetworkAvailable(context) ? "通过" : "失败";
         } else {
-            Log.i(Constant.TAG,  "当前没有使用数据网络");
+            Log.i(Constant.TAG, "当前没有使用数据网络");
             current_isNetwork = "失败";
         }
         return current_isNetwork;
     }
 
+    public SimSignalInfo getSimNetInfo(int simId) {
+        SignalHelper helper = SignalHelper.getInstance(context);
+        return helper == null ? null : helper.getSimSignalInfo(simId);
+    }
+
     public TestResult getResult(Context context) {
         SimUtil.SimState simState = getSimStateBefore();
         waitForNetWorkOperator();
-        ReadSimResult     readSimResult     = checkReadSim(simState);
+        ReadSimResult readSimResult = checkReadSim(simState);
         SignNetWorkResult signNetWorkResult = checkSignNetwork(simState);
-        String            isNetResult       = checkIsNet(context);
+        String isNetResult = checkIsNet(context);
         return new TestResult(readSimResult, signNetWorkResult, isNetResult);
     }
 
     public NetworkSwitchResult getNetworkSwitchResult(Context context) {
-        TestResult testResult       = getResult(context);
-        int        simId            = Preference.getInt(context,"SimId", 0);
-        int        defaultDataSubId = 0;
+        TestResult testResult = getResult(context);
+        int simId = Preference.getInt(context, "SimId", 0);
+        int defaultDataSubId = 0;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             defaultDataSubId = NetworkSwitchUtil.getDefaultDataSubId(context);
         }
@@ -196,14 +207,15 @@ public class SimUtil {
                 || testResult.readSimResult.sim2State_now.equals("卡2不识卡")
                 || testResult.readSimResult.sim1State_now.equals("卡1不识卡")
                 || testResult.isNetResult.equals("失败")) ? "失败" : "通过";
-        String SimId_String       = Preference.getBoolean(context,"checkBox_Switch_Sim", true) ? "卡" + simId : "";
-        String current_isSwitched = Preference.getString(context,"current_isSwitched", "NA");
-        Preference.putString(context,"current_isSwitched", "NA");
-       return new NetworkSwitchResult().setReadSim_1(testResult.readSimResult.sim1State_now).setReadSim_2(testResult.readSimResult.sim2State_now).setSignNetwork_1(testResult.signNetWorkResult.current_simName_1).setSignNetwork_2(testResult.signNetWorkResult.current_simName_2).setIsNet(SimId_String + testResult.isNetResult).setResult(result).setTest_time(TimeUtil.getTime("yyyy-MM-dd HH:mm:ss")).setIsSwitched(current_isSwitched);
+        SimSignalInfo simNetInfo=getSimNetInfo(simId);
+        String SimId_String = Preference.getBoolean(context, "checkBox_Switch_Sim", true) ? "卡" + simId : "";
+        String current_isSwitched = Preference.getString(context, "current_isSwitched", "NA");
+        Preference.putString(context, "current_isSwitched", "NA");
+        return new NetworkSwitchResult().setReadSim_1(testResult.readSimResult.sim1State_now).setReadSim_2(testResult.readSimResult.sim2State_now).setSignNetwork_1(testResult.signNetWorkResult.current_simName_1).setSignNetwork_2(testResult.signNetWorkResult.current_simName_2).setIsNet(SimId_String + testResult.isNetResult).setResult(result).setTest_time(TimeUtil.getTime("yyyy-MM-dd HH:mm:ss")).setIsSwitched(current_isSwitched).setSimNetOperator(simNetInfo.mOperator).setSimLevel(simNetInfo.mLevel).setSimNetType(simNetInfo.mNetType).setSimSignal(simNetInfo.mSignal);
     }
 
     public class TestResult {
-        public ReadSimResult     readSimResult;
+        public ReadSimResult readSimResult;
         public SignNetWorkResult signNetWorkResult;
         public String isNetResult = "NA";
 
@@ -240,7 +252,7 @@ public class SimUtil {
     }
 
     @TargetApi(Build.VERSION_CODES.N)
-    public static int getDefaultDataSubId(){
+    public static int getDefaultDataSubId() {
         return SubscriptionManager.getDefaultDataSubscriptionId();
     }
 

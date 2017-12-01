@@ -88,6 +88,11 @@ public class Constant {
     public static final String DIR_INCOMING = PATH_SD + "incoming/";
     public static final String INCOMING_EXCEL_PATH = DIR_INCOMING + "incomingCallRecord.xls";
 
+    //network_switch
+    public static final String DIR_NETWORK_SWITCH = PATH_SD + "network_switch/";
+    public static final String NETWORK_SWITCH_EXCEL_PATH = DIR_NETWORK_SWITCH + "networkSwitchRecord.xls";
+    public static final String NETWORK_SWITCH_FAILED_EXCEL_PATH = DIR_NETWORK_SWITCH + "networkSwitchFailedRecord.xls";
+
     //dataStability
     public static final String DIR_DATA_STABILITY = PATH_SD+"data_stability";
     public static final String DATA_STABILITY_EXCEL_PATH = DIR_DATA_STABILITY+"dataStability.xls";

@@ -20,6 +20,7 @@ public final class DBManager {
         AppsDBManager.initDatabase(context);
         InComingDBManager.init(context);
         OutGoingDBManager.init(context);
+        NetworkSwitchDBManager.init(context);
     }
 
     /**
@@ -31,6 +32,7 @@ public final class DBManager {
     public static void deleteAllDB(Context context) {
         AppsDBManager.deleteDatabase();
         InComingDBManager.delete();
+        NetworkSwitchDBManager.deleteTable();
     }
 
 }

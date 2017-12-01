@@ -28,6 +28,8 @@ interface NetworkSwitchContract {
 
         void exportExcelFile();
 
+        void showFailedDetails();
+
         NetworkSwitchParam getLastParams();
 
         void startTest(NetworkSwitchParam inputParam);

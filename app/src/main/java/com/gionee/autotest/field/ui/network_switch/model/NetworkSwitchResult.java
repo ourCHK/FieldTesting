@@ -10,6 +10,10 @@ public class NetworkSwitchResult {
     public String  result           = "";
     public String  test_time        = "";
     public String  isSwitched       = "";
+    public String  simNetOperator   = "";
+    public String  simNetType       = "";
+    public int simLevel             = -1;
+    public String  simSignal        = "";
 
     public NetworkSwitchResult setShow_Test_Time(boolean show_Test_Time) {
         isShow_Test_Time = show_Test_Time;
@@ -53,6 +57,26 @@ public class NetworkSwitchResult {
 
     public NetworkSwitchResult setIsSwitched(String isSwitched) {
         this.isSwitched = isSwitched;
+        return this;
+    }
+
+    public NetworkSwitchResult setSimNetOperator(String simNetOperator) {
+        this.simNetOperator = simNetOperator;
+        return this;
+    }
+
+    public NetworkSwitchResult setSimNetType(String simNetType) {
+        this.simNetType = simNetType;
+        return this;
+    }
+
+    public NetworkSwitchResult setSimLevel(int simLevel) {
+        this.simLevel = simLevel;
+        return this;
+    }
+
+    public NetworkSwitchResult setSimSignal(String simSignal) {
+        this.simSignal = simSignal;
         return this;
     }
 }

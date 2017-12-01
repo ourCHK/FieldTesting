@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/main_page_layout"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    android:id="@+id/main_page_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <include layout="@layout/layout_header"/>
+    <include layout="@layout/layout_header" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/toolsTips"
-            android:textColor="@color/colorPrimary"/>
+            android:textColor="@color/colorPrimary" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/checkBox_tips"
-                android:textColor="@color/colorPrimary"/>
+                android:textColor="@color/colorPrimary" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -44,7 +44,7 @@
                     android:layout_weight="5"
                     android:checked="true"
                     android:text="@string/checkBox_Flight_Mode"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorPrimary" />
 
                 <CheckBox
                     android:id="@+id/checkBox_Switch_Sim"
@@ -52,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
                     android:text="@string/checkBox_switch_sim"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorPrimary" />
 
             </LinearLayout>
 
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="@string/checkBox_Reboot"
-                android:textColor="@color/colorPrimary"/>
+                android:textColor="@color/colorPrimary" />
 
         </LinearLayout>
 
@@ -76,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/checkNetworkType"
-                android:textColor="@color/colorPrimary"/>
+                android:textColor="@color/colorPrimary" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -90,7 +90,7 @@
                     android:layout_weight="5"
                     android:checked="true"
                     android:text="@string/checkBox_identification"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorPrimary" />
 
                 <CheckBox
                     android:id="@+id/checkBox_SignNetwork"
@@ -99,7 +99,7 @@
                     android:layout_weight="5"
                     android:checked="true"
                     android:text="@string/checkBox_SearchSimNetwork"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorPrimary" />
 
 
                 <CheckBox
@@ -109,7 +109,7 @@
                     android:layout_weight="5"
                     android:checked="true"
                     android:text="@string/checkBox_Internet"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorPrimary" />
 
             </LinearLayout>
 
@@ -125,7 +125,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/testRoundString"
-                android:textColor="@color/colorPrimary"/>
+                android:textColor="@color/colorPrimary" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -140,14 +140,14 @@
                     android:inputType="number"
                     android:maxLength="10"
                     android:textAlignment="center"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorPrimary" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="10"
                     android:text="@string/roundString"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorPrimary" />
             </LinearLayout>
 
         </LinearLayout>
@@ -159,7 +159,13 @@
             android:layout_marginTop="5dp"
             android:background="@drawable/bg_stroke"
             android:text="@string/start_btn"
-            android:textColor="@color/colorPrimary"/>
+            android:textColor="@color/colorPrimary" />
+
+        <TextView
+            android:id="@+id/network_switch_showProcess"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="#000000" />
     </LinearLayout>
 
 

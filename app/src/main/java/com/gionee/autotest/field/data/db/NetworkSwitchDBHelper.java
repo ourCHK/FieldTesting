@@ -43,7 +43,7 @@ public class NetworkSwitchDBHelper extends DBHelper {
     }
 
     public ArrayList<NetworkSwitchResult> getNetworkSwitchResultList(String fileName) {
-        Cursor                         cursor = mDb.rawQuery("select result from networkSwitch where resultFileName=" + fileName, null);
+        Cursor                         cursor = mDb.rawQuery("select result from networkSwitch where resultFileName=?" , new String[]{fileName});
         ArrayList<NetworkSwitchResult> list   = new ArrayList<>();
         if (cursor == null) {
             return list;
