@@ -146,7 +146,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.incoming.InComingReportActivity" />
+        <activity android:name=".ui.incoming.InComingReportActivity"
+            android:label="接通率报告"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.network_switch.NetworkSwitchActivity"
             android:label="@string/network_switch"
@@ -246,7 +248,7 @@
             android:label="@string/data_reset_test_list"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.outgoing.report.OutGoingReportActivity"
-            android:label="接通率报告"
+            android:label="拨通率报告"
             android:screenOrientation="portrait"/>
 
         <service android:name=".services.SignalMonitorService" />

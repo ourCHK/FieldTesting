@@ -116,7 +116,7 @@
 
 
     <!-- outgoing  resources-->
-    <string name="out_going_label_name">接通率</string>
+    <string name="out_going_label_name">拨通率</string>
     <string name="successfulCount">成功个数</string>
     <string name="failedCount">失败个数</string>
     <string name="fail">失败</string>
