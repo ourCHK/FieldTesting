@@ -77,7 +77,6 @@ public class WebViewAction implements CallBack {
             }
             webViewUtil.load(instance.urls[urlIndex], WebViewAction.this);
         } else {
-            urlIndex=0;
             if (isBefore) {
                 DataStabilityUtil.i("isBefore=true");
                 if (instance.param.isForbidSleep) {
