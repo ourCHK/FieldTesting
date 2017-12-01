@@ -5,11 +5,12 @@ import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.gionee.autotest.common.call.CallMonitorResult;
 import com.gionee.autotest.field.data.db.InComingDBManager;
 import com.gionee.autotest.field.data.db.model.InComingReportBean;
 import com.gionee.autotest.field.ui.signal.entity.SimSignalInfo;
 import com.gionee.autotest.field.util.Constant;
+import com.gionee.autotest.field.util.Preference;
+import com.gionee.autotest.field.util.call.CallMonitorResult;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
@@ -23,6 +24,9 @@ import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 
 public class InComingCall {
+
+    public static boolean isTest = false;
+
     @SuppressLint("StaticFieldLeak")
     public static void writeData(CallMonitorResult callMonitorResult) {
         new AsyncTask<CallMonitorResult, Void, Void>() {
@@ -35,13 +39,25 @@ public class InComingCall {
     }
 
     @SuppressLint("StaticFieldLeak")
-    public static void clearAllReport() {
+    public static void clearAllReport(final Consumer<Void> c) {
         new AsyncTask<Void, Void, Void>() {
 
             @Override
             protected Void doInBackground(Void... voids) {
                 InComingDBManager.delete();
                 return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                if (c != null) {
+                    try {
+                        c.accept(null);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }.execute();
     }
@@ -130,10 +146,10 @@ public class InComingCall {
             }
             if (file.exists()) {
                 boolean delete = file.delete();
-                Log.i(Constant.TAG,"incoming excelFile delete "+delete);
+                Log.i(Constant.TAG, "incoming excelFile delete " + delete);
             }
             boolean newFile = file.createNewFile();
-            Log.i(Constant.TAG,"incoming excel file create "+newFile);
+            Log.i(Constant.TAG, "incoming excel file create " + newFile);
             workBook = Workbook.createWorkbook(file);
             Gson gson = new Gson();
             for (int batchIndex = 0; batchIndex < beans.size(); batchIndex++) {

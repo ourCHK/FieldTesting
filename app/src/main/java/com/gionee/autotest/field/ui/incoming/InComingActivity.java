@@ -7,9 +7,10 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-import com.gionee.autotest.common.call.CallMonitorParam;
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.ui.base.BaseActivity;
+import com.gionee.autotest.field.ui.incoming.model.InComingCall;
+import com.gionee.autotest.field.util.call.CallMonitorParam;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -43,13 +44,24 @@ public class InComingActivity extends BaseActivity implements InComingContract.V
 
     @OnClick(R.id.incoming_start_btn)
     void incomingStartClicked() {
-        if (mStartBtn.getText().equals("停止测试")) {
+        if (!InComingCall.isTest) {
+            InComingCall.isTest=true;
             mInComingPresenter.startMonitor(getCallMonitorParam());
-            mStartBtn.setText("开始测试");
         } else {
+            InComingCall.isTest=false;
             mInComingPresenter.stopMonitor();
-            mStartBtn.setText("停止测试");
         }
+        updateViews();
+    }
+
+    @Override
+    public void updateViews() {
+        boolean isTest=InComingCall.isTest;
+        mAutoAnswerCB.setEnabled(!isTest);
+        mAnswerHangUpCB.setEnabled(!isTest);
+        mAnswerHangupTimeET.setEnabled(!isTest);
+        mHangUpPressPower.setEnabled(!isTest);
+        mStartBtn.setText(isTest?"停止测试":"开始测试");
     }
 
     @Override
@@ -64,7 +76,7 @@ public class InComingActivity extends BaseActivity implements InComingContract.V
 
     @Override
     protected void initializePresenter() {
-        mInComingPresenter = new InComingPresenter(getApplicationContext());
+        mInComingPresenter = new InComingPresenter(this);
         super.presenter = mInComingPresenter;
         mInComingPresenter.onAttach(this);
 //        mAutoRejectCB.setOnCheckedChangeListener(this);

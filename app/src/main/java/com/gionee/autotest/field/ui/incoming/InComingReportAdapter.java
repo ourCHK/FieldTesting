@@ -7,9 +7,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.gionee.autotest.common.call.CallMonitorResult;
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.data.db.model.InComingReportBean;
+import com.gionee.autotest.field.util.call.CallMonitorResult;
 
 public class InComingReportAdapter extends BaseAdapter {
     private InComingReportBean mData;

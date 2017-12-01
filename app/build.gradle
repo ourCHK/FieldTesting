@@ -52,7 +52,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.4.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     //latest android-common-util
-    compile 'com.gionee.autotest.android.common:android-common-utility:1.0.7.beta2'
+    compile 'com.gionee.autotest.android.common:android-common-utility:1.0.8.beta2'
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     compile 'com.android.support:recyclerview-v7:25.4.0'

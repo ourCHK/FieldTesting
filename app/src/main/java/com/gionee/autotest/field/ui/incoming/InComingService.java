@@ -4,14 +4,14 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
-import com.gionee.autotest.common.call.CallMonitor;
-import com.gionee.autotest.common.call.CallMonitorParam;
-import com.gionee.autotest.common.call.CallMonitorResult;
 import com.gionee.autotest.field.services.SignalMonitorService;
 import com.gionee.autotest.field.ui.incoming.model.InComingCall;
 import com.gionee.autotest.field.ui.signal.entity.SimSignalInfo;
 import com.gionee.autotest.field.util.SignalHelper;
 import com.gionee.autotest.field.util.SimUtil;
+import com.gionee.autotest.field.util.call.CallMonitor;
+import com.gionee.autotest.field.util.call.CallMonitorParam;
+import com.gionee.autotest.field.util.call.CallMonitorResult;
 import com.google.gson.Gson;
 
 public class InComingService extends Service implements CallMonitor.MonitorListener {
@@ -48,6 +48,7 @@ public class InComingService extends Service implements CallMonitor.MonitorListe
             callMonitor.setMonitorListener(this);
             callMonitor.startMonitor();
         }
+
         return super.onStartCommand(intent, flags, startId);
     }
 

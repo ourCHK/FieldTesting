@@ -1,7 +1,7 @@
 package com.gionee.autotest.field.data.db.model;
 
 
-import com.gionee.autotest.common.call.CallResult;
+import com.gionee.autotest.field.util.call.CallResult;
 
 public class OutGoingCallResult extends CallResult {
 

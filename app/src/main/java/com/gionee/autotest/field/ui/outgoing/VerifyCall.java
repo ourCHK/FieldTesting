@@ -4,12 +4,12 @@ package com.gionee.autotest.field.ui.outgoing;
 import android.content.Context;
 import android.util.Log;
 
-import com.gionee.autotest.common.call.CallLogUtil;
-import com.gionee.autotest.common.call.CallResult;
 import com.gionee.autotest.field.data.db.OutGoingDBManager;
 import com.gionee.autotest.field.data.db.model.OutGoingCallResult;
 import com.gionee.autotest.field.ui.outgoing.model.CallParam;
 import com.gionee.autotest.field.util.Constant;
+import com.gionee.autotest.field.util.call.CallLogUtil;
+import com.gionee.autotest.field.util.call.CallResult;
 
 import java.util.Timer;
 import java.util.TimerTask;
