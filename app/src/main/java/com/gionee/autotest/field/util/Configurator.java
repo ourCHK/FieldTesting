@@ -5,7 +5,13 @@ import com.gionee.autotest.field.ui.data_stability.DataParam;
 
 public class Configurator {
     private static Configurator instance  = new Configurator();
-    public         String[]     urls      = new String[]{"https://www.baidu.com/","http://www.sina.com.cn/","https://hao.360.cn/","https://www.hao123.com/","https://hao.qq.com/"};
+    public String[]     urls      = new String[]{
+            "https://www.gionee.com/zh/about/",
+            "https://www.gionee.com/zh/honour/",
+            "https://www.gionee.com/zh/mediabd/",
+            "https://www.gionee.com/zh/comNews/",
+            "https://www.gionee.com/zh/gioneeds/"};
+    //    public         String[]     urls      = new String[]{"https://www.baidu.com/","http://www.sina.com.cn/","https://hao.360.cn/","https://www.hao123.com/","https://hao.qq.com/"};
     public DataParam param     = new DataParam();
     public         int          batchId   = 0;
     public         int          testIndex = 0;

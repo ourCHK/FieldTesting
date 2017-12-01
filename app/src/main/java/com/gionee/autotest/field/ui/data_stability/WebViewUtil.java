@@ -14,6 +14,7 @@ import android.webkit.WebViewClient;
 
 import com.gionee.autotest.field.FieldApplication;
 import com.gionee.autotest.field.ui.signal.entity.SimSignalInfo;
+import com.gionee.autotest.field.util.Configurator;
 import com.gionee.autotest.field.util.DataStabilityUtil;
 import com.gionee.autotest.field.util.SignalHelper;
 

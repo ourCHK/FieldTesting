@@ -22,8 +22,8 @@ import java.util.TimerTask;
 
 public class WebViewAction implements CallBack {
     private int urlIndex = 0;
+    private int verifyIndex = 0;
     private Context context;
-    private MyWebView mWebView;
     private WebViewUtil webViewUtil;
     private ArrayList<WebViewUtil.WebViewResult> resultsBefore = new ArrayList<>();
     private ArrayList<WebViewUtil.WebViewResult> resultsAfter = new ArrayList<>();
@@ -31,14 +31,13 @@ public class WebViewAction implements CallBack {
     private IWebViewActivity iWeb;
     private final MyReceiver myReceiver;
     private final WakeHelper wakeHelper;
-    private String currentUrl;
     private final DataParam param;
+    private boolean isVerify = false;
 
     WebViewAction(IWebViewActivity iWeb, MyWebView webView) {
         this.iWeb = iWeb;
         this.context = iWeb.getContext();
-        this.mWebView = webView;
-        webViewUtil = new WebViewUtil(mWebView);
+        webViewUtil = new WebViewUtil(webView);
         myReceiver = new MyReceiver();
         wakeHelper = new WakeHelper(context);
         startSignalCollectService();
@@ -49,16 +48,15 @@ public class WebViewAction implements CallBack {
     void testLoad(boolean isBefore) {
         this.isBefore = isBefore;
         urlIndex = 0;
-        currentUrl = Configurator.getInstance().urls[urlIndex];
+        String currentUrl = Configurator.getInstance().urls[urlIndex];
         webViewUtil.load(currentUrl, this);
     }
 
     @SuppressLint("StaticFieldLeak")
     @Override
     public void todo(Object o) {
+        final WebViewUtil.WebViewResult webViewResult = (WebViewUtil.WebViewResult) o;
         final Configurator instance = Configurator.getInstance();
-        WebViewUtil.WebViewResult webViewResult = (WebViewUtil.WebViewResult) o;
-        urlIndex++;
         if (isBefore) {
             DataStabilityUtil.i("before list 加1");
             resultsBefore.add(webViewResult);
@@ -66,9 +64,20 @@ public class WebViewAction implements CallBack {
             DataStabilityUtil.i("after list 加1");
             resultsAfter.add(webViewResult);
         }
+        if (!isVerify) {
+            urlIndex++;
+        }
         if (urlIndex < instance.urls.length) {
+            if (verifyIndex < instance.param.verifyCount) {
+                verifyIndex++;
+            } else {
+                urlIndex++;
+                verifyIndex = 0;
+                isVerify = false;
+            }
             webViewUtil.load(instance.urls[urlIndex], WebViewAction.this);
         } else {
+            urlIndex=0;
             if (isBefore) {
                 DataStabilityUtil.i("isBefore=true");
                 if (instance.param.isForbidSleep) {
@@ -102,21 +111,14 @@ public class WebViewAction implements CallBack {
             } else {
                 DataStabilityUtil.i("isBefore=false");
                 DataStabilityUtil.i("第" + (instance.testIndex + 1) + "次测试结束");
-                final WebViewResultSum webViewResultSum = new WebViewResultSum(resultsBefore, resultsAfter);
-                if (!webViewResultSum.result) {
-                    new VerifyWebViewTest(mWebView, currentUrl, instance.param.verifyCount, new CallBack() {
-                        @Override
-                        public void todo(Object o) {
-                            new WriteResultTask(context, instance.batchId, instance.testIndex, new CallBack() {
-                                @Override
-                                public void todo(Object o) {
-                                    DataStabilityUtil.i("写入结果");
-                                    iWeb.testFinish((WebViewResultSum) o);
-                                }
-                            }).execute(webViewResultSum);
-                        }
-                    }).test();
-                }
+                WebViewResultSum webViewResultSum = new WebViewResultSum(resultsBefore, resultsAfter);
+                new WriteResultTask(context, instance.batchId, instance.testIndex, new CallBack() {
+                    @Override
+                    public void todo(Object o) {
+                        DataStabilityUtil.i("写入结果");
+                        iWeb.testFinish((WebViewResultSum) o);
+                    }
+                }).execute(webViewResultSum);
                 try {
                     context.unregisterReceiver(myReceiver);
                 } catch (Exception e) {
@@ -142,6 +144,10 @@ public class WebViewAction implements CallBack {
         @Override
         public void onReceive(Context context, Intent intent) {
             DataStabilityUtil.i("onReceive");
+            if (!wakeHelper.getManager().isScreenOn()) {
+                wakeHelper.getKeyguardLock().disableKeyguard();
+                Instrument.clickKey(KeyEvent.KEYCODE_POWER);
+            }
             testLoad(false);
         }
     }
