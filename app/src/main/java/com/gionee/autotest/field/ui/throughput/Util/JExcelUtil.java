@@ -85,7 +85,7 @@ public class JExcelUtil {
             // 水平对齐
             wcfN.setWrap(true);
             Helper.i("添加每列标题");
-            String[] firstLine = {"序号", "是否通过", "开始时间", "测试类型", "网络类型", "文件大小", "平均速率(KB/S)", "耗时(S)", "失败时间", "运营商", "网络类型", "信号格数", "信号强度"};
+            String[] firstLine = {"序号", "测试结果", "开始时间", "测试类型", "网络类型", "文件大小", "平均速率(KB/S)", "耗时(S)", "失败时间", "运营商", "网络类型", "信号格数", "信号强度"};
             for (int i = 0; i < firstLine.length; i++) {
                 Label label = new Label(i, 0, firstLine[i], getTitleFormat());
                 sheet.addCell(label);
@@ -103,7 +103,7 @@ public class JExcelUtil {
                     content6 = new Label(6, j + 1, speedBean.get(j).speed_average, getContentFormat());
                     content7 = new Label(7, j + 1, speedBean.get(j).use_time + "", getContentFormat());
 
-                    content1 = new Label(1, j + 1, speedBean.get(j).success, getContentFormat());
+                    content1 = new Label(1, j + 1, "通过", getContentFormat());
                     content8 = new Label(8, j + 1, speedBean.get(j).failTime, getContentFormat());
                     content9 = new Label(10, j + 1, speedBean.get(j).webType, getContentFormat());
                     content10 = new Label(11, j + 1, speedBean.get(j).signals, getContentFormat());
@@ -118,7 +118,7 @@ public class JExcelUtil {
                     content6 = new Label(6, j + 1, speedBean.get(j).speed_average, getErrorFormat());
                     content7 = new Label(7, j + 1, speedBean.get(j).use_time + "", getErrorFormat());
 
-                    content1 = new Label(1, j + 1, speedBean.get(j).success, getErrorFormat());
+                    content1 = new Label(1, j + 1, "不通过", getErrorFormat());
                     content8 = new Label(8, j + 1, speedBean.get(j).failTime, getErrorFormat());
                     content9 = new Label(10, j + 1, speedBean.get(j).webType, getErrorFormat());
                     content10 = new Label(11, j + 1, speedBean.get(j).signals, getErrorFormat());
