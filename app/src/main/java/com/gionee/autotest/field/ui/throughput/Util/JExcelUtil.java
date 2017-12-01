@@ -1,5 +1,6 @@
 package com.gionee.autotest.field.ui.throughput.Util;
 
+import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -9,7 +10,10 @@ import com.gionee.autotest.field.ui.throughput.bean.SpeedBean;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import jxl.CellView;
 import jxl.Workbook;
@@ -64,7 +68,7 @@ public class JExcelUtil {
     }
 
     private static void createSheet(WritableWorkbook book, String type) throws WriteException, IOException {
-        Label content, content1, content2, content3, content4, content5, content6, content7, content8, content9, content10, content11, content12;
+        Label content, content1, content2, content3, content4, content5, content6, content7, content8, content9, content10, content11, content12, content13;
         ArrayList newList = Helper.getNewList(FieldApplication.getContext());
         for (int k = 0; k < newList.size(); k++) {
 //            String string ="第"+(k+1)+"次循环下载结果";
@@ -85,7 +89,7 @@ public class JExcelUtil {
             // 水平对齐
             wcfN.setWrap(true);
             Helper.i("添加每列标题");
-            String[] firstLine = {"序号", "测试结果", "开始时间", "测试类型", "网络类型", "文件大小", "平均速率(KB/S)", "耗时(S)", "失败时间", "运营商", "网络类型", "信号格数", "信号强度"};
+            String[] firstLine = {"序号", "测试结果", "开始时间", "结束时间", "失败时间", "耗时(S)", "测试类型", "网络类型", "文件大小", "平均速率(KB/S)", "运营商", "网络类型", "信号格数", "信号强度"};
             for (int i = 0; i < firstLine.length; i++) {
                 Label label = new Label(i, 0, firstLine[i], getTitleFormat());
                 sheet.addCell(label);
@@ -93,37 +97,39 @@ public class JExcelUtil {
 
             for (int j = 0; j < speedBean.size(); j++) {
                 Helper.i("写到第" + (j + 1) + "行 ；");
-
                 if (speedBean.get(j).success.equals("YES")) {
                     content = new Label(0, j + 1, speedBean.get(j).id, getContentFormat());
-                    content2 = new Label(2, j + 1, speedBean.get(j).time, getContentFormat());
-                    content3 = new Label(3, j + 1, speedBean.get(j).way, getContentFormat());
-                    content4 = new Label(4, j + 1, speedBean.get(j).web, getContentFormat());
-                    content5 = new Label(5, j + 1, speedBean.get(j).type, getContentFormat());
-                    content6 = new Label(6, j + 1, speedBean.get(j).speed_average, getContentFormat());
-                    content7 = new Label(7, j + 1, speedBean.get(j).use_time + "", getContentFormat());
-
                     content1 = new Label(1, j + 1, "通过", getContentFormat());
-                    content8 = new Label(8, j + 1, speedBean.get(j).failTime, getContentFormat());
-                    content9 = new Label(10, j + 1, speedBean.get(j).webType, getContentFormat());
-                    content10 = new Label(11, j + 1, speedBean.get(j).signals, getContentFormat());
-                    content11 = new Label(12, j + 1, speedBean.get(j).signalStrength, getContentFormat());
-                    content12 = new Label(9, j + 1, speedBean.get(j).operator, getContentFormat());
+                    content2 = new Label(2, j + 1, speedBean.get(j).time, getContentFormat());
+                    long time = TimeToMinSeconds(speedBean.get(j).time) + speedBean.get(j).use_time*1000;
+                    String endTime =MinSecondsToTime(time);
+                    content3 = new Label(3, j + 1, endTime, getContentFormat());
+                    content4 = new Label(4, j + 1, speedBean.get(j).failTime, getContentFormat());
+                    content5 = new Label(5, j + 1, speedBean.get(j).use_time + "", getContentFormat());
+                    content6 = new Label(6, j + 1, speedBean.get(j).way, getContentFormat());
+                    content7 = new Label(7, j + 1, speedBean.get(j).web, getContentFormat());
+                    content8 = new Label(8, j + 1, speedBean.get(j).type, getContentFormat());
+                    content9 = new Label(9, j + 1, speedBean.get(j).speed_average, getContentFormat());
+                    content10 = new Label(10, j + 1, speedBean.get(j).operator, getContentFormat());
+                    content11 = new Label(11, j + 1, speedBean.get(j).webType, getContentFormat());
+                    content12 = new Label(12, j + 1, speedBean.get(j).signals, getContentFormat());
+                    content13 = new Label(13, j + 1, speedBean.get(j).signalStrength, getContentFormat());
                 } else {
                     content = new Label(0, j + 1, speedBean.get(j).id, getErrorFormat());
-                    content2 = new Label(2, j + 1, speedBean.get(j).time, getErrorFormat());
-                    content3 = new Label(3, j + 1, speedBean.get(j).way, getErrorFormat());
-                    content4 = new Label(4, j + 1, speedBean.get(j).web, getErrorFormat());
-                    content5 = new Label(5, j + 1, speedBean.get(j).type, getErrorFormat());
-                    content6 = new Label(6, j + 1, speedBean.get(j).speed_average, getErrorFormat());
-                    content7 = new Label(7, j + 1, speedBean.get(j).use_time + "", getErrorFormat());
-
                     content1 = new Label(1, j + 1, "不通过", getErrorFormat());
-                    content8 = new Label(8, j + 1, speedBean.get(j).failTime, getErrorFormat());
-                    content9 = new Label(10, j + 1, speedBean.get(j).webType, getErrorFormat());
-                    content10 = new Label(11, j + 1, speedBean.get(j).signals, getErrorFormat());
-                    content11 = new Label(12, j + 1, speedBean.get(j).signalStrength, getErrorFormat());
-                    content12 = new Label(9, j + 1, speedBean.get(j).operator, getErrorFormat());
+                    content2 = new Label(2, j + 1, speedBean.get(j).time, getErrorFormat());
+                    content3 = new Label(3, j + 1, "", getErrorFormat());
+                    content4 = new Label(4, j + 1, speedBean.get(j).failTime, getErrorFormat());
+                    long use_time = TimeToMinSeconds(speedBean.get(j).failTime)-TimeToMinSeconds(speedBean.get(j).time);
+                    content5 = new Label(5, j + 1, use_time/1000+  "", getErrorFormat());
+                    content6 = new Label(6, j + 1, speedBean.get(j).way, getErrorFormat());
+                    content7 = new Label(7, j + 1, speedBean.get(j).web, getErrorFormat());
+                    content8 = new Label(8, j + 1, speedBean.get(j).type, getErrorFormat());
+                    content9 = new Label(9, j + 1, speedBean.get(j).speed_average, getErrorFormat());
+                    content10 = new Label(10, j + 1, speedBean.get(j).operator, getErrorFormat());
+                    content11 = new Label(11, j + 1, speedBean.get(j).webType, getErrorFormat());
+                    content12 = new Label(12, j + 1, speedBean.get(j).signals, getErrorFormat());
+                    content13 = new Label(13, j + 1, speedBean.get(j).signalStrength, getErrorFormat());
                 }
 
                 sheet.addCell(content);
@@ -139,10 +145,28 @@ public class JExcelUtil {
                 sheet.addCell(content10);
                 sheet.addCell(content11);
                 sheet.addCell(content12);
+                sheet.addCell(content13);
             }
         }
     }
 
+    private static long TimeToMinSeconds(String time) {
+        long minSeconds = 0;
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date date = formatter.parse(time);
+            minSeconds = date.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return minSeconds;
+    }
+
+    private static String MinSecondsToTime(long time) {
+        Date date = new Date(time);
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+        return df.format(date);
+    }
 
     @NonNull
     private static WritableCellFormat getContentFormat() throws WriteException {
