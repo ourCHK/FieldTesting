@@ -1,6 +1,8 @@
 package com.gionee.autotest.field.ui.outgoing;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +20,7 @@ import android.util.Log;
 
 import com.gionee.autotest.common.TimeUtil;
 import com.gionee.autotest.common.call.CallUtil;
+import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.data.db.OutGoingDBManager;
 import com.gionee.autotest.field.data.db.model.OutGoingCallResult;
 import com.gionee.autotest.field.ui.outgoing.model.CallParam;
@@ -55,6 +58,16 @@ public class OutGoingService extends Service {
         mTm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         myListener = new MyListener();
         startListener();
+        Notification.Builder builder = new Notification.Builder(this.getApplicationContext());
+        Intent nfIntent = new Intent(this, OutGoingActivity.class);
+        builder.setContentIntent(PendingIntent.getActivity(this, 0, nfIntent, 0))
+                .setContentTitle("接通率")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentText("测试中")
+                .setWhen(System.currentTimeMillis());
+        Notification notification = builder.build();
+        notification.defaults = Notification.DEFAULT_SOUND;
+        startForeground(520, notification);
     }
 
 
@@ -92,6 +105,7 @@ public class OutGoingService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        stopForeground(true);
         cycleIndex = 0;
         numberIndex = 0;
         try {
