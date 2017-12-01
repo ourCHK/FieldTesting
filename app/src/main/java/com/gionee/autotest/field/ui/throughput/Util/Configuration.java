@@ -32,8 +32,8 @@ public class Configuration {
     public static final String  TWO_HUNDRED_UPLOAD_FILENAME="/sdcard/GBL7359L01_A_update_amigo3.1.11_T3667_amigo3.1.1_T3553.zip";
     public static final String RESULT_PATH= Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+ Constant.HOME+File.separator+"throughput";
     public static final String ERROE_RESULT_PATH= Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+ Constant.HOME+File.separator+"throughputError";
-    public static final String FILE_NAME=RESULT_PATH+ File.separator+"WifiPropertyResult.xls";
-    public static final String ERROR_FILE_NAME=ERROE_RESULT_PATH+ File.separator+"WifiPropertyResultError.xls";
+    public static final String FILE_NAME=RESULT_PATH+ File.separator+"吞吐率.xls";
+    public static final String ERROR_FILE_NAME=ERROE_RESULT_PATH+ File.separator+"吞吐率失败详情.xls";
     public static final String FILE_NAME_LOOK="内部存储器"+File.separator+Constant.HOME+File.separator+"throughput"+ File.separator+"WifiPropertyResult.xls";
     public static final String FILE_PATH=RESULT_PATH+ File.separator;
     public static final int SET_VIEWS_ENABLES = 1;

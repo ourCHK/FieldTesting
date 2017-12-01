@@ -6,8 +6,12 @@ import android.content.Context;
 import android.net.TrafficStats;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Looper;
 import android.os.PowerManager;
+import android.support.annotation.RequiresApi;
+import android.telephony.SubscriptionInfo;
+import android.telephony.SubscriptionManager;
 
 import com.gionee.autotest.field.ui.signal.entity.SimSignalInfo;
 import com.gionee.autotest.field.ui.throughput.Util.JExcelUtil;
@@ -22,6 +26,7 @@ import com.squareup.okhttp.Response;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -74,12 +79,12 @@ public class MainPresenter {
     private String web;//uri网络状态 -内网/外网
 
 
-    @SuppressLint("WifiManagerLeak")
     public MainPresenter(MainActivity iMain) {
         this.iMain = iMain;
-        wifiManager = (WifiManager) iMain.getContext().getSystemService(WIFI_SERVICE);
+        wifiManager = (WifiManager) iMain.getContext().getApplicationContext().getSystemService(WIFI_SERVICE);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
     public void download(final String uri, final String fileName, final String type, final String way, final String web, final int mWaitTimeInt, final int mDownTimesInt) {
         Helper.i("uri 地址为：" + uri + ",fileName的名称是：" + fileName + ",type为：" + type + ",way的值为：" + way + "，取到的web为：" + web);
         PowerManager powerManager = (PowerManager) iMain.getContext()
@@ -242,10 +247,9 @@ public class MainPresenter {
         }
     }
 
-    private void getSimInfo(){
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
+    private void getSimInfo() {
         if (Helper.isWifiEnabled(iMain.getContext())) {
-            @SuppressLint("WifiManagerLeak") WifiManager wifiManager = (WifiManager)iMain.getContext().getSystemService(Context.WIFI_SERVICE);
-            // WifiInfo wifiInfo = wifiManager.getConnectionInfo();
             WifiInfo info = wifiManager.getConnectionInfo();
             int strength = 0;
             int speed = 0;
@@ -269,42 +273,50 @@ public class MainPresenter {
         } else {
             int id = getDefaultDataSubId();
             SignalHelper signalHelper = SignalHelper.getInstance(iMain.getContext());
-            if (id == 1){
+            if (id == 1) {
                 simSignalInfo = signalHelper.getSimSignalInfo(1);
-                webType = "sim1: "+simSignalInfo.mNetType;
-                signals = "sim1: "+String.valueOf(simSignalInfo.mLevel);
-                signalStrength = "sim1: "+simSignalInfo.mSignal;
-                operator = "sim1: "+simSignalInfo.mOperator + "联网 ";
+                webType = "sim1: " + simSignalInfo.mNetType;
+                signals = "sim1: " + String.valueOf(simSignalInfo.mLevel);
+                signalStrength = "sim1: " + simSignalInfo.mSignal;
+                operator = "sim1: " + getSimName(0) + "(联网) ";
                 boolean isSimExist2 = signalHelper.isSimExist(SIM_CARD_1);
-                if (isSimExist2){
+                if (isSimExist2) {
                     simSignalInfo = signalHelper.getSimSignalInfo(2);
-                    webType = webType+ " - "+"sim2: "+simSignalInfo.mNetType;
-                    signals = signals+ " - "+"sim2: "+String.valueOf(simSignalInfo.mLevel);
-                    signalStrength = signalStrength+ " - "+"sim2: "+simSignalInfo.mSignal;
-                    operator = operator+ " - "+"sim2: "+simSignalInfo.mOperator;
+                    webType = webType + " - " + "sim2: " + simSignalInfo.mNetType;
+                    signals = signals + " - " + "sim2: " + String.valueOf(simSignalInfo.mLevel);
+                    signalStrength = signalStrength + " - " + "sim2: " + simSignalInfo.mSignal;
+                    operator = operator + " - " + "sim2: " + getSimName(1);
                 }
             }
-            if (id == 2){
-                simSignalInfo = signalHelper.getSimSignalInfo(2);
-                webType = "sim2: "+simSignalInfo.mNetType;
-                signals = "sim2: "+String.valueOf(simSignalInfo.mLevel);
-                signalStrength = "sim2: "+simSignalInfo.mSignal;
-                operator = "sim2: "+simSignalInfo.mOperator + "联网 ";
+            if (id == 2) {
                 boolean isSimExist1 = signalHelper.isSimExist(SIM_CARD_0);
-                if (isSimExist1){
-                    simSignalInfo = signalHelper.getSimSignalInfo(1);
-                    webType = webType+ " - "+"sim1: "+simSignalInfo.mNetType;
-                    signals = signals+ " - "+"sim1: "+String.valueOf(simSignalInfo.mLevel);
-                    signalStrength = signalStrength+ " - "+"sim1: "+simSignalInfo.mSignal;
-                    operator = operator+ " - "+"sim1: "+simSignalInfo.mOperator;
+                if (isSimExist1) {
+                    simSignalInfo = signalHelper.getSimSignalInfo(2);
+                    webType = "sim1: " + simSignalInfo.mNetType;
+                    signals = "sim1: " + String.valueOf(simSignalInfo.mLevel);
+                    signalStrength = "sim1: " + simSignalInfo.mSignal;
+                    operator = "sim1: " + getSimName(0);
                 }
+                simSignalInfo = signalHelper.getSimSignalInfo(1);
+                webType = webType + " - " + "sim2: " + simSignalInfo.mNetType;
+                signals = signals + " - " + "sim2: " + String.valueOf(simSignalInfo.mLevel);
+                signalStrength = signalStrength + " - " + "sim2: " + simSignalInfo.mSignal;
+                operator = operator + " - " + "sim2: " + getSimName(1) + "(联网) ";
             }
 
         }
     }
-    private void getWifiInfo(){
-            int strength = 0;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
+    private String getSimName(int id) {
+        SubscriptionManager subscriptionManager = SubscriptionManager.from(iMain.getContext());
+        List<SubscriptionInfo> activeSubscriptionInfoList = subscriptionManager.getActiveSubscriptionInfoList();
+        for (SubscriptionInfo subscriptionInfo : activeSubscriptionInfoList) {
+            if (subscriptionInfo.getSimSlotIndex() == id) {
+                return String.valueOf(subscriptionInfo.getCarrierName());
+            }
+        }
+        return "N/A";
     }
 
     private void onError() {

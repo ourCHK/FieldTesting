@@ -82,6 +82,12 @@ public final class SignalHelper {
             if (operator != null && operator.equals("CMCC")){
                 operator = "中国移动" ;
             }
+            if (operator != null && operator.equals("CHN-UNICOM")){
+                operator = "中国联通" ;
+            }
+//            if (operator != null && operator.equals("CDMA")){
+//                operator = "中国电信" ;
+//            }
             if (operator == null || "".equals(operator)){
                 operator = "N/A" ;
             }

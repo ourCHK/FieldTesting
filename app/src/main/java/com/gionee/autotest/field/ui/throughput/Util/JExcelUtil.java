@@ -17,6 +17,7 @@ import jxl.format.Alignment;
 import jxl.format.Border;
 import jxl.format.BorderLineStyle;
 import jxl.format.Colour;
+import jxl.format.UnderlineStyle;
 import jxl.format.VerticalAlignment;
 import jxl.write.Label;
 import jxl.write.WritableCellFormat;
@@ -72,7 +73,7 @@ public class JExcelUtil {
             String name = split[0] + split[1] + split[2];
 
             ArrayList<SpeedBean> speedBean = new DatabaseUtil(FieldApplication.getContext()).getTimeContent(string);
-            if (type.equals("error") && speedBean.get(speedBean.size()-1).success.equals("YES")) {
+            if (type.equals("error") && speedBean.get(speedBean.size() - 1).success.equals("YES")) {
                 continue;
             }
             WritableSheet sheet = book.createSheet(name, 0);//创建第一个表
@@ -84,7 +85,7 @@ public class JExcelUtil {
             // 水平对齐
             wcfN.setWrap(true);
             Helper.i("添加每列标题");
-            String[] firstLine = {"序号", "是否成功", "开始时间", "测试类型", "网络类型", "文件大小", "平均速率(KB/S)", "耗时(S)", "失败时间", "网络类型", "信号格数", "信号强度", "运营商"};
+            String[] firstLine = {"序号", "是否通过", "开始时间", "测试类型", "网络类型", "文件大小", "平均速率(KB/S)", "耗时(S)", "失败时间", "运营商", "网络类型", "信号格数", "信号强度"};
             for (int i = 0; i < firstLine.length; i++) {
                 Label label = new Label(i, 0, firstLine[i], getTitleFormat());
                 sheet.addCell(label);
@@ -104,10 +105,10 @@ public class JExcelUtil {
 
                     content1 = new Label(1, j + 1, speedBean.get(j).success, getContentFormat());
                     content8 = new Label(8, j + 1, speedBean.get(j).failTime, getContentFormat());
-                    content9 = new Label(9, j + 1, speedBean.get(j).webType, getContentFormat());
-                    content10 = new Label(10, j + 1, speedBean.get(j).signals, getContentFormat());
-                    content11 = new Label(11, j + 1, speedBean.get(j).signalStrength, getContentFormat());
-                    content12 = new Label(12, j + 1, speedBean.get(j).operator, getContentFormat());
+                    content9 = new Label(10, j + 1, speedBean.get(j).webType, getContentFormat());
+                    content10 = new Label(11, j + 1, speedBean.get(j).signals, getContentFormat());
+                    content11 = new Label(12, j + 1, speedBean.get(j).signalStrength, getContentFormat());
+                    content12 = new Label(9, j + 1, speedBean.get(j).operator, getContentFormat());
                 } else {
                     content = new Label(0, j + 1, speedBean.get(j).id, getErrorFormat());
                     content2 = new Label(2, j + 1, speedBean.get(j).time, getErrorFormat());
@@ -119,10 +120,10 @@ public class JExcelUtil {
 
                     content1 = new Label(1, j + 1, speedBean.get(j).success, getErrorFormat());
                     content8 = new Label(8, j + 1, speedBean.get(j).failTime, getErrorFormat());
-                    content9 = new Label(9, j + 1, speedBean.get(j).webType, getErrorFormat());
-                    content10 = new Label(10, j + 1, speedBean.get(j).signals, getErrorFormat());
-                    content11 = new Label(11, j + 1, speedBean.get(j).signalStrength, getErrorFormat());
-                    content12 = new Label(12, j + 1, speedBean.get(j).operator, getErrorFormat());
+                    content9 = new Label(10, j + 1, speedBean.get(j).webType, getErrorFormat());
+                    content10 = new Label(11, j + 1, speedBean.get(j).signals, getErrorFormat());
+                    content11 = new Label(12, j + 1, speedBean.get(j).signalStrength, getErrorFormat());
+                    content12 = new Label(9, j + 1, speedBean.get(j).operator, getErrorFormat());
                 }
 
                 sheet.addCell(content);
@@ -145,7 +146,7 @@ public class JExcelUtil {
 
     @NonNull
     private static WritableCellFormat getContentFormat() throws WriteException {
-        WritableFont bold = new WritableFont(WritableFont.ARIAL, 12, WritableFont.BOLD);// 设置字体种类和黑体显示,字体为Arial,字号大小为10,采用黑体显示
+        WritableFont bold = new WritableFont(WritableFont.ARIAL, 12);// 设置字体种类和黑体显示,字体为Arial,字号大小为10,采用黑体显示
         WritableCellFormat contentFormat = new WritableCellFormat(bold);// 生成一个单元格样式控制对象
         contentFormat.setAlignment(Alignment.CENTRE);// 单元格中的内容水平方向居中
         contentFormat.setVerticalAlignment(VerticalAlignment.CENTRE);// 单元格的内容垂直方向居中
@@ -160,18 +161,16 @@ public class JExcelUtil {
         titleFormat.setAlignment(Alignment.CENTRE);// 单元格中的内容水平方向居中
         titleFormat.setVerticalAlignment(VerticalAlignment.CENTRE);// 单元格的内容垂直方向居中
         titleFormat.setBorder(Border.ALL, BorderLineStyle.THIN);
-        titleFormat.setBackground(Colour.GREEN);
         return titleFormat;
     }
 
     @NonNull
     private static WritableCellFormat getErrorFormat() throws WriteException {
-        WritableFont bold = new WritableFont(WritableFont.ARIAL, 12, WritableFont.BOLD);// 设置字体种类和黑体显示,字体为Arial,字号大小为10,采用黑体显示
+        WritableFont bold = new WritableFont(WritableFont.ARIAL, 12, WritableFont.NO_BOLD, false, UnderlineStyle.NO_UNDERLINE, Colour.RED);// 设置字体种类和黑体显示,字体为Arial,字号大小为10,采用黑体显示
         WritableCellFormat titleFormat = new WritableCellFormat(bold);// 生成一个单元格样式控制对象
         titleFormat.setAlignment(Alignment.CENTRE);// 单元格中的内容水平方向居中
         titleFormat.setVerticalAlignment(VerticalAlignment.CENTRE);// 单元格的内容垂直方向居中
         titleFormat.setBorder(Border.ALL, BorderLineStyle.THIN);
-        titleFormat.setBackground(Colour.RED);
         return titleFormat;
     }
 }
