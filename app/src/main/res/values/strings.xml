@@ -206,7 +206,7 @@
     <string name="failed_details">失败详情</string>>
 
     <!-- resources for call quality -->
-    <string name="call_quality_label">通话质量</string>
+    <string name="call_quality_label">记录质量</string>
     <string name="phone_num">机型/编号</string>
     <string name="quality_continue">断续:</string>
     <string name="quality_low_vol">声音小:</string>
