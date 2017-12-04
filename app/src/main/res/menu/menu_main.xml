@@ -8,9 +8,9 @@
         android:title="@string/settings"
         app:showAsAction="never"/>-->
 
-    <item android:id="@+id/debug"
+<!--    <item android:id="@+id/debug"
         android:title="@string/debug_label"
-        app:showAsAction="never"/>
+        app:showAsAction="never"/>-->
 
     <item android:id="@+id/help"
         android:title="@string/help"

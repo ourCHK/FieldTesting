@@ -3,7 +3,6 @@ package com.gionee.autotest.field.services;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -17,9 +16,6 @@ import com.gionee.autotest.field.ui.main.MainActivity;
 import com.gionee.autotest.field.ui.signal.entity.SimSignalInfo;
 import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.SignalHelper;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 
 import java.io.BufferedWriter;
 import java.io.File;

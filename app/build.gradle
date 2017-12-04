@@ -24,10 +24,11 @@ android {
     buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "com.gionee.autotest.field"
-        minSdkVersion 19
+        // We have to set this to 22, because signal recording dependency it
+        minSdkVersion 22
         targetSdkVersion 25
         versionCode 1
-        versionName "1.0"
+        versionName "V1.01.22L"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.config
     }
@@ -36,6 +37,26 @@ android {
             minifyEnabled false
             signingConfig signingConfigs.config
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        release{
+            signingConfig signingConfigs.config
+        }
+
+        applicationVariants.all{
+            variant ->
+                variant.outputs.each{
+                    output ->
+                       if (variant.buildType.name == "release" && variant.productFlavors[0].name == "normal"){
+                           def apk = output.outputFile
+                           output.outputFile = new File(apk.parent,
+                                   "FieldTesting_${variant.versionName}_${variant.productFlavors[0].name}.apk")
+                       }else if (variant.buildType.name == "release" && variant.productFlavors[0].name == "system"){
+                           def apk = output.outputFile
+                           output.outputFile = new File(apk.parent,
+                                   "FieldTesting_${variant.versionName}_${variant.productFlavors[0].name}.apk")
+                       }
+                }
         }
     }
     productFlavors{

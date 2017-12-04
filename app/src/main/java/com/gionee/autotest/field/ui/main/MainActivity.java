@@ -201,9 +201,9 @@ public class MainActivity extends BaseActivity implements RecyclerItemListener<A
             case R.id.help:
                 Util.showNoticeDialog(this);
                 return true ;
-            case R.id.debug:
+/*            case R.id.debug:
                 startActivity(new Intent(this, DebugActivity.class));
-                return true ;
+                return true ;*/
         }
         return super.onOptionsItemSelected(item);
     }
