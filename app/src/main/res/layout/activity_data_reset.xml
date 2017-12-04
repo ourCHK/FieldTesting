@@ -65,7 +65,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="40dp"
         android:layout_marginRight="50dp"
         android:layout_marginLeft="50dp">
 
@@ -87,6 +87,15 @@
                 android:background="@drawable/bg_stroke"/>
 
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_test_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/about"
+        android:visibility="gone"
+        android:gravity="center"/>
 
 
 </LinearLayout>

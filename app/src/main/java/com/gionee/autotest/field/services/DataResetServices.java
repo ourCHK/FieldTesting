@@ -42,6 +42,8 @@ public class DataResetServices extends Service {
                 while (Preference.getBoolean(getApplicationContext(), Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_RUNNING, false)) {
                     long data_reset_interval = Preference.getLong(getApplicationContext(), Constant.PREF_KEY_DATA_RESET_INTERVAL, 1);
                     long data_reset_current_cycle = Preference.getLong(getApplicationContext(), Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, 1);
+                    Preference.putLong(getApplicationContext(), Constant.PREF_KEY_DATA_RESET_RETEST_TIMES_CURRENT_CYCLE, -1);
+
                     if (data_reset_interval == data_reset_current_cycle) {
 
                         FLog.i("data_reset_interval=" + data_reset_interval + ",data_reset_current_cycle=" + data_reset_current_cycle);
@@ -50,6 +52,8 @@ public class DataResetServices extends Service {
                         sendBroadcast(new Intent(Constant.DATA_RESET_RECEIVER));
 
                     } else {
+                        sendBroadcast(new Intent(Constant.DATA_RESET_EACH_RECEIVER));
+
                         String data_reset_presentation_name = Preference.getString(getApplicationContext(), Constant.DATA_RESET_PRESENTATION_NAME, "");
                         //关闭wifi
                         YUtils.WiFiwitch(getApplicationContext(), false);
@@ -79,12 +83,15 @@ public class DataResetServices extends Service {
                             FLog.i("resulterrs2=" + result);
                             FLog.i("resulterrs22=" + commandResult.errorMsg);
 
-                                getPing(getApplicationContext(), start_time);
+                            getPing(getApplicationContext(), start_time);
 
                         } else {
                             //成功
                             FLog.i("resultsuree1=" + result);
                             FLog.i("resultsuree11=" + commandResult.successMsg);
+
+                            long data_reset_success_number = Preference.getLong(getApplicationContext(), Constant.DATA_RESET_SUCCESS_NUMBER, 0);
+                            Preference.putLong(getApplicationContext(), Constant.DATA_RESET_SUCCESS_NUMBER, data_reset_success_number + 1);
 
                             int subId = SimUtil.getDefaultDataSubId();
                             SimSignalInfo simSignalInfo = SignalHelper.getInstance(getApplicationContext()).getSimSignalInfo(subId);
@@ -128,20 +135,36 @@ public class DataResetServices extends Service {
 
                 getPing(context, start_time);
 
-            }else{
+            } else {
+
+                long data_reset_success_number = Preference.getLong(context, Constant.DATA_RESET_SUCCESS_NUMBER, 0);
+                Preference.putLong(context, Constant.DATA_RESET_SUCCESS_NUMBER, data_reset_success_number + 1);
+
                 String data_reset_presentation_name = Preference.getString(context, Constant.DATA_RESET_PRESENTATION_NAME, "");
                 long data_reset_current_cycle = Preference.getLong(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, 1);
 
                 int subId = SimUtil.getDefaultDataSubId();
                 SimSignalInfo simSignalInfo = SignalHelper.getInstance(context).getSimSignalInfo(subId);
 
-                DataResetHelper.addExcel(new File(Constant.DIR_DATA_RESET + data_reset_presentation_name), new String[]{
-                        start_time, DataResetHelper.getTimeDatas(), "成功", simSignalInfo.mOperator, simSignalInfo.mNetType, simSignalInfo.mLevel + "", simSignalInfo.mSignal
-                });
+                if (simSignalInfo != null) {
 
-                Preference.putLong(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, data_reset_current_cycle + 1);
-                FLog.i("data_reset_current_cycle=" + Preference.getLong(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, 1));
-                SystemClock.sleep(1000);
+                    DataResetHelper.addExcel(new File(Constant.DIR_DATA_RESET + data_reset_presentation_name), new String[]{
+                            start_time, DataResetHelper.getTimeDatas(), "成功", simSignalInfo.mOperator, simSignalInfo.mNetType, simSignalInfo.mLevel + "", simSignalInfo.mSignal
+                    });
+
+                    Preference.putLong(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, data_reset_current_cycle + 1);
+                    FLog.i("data_reset_current_cycle=" + Preference.getLong(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, 1));
+                    SystemClock.sleep(1000);
+                } else {
+                    DataResetHelper.addExcel(new File(Constant.DIR_DATA_RESET + data_reset_presentation_name), new String[]{
+                            start_time, DataResetHelper.getTimeDatas(), "成功", null, null, null + "", null
+                    });
+
+                    Preference.putLong(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, data_reset_current_cycle + 1);
+                    FLog.i("data_reset_current_cycle=" + Preference.getLong(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, 1));
+                    SystemClock.sleep(1000);
+                }
+
             }
 
 
@@ -150,64 +173,61 @@ public class DataResetServices extends Service {
             String data_reset_presentation_name = Preference.getString(context, Constant.DATA_RESET_PRESENTATION_NAME, "");
 
             long data_reset_current_cycle = Preference.getLong(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, 1);
-
-            long aLong1 = Preference.getLong(context, Constant.PREF_KEY_DATA_RESET_RETEST_TIMES_CURRENT_CYCLE, -1);
-            Preference.putLong(context, Constant.PREF_KEY_DATA_RESET_RETEST_TIMES_CURRENT_CYCLE, (aLong1+1));
             long aLong2 = Preference.getLong(context, Constant.PREF_KEY_DATA_RESET_RETEST_TIMES_CURRENT_CYCLE, -1);
-
             long aLong3 = Preference.getLong(context, Constant.PREF_KEY_DATA_RESET_RETEST_TIMES, -1);
 
-            if (aLong2==aLong1){
+            if (aLong2 == aLong3) {
 
                 ShellUtil.CommandResult commandResults = ShellUtil.execCommand("ping -c 1 www.baidu.com", false);
-                if (commandResults.result!=0){
+                if (commandResults.result != 0) {
                     int subId = SimUtil.getDefaultDataSubId();
                     SimSignalInfo simSignalInfo = SignalHelper.getInstance(context).getSimSignalInfo(subId);
-                    if (simSignalInfo!=null){
+
+                    long data_reset_failure_number = Preference.getLong(context, Constant.DATA_RESET_FAILURE_NUMBER, 0);
+                    Preference.putLong(context, Constant.DATA_RESET_FAILURE_NUMBER, data_reset_failure_number + 1);
+
+                    if (simSignalInfo != null) {
                         DataResetHelper.addExcel(new File(Constant.DIR_DATA_RESET + data_reset_presentation_name), new String[]{
                                 start_time, DataResetHelper.getTimeDatas(), "失败", simSignalInfo.mOperator, simSignalInfo.mNetType, simSignalInfo.mLevel + "", simSignalInfo.mSignal
                         });
 
-                        Preference.putLong(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, data_reset_current_cycle + 1);
-                        FLog.i("data_reset_current_cycle=" + Preference.getLong(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, 1));
-                        SystemClock.sleep(1000);
-                    }else{
+                    } else {
                         DataResetHelper.addExcel(new File(Constant.DIR_DATA_RESET + data_reset_presentation_name), new String[]{
-                                start_time, DataResetHelper.getTimeDatas(), "失败", null, null, null+"", null
+                                start_time, DataResetHelper.getTimeDatas(), "失败", null, null, null + "", null
                         });
-
-                        Preference.putLong(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, data_reset_current_cycle + 1);
-                        FLog.i("data_reset_current_cycle=" + Preference.getLong(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, 1));
-                        SystemClock.sleep(1000);
                     }
+                    Preference.putLong(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, data_reset_current_cycle + 1);
+                    FLog.i("data_reset_current_cycle=" + Preference.getLong(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, 1));
+                    SystemClock.sleep(1000);
 
-                }else{
+                } else {
+
+                    long data_reset_success_number = Preference.getLong(context, Constant.DATA_RESET_SUCCESS_NUMBER, 0);
+                    Preference.putLong(context, Constant.DATA_RESET_SUCCESS_NUMBER, data_reset_success_number + 1);
 
                     int subId = SimUtil.getDefaultDataSubId();
                     SimSignalInfo simSignalInfo = SignalHelper.getInstance(context).getSimSignalInfo(subId);
-                    if (simSignalInfo!=null){
+                    if (simSignalInfo != null) {
                         DataResetHelper.addExcel(new File(Constant.DIR_DATA_RESET + data_reset_presentation_name), new String[]{
                                 start_time, DataResetHelper.getTimeDatas(), "成功", simSignalInfo.mOperator, simSignalInfo.mNetType, simSignalInfo.mLevel + "", simSignalInfo.mSignal
                         });
 
-                        Preference.putLong(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, data_reset_current_cycle + 1);
-                        FLog.i("data_reset_current_cycle=" + Preference.getLong(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, 1));
-                        SystemClock.sleep(1000);
-                    }else{
+                    } else {
                         DataResetHelper.addExcel(new File(Constant.DIR_DATA_RESET + data_reset_presentation_name), new String[]{
-                                start_time, DataResetHelper.getTimeDatas(), "成功", null, null, null+"", null
+                                start_time, DataResetHelper.getTimeDatas(), "成功", null, null, null + "", null
                         });
 
-                        Preference.putLong(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, data_reset_current_cycle + 1);
-                        FLog.i("data_reset_current_cycle=" + Preference.getLong(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, 1));
-                        SystemClock.sleep(1000);
                     }
+                    Preference.putLong(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, data_reset_current_cycle + 1);
+                    FLog.i("data_reset_current_cycle=" + Preference.getLong(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, 1));
+                    SystemClock.sleep(1000);
 
-                    long aLong4 = Preference.getLong(context, Constant.PREF_KEY_DATA_RESET_RETEST_TIMES, -1);
-                    Preference.putLong(context,Constant.PREF_KEY_DATA_RESET_RETEST_TIMES_CURRENT_CYCLE,aLong4);
+
                 }
 
-            }else{
+            } else {
+                long aLong = Preference.getLong(context, Constant.PREF_KEY_DATA_RESET_RETEST_TIMES_CURRENT_CYCLE, -1);
+                Preference.putLong(context, Constant.PREF_KEY_DATA_RESET_RETEST_TIMES_CURRENT_CYCLE, (aLong + 1));
                 getPing(context, DataResetHelper.getTimeDatas());
             }
 

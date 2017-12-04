@@ -46,13 +46,19 @@ public class Constant {
     public static final String PREF_KEY_CALL_QUALITY_RUNNING = "call_quality_running";
 
     public static final String PREF_KEY_DATA_RESET_INTERVAL = "data_reset_interval";
-    public static final String PREF_KEY_DATA_RESET_RETEST_TIMES = "data_reset_retest_times";
-    public static final String PREF_KEY_DATA_RESET_DATA_COLLECT_RUNNING = "data_reset_data_collect_running";
     public static final String PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE = "data_reset_data_collect_current_cycle";
+
+    public static final String PREF_KEY_DATA_RESET_DATA_COLLECT_RUNNING = "data_reset_data_collect_running";
     public static final String DATA_RESET_PRESENTATION_NAME = "data_reset_presentation_name";
+
+    public static final String PREF_KEY_DATA_RESET_RETEST_TIMES = "data_reset_retest_times";
     public static final String PREF_KEY_DATA_RESET_RETEST_TIMES_CURRENT_CYCLE = "data_reset_retest_times_current_cycle";
 
     public static final String DATA_RESET_RECEIVER = "com.gionee.autotest.field.data.reset.receiver"; //数据重激活完成广播
+
+    public static final String DATA_RESET_EACH_RECEIVER = "com.gionee.autotest.field.data.reset.each.receiver"; //数据重激活每轮测试完成广播
+    public static final String DATA_RESET_SUCCESS_NUMBER = "data_reset_success_number"; //数据重激活成功次数
+    public static final String DATA_RESET_FAILURE_NUMBER = "data_reset_failure_number"; //数据重激活失败次数
 
     public static final String PREF_KEY_MESSAGE_INTERVAL = "message_interval";
     public static final String PREF_KEY_MESSAGE_PHONE = "message_phone";

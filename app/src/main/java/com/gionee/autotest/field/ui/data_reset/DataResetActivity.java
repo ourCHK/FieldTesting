@@ -5,10 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gionee.autotest.common.Preference;
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.ui.about.AboutActivity;
 import com.gionee.autotest.field.ui.base.BaseActivity;
@@ -40,6 +43,9 @@ public class DataResetActivity extends BaseActivity implements DataResetContract
     @BindView(R.id.et_retest_times)
     EditText et_retest_times;
 
+    @BindView(R.id.tv_test_result)
+    TextView tv_test_result;
+
     private LocalReceiver localReceiver;
 
 
@@ -64,6 +70,7 @@ public class DataResetActivity extends BaseActivity implements DataResetContract
         //注册广播
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Constant.DATA_RESET_RECEIVER);
+        intentFilter.addAction(Constant.DATA_RESET_EACH_RECEIVER);
         localReceiver = new LocalReceiver();
         registerReceiver(localReceiver, intentFilter);
 
@@ -148,9 +155,43 @@ public class DataResetActivity extends BaseActivity implements DataResetContract
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Toast.makeText(context,"测试完成",Toast.LENGTH_SHORT).show();
-            bt_start_testing.setEnabled(true);
-            bt_stop_testing.setEnabled(false);
+            switch (intent.getAction()){
+                case Constant.DATA_RESET_RECEIVER:// 测试完成
+                    Toast.makeText(context,"测试完成",Toast.LENGTH_SHORT).show();
+                    bt_start_testing.setEnabled(true);
+                    bt_stop_testing.setEnabled(false);
+
+                    tv_test_result.setVisibility(View.VISIBLE);
+                    long data_reset_success_number1 = Preference.getLong(getApplicationContext(), Constant.DATA_RESET_SUCCESS_NUMBER, 0);
+                    long data_reset_failure_number1 = Preference.getLong(getApplicationContext(), Constant.DATA_RESET_FAILURE_NUMBER, 0);
+
+                    String successRate1 = DataResetHelper.SuccessRate(data_reset_success_number1, data_reset_failure_number1);
+                    String str1 = "测试完成\n 成功次数："+data_reset_success_number1+"次\n 失败次数："+data_reset_failure_number1+"次\n 成功率："+successRate1;
+                    tv_test_result.setText(str1);
+                    mDataResetPresenter.unregisterDataResetListener();
+
+                    break;
+                case Constant.DATA_RESET_EACH_RECEIVER: //每轮测试
+
+                    tv_test_result.setVisibility(View.VISIBLE);
+                    long data_reset_current_cycle = Preference.getLong(getApplicationContext(), Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, 1);
+                    long data_reset_success_number = Preference.getLong(getApplicationContext(), Constant.DATA_RESET_SUCCESS_NUMBER, 0);
+                    long data_reset_failure_number = Preference.getLong(getApplicationContext(), Constant.DATA_RESET_FAILURE_NUMBER, 0);
+                    long current_cycle = data_reset_current_cycle+1;
+                    if (data_reset_success_number==0&&data_reset_failure_number==0){
+                        String str2 = "第"+current_cycle+"轮测试\n 成功次数："+data_reset_success_number+"次\n 失败次数："+data_reset_failure_number+"次\n 成功率：0%" ;
+                        tv_test_result.setText(str2);
+                    }else{
+                        String successRate = DataResetHelper.SuccessRate(data_reset_success_number, data_reset_failure_number);
+                        String str = "第"+current_cycle+"轮测试\n 成功次数："+data_reset_success_number+"次\n 失败次数："+data_reset_failure_number+"次\n 成功率：" + successRate;
+                        tv_test_result.setText(str);
+                    }
+
+
+                    break;
+
+            }
+
 
         }
     }

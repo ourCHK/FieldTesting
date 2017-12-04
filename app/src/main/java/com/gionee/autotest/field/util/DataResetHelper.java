@@ -2,6 +2,7 @@ package com.gionee.autotest.field.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -149,13 +150,13 @@ public class DataResetHelper {
         Date date2 = null;
         try {
             date1 = sdf.parse(starttime);
-            date2= sdf.parse(endtime);
+            date2 = sdf.parse(endtime);
 
             long l = date2.getTime() - date1.getTime();
 
-            if (l>20*1000){
+            if (l > 20 * 1000) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
         } catch (ParseException e) {
@@ -164,13 +165,13 @@ public class DataResetHelper {
         }
     }
 
-    public static ArrayList<File> getDirFileXls(String path){
+    public static ArrayList<File> getDirFileXls(String path) {
         ArrayList<File> fileArrayList = new ArrayList<>();
         File file = new File(path);
         File[] listFiles = file.listFiles();
         for (int i = 0; i < listFiles.length; i++) {
-            if (listFiles[i].isFile()){
-                if (listFiles[i].getName().contains(".xls")){
+            if (listFiles[i].isFile()) {
+                if (listFiles[i].getName().contains(".xls")) {
                     fileArrayList.add(listFiles[i].getAbsoluteFile());
                 }
             }
@@ -178,5 +179,15 @@ public class DataResetHelper {
         return fileArrayList;
     }
 
+    public static String SuccessRate(Long success_number1, Long failure_number1) {
+
+        double percent = (float) (success_number1) / (success_number1 + failure_number1);
+        //获取格式化对象
+        NumberFormat nt = NumberFormat.getPercentInstance();
+        //设置百分数精确度2即保留两位小数
+        nt.setMinimumFractionDigits(2);
+        return nt.format(percent);
+
+    }
 
 }
