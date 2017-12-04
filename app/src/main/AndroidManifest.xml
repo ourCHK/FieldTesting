@@ -37,6 +37,7 @@
             android:name=".ui.main.MainActivity"
             android:label="@string/main_name"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:theme="@style/AppNoActionBarTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
