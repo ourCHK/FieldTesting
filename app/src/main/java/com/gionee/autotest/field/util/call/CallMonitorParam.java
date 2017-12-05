@@ -57,4 +57,9 @@ public class CallMonitorParam {
         this.gapTime = gapTime;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "isAutoReject:"+isAutoReject+" autoRejectTime:"+autoRejectTime+" isAutoAnswer:"+isAutoAnswer+" isAnswerHangup:"+isAnswerHangup+" isHangUpPressPower:"+isHangUpPressPower+" answerHangUptime:"+answerHangUptime+" gapTime:"+gapTime;
+    }
 }

@@ -82,7 +82,7 @@ public class InComingDBHelper extends DBHelper {
         } else if (testParams.isAutoAnswer) {
             type = mContext.getString(R.string.is_auto_answer);
             if (testParams.isAnswerHangup) {
-                type += "/${mContext.getString(R.string.hangup)}";
+                type += "/" + mContext.getString(R.string.hangup);
             }
         } else {
             type = mContext.getString(R.string.noOP);

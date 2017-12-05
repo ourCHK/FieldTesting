@@ -2,6 +2,7 @@ package com.gionee.autotest.field.ui.incoming;
 
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.data.db.model.InComingReportBean;
 import com.gionee.autotest.field.util.call.CallMonitorResult;
+
+import static com.gionee.autotest.field.FieldApplication.context;
 
 public class InComingReportAdapter extends BaseAdapter {
     private InComingReportBean mData;
@@ -42,7 +45,7 @@ public class InComingReportAdapter extends BaseAdapter {
     public View getView(int i, View v, ViewGroup parent) {
         InComingReportAdapter.ResultViewHolder holder;
         if (v == null) {
-            v = View.inflate(this.context, R.layout.incoming_report_item, parent);
+            v = LayoutInflater.from(context).inflate(R.layout.incoming_report_item, parent, false);
             holder = new InComingReportAdapter.ResultViewHolder(v);
             v.setTag(holder);
         } else {

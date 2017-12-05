@@ -22,7 +22,7 @@ import com.google.gson.Gson;
 
 public class InComingService extends Service implements CallMonitor.MonitorListener {
 
-    private int batchId;
+    private long batchId;
     private CallMonitor callMonitor;
 
     @Override
@@ -57,15 +57,16 @@ public class InComingService extends Service implements CallMonitor.MonitorListe
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        batchId = intent.getIntExtra("batchId", -1);
+        batchId = intent.getLongExtra("batchId", -1);
         String params = intent.getStringExtra("params");
         if (batchId != -1 && params != null) {
             CallMonitorParam callMonitorParam = new Gson().fromJson(params, CallMonitorParam.class);
             callMonitor = new CallMonitor(this, callMonitorParam);
             callMonitor.setMonitorListener(this);
             callMonitor.startMonitor();
+        }else{
+            Log.i(Constant.TAG,"参数获取失败="+params+" batchID="+batchId);
         }
-
         return super.onStartCommand(intent, flags, startId);
     }
 
