@@ -9,11 +9,13 @@ import android.os.RemoteException;
 import android.provider.CallLog;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.KeyEvent;
 
 import com.gionee.autotest.common.TimeUtil;
 import com.gionee.autotest.common.call.CallUtil;
 import com.gionee.autotest.common.call.Instrument;
+import com.gionee.autotest.field.util.Constant;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -43,8 +45,9 @@ public class CallMonitor extends PhoneStateListener {
             result.setResult(lastCallLog.duration > 0 && lastCallLog.type == CallLog.Calls.INCOMING_TYPE);
             result.setTime(TimeUtil.getTime());
             if (monitorListener != null) {
+                Log.i(Constant.TAG, "通话记录添加" + result.toString());
                 monitorListener.onChanged(result.clone());
-                result=new CallMonitorResult();
+                result = new CallMonitorResult();
             }
             testIndex++;
         }
@@ -61,11 +64,13 @@ public class CallMonitor extends PhoneStateListener {
     }
 
     public void startMonitor() {
+        Log.i(Constant.TAG, "开始监听");
         getTelephonyManager().listen(this, PhoneStateListener.LISTEN_CALL_STATE);
         mContext.getContentResolver().registerContentObserver(CONTENT_URI, false, contentObserver);
     }
 
     public void cancel() {
+        Log.i(Constant.TAG, "取消监听");
         if (isWaiting) {
             timer.cancel();
         }
@@ -85,6 +90,7 @@ public class CallMonitor extends PhoneStateListener {
         super.onCallStateChanged(state, incomingNumber);
         switch (state) {
             case TelephonyManager.CALL_STATE_RINGING:
+                Log.i(Constant.TAG, "来电:" + incomingNumber);
                 try {
                     result = new CallMonitorResult();
                     result.setIndex(testIndex).setNumber(incomingNumber).setRingingTime(TimeUtil.getTime());
@@ -100,6 +106,7 @@ public class CallMonitor extends PhoneStateListener {
                 }
                 break;
             case TelephonyManager.CALL_STATE_OFFHOOK:
+                Log.i(Constant.TAG, "接通了:" + incomingNumber);
                 result.setOffHookTime(TimeUtil.getTime());
                 if (params.isAnswerHangup) endCall(params.answerHangUptime);
                 break;
@@ -117,6 +124,7 @@ public class CallMonitor extends PhoneStateListener {
             @Override
             public void run() {
                 try {
+                    Log.i(Constant.TAG, "操作挂断");
                     callUtil.getITelephony().endCall();
                     result.setHangUpTime(TimeUtil.getTime());
                     Instrument.clickKey(KeyEvent.KEYCODE_POWER);

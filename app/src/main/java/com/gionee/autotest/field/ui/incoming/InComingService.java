@@ -5,12 +5,14 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.util.Log;
 
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.services.SignalMonitorService;
 import com.gionee.autotest.field.ui.incoming.model.InComingCall;
 import com.gionee.autotest.field.ui.outgoing.OutGoingActivity;
 import com.gionee.autotest.field.ui.signal.entity.SimSignalInfo;
+import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.SignalHelper;
 import com.gionee.autotest.field.util.SimUtil;
 import com.gionee.autotest.field.util.call.CallMonitor;
@@ -55,9 +57,9 @@ public class InComingService extends Service implements CallMonitor.MonitorListe
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        batchId = intent.getIntExtra("batchId",-1);
+        batchId = intent.getIntExtra("batchId", -1);
         String params = intent.getStringExtra("params");
-        if (batchId !=-1&&params!=null){
+        if (batchId != -1 && params != null) {
             CallMonitorParam callMonitorParam = new Gson().fromJson(params, CallMonitorParam.class);
             callMonitor = new CallMonitor(this, callMonitorParam);
             callMonitor.setMonitorListener(this);
@@ -70,14 +72,16 @@ public class InComingService extends Service implements CallMonitor.MonitorListe
     @Override
     public void onChanged(CallMonitorResult callMonitorResult) {
         callMonitorResult.batchId = batchId;
-        if (!callMonitorResult.result){
+        if (!callMonitorResult.result) {
             try {
                 SimSignalInfo simSignalInfo = SignalHelper.getInstance(this).getSimSignalInfo(SimUtil.getDefaultDataSubId());
                 String simNetInfo = new Gson().toJson(simSignalInfo);
                 callMonitorResult.setFailMsg(simNetInfo);
             } catch (Exception e) {
                 e.printStackTrace();
+                Log.i(Constant.TAG, "通话记录变更后，写入结果失败");
             }
+            Log.i(Constant.TAG, "写入结果成功");
         }
         InComingCall.writeData(callMonitorResult);
     }
