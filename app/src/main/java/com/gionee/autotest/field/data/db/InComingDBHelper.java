@@ -7,10 +7,14 @@ import android.database.Cursor;
 
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.data.db.model.InComingReportBean;
+import com.gionee.autotest.field.ui.signal.entity.SimSignalInfo;
 import com.gionee.autotest.field.util.Constant.InComingDB.InComingBatch;
 import com.gionee.autotest.field.util.Constant.InComingDB.InComingData;
+import com.gionee.autotest.field.util.SimUtil;
 import com.gionee.autotest.field.util.call.CallMonitorParam;
 import com.gionee.autotest.field.util.call.CallMonitorResult;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import java.util.ArrayList;
 
@@ -62,6 +66,7 @@ public class InComingDBHelper extends DBHelper {
 //                Log.i(e.toString());
             }
         }
+        Gson gson = new Gson();
         Cursor cursor = mDb.rawQuery("select * from " + InComingData.NAME + " where " + InComingData.BATCH_ID + " =" + batchId, null);
         ArrayList list = new ArrayList<CallMonitorResult>();
         while (cursor.moveToNext()) {
@@ -71,7 +76,13 @@ public class InComingDBHelper extends DBHelper {
                 int result = cursor.getInt(cursor.getColumnIndex(InComingData.RESULT));
                 String time = cursor.getString(cursor.getColumnIndex(InComingData.TIME));
                 String failMsg = cursor.getString(cursor.getColumnIndex(InComingData.FAIL_MSG));
-                list.add(new CallMonitorResult(batchId, number, result == 1, testIndex, failMsg, time));
+                SimSignalInfo simSignalInfo = new SimSignalInfo();
+                try {
+                    simSignalInfo = gson.fromJson(failMsg, SimSignalInfo.class);
+                } catch (JsonSyntaxException e) {
+                    e.printStackTrace();
+                }
+                list.add(new CallMonitorResult(batchId, number, result == 1, testIndex, simSignalInfo.toString(), time));
             } catch (Exception e) {
 //                i(e.toString())
             }
