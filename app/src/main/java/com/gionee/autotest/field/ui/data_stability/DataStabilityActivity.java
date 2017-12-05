@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 
 import com.gionee.autotest.field.R;
+import com.gionee.autotest.field.ui.about.AboutActivity;
 import com.gionee.autotest.field.util.About;
 import com.gionee.autotest.field.util.DataStabilityUtil;
 
@@ -105,7 +106,7 @@ public class DataStabilityActivity extends AppCompatActivity implements View.OnC
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_about) {
-            About.showAboutDialog(this);
+            startActivity(AboutActivity.getAboutIntent(this, getString(R.string.data_stability_about), true));
             return true;
         } else if (id == R.id.clear_report) {
             mainAction.clearReport();

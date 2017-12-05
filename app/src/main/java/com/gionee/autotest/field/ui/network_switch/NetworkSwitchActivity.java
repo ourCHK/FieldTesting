@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.gionee.autotest.common.Preference;
 import com.gionee.autotest.field.R;
+import com.gionee.autotest.field.ui.about.AboutActivity;
 import com.gionee.autotest.field.ui.base.BaseActivity;
 import com.gionee.autotest.field.ui.network_switch.model.NetworkSwitchParam;
 import com.gionee.autotest.field.util.Constant;
@@ -153,7 +154,7 @@ public class NetworkSwitchActivity extends BaseActivity implements NetworkSwitch
                 mPresenter.showFailedDetails();
                 break;
             case R.id.ns_action_abouts:
-
+                startActivity(AboutActivity.getAboutIntent(this, getString(R.string.network_switch_about), true));
                 break;
             default:
                 break;
