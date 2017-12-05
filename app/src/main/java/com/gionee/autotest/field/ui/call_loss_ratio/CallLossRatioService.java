@@ -104,6 +104,7 @@ public class CallLossRatioService extends Service implements DisConnectListener 
             dial(currentNumber);
             callBean.setDialTime(TimeUtil.getTime()).setBatchId(params.id).setCycleIndex(cycleIndex);
             info = new DisConnectInfo();
+            isCalled = true;
             Log.i(Constant.TAG, "拔号=" + TimeUtil.getTime());
         } catch (Exception e) {
             e.printStackTrace();
@@ -137,26 +138,15 @@ public class CallLossRatioService extends Service implements DisConnectListener 
         @Override
         public void onChange(boolean selfChange) {
             super.onChange(selfChange);
-            new AsyncTask<Void, Void, Void>() {
-
-                @Override
-                protected Void doInBackground(Void... voids) {
-                    SystemClock.sleep(3000);
-                    return null;
-                }
-
-                @Override
-                protected void onPostExecute(Void aVoid) {
-                    callBean.setResult(info.code == -1);
-                    callBean.setCode(info.code);
-                    if (!callBean.result) {
-                        callBean.setSimNetInfo(CallLossRatioUtil.getSimNetInfo(getApplicationContext()));
-                    }
-                    Log.i(Constant.TAG, "写入测试结果");
-                    CallLossRatioDBManager.writeData(callBean);
-                    goTest();
-                }
-            }.execute();
+            Log.i(Constant.TAG, "contentObserver onChange");
+            callBean.setResult(info.code == -1);
+            callBean.setCode(info.code);
+            if (!callBean.result) {
+                callBean.setSimNetInfo(CallLossRatioUtil.getSimNetInfo(getApplicationContext()));
+            }
+            Log.i(Constant.TAG, "写入测试结果");
+            CallLossRatioDBManager.writeData(callBean);
+            goTest();
         }
     };
 
@@ -205,6 +195,7 @@ public class CallLossRatioService extends Service implements DisConnectListener 
     private void startListener() {
         getContentResolver().registerContentObserver(CONTENT_URI, false, contentObserver);
         filter = new DisConnectCallFilter(this);
+        filter.execute();
         mTm.listen(myListener, PhoneStateListener.LISTEN_CALL_STATE);
     }
 
@@ -223,6 +214,7 @@ public class CallLossRatioService extends Service implements DisConnectListener 
     @Override
     public void onChanged(DisConnectInfo info) {
         this.info = info;
+        Log.i(Constant.TAG, info.toString());
         if (!CallLossRatioUtil.isTest || !isCalled) return;
         isCalled = false;
         callBean.setOffHookTime(TimeUtil.getTime(info.callTimeStart, "yyyy-MM-dd HH:mm:ss"));

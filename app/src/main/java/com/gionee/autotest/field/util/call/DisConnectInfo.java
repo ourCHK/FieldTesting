@@ -1,7 +1,7 @@
 package com.gionee.autotest.field.util.call;
 
 
-public class DisConnectInfo {
+public class DisConnectInfo implements Cloneable{
 
     public int code = -1;
     public String number = "";
