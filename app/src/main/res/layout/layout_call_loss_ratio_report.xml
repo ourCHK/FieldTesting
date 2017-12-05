@@ -19,7 +19,7 @@
             android:textStyle="bold"/>
 
         <Spinner
-            android:id="@+id/out_going_report_Spinner"
+            android:id="@+id/call_loss_ratio_report_Spinner"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
@@ -28,7 +28,7 @@
     </LinearLayout>
 
     <ExpandableListView
-        android:id="@+id/out_going_report__view"
+        android:id="@+id/call_loss_ratio_report__view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

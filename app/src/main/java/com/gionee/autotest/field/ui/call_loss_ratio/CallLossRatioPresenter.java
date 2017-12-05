@@ -61,7 +61,7 @@ public class CallLossRatioPresenter extends BasePresenter<BaseView> implements C
         if (getView() instanceof CallLossRatioContract.View) {
             getMainView().setParams(getLastParams());
             myReceiver = new MyReceiver();
-            LocalBroadcastManager.getInstance(mContext).registerReceiver(myReceiver, new IntentFilter("AutoCallUpdateViews"));
+            LocalBroadcastManager.getInstance(mContext).registerReceiver(myReceiver, new IntentFilter("CallLossRatioUpdateViews"));
             obtainCallRate();
         } else {
             myAdapter = new CallLossRatioReportAdapter();

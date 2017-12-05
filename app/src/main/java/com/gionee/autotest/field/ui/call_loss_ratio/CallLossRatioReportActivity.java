@@ -10,9 +10,9 @@ import com.gionee.autotest.field.ui.base.BaseActivity;
 import butterknife.BindView;
 
 public class CallLossRatioReportActivity extends BaseActivity implements CallLossRatioContract.ReportView {
-    @BindView(R.id.out_going_report__view)
+    @BindView(R.id.call_loss_ratio_report__view)
     ExpandableListView mReportView;
-    @BindView(R.id.out_going_report_Spinner)
+    @BindView(R.id.call_loss_ratio_report_Spinner)
     Spinner mReportSpinner;
 
     @Override

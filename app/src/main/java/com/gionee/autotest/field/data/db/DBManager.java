@@ -21,6 +21,7 @@ public final class DBManager {
         InComingDBManager.init(context);
         OutGoingDBManager.init(context);
         NetworkSwitchDBManager.init(context);
+        CallLossRatioDBManager.init(context);
     }
 
     /**

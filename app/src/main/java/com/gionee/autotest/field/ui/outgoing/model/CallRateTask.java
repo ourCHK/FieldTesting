@@ -4,8 +4,10 @@ package com.gionee.autotest.field.ui.outgoing.model;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.gionee.autotest.field.data.db.CallLossRatioDBManager;
 import com.gionee.autotest.field.data.db.OutGoingDBManager;
 import com.gionee.autotest.field.data.db.model.OutGoingCallResult;
+import com.gionee.autotest.field.ui.call_loss_ratio.CallLossRatioUtil;
 import com.gionee.autotest.field.ui.outgoing.CallBack;
 import com.gionee.autotest.field.ui.outgoing.OutGoingUtil;
 import com.gionee.autotest.field.util.Constant;
@@ -21,10 +23,10 @@ public class CallRateTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected String doInBackground(Void... voids) {
-        int lastBatch = OutGoingDBManager.getLastBatch();
-        ArrayList<OutGoingCallResult> allCalls = OutGoingDBManager.getReportBean(lastBatch);
+        int lastBatch = CallLossRatioDBManager.getLastBatch();
+        ArrayList<OutGoingCallResult> allCalls = CallLossRatioDBManager.getReportBean(lastBatch);
         Log.i(Constant.TAG, "CallRate reportBeanSize="+allCalls.size());
-        return OutGoingUtil.getSumString(allCalls);
+        return CallLossRatioUtil.getSumString(allCalls);
     }
 
     @Override

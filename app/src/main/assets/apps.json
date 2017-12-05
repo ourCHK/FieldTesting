@@ -77,7 +77,7 @@
       "key": 9,
       "label":"呼损率",
       "icon":"phone_outgoing",
-      "activity":"com.gionee.autotest.field.ui.calllossratio.CallLossRatioActivity",
+      "activity":".ui.call_loss_ratio.CallLossRatioActivity",
       "installed": true,
       "requireSysPerm": true
     }
