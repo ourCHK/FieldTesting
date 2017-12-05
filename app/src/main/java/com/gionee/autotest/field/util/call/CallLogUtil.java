@@ -38,16 +38,19 @@ public class CallLogUtil {
         @Override
         public void onChange(boolean selfChange) {
             super.onChange(selfChange);
-            if (!isCall) return;
-            callBean.setHangUpTime(TimeUtil.getTime());
-            if (logListener != null) {
-                CallLogBean lastCallLog = getLastCallLog(context);
-                callBean.setResult(lastCallLog.duration > 0 && lastCallLog.type == CallLog.Calls.OUTGOING_TYPE);
-                logListener.onChanged(callBean.clone());
-                callBean = new CallResult();
+            if (isCall) {
+                isCall = false;
+                callBean.setHangUpTime(TimeUtil.getTime());
+                if (logListener != null) {
+                    CallLogBean lastCallLog = getLastCallLog(context);
+                    callBean.setResult(lastCallLog.duration > 0 && lastCallLog.type == CallLog.Calls.OUTGOING_TYPE);
+                    logListener.onChanged(callBean.clone());
+                    callBean = new CallResult();
+                }
             }
         }
     };
+
     @SuppressLint("MissingPermission")
     public void start(Context context, String number) {
         Log.i("gionee.os.autotest", "拨号=" + number);
