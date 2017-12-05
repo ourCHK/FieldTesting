@@ -151,7 +151,6 @@ public class InComingCall {
             boolean newFile = file.createNewFile();
             Log.i(Constant.TAG, "incoming excel file create " + newFile);
             workBook = Workbook.createWorkbook(file);
-            Gson gson = new Gson();
             for (int batchIndex = 0; batchIndex < beans.size(); batchIndex++) {
                 InComingReportBean bean = beans.get(batchIndex);
                 WritableSheet sheet = workBook.createSheet("第" + (batchIndex + 1) + "批次", batchIndex);
@@ -162,29 +161,22 @@ public class InComingCall {
                 sheet.addCell(new Label(4, 0, "失败原因"));
                 for (int callIndex = 0; callIndex < bean.data.size(); callIndex++) {
                     CallMonitorResult result = bean.data.get(callIndex);
-                    SimSignalInfo simSignalInfo = null;
-                    try {
-                        simSignalInfo = gson.fromJson(result.failMsg, SimSignalInfo.class);
-                    } catch (JsonSyntaxException e) {
-                        e.printStackTrace();
-                    }
                     sheet.addCell(new Label(0, callIndex + 1, (result.index + 1) + ""));
                     sheet.addCell(new Label(1, callIndex + 1, result.number));
                     sheet.addCell(new Label(2, callIndex + 1, result.time));
                     sheet.addCell(new Label(3, callIndex + 1, result.result ? "成功" : "失败"));
-                    sheet.addCell(new Label(4, callIndex + 1, simSignalInfo == null ? "" : simSignalInfo.toString()));
+                    sheet.addCell(new Label(4, callIndex + 1, result.failMsg));
                 }
             }
             workBook.write();
-            workBook.close();
         } catch (Exception e) {
-            Log.i(Constant.TAG, e.toString());
+            e.printStackTrace();
         } finally {
             if (workBook != null) {
                 try {
                     workBook.close();
                 } catch (Exception e) {
-                    Log.i(Constant.TAG, e.toString());
+                    e.printStackTrace();
                 }
 
             }
