@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.gionee.autotest.field.util.Constant;
+import com.gionee.autotest.field.util.Constant.CallLossRatioDB.CallLossRatioBatch;
+import com.gionee.autotest.field.util.Constant.CallLossRatioDB.CallLossRatioData;
 import com.gionee.autotest.field.util.Constant.InComingDB.InComingBatch;
 import com.gionee.autotest.field.util.Constant.InComingDB.InComingData;
 import com.gionee.autotest.field.util.Constant.OutGoingDB.OutGoingBatch;
@@ -56,6 +58,15 @@ class DBHelper extends SQLiteOpenHelper {
                 + OutGoingData.BATCH_ID + " Long," + OutGoingData.CYCLE_INDEX + " Long," + OutGoingData.NUMBER + " Long,"
                 + OutGoingData.DIAL_TIME + " TIMESTAMP(14)," + OutGoingData.OFF_HOOK_TIME + " TIMESTAMP(14),"
                 + OutGoingData.HANG_UP_TIME + " TIMESTAMP(14)," + OutGoingData.RESULT + " Integer," +OutGoingData.IS_VERIFY+" Integer,"+OutGoingData.SIM_NET_INFO+" text,"+ OutGoingData.TIME + " TIMESTAMP(14))");
+        db.execSQL("create table " + CallLossRatioBatch.NAME + "(" + CallLossRatioBatch._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + CallLossRatioBatch.NUMBERS + " text," + CallLossRatioBatch.CYCLE + " Integer," + CallLossRatioBatch.GAP_TIME + " Integer,"
+                + CallLossRatioBatch.CALL_TIME + " Integer," + CallLossRatioBatch.CALL_TIME_SUM + " Integer,"
+                + CallLossRatioBatch.IS_SPEAKER_ON + " Integer," + CallLossRatioBatch.VERIFY_COUNT + " Integer," + CallLossRatioBatch.TIME + " TIMESTAMP(14))");
+        db.execSQL("create table " + CallLossRatioData.NAME + "(" + CallLossRatioData._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + CallLossRatioData.BATCH_ID + " Long," + CallLossRatioData.CYCLE_INDEX + " Long," + CallLossRatioData.NUMBER + " Long,"
+                + CallLossRatioData.DIAL_TIME + " TIMESTAMP(14)," + CallLossRatioData.OFF_HOOK_TIME + " TIMESTAMP(14),"
+                + CallLossRatioData.HANG_UP_TIME + " TIMESTAMP(14)," + CallLossRatioData.RESULT + " Integer," +CallLossRatioData.IS_VERIFY+" Integer,"
+                +CallLossRatioData.SIM_NET_INFO+" text,"+CallLossRatioData.CODE+" Integer,"+ CallLossRatioData.TIME + " TIMESTAMP(14))");
         db.execSQL("create table networkSwitch(_id INTEGER PRIMARY KEY AUTOINCREMENT,resultFileName text,result text,time TIMESTAMP(14))");
     }
 
@@ -71,6 +82,8 @@ class DBHelper extends SQLiteOpenHelper {
         db.execSQL("drop table if exists " + InComingData.NAME);
         db.execSQL("drop table if exists " + OutGoingBatch.NAME);
         db.execSQL("drop table if exists " + OutGoingData.NAME);
+        db.execSQL("drop table if exists " + CallLossRatioData.NAME);
+        db.execSQL("drop table if exists " + CallLossRatioBatch.NAME);
         db.execSQL("drop table if exists networkSwitch");
         // Recreates the database with a new version
         onCreate(db);

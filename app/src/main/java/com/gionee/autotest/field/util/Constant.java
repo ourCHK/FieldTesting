@@ -191,7 +191,37 @@ public class Constant {
 
 
     }
+    public static final class CallLossRatioDB implements BaseColumns {
 
+        public static final class CallLossRatioBatch implements BaseColumns {
+            public static final String NUMBERS = "numbers";
+            public static final String CYCLE = "cycle";
+            public static final String GAP_TIME = "gapTime";
+            public static final String CALL_TIME = "callTime";
+            public static final String CALL_TIME_SUM = "callTimeSum";
+            public static final String IS_SPEAKER_ON = "isSpeakerOn";
+            public static final String TIME = "time";
+            public static final String NAME = "table_batch_out";
+            public static final String VERIFY_COUNT = "verifyCount";
+        }
+
+        public static final class CallLossRatioData implements BaseColumns {
+            public static final String BATCH_ID = "batch_id";
+            public static final String CYCLE_INDEX = "cycleIndex";
+            public static final String NUMBER = "number";
+            public static final String DIAL_TIME = "dialTime";
+            public static final String OFF_HOOK_TIME = "offHookTime";
+            public static final String HANG_UP_TIME = "hangUpTime";
+            public static final String RESULT = "result";
+            public static final String TIME = "time";
+            public static final String IS_VERIFY = "isVerify";
+            public static final String SIM_NET_INFO = "simNetInfo";
+            public static final String CODE = "code";
+            public static final String NAME = "call_loss_ratio_data";
+        }
+
+
+    }
     //network switch actions
     /**
      * 停止测试广播

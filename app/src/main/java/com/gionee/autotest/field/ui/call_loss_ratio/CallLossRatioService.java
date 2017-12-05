@@ -1,47 +1,54 @@
 package com.gionee.autotest.field.ui.call_loss_ratio;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.ContentObserver;
-import android.media.AudioManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.provider.CallLog;
+import android.os.SystemClock;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.gionee.autotest.common.TimeUtil;
 import com.gionee.autotest.common.call.CallUtil;
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.data.db.CallLossRatioDBManager;
 import com.gionee.autotest.field.data.db.model.OutGoingCallResult;
-import com.gionee.autotest.field.ui.outgoing.CallBack;
-import com.gionee.autotest.field.ui.outgoing.VerifyCall;
 import com.gionee.autotest.field.ui.outgoing.model.CallParam;
 import com.gionee.autotest.field.util.Constant;
-import com.gionee.autotest.field.util.call.CallLogUtil;
-import com.gionee.autotest.field.util.filterlog.FilterLogTask;
+import com.gionee.autotest.field.util.call.DisConnectCallFilter;
+import com.gionee.autotest.field.util.call.DisConnectInfo;
+import com.gionee.autotest.field.util.call.DisConnectListener;
 import com.google.gson.Gson;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class CallLossRatioService extends Service {
+public class CallLossRatioService extends Service implements DisConnectListener {
 
     private CallParam params;
+    private DisConnectCallFilter filter;
+    private Uri AUTHORITY_URI = Uri.parse("content://gionee.calllog");
+    private Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, "callsjoindataview");// calls join data view
+    private DisConnectInfo info;
 
     @Override
     public IBinder onBind(Intent intent) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        return null;
     }
 
     private Timer timer = null;
@@ -96,6 +103,7 @@ public class CallLossRatioService extends Service {
         try {
             dial(currentNumber);
             callBean.setDialTime(TimeUtil.getTime()).setBatchId(params.id).setCycleIndex(cycleIndex);
+            info = new DisConnectInfo();
             Log.i(Constant.TAG, "拔号=" + TimeUtil.getTime());
         } catch (Exception e) {
             e.printStackTrace();
@@ -124,11 +132,42 @@ public class CallLossRatioService extends Service {
     }
 
 
-    @SuppressLint("MissingPermission")
+    private ContentObserver contentObserver = new ContentObserver(new Handler()) {
+        @SuppressLint("StaticFieldLeak")
+        @Override
+        public void onChange(boolean selfChange) {
+            super.onChange(selfChange);
+            new AsyncTask<Void, Void, Void>() {
+
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    SystemClock.sleep(3000);
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Void aVoid) {
+                    callBean.setResult(info.code == -1);
+                    callBean.setCode(info.code);
+                    if (!callBean.result) {
+                        callBean.setSimNetInfo(CallLossRatioUtil.getSimNetInfo(getApplicationContext()));
+                    }
+                    Log.i(Constant.TAG, "写入测试结果");
+                    CallLossRatioDBManager.writeData(callBean);
+                    goTest();
+                }
+            }.execute();
+        }
+    };
+
     private void dial(String number) {
         Log.i(Constant.TAG, "拨号" + number);
         Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + number));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "没有拨号权限", Toast.LENGTH_SHORT).show();
+            return;
+        }
         startActivity(intent);
     }
 
@@ -156,50 +195,38 @@ public class CallLossRatioService extends Service {
             } else {
                 CallLossRatioUtil.isTest = false;
                 Log.i(Constant.TAG, "测试完成，发送结束广播");
-                LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent("AutoCallUpdateViews"));
+                LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent("CallLossRatioUpdateViews"));
                 stopSelf();
             }
         }
     }
 
-    private ContentObserver mCallLogObserver = new ContentObserver(new Handler()) {
-        @Override
-        public void onChange(boolean selfChange) {
-            super.onChange(selfChange);
-            if (!CallLossRatioUtil.isTest || !isCalled) return;
-            isCalled = false;
-            callBean.hangUpTime = TimeUtil.getTime();
-            CallLogUtil.CallLogBean lastCallLog = CallLogUtil.getLastCallLog(getApplicationContext());
-            callBean.result = lastCallLog.type == CallLog.Calls.OUTGOING_TYPE && lastCallLog.duration > 0;
-            if (!callBean.result) {
-                callBean.setSimNetInfo(CallLossRatioUtil.getSimNetInfo(getApplicationContext()));
-            }
-            Log.i(Constant.TAG, "写入测试结果");
-            CallLossRatioDBManager.writeData(callBean);
-            if (callBean.result) {
-                goTest();
-            } else {
-                cancelListener();
-                Log.i(Constant.TAG, "拨号失败，开始验证拨号");
-                new VerifyCall(getApplicationContext(), callBean.number, params, cycleIndex, new CallBack() {
-                    @Override
-                    public void call(Object o) {
-                        startListener();
-                        goTest();
-                    }
-                }).start();
-            }
-        }
-    };
 
     private void startListener() {
+        getContentResolver().registerContentObserver(CONTENT_URI, false, contentObserver);
+        filter = new DisConnectCallFilter(this);
         mTm.listen(myListener, PhoneStateListener.LISTEN_CALL_STATE);
     }
 
     private void cancelListener() {
+        if (contentObserver != null) {
+            getContentResolver().unregisterContentObserver(contentObserver);
+        }
+        if (filter != null) {
+            filter.cancel(true);
+        }
         if (myListener != null) {
             mTm.listen(myListener, PhoneStateListener.LISTEN_NONE);
         }
+    }
+
+    @Override
+    public void onChanged(DisConnectInfo info) {
+        this.info = info;
+        if (!CallLossRatioUtil.isTest || !isCalled) return;
+        isCalled = false;
+        callBean.setOffHookTime(TimeUtil.getTime(info.callTimeStart, "yyyy-MM-dd HH:mm:ss"));
+        callBean.setHangUpTime(TimeUtil.getTime(info.callTimeStart + info.callDuration, "yyyy-MM-dd HH:mm:ss"));
     }
 
     class MyListener extends PhoneStateListener {
@@ -214,13 +241,13 @@ public class CallLossRatioService extends Service {
                     break;
                 case TelephonyManager.CALL_STATE_OFFHOOK:
                     Log.i(Constant.TAG, "state_offHook");
-                    isCalled = true;
-                    callBean.offHookTime = TimeUtil.getTime();
-                    Log.i(Constant.TAG, "接通=" + TimeUtil.getTime() + ",号码=" + incomingNumber);
-                    AudioManager mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-                    if (mAudioManager != null) {
-                        mAudioManager.setSpeakerphoneOn(params.is_speaker_on);
-                    }
+//                    isCalled = true;
+//                    callBean.offHookTime = TimeUtil.getTime();
+//                    Log.i(Constant.TAG, "接通=" + TimeUtil.getTime() + ",号码=" + incomingNumber);
+//                    AudioManager mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+//                    if (mAudioManager != null) {
+//                        mAudioManager.setSpeakerphoneOn(params.is_speaker_on);
+//                    }
                     break;
                 case TelephonyManager.CALL_STATE_IDLE:
                     Log.i(Constant.TAG, "state_idle");

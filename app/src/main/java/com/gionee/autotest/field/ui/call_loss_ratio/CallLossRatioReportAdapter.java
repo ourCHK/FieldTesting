@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.data.db.model.OutGoingCallResult;
 import com.gionee.autotest.field.ui.outgoing.model.OutGoingReportCycle;
+import com.gionee.autotest.field.util.call.DisConnectInfo;
 
 import java.util.ArrayList;
 
@@ -96,6 +97,7 @@ public class CallLossRatioReportAdapter extends BaseExpandableListAdapter {
         cHolder.dialTimeTV.setText(result.dialTime);
         cHolder.offHookTimeTV.setText(result.offHookTime);
         cHolder.hangUpTimeTV.setText(result.hangUpTime);
+        cHolder.mCodeStringTV.setText(DisConnectInfo.codeToReason(result.code));
         return convertView;
     }
 
@@ -110,6 +112,7 @@ public class CallLossRatioReportAdapter extends BaseExpandableListAdapter {
     }
 
     class ChildHolder {
+        private TextView mCodeStringTV;
         LinearLayout root;
         TextView numberTV;
         TextView resultTV;
@@ -124,6 +127,7 @@ public class CallLossRatioReportAdapter extends BaseExpandableListAdapter {
             dialTimeTV = (TextView) v.findViewById(R.id.call_loss_ratio_child_dialTimeTV);
             offHookTimeTV = (TextView) v.findViewById(R.id.call_loss_ratio_child_offHookTimeTV);
             hangUpTimeTV = (TextView) v.findViewById(R.id.call_loss_ratio_child_hangUpTimeTV);
+            mCodeStringTV = (TextView) v.findViewById(R.id.call_loss_ratio_codeStringTV);
         }
     }
 }

@@ -4,7 +4,6 @@ import android.os.Build;
 
 import com.gionee.autotest.field.util.filterlog.FilterLogTask;
 
-import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,10 +11,10 @@ import java.util.regex.Pattern;
 public class DisConnectCallFilter extends FilterLogTask {
     private int t = 0;
     private DisConnectInfo info;
-    private Consumer<DisConnectInfo> c;
+    private DisConnectListener listener;
 
-    public DisConnectCallFilter(Consumer<DisConnectInfo> c) {
-        this.c = c;
+    public DisConnectCallFilter(DisConnectListener listener) {
+        this.listener = listener;
     }
 
     @Override
@@ -48,10 +47,10 @@ public class DisConnectCallFilter extends FilterLogTask {
                 int type = Integer.parseInt(split[4]);
                 String number = split[2];
                 info.setNumber(number).setType(type).setCallTimeStart(callTimeStart).setCallDuration(duration);
-                if (c != null) {
+                if (listener != null) {
                     try {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            c.accept(info.clone());
+                            listener.onChanged(info.clone());
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

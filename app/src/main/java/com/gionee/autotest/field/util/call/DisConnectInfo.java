@@ -3,7 +3,7 @@ package com.gionee.autotest.field.util.call;
 
 public class DisConnectInfo {
 
-    public int code = Code.LOCAL;
+    public int code = -1;
     public String number = "";
     public int type = TYPE.OUTGOING_TYPE;
     public long callTimeStart = 0;
@@ -45,6 +45,20 @@ public class DisConnectInfo {
             return Code.ERROR;
         }
         return 0;
+    }
+
+    public static String codeToReason(int code) {
+        switch (code) {
+            case Code.LOCAL:
+                return "本地挂断";
+            case Code.REMOTE:
+                return "对方挂断";
+            case Code.BUSY:
+                return "对方忙";
+            case Code.ERROR:
+                return "网络或其他异常";
+        }
+        return "";
     }
 
     @Override

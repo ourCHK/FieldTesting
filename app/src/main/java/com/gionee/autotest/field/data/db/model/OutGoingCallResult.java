@@ -2,6 +2,7 @@ package com.gionee.autotest.field.data.db.model;
 
 
 import com.gionee.autotest.field.util.call.CallResult;
+import com.gionee.autotest.field.util.call.DisConnectInfo;
 
 public class OutGoingCallResult extends CallResult {
 
@@ -9,6 +10,7 @@ public class OutGoingCallResult extends CallResult {
     public int cycleIndex;
     public String simNetInfo;
     public boolean isVerify;
+    public int code;
 
     public OutGoingCallResult(long batchId, int cycleIndex, String number, String dialTime, String offHookTime, String hangUpTime, boolean result, String time, boolean isVerify,String simNetInfo) {
         this.batchId = batchId;
@@ -25,6 +27,11 @@ public class OutGoingCallResult extends CallResult {
 
     public OutGoingCallResult() {
         this(0, 0, "10086", "", "", "", true, "", false,"");
+    }
+
+    public OutGoingCallResult setCode(int code) {
+        this.code = code;
+        return this;
     }
 
     public OutGoingCallResult setBatchId(long batchId) {
@@ -89,6 +96,6 @@ public class OutGoingCallResult extends CallResult {
 
     @Override
     public String toString() {
-        return "id"+batchId+"cycleIndex"+cycleIndex+"simNetInfo"+simNetInfo+"number"+number+"dialTime"+dialTime+"offHookTime"+offHookTime+"hangUpTime"+hangUpTime+"result"+result+"time"+time+"isVerify"+isVerify;
+        return "id"+batchId+" cycleIndex"+cycleIndex+" simNetInfo"+simNetInfo+" number"+number+" dialTime"+dialTime+" offHookTime"+offHookTime+" hangUpTime"+hangUpTime+" result"+result+" time"+time+" isVerify"+isVerify+" code="+code;
     }
 }
