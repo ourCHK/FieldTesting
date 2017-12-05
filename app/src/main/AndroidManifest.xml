@@ -274,6 +274,7 @@
         <service android:name=".services.NetworkSwitchService" />
         <service android:name=".services.MessageServices" />
         <service android:name=".services.WebViewService" />
+        <service android:name=".ui.call_loss_ratio.CallLossRatioService"/>
 
         <provider
             android:name=".util.GenericFileProvider"
