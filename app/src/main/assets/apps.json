@@ -72,6 +72,14 @@
       "activity":".ui.throughput.MainActivity",
       "installed": true,
       "requireSysPerm": false
+    },
+    {
+      "key": 9,
+      "label":"呼损率",
+      "icon":"phone_outgoing",
+      "activity":"com.gionee.autotest.field.ui.calllossratio.CallLossRatioActivity",
+      "installed": true,
+      "requireSysPerm": true
     }
   ]
 }

@@ -151,6 +151,20 @@
     <string name="exportExcel">导出Excel</string>
     <string name="outgoing_about">开发者: 宋研聪[songyc@gionee.com]</string>
 
+    <!--callLossRatio  resources-->
+    <string name="call_loss_ratio_label_name">呼损率</string>
+    <string name="call_loss_ratio_default_number" translatable="false">10086,10010</string>
+    <string name="call_loss_ratio_default_count" translatable="false">3</string>
+    <string name="call_loss_ratio_default_timeout" translatable="false">20</string>
+    <string name="call_loss_ratio_default_duration" translatable="false">10</string>
+    <string name="call_loss_ratio_default_duration_sum" translatable="false">60</string>
+    <string name="call_loss_ratio_duration_sum_str">每轮时长(秒)</string>
+    <string name="call_loss_ratio_number_input_tips">多个联系人需要用逗号“,”分开</string>
+    <string name="call_loss_ratio_tools_Tips">本工具实现对多个号码轮流拨打;\n1.输入电话号码时需要用英文逗号隔开;\n2.分别拨打号码完毕为一轮;\n3.Excel存放路径:内部存储器/Field/CallLossRatio/CallRecord.xls</string>
+    <string name="call_loss_ratio_dialTime">拔号时间</string>
+    <string name="call_loss_ratio_offHookTime">接通时间</string>
+    <string name="call_loss_ratio_hangUpTime">挂断时间</string>
+    <string name="call_loss_ratio_about">开发者: 宋研聪[songyc@gionee.com]</string>
     <!-- data_reset  resources-->
 
     <string name="start_testing">开始测试</string>

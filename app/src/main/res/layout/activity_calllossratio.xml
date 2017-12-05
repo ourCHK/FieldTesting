@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:keepScreenOn="true"
+    android:orientation="vertical"
+    android:textColor="#000000">
+
+    <include layout="@layout/layout_header" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/tools_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/call_loss_ratio_tools_Tips"
+            android:textColor="@color/colorPrimary" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/number"
+                android:textColor="@color/colorPrimary" />
+
+            <EditText
+                android:id="@+id/call_loss_ratio_number_et"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:digits="0123456789,"
+                android:gravity="center"
+                android:text="@string/call_loss_ratio_default_number"
+                android:textColor="@color/colorPrimary" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/number_input_tips"
+            android:textColor="@color/colorPrimary"
+            android:textSize="10sp"
+            tools:ignore="SmallSp" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/count"
+                android:textColor="@color/colorPrimary" />
+
+            <EditText
+                android:id="@+id/call_loss_ratio_cycle_et"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:inputType="number"
+                android:text="@string/call_loss_ratio_default_count"
+                android:textColor="@color/colorPrimary" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/gap_time"
+                android:textColor="@color/colorPrimary" />
+
+            <EditText
+                android:id="@+id/call_loss_ratio_gap_time_et"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:inputType="number"
+                android:text="@string/call_loss_ratio_default_timeout"
+                android:textColor="@color/colorPrimary" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/call_time"
+                android:textColor="@color/colorPrimary" />
+
+            <EditText
+                android:id="@+id/call_loss_ratio_call_time_et"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:inputType="number"
+                android:text="@string/call_loss_ratio_default_duration"
+                android:textColor="@color/colorPrimary" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/duration_sum_str"
+                android:textColor="@color/colorPrimary" />
+
+            <EditText
+                android:id="@+id/call_loss_ratio_call_time_sum_et"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:inputType="number"
+                android:text="@string/call_loss_ratio_default_duration_sum"
+                android:textColor="@color/colorPrimary" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="呼叫失败复测次数"
+                android:textColor="@color/colorPrimary" />
+
+            <EditText
+                android:id="@+id/call_loss_ratio_verifyCount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:inputType="number"
+                android:text="5"
+                android:textColor="@color/colorPrimary" />
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/call_loss_ratio_is_speaker_phone_open"
+            android:layout_width="wrap_content"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/speaker_phone_on"
+            android:textColor="@color/colorPrimary" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/support_single_sim"
+            android:textColor="@color/colorPrimary"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/call_loss_ratio_start"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_stroke"
+            android:text="@string/start"
+            android:textColor="@color/colorPrimary" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/call_loss_ratio_callRateET"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        android:visibility="visible" />
+</LinearLayout>
+

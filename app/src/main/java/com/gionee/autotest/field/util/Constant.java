@@ -90,6 +90,10 @@ public class Constant {
     public static final String DIR_OUT_GOING = PATH_SD + "outgoing/";
     public static final String OUT_GOING_EXCEL_PATH = DIR_OUT_GOING + "outGoingCallRecord.xls";
 
+    //callLossRatio
+    public static final String DIR_CALL_LOSS_RATIO = PATH_SD + "callLossRatio/";
+    public static final String CALL_LOSS_RATIO_EXCEL_PATH = DIR_CALL_LOSS_RATIO + "CallLossRatioRecord.xls";
+
     //incoming
     public static final String DIR_INCOMING = PATH_SD + "incoming/";
     public static final String INCOMING_EXCEL_PATH = DIR_INCOMING + "incomingCallRecord.xls";
