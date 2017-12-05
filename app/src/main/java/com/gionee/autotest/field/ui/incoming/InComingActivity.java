@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.gionee.autotest.field.R;
+import com.gionee.autotest.field.ui.about.AboutActivity;
 import com.gionee.autotest.field.ui.base.BaseActivity;
 import com.gionee.autotest.field.ui.incoming.model.InComingCall;
 import com.gionee.autotest.field.util.call.CallMonitorParam;
@@ -138,7 +139,7 @@ public class InComingActivity extends BaseActivity implements InComingContract.V
                 mInComingPresenter.exportExcelFile();
                 break;
             case R.id.action_abouts:
-
+                startActivity(AboutActivity.getAboutIntent(this, getString(R.string.incoming_about), true));
                 break;
             default:
                 break;

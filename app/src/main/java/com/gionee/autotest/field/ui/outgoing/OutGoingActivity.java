@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.gionee.autotest.common.About;
 import com.gionee.autotest.field.R;
+import com.gionee.autotest.field.ui.about.AboutActivity;
 import com.gionee.autotest.field.ui.base.BaseActivity;
 import com.gionee.autotest.field.ui.outgoing.model.CallParam;
 import com.gionee.autotest.field.util.DialogHelper;
@@ -162,6 +163,7 @@ public class OutGoingActivity extends BaseActivity implements OutGoingContract.V
                 mOutGoingPresenter.exportExcelFile();
                 break;
             case R.id.action_abouts:
+                startActivity(AboutActivity.getAboutIntent(this, getString(R.string.outgoing_about), true));
                 break;
             default:
                 break;

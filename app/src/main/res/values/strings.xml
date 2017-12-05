@@ -113,7 +113,7 @@
     <string name="tooFastTips">间隔不到3秒，太快。不做处理</string>
     <string name="gaptime_timeout">间隔时间超时，当前为%1$s</string>
     <string name="testTimes">测试次数</string>
-
+    <string name="incoming_about">开发者: 宋研聪[songyc@gionee.com]</string>
 
     <!-- outgoing  resources-->
     <string name="out_going_label_name">接通率</string>
@@ -149,6 +149,7 @@
     <string name="clearReportAsk">确定清除全部报告数据?</string>
     <string name="clear_success">测试结果已经清除</string>
     <string name="exportExcel">导出Excel</string>
+    <string name="outgoing_about">开发者: 宋研聪[songyc@gionee.com]</string>
 
     <!-- data_reset  resources-->
 
