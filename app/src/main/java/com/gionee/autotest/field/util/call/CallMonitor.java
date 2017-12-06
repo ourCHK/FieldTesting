@@ -52,6 +52,7 @@ public class CallMonitor extends PhoneStateListener {
             testIndex++;
         }
     };
+    private boolean run = false;
 
     public CallMonitor(Context mContext, CallMonitorParam params) {
         this.mContext = mContext;
@@ -64,18 +65,32 @@ public class CallMonitor extends PhoneStateListener {
     }
 
     public void startMonitor() {
+        run = true;
         Log.i(Constant.TAG, "开始监听");
         getTelephonyManager().listen(this, PhoneStateListener.LISTEN_CALL_STATE);
         mContext.getContentResolver().registerContentObserver(CONTENT_URI, false, contentObserver);
     }
 
     public void cancel() {
+        run = false;
         Log.i(Constant.TAG, "取消监听");
         if (isWaiting) {
-            timer.cancel();
+            try {
+                timer.cancel();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        mContext.getContentResolver().unregisterContentObserver(contentObserver);
-        getTelephonyManager().listen(this, PhoneStateListener.LISTEN_NONE);
+        try {
+            mContext.getContentResolver().unregisterContentObserver(contentObserver);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            getTelephonyManager().listen(this, PhoneStateListener.LISTEN_NONE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private TelephonyManager getTelephonyManager() {
@@ -94,10 +109,10 @@ public class CallMonitor extends PhoneStateListener {
                 try {
                     result = new CallMonitorResult();
                     result.setIndex(testIndex).setNumber(incomingNumber).setRingingTime(TimeUtil.getTime());
-                    if (params.isAutoReject) {
+                    if (params.isAutoReject && run) {
                         endCall(params.autoRejectTime);
                     } else {
-                        if (params.isAutoAnswer) {
+                        if (params.isAutoAnswer && run) {
                             new AutoAnswerThread(mContext).start();
                         }
                     }
@@ -108,7 +123,7 @@ public class CallMonitor extends PhoneStateListener {
             case TelephonyManager.CALL_STATE_OFFHOOK:
                 Log.i(Constant.TAG, "接通了:" + incomingNumber);
                 result.setOffHookTime(TimeUtil.getTime());
-                if (params.isAnswerHangup) endCall(params.answerHangUptime);
+                if (params.isAnswerHangup&&run) endCall(params.answerHangUptime);
                 break;
 
             default:

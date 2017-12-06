@@ -23,8 +23,9 @@ public class VerifyCall implements CallLogUtil.CallLogListener {
     private int cycleIndex;
     private CallBack callBack;
     private Timer timer;
+    private boolean run = false;
 
-    public VerifyCall(Context context, String number, CallParam params, int cycleIndex,CallBack callBack) {
+    public VerifyCall(Context context, String number, CallParam params, int cycleIndex, CallBack callBack) {
         this.currentNumber = number;
         this.context = context;
         this.params = params;
@@ -35,6 +36,7 @@ public class VerifyCall implements CallLogUtil.CallLogListener {
     }
 
     public void start() {
+        run = true;
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -44,17 +46,28 @@ public class VerifyCall implements CallLogUtil.CallLogListener {
         }, params.call_time_sum * 1000);
     }
 
+    public void cancel() {
+        run = false;
+        if (timer != null) {
+            try {
+                timer.cancel();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     @Override
     public void onChanged(CallResult callbean) {
         OutGoingCallResult result = OutGoingCallResult.parse(callbean);
         result.setBatchId(params.id).setCycleIndex(cycleIndex);
         result.setVerify(true);
-        if (!result.result){
+        if (!result.result) {
             result.setSimNetInfo(OutGoingUtil.getSimNetInfo(context));
         }
         Log.i(Constant.TAG, "写入第" + (callIndex + 1) + "次复测结果");
         OutGoingDBManager.writeData(result);
-        if (callIndex < params.verifyCount - 1) {
+        if (callIndex < params.verifyCount - 1&&run) {
             callIndex++;
             start();
         } else {

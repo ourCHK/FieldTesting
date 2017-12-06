@@ -35,6 +35,7 @@ import java.util.TimerTask;
 public class OutGoingService extends Service {
 
     private CallParam params;
+    private VerifyCall verifyCall;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -120,6 +121,13 @@ public class OutGoingService extends Service {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+        if (verifyCall != null) {
+            try {
+                verifyCall.cancel();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         cancelListener();
     }
 
@@ -133,7 +141,7 @@ public class OutGoingService extends Service {
     }
 
     public void goTest() {
-        if (numberIndex < params.numbers.length - 1) {
+        if (numberIndex < params.numbers.length - 1 && OutGoingUtil.isTest) {
             numberIndex++;
             timer = new Timer();
             timer.schedule(new TimerTask() {
@@ -144,7 +152,7 @@ public class OutGoingService extends Service {
 
             }, 10 * 1000);
         } else {
-            if (cycleIndex < params.cycle - 1) {
+            if (cycleIndex < params.cycle - 1 && OutGoingUtil.isTest) {
                 cycleIndex++;
                 timer = new Timer();
                 timer.schedule(new TimerTask() {
@@ -176,18 +184,19 @@ public class OutGoingService extends Service {
             }
             Log.i(Constant.TAG, "写入测试结果");
             OutGoingDBManager.writeData(callBean);
-            if (callBean.result) {
+            if (callBean.result && OutGoingUtil.isTest) {
                 goTest();
             } else {
                 cancelListener();
                 Log.i(Constant.TAG, "拨号失败，开始验证拨号");
-                new VerifyCall(getApplicationContext(), callBean.number, params, cycleIndex, new CallBack() {
+                verifyCall = new VerifyCall(getApplicationContext(), callBean.number, params, cycleIndex, new CallBack() {
                     @Override
                     public void call(Object o) {
                         startListener();
                         goTest();
                     }
-                }).start();
+                });
+                verifyCall.start();
             }
         }
     };
@@ -198,9 +207,17 @@ public class OutGoingService extends Service {
     }
 
     private void cancelListener() {
-        getContentResolver().unregisterContentObserver(mCallLogObserver);
-        if (myListener != null) {
-            mTm.listen(myListener, PhoneStateListener.LISTEN_NONE);
+        try {
+            getContentResolver().unregisterContentObserver(mCallLogObserver);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            if (myListener != null) {
+                mTm.listen(myListener, PhoneStateListener.LISTEN_NONE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

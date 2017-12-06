@@ -72,7 +72,7 @@ public class NetworkSwitchActivity extends BaseActivity implements NetworkSwitch
         mFlightModeCB.setChecked(param.flightMode);
         mRebootCB.setChecked(param.reboot);
         mSwitchSimCB.setChecked(param.isSwitchSim);
-        mTestRoundET.setText(param.testRound + "");
+        mTestRoundET.setText(String.valueOf(param.testRound));
         mTestRoundET.setSelection(mTestRoundET.getText().length());
         mSignNetworkCB.setChecked(param.signNetwork);
         mReadSimCB.setChecked(param.readSim);
