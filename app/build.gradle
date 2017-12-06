@@ -28,7 +28,7 @@ android {
         minSdkVersion 22
         targetSdkVersion 25
         versionCode 1
-        versionName "V1.01.22L"
+        versionName "V1.02.22L"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.config
     }
