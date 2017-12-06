@@ -42,12 +42,14 @@
 
                 <Button
                     android:id="@+id/quality_continue_single"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_single" />
 
                 <Button
                     android:id="@+id/quality_continue_multi"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_multi" />
 
                 <TextView
@@ -56,12 +58,14 @@
 
                 <Button
                     android:id="@+id/quality_low_vol_single"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_single" />
 
                 <Button
                     android:id="@+id/quality_low_vol_multi"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_multi" />
 
                 <TextView
@@ -70,12 +74,14 @@
 
                 <Button
                     android:id="@+id/quality_noise_single"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_single" />
 
                 <Button
                     android:id="@+id/quality_noise_multi"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_multi" />
 
                 <TextView
@@ -84,12 +90,14 @@
 
                 <Button
                     android:id="@+id/quality_loop_single"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_single" />
 
                 <Button
                     android:id="@+id/quality_loop_multi"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_multi" />
 
                 <TextView
@@ -98,12 +106,14 @@
 
                 <Button
                     android:id="@+id/quality_no_vol_single"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_single" />
 
                 <Button
                     android:id="@+id/quality_no_vol_multi"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_multi" />
 
                 <TextView
@@ -112,12 +122,14 @@
 
                 <Button
                     android:id="@+id/quality_lose_vol_single"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_single" />
 
                 <Button
                     android:id="@+id/quality_lose_vol_multi"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_multi" />
 
                 <TextView
@@ -126,12 +138,14 @@
 
                 <Button
                     android:id="@+id/quality_current_single"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_single" />
 
                 <Button
                     android:id="@+id/quality_current_multi"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_multi" />
 
                 <TextView
@@ -140,12 +154,14 @@
 
                 <Button
                     android:id="@+id/quality_hao_single"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_single" />
 
                 <Button
                     android:id="@+id/quality_hao_multi"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_multi" />
 
                 <TextView
@@ -154,12 +170,14 @@
 
                 <Button
                     android:id="@+id/quality_lose_call_single"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_no_vol" />
 
                 <Button
                     android:id="@+id/quality_lose_call_multi"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_continue" />
 
 
@@ -203,12 +221,14 @@
 
                 <Button
                     android:id="@+id/quality_continue_single_other"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_single" />
 
                 <Button
                     android:id="@+id/quality_continue_multi_other"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_multi" />
 
                 <TextView
@@ -217,12 +237,14 @@
 
                 <Button
                     android:id="@+id/quality_low_vol_single_other"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_single" />
 
                 <Button
                     android:id="@+id/quality_low_vol_multi_other"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_multi" />
 
                 <TextView
@@ -231,12 +253,14 @@
 
                 <Button
                     android:id="@+id/quality_noise_single_other"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_single" />
 
                 <Button
                     android:id="@+id/quality_noise_multi_other"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_multi" />
 
                 <TextView
@@ -245,12 +269,14 @@
 
                 <Button
                     android:id="@+id/quality_loop_single_other"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_single" />
 
                 <Button
                     android:id="@+id/quality_loop_multi_other"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_multi" />
 
                 <TextView
@@ -259,12 +285,14 @@
 
                 <Button
                     android:id="@+id/quality_no_vol_single_other"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_single" />
 
                 <Button
                     android:id="@+id/quality_no_vol_multi_other"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_multi" />
 
                 <TextView
@@ -273,12 +301,14 @@
 
                 <Button
                     android:id="@+id/quality_lose_vol_single_other"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_single" />
 
                 <Button
                     android:id="@+id/quality_lose_vol_multi_other"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_multi" />
 
                 <TextView
@@ -287,12 +317,14 @@
 
                 <Button
                     android:id="@+id/quality_current_single_other"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_single" />
 
                 <Button
                     android:id="@+id/quality_current_multi_other"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_multi" />
 
                 <TextView
@@ -301,12 +333,14 @@
 
                 <Button
                     android:id="@+id/quality_hao_single_other"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_single" />
 
                 <Button
                     android:id="@+id/quality_hao_multi_other"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_multi" />
 
                 <TextView
@@ -315,12 +349,14 @@
 
                 <Button
                     android:id="@+id/quality_lose_call_single_other"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_no_vol" />
 
                 <Button
                     android:id="@+id/quality_lose_call_multi_other"
-                    style="@style/GridLayoutElementButton"
+                    android:theme="@style/GridLayoutElementButtonTheme"
+                    style="@style/GridLayoutElementButtonStyle"
                     android:text="@string/quality_type_continue" />
 
 

@@ -5,6 +5,7 @@
     <color name="colorAccent">#388E3C</color>
     <!-- too much usages found, lazy to modify it....-->
     <color name="colorSplashBG">#388E3C</color>
+    <color name="colorPrimaryLow">#A5D6A7</color>
     <color name="colorDark">#263238</color>
     <color name="colorWhite">#FAFAFA</color>
     <color name="black_effective">#2a2a2a</color>

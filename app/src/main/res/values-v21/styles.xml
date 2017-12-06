@@ -42,8 +42,25 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:minHeight">0dp</item>
         <item name="android:minWidth">48dp</item>
-        <item name="colorButtonNormal">@color/colorPrimary</item>
-        <item name="colorAccent">@android:color/white</item>
+        <item name="android:colorButtonNormal">@color/colorPrimary</item>
+        <item name="android:colorControlHighlight">@color/colorPrimaryLow</item>
+        <item name="android:colorAccent">@android:color/white</item>
+    </style>
+
+    <style name="GridLayoutElementButtonTheme" >
+        <item name="android:colorButtonNormal">@color/colorPrimary</item>
+        <item name="android:colorControlHighlight">@color/colorPrimaryLow</item>
+        <item name="android:colorAccent">@color/colorPrimary</item>
+    </style>
+
+    <style name="GridLayoutElementButtonStyle" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">48dp</item>
     </style>
     
 </resources>
