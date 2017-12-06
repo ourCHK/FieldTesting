@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -196,7 +197,15 @@ public class MainActivity extends BaseActivity implements RecyclerItemListener<A
                 startActivity(new Intent(this, SettingsActivity.class));
                 break ;*/
             case R.id.about:
-                startActivity(AboutActivity.getAboutIntent(this, getString(R.string.about_version), true));
+                PackageManager pm = getPackageManager() ;
+                String versionName = "" ;
+                try {
+                    versionName = pm.getPackageInfo(getPackageName(), 0).versionName ;
+                    Log.i(Constant.TAG, "version name : " + versionName) ;
+                }catch (PackageManager.NameNotFoundException e){
+                    e.printStackTrace();
+                }
+                startActivity(AboutActivity.getAboutIntent(this, String.format(getString(R.string.about_version), versionName), true));
                 return true;
             case R.id.help:
                 Util.showNoticeDialog(this);

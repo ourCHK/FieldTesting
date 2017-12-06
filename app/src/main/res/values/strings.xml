@@ -6,7 +6,7 @@
     <string name="about">关于</string>
 
     <!-- for about -->
-    <string name="about_version">版本:1.0.0</string>
+    <string name="about_version">版本: %s</string>
 
     <!-- for settings -->
     <string name="preference_key_signal_monitor">key_signal_monitor</string>
