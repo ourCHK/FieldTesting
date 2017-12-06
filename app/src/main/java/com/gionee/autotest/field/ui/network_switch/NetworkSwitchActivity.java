@@ -179,11 +179,11 @@ public class NetworkSwitchActivity extends BaseActivity implements NetworkSwitch
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         if (NetworkSwitchUtil.isTest) {
             mPresenter.showExitWarningDialog();
         } else {
             Preference.putString(this, "ns_processText", "");
+            super.onBackPressed();
         }
     }
 }
