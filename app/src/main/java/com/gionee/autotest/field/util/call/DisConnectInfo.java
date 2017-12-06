@@ -71,7 +71,7 @@ public class DisConnectInfo implements Cloneable{
         return this;
     }
 
-    class Code {
+    public class Code {
         //            LOCAL本方挂断，REMOTE对方挂断，BUSY对方忙，ERROE网络异常挂断；
         public static final int LOCAL = 0;
         public static final int REMOTE = 1;
@@ -79,7 +79,7 @@ public class DisConnectInfo implements Cloneable{
         public static final int ERROR = 3;
     }
 
-    class TYPE {
+    public class TYPE {
         public static final int INCOMING_TYPE = 1;
         public static final int OUTGOING_TYPE = 2;
         public static final int MISSED_TYPE = 3;

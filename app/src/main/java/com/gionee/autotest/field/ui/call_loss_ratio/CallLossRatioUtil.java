@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.util.SparseArray;
 
+import com.gionee.autotest.field.data.db.CallLossRatioDBManager;
 import com.gionee.autotest.field.data.db.OutGoingDBManager;
 import com.gionee.autotest.field.data.db.model.OutGoingCallResult;
 import com.gionee.autotest.field.ui.outgoing.model.CallParam;
@@ -121,7 +122,7 @@ public class CallLossRatioUtil {
             }
         }
         int allSize = results.size();
-        return "总拨号" + allSize + "通\n测试" + (allSize - verifyCount) + "通\n复测" + verifyCount + "通\n成功" + testSuccess + "通\n失败" + (allSize - testSuccess) + "通\n接通率为" + ((float) testSuccess / allSize) * 100 + "%";
+        return "总拨号" + allSize + "通\n测试" + (allSize - verifyCount) + "通\n成功" + testSuccess + "通\n失败" + (allSize - testSuccess) + "通\n呼损率为" + (1-(float) testSuccess / allSize) * 100 + "%";
     }
 
     public static String getCycleSumString(ArrayList<OutGoingCallResult> results) {
@@ -136,7 +137,7 @@ public class CallLossRatioUtil {
             }
         }
         int allSize = results.size();
-        return String.format("测试%1$s通 成功%2$s通 失败%3$s通 复测%4$s通", String.valueOf(allSize), String.valueOf(success), String.valueOf(allSize - success), String.valueOf(verify));
+        return String.format("测试%1$s通 成功%2$s通 失败%3$s通", String.valueOf(allSize), String.valueOf(success), String.valueOf(allSize - success));
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -144,7 +145,7 @@ public class CallLossRatioUtil {
         new AsyncTask<Void, Void, ArrayList<OutGoingReportCycle>>() {
             @Override
             protected ArrayList<OutGoingReportCycle> doInBackground(Void... voids) {
-                ArrayList<OutGoingCallResult> reportBean = OutGoingDBManager.getReportBean(batchId);
+                ArrayList<OutGoingCallResult> reportBean = CallLossRatioDBManager.getReportBean(batchId);
                 ArrayList<OutGoingReportCycle> data = new ArrayList<>();
                 SparseArray<OutGoingReportCycle> array = new SparseArray<>();
                 for (OutGoingCallResult result : reportBean) {
@@ -184,7 +185,7 @@ public class CallLossRatioUtil {
             @Override
             protected CallParam doInBackground(CallParam... params) {
                 CallParam param = params[0];
-                param.setId(OutGoingDBManager.addBatch(param));
+                param.setId(CallLossRatioDBManager.addBatch(param));
                 return param;
             }
 
@@ -208,12 +209,12 @@ public class CallLossRatioUtil {
             @Override
             protected Integer doInBackground(Void... voids) {
                 ArrayList<ArrayList<OutGoingCallResult>> results = new ArrayList<>();
-                ArrayList<String> allBatch = OutGoingDBManager.getAllBatch();
+                ArrayList<String> allBatch = CallLossRatioDBManager.getAllBatch();
                 if (allBatch.size() == 0) {
                     return 0;
                 }
                 for (String batch : allBatch) {
-                    results.add(OutGoingDBManager.getReportBean(Integer.parseInt(batch)));
+                    results.add(CallLossRatioDBManager.getReportBean(Integer.parseInt(batch)));
                 }
                 CallLossRatioUtil.writeBook(Constant.OUT_GOING_EXCEL_PATH, results);
                 return allBatch.size();
