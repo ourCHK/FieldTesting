@@ -60,10 +60,8 @@ public class DataStabilityActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onClick(View v) {
         if (DataStabilityUtil.isTest) {
-            DataStabilityUtil.isTest = false;
             mainAction.stopTest();
         } else {
-            DataStabilityUtil.isTest = true;
             mainAction.startTest(getInputParam());
         }
         updateViews();
@@ -141,6 +139,11 @@ public class DataStabilityActivity extends AppCompatActivity implements View.OnC
     @Override
     public void doFinish() {
         finish();
+    }
+
+    @Override
+    public Context getActivity() {
+        return this;
     }
 
     public void setViewsEnabled(boolean isEnabled, View... views) {

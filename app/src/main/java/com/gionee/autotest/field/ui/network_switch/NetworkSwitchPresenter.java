@@ -60,19 +60,23 @@ class NetworkSwitchPresenter extends BasePresenter<NetworkSwitchActivity> implem
 
     @Override
     public void showExitWarningDialog() {
-        DialogHelper.create(mContext, "警告", "将退出到首页并停止测试", new DialogHelper.OnBeforeCreate() {
-            @Override
-            public void setOther(AlertDialog.Builder builder) {
-                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        stop();
-                        getView().updateViews();
-                        getView().doFinish();
-                    }
-                }).setNegativeButton("取消", null);
-            }
-        }).show();
+        try {
+            DialogHelper.create(mContext, "警告", "将退出到首页并停止测试", new DialogHelper.OnBeforeCreate() {
+                @Override
+                public void setOther(AlertDialog.Builder builder) {
+                    builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            stop();
+                            getView().updateViews();
+                            getView().doFinish();
+                        }
+                    }).setNegativeButton("取消", null);
+                }
+            }).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     @Override
     public void clearAllReport() {

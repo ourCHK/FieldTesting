@@ -132,7 +132,7 @@
     <string name="default_duration_sum" translatable="false">60</string>
     <string name="duration_sum_str">每轮时长(秒)</string>
     <string name="number_input_tips">多个联系人需要用逗号“,”分开</string>
-    <string name="tools_Tips">本工具实现对多个号码轮流拨打;\n1.输入电话号码时需要用英文逗号隔开;\n2.分别拨打号码完毕为一轮;\n3.Excel存放路径:内部存储器/AutoCallActivity/AutoCallRecord.xls</string>
+    <string name="tools_Tips">本工具实现对多个号码轮流拨打;\n1.输入电话号码时需要用英文逗号隔开;\n2.分别拨打号码完毕为一轮;\n3.Excel存放路径:内部存储器/field/outgoing/outGoingCallRecord.xls</string>
     <string name="showReport">查看测试结果</string>
     <string name="clear_Report">清除测试结果</string>
     <string name="restore_default">恢复默认参数</string>
@@ -160,7 +160,7 @@
     <string name="call_loss_ratio_default_duration_sum" translatable="false">60</string>
     <string name="call_loss_ratio_duration_sum_str">每轮时长(秒)</string>
     <string name="call_loss_ratio_number_input_tips">多个联系人需要用逗号“,”分开</string>
-    <string name="call_loss_ratio_tools_Tips">本工具实现对多个号码轮流拨打;\n1.输入电话号码时需要用英文逗号隔开;\n2.分别拨打号码完毕为一轮;\n3.Excel存放路径:内部存储器/Field/CallLossRatio/CallRecord.xls</string>
+    <string name="call_loss_ratio_tools_Tips">本工具实现对多个号码轮流拨打;\n1.输入电话号码时需要用英文逗号隔开;\n2.分别拨打号码完毕为一轮;\n3.Excel存放路径:内部存储器/Field/CallLossRatio/CallLossRatioRecord.xls</string>
     <string name="call_loss_ratio_dialTime">拔号时间</string>
     <string name="call_loss_ratio_offHookTime">接通时间</string>
     <string name="call_loss_ratio_hangUpTime">挂断时间</string>
@@ -196,7 +196,7 @@
 
     <!-- network_switch  resources-->
     <string name="toolsTips">条件：\n1、请把本工具加入系统管家允许自启\n2、请不要设置锁屏密码和SIM卡密码\n目的：\n开关飞行模式、重启手机、切换数据连接使用卡后，检查是否识卡、是否驻网成功和是否能上网。</string>
-    <string name="network_switch_help">条件：\n1、安装后，请把本工具加入系统管家允许自启\n2、请不要设置锁屏密码和SIM卡密码\n\n选项:\n切换飞行模式：开启、关闭飞行模式一次\n重启手机：重启手机一次\n切换数据连接：切换默认上网的SIM卡\n是否识卡：测试后检查是否读卡\n是否驻网：检查SIM卡是否注册网络\n能否上网：检查默认上网的SIM卡能否上网</string>
+    <string name="network_switch_help">条件：\n1、安装后，请把本工具加入系统管家允许自启\n2、请不要设置锁屏密码和SIM卡密码\n\n选项:\n切换飞行模式：开启、关闭飞行模式一次\n重启手机：重启手机一次\n切换数据连接：切换默认上网的SIM卡\n是否识卡：测试后检查是否读卡\n是否驻网：检查SIM卡是否注册网络\n能否上网：检查默认上网的SIM卡能否上网\nExcel存放路径:内部存储器/Field/network_switch/networkSwitchRecord.xls</string>
     <string name="checkBox_tips">一、测试项目:</string>
     <string name="checkBox_Flight_Mode">切换飞行模式</string>
     <string name="checkBox_switch_sim">切换SIM卡</string>
@@ -250,6 +250,7 @@
     <!--<string name="action_settings">Settings</string>-->
     <string name="title_activity_web_view">WebViewActivity</string>
     <string name="data_stability_about">开发者: 宋研聪[songyc@gionee.com]</string>
+    <string name="data_stability_tool_tips">本工具实现自动打开网页;\n1.打开5个网页,根据等待时长等待后再打开5个网页为一次;\n2.Excel存放路径:内部存储器/Field/data_stability/dataStability.xls</string>
     <!--<string name="action_abouts">关于</string>-->
     <!--<string name="action_version">版本号</string>-->
     <!--<string name="action_author">金立OS中心 自动化组</string>-->

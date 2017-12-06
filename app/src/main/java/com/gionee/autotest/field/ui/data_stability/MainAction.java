@@ -17,6 +17,7 @@ import com.gionee.autotest.field.services.WebViewService;
 import com.gionee.autotest.field.ui.data_stability.report.ReportActivity;
 import com.gionee.autotest.field.util.Configurator;
 import com.gionee.autotest.field.util.Constant;
+import com.gionee.autotest.field.util.DataStabilityUtil;
 import com.gionee.autotest.field.util.DialogHelper;
 import com.gionee.autotest.field.util.Util;
 import com.google.gson.Gson;
@@ -40,22 +41,27 @@ class MainAction {
     }
 
     public void showExitWarningDialog() {
-        DialogHelper.create(mContext, "警告", "将退出到首页并停止测试", new DialogHelper.OnBeforeCreate() {
-            @Override
-            public void setOther(AlertDialog.Builder builder) {
-                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        stopTest();
-                        main.updateViews();
-                        main.doFinish();
-                    }
-                }).setNegativeButton("取消", null);
-            }
-        }).show();
+        try {
+            DialogHelper.create(main.getActivity(), "警告", "将退出到首页并停止测试", new DialogHelper.OnBeforeCreate() {
+                @Override
+                public void setOther(AlertDialog.Builder builder) {
+                    builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            stopTest();
+                            main.updateViews();
+                            main.doFinish();
+                        }
+                    }).setNegativeButton("取消", null);
+                }
+            }).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     void startTest(DataParam p) {
+        DataStabilityUtil.isTest = true;
         String paramJson = new Gson().toJson(p);
         Preference.putString(mContext, "DataStabilityLastParams", paramJson);
         Intent intent = new Intent(mContext, WebViewService.class);
@@ -83,6 +89,7 @@ class MainAction {
     }
 
     void stopTest() {
+        DataStabilityUtil.isTest = false;
         mContext.stopService(new Intent(mContext, WebViewService.class));
     }
 

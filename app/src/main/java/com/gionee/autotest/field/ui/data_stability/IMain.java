@@ -9,4 +9,6 @@ interface IMain {
     void updateViews();
 
     void doFinish();
+
+    Context getActivity();
 }
