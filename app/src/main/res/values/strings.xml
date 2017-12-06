@@ -107,7 +107,7 @@
     <string name="clearFail">清除失败</string>
     <string name="successful">成功</string>
     <string name="failed">失败</string>
-    <string name="tool_tips">帮助: 1.Excel存放路径:内部存储器/AutoEnd/AutoEndRecord.xls</string>
+    <string name="tool_tips">帮助: 1.Excel存放路径:内部存储器/field/incoming/incomingCallRecord.xls</string>
     <string name="ReportSelected">选择报告</string>
     <string name="noOP">无操作</string>
     <string name="tooFastTips">间隔不到3秒，太快。不做处理</string>
@@ -268,6 +268,6 @@
     <string name="running_title">注意</string>
     <string name="running_message">测试正在进行中，确认要退出?</string>
     <string name="go_to_file_manager">请安装能打开Excel的应用，并在文件管理器中打开．</string>
-    <string name="open_excel_title">打开excel结果</string>
+    <string name="open_excel_title">查看测试详情</string>
 
 </resources>

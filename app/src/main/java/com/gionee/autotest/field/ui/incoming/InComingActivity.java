@@ -1,5 +1,7 @@
 package com.gionee.autotest.field.ui.incoming;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -12,6 +14,7 @@ import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.ui.about.AboutActivity;
 import com.gionee.autotest.field.ui.base.BaseActivity;
 import com.gionee.autotest.field.ui.incoming.model.InComingCall;
+import com.gionee.autotest.field.util.DialogHelper;
 import com.gionee.autotest.field.util.call.CallMonitorParam;
 
 import butterknife.BindView;
@@ -174,5 +177,21 @@ public class InComingActivity extends BaseActivity implements InComingContract.V
         mAnswerHangUpCB.setChecked(lastParams.isAnswerHangup);
         mAnswerHangupTimeET.setText(String.valueOf(lastParams.answerHangUptime));
         mHangUpPressPower.setChecked(lastParams.isHangUpPressPower);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        DialogHelper.create(this, "警告", "将退出到首页并停止测试", new DialogHelper.OnBeforeCreate() {
+            @Override
+            public void setOther(AlertDialog.Builder builder) {
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mInComingPresenter.stopMonitor();
+                    }
+                }).setNegativeButton("取消", null);
+            }
+        }).show();
     }
 }
