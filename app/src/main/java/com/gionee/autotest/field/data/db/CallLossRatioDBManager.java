@@ -2,9 +2,11 @@ package com.gionee.autotest.field.data.db;
 
 
 import android.content.Context;
+import android.util.Log;
 
 import com.gionee.autotest.field.data.db.model.OutGoingCallResult;
 import com.gionee.autotest.field.ui.outgoing.model.CallParam;
+import com.gionee.autotest.field.util.Constant;
 
 import java.util.ArrayList;
 
@@ -23,7 +25,12 @@ public class CallLossRatioDBManager {
     }
 
     public static void writeData(OutGoingCallResult data) {
-        helper.writeCallData(data);
+        try {
+            helper.writeCallData(data);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.i(Constant.TAG,"writeData false");
+        }
     }
 
     public static void delete() {

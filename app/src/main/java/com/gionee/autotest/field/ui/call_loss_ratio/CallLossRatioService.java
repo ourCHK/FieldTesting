@@ -43,7 +43,7 @@ public class CallLossRatioService extends Service implements DisConnectListener 
     private CallParam params;
     private DisConnectCallFilter filter;
     private Uri AUTHORITY_URI = Uri.parse("content://gionee.calllog");
-    private Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, "callsjoindataview");// calls join data view
+    private Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, "callsjoindataview");
     private DisConnectInfo info;
 
     @Override
@@ -139,7 +139,7 @@ public class CallLossRatioService extends Service implements DisConnectListener 
         public void onChange(boolean selfChange) {
             super.onChange(selfChange);
             Log.i(Constant.TAG, "contentObserver onChange");
-            callBean.setResult(info.code == -1);
+            callBean.setResult(info.code != DisConnectInfo.Code.ERROR);
             callBean.setCode(info.code);
             if (!callBean.result) {
                 callBean.setSimNetInfo(CallLossRatioUtil.getSimNetInfo(getApplicationContext()));
