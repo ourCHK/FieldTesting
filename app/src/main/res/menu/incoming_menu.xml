@@ -13,10 +13,15 @@
         android:title="@string/clear_report"
         app:showAsAction="never" />
     <item
-        android:id="@+id/export_excel"
+        android:id="@+id/open_excel"
         android:orderInCategory="100"
-        android:title="@string/export_excel"
+        android:title="@string/open_excel_title"
         app:showAsAction="never" />
+    <!--<item-->
+        <!--android:id="@+id/export_excel"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:title="@string/export_excel"-->
+        <!--app:showAsAction="never" />-->
     <item
         android:id="@+id/action_abouts"
         android:orderInCategory="100"

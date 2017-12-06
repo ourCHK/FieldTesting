@@ -13,6 +13,7 @@ import com.gionee.autotest.field.data.db.model.InComingReportBean;
 import com.gionee.autotest.field.ui.base.BasePresenter;
 import com.gionee.autotest.field.ui.base.BaseView;
 import com.gionee.autotest.field.ui.incoming.model.InComingCall;
+import com.gionee.autotest.field.ui.outgoing.CallBack;
 import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.DialogHelper;
 import com.gionee.autotest.field.util.Preference;
@@ -127,6 +128,31 @@ class InComingPresenter extends BasePresenter<BaseView> implements InComingContr
             @Override
             public void accept(InComingReportBean inComingReportBean) throws Exception {
                 getReportView().updateListData(inComingReportBean);
+            }
+        });
+    }
+
+    @Override
+    public void openExcelFile() {
+        InComingCall.exportExcelFile(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer aVoid) throws Exception {
+                if (aVoid == 0) {
+                    Toast.makeText(mContext, "无报告记录", Toast.LENGTH_LONG).show();
+                } else {
+                    Util.openExcelByIntent(mContext, Constant.INCOMING_EXCEL_PATH);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void updateSumContent() {
+        InComingCall.getBatchReportSum(new CallBack() {
+            @Override
+            public void call(Object o) {
+                String sum = (String) o;
+                getMainView().setSumContent(sum);
             }
         });
     }

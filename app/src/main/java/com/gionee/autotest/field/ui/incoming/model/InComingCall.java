@@ -7,12 +7,9 @@ import android.util.Log;
 
 import com.gionee.autotest.field.data.db.InComingDBManager;
 import com.gionee.autotest.field.data.db.model.InComingReportBean;
-import com.gionee.autotest.field.ui.signal.entity.SimSignalInfo;
+import com.gionee.autotest.field.ui.outgoing.CallBack;
 import com.gionee.autotest.field.util.Constant;
-import com.gionee.autotest.field.util.Preference;
 import com.gionee.autotest.field.util.call.CallMonitorResult;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -26,6 +23,7 @@ import jxl.write.WritableWorkbook;
 public class InComingCall {
 
     public static boolean isTest = false;
+    private static Object batchReportSum;
 
     @SuppressLint("StaticFieldLeak")
     public static void writeData(CallMonitorResult callMonitorResult) {
@@ -95,6 +93,7 @@ public class InComingCall {
             @Override
             protected void onPostExecute(InComingReportBean inComingReportBean) {
                 super.onPostExecute(inComingReportBean);
+                Log.i(Constant.TAG, "inComingReportBean data size=" + inComingReportBean.data.size());
                 try {
                     c.accept(inComingReportBean);
                 } catch (Exception e) {
@@ -114,6 +113,7 @@ public class InComingCall {
                     ArrayList<String> allBatch = InComingDBManager.getAllBatch();
                     for (String batch : allBatch) {
                         InComingReportBean reportBean = InComingDBManager.getReportBean(Integer.parseInt(batch));
+                        reportBean.setSumString(InComingCall.getSumString(reportBean));
                         reportBeans.add(reportBean);
                     }
                     writeAllExcel(reportBeans, Constant.INCOMING_EXCEL_PATH);
@@ -167,6 +167,7 @@ public class InComingCall {
                     sheet.addCell(new Label(3, callIndex + 1, result.result ? "成功" : "失败"));
                     sheet.addCell(new Label(4, callIndex + 1, result.failMsg));
                 }
+                sheet.addCell(new Label(0, bean.data.size() + 2, bean.sumString));
             }
             workBook.write();
         } catch (Exception e) {
@@ -190,6 +191,25 @@ public class InComingCall {
                 success++;
             }
         }
-        return "总共" + bean.data.size() + "\n成功接通" + success + "\n失败" + (bean.data.size() - success);
+        return "总共" + bean.data.size() + "通\n成功" + success + "通\n失败" + (bean.data.size() - success) + "通";
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public static void getBatchReportSum(final CallBack c) {
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... voids) {
+                InComingReportBean reportBean = InComingDBManager.getReportBean(InComingDBManager.getLastBatch());
+                return getSumString(reportBean);
+            }
+
+            @Override
+            protected void onPostExecute(String sum) {
+                super.onPostExecute(sum);
+                if (c != null) {
+                    c.call(sum);
+                }
+            }
+        }.execute();
     }
 }

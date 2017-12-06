@@ -18,6 +18,8 @@ interface InComingContract {
 
         void updateViews();
 
+        void setSumContent(String s);
+
         void setParams(CallMonitorParam lastParams);
     }
 
@@ -42,5 +44,9 @@ interface InComingContract {
         void updateBatchList();
 
         void insertListData(int i);
+
+        void openExcelFile();
+
+        void updateSumContent();
     }
 }

@@ -6,6 +6,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.ui.about.AboutActivity;
@@ -41,15 +42,17 @@ public class InComingActivity extends BaseActivity implements InComingContract.V
     EditText mSpaceTime;
     @BindView(R.id.incoming_start_btn)
     Button mStartBtn;
+    @BindView(R.id.InComingSumContentTV)
+    TextView mSumContentTV;
     private InComingPresenter mInComingPresenter;
 
     @OnClick(R.id.incoming_start_btn)
     void incomingStartClicked() {
         if (!InComingCall.isTest) {
-            InComingCall.isTest=true;
+            InComingCall.isTest = true;
             mInComingPresenter.startMonitor(getCallMonitorParam());
         } else {
-            InComingCall.isTest=false;
+            InComingCall.isTest = false;
             mInComingPresenter.stopMonitor();
         }
         updateViews();
@@ -57,12 +60,12 @@ public class InComingActivity extends BaseActivity implements InComingContract.V
 
     @Override
     public void updateViews() {
-        boolean isTest=InComingCall.isTest;
+        boolean isTest = InComingCall.isTest;
         mAutoAnswerCB.setEnabled(!isTest);
         mAnswerHangUpCB.setEnabled(!isTest);
         mAnswerHangupTimeET.setEnabled(!isTest);
         mHangUpPressPower.setEnabled(!isTest);
-        mStartBtn.setText(isTest?"停止测试":"开始测试");
+        mStartBtn.setText(isTest ? "停止测试" : "开始测试");
     }
 
     @Override
@@ -105,6 +108,12 @@ public class InComingActivity extends BaseActivity implements InComingContract.V
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mInComingPresenter.updateSumContent();
+    }
+
     private CallMonitorParam getCallMonitorParam() {
         int autoEndTime = Integer.parseInt(mAnswerHangupTimeET.getText().toString().trim());
         String distinguishTime_text = mAutoRejectET.getText().toString().trim();
@@ -119,6 +128,15 @@ public class InComingActivity extends BaseActivity implements InComingContract.V
         mAutoAnswerCB.setEnabled(enable);
         mAnswerHangUpCB.setEnabled(enable);
         mAnswerHangupTimeET.setEnabled(enable);
+    }
+
+    @Override
+    public void setSumContent(String s) {
+        try {
+            mSumContentTV.setText(s);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -137,6 +155,9 @@ public class InComingActivity extends BaseActivity implements InComingContract.V
                 break;
             case R.id.export_excel:
                 mInComingPresenter.exportExcelFile();
+                break;
+            case R.id.open_excel:
+                mInComingPresenter.openExcelFile();
                 break;
             case R.id.action_abouts:
                 startActivity(AboutActivity.getAboutIntent(this, getString(R.string.incoming_about), true));

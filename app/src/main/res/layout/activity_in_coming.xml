@@ -144,6 +144,14 @@
             android:background="@drawable/bg_stroke"
             android:text="@string/start_test"
             android:textColor="@color/colorPrimary" />
+
+        <TextView
+            android:id="@+id/InComingSumContentTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp" />
+
     </LinearLayout>
 
 

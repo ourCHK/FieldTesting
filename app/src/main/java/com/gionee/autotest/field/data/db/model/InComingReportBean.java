@@ -8,11 +8,12 @@ import java.util.ArrayList;
 
 public class InComingReportBean {
     public CallMonitorParam param = new CallMonitorParam();
-    public ArrayList<CallMonitorResult> data  = new ArrayList<>();
-    public String                       type  = "";
+    public ArrayList<CallMonitorResult> data = new ArrayList<>();
+    public String type = "";
+    public String sumString = "";
 
     public InComingReportBean() {
-
+        this(new CallMonitorParam(), new ArrayList<CallMonitorResult>(), "");
     }
 
     public InComingReportBean(CallMonitorParam param, ArrayList<CallMonitorResult> data, String type) {
@@ -20,6 +21,11 @@ public class InComingReportBean {
         this.param = param;
         this.data = data;
         this.type = type;
+    }
+
+    public InComingReportBean setSumString(String sumString) {
+        this.sumString = sumString;
+        return this;
     }
 
     public InComingReportBean setParam(CallMonitorParam param) {

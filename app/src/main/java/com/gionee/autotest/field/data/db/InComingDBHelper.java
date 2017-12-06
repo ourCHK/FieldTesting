@@ -10,7 +10,6 @@ import com.gionee.autotest.field.data.db.model.InComingReportBean;
 import com.gionee.autotest.field.ui.signal.entity.SimSignalInfo;
 import com.gionee.autotest.field.util.Constant.InComingDB.InComingBatch;
 import com.gionee.autotest.field.util.Constant.InComingDB.InComingData;
-import com.gionee.autotest.field.util.SimUtil;
 import com.gionee.autotest.field.util.call.CallMonitorParam;
 import com.gionee.autotest.field.util.call.CallMonitorResult;
 import com.google.gson.Gson;
@@ -49,7 +48,7 @@ public class InComingDBHelper extends DBHelper {
         mDb.insert(InComingData.NAME, null, cv);
     }
 
-    public InComingReportBean getReportBean(int batchId) {
+    InComingReportBean getReportBean(int batchId) {
         Cursor query = mDb.rawQuery("select * from " + InComingBatch.NAME + " where " + InComingBatch._ID + " =" + batchId, null);
         CallMonitorParam testParams = new CallMonitorParam();
         while (query.moveToNext()) {
@@ -63,12 +62,12 @@ public class InComingDBHelper extends DBHelper {
                 int isHangUpPressPower = query.getInt(query.getColumnIndex(InComingBatch.IS_HANG_UP_PRESS_POWER));
                 testParams = new CallMonitorParam(isAutoReject == 1, rejectTime, isAutoAnswer == 1, isAutoAnswerHangup == 1, answerHangupTime, gapTime, isHangUpPressPower == 1);
             } catch (Exception e) {
-//                Log.i(e.toString());
+                e.printStackTrace();
             }
         }
         Gson gson = new Gson();
         Cursor cursor = mDb.rawQuery("select * from " + InComingData.NAME + " where " + InComingData.BATCH_ID + " =" + batchId, null);
-        ArrayList list = new ArrayList<CallMonitorResult>();
+        ArrayList<CallMonitorResult> list = new ArrayList<>();
         while (cursor.moveToNext()) {
             try {
                 String number = cursor.getString(cursor.getColumnIndex(InComingData.NUMBER));
@@ -76,18 +75,19 @@ public class InComingDBHelper extends DBHelper {
                 int result = cursor.getInt(cursor.getColumnIndex(InComingData.RESULT));
                 String time = cursor.getString(cursor.getColumnIndex(InComingData.TIME));
                 String failMsg = cursor.getString(cursor.getColumnIndex(InComingData.FAIL_MSG));
-                SimSignalInfo simSignalInfo = new SimSignalInfo();
+                SimSignalInfo simSignalInfo = null;
                 try {
                     simSignalInfo = gson.fromJson(failMsg, SimSignalInfo.class);
                 } catch (JsonSyntaxException e) {
                     e.printStackTrace();
                 }
-                list.add(new CallMonitorResult(batchId, number, result == 1, testIndex, simSignalInfo.toString(), time));
+                String simSignalInfoStr = simSignalInfo == null ? "" : new SimSignalInfo().toString();
+                list.add(new CallMonitorResult(batchId, number, result == 1, testIndex, simSignalInfoStr, time));
             } catch (Exception e) {
-//                i(e.toString())
+                e.printStackTrace();
             }
         }
-        String type = "";
+        String type;
         if (testParams.isAutoReject) {
             type = mContext.getString(R.string.distinguish_text);
         } else if (testParams.isAutoAnswer) {
@@ -101,14 +101,14 @@ public class InComingDBHelper extends DBHelper {
         return new InComingReportBean(testParams, list, type);
     }
 
-    public int getLastBatch() {
+    int getLastBatch() {
         Cursor rawQuery = mDb.rawQuery("select * from " + InComingBatch.NAME + " where " + InComingBatch._ID + " in (select max(" + InComingBatch._ID + ") from " + InComingBatch.NAME + ")", null);
         int lastBatch = 0;
         while (rawQuery.moveToNext()) {
             try {
                 lastBatch = rawQuery.getInt(rawQuery.getColumnIndex(InComingBatch._ID));
             } catch (Exception e) {
-//                i(e.toString())
+                e.printStackTrace();
             }
         }
         return lastBatch;
@@ -122,7 +122,7 @@ public class InComingDBHelper extends DBHelper {
                 String batch = rawQuery.getString(rawQuery.getColumnIndex(InComingBatch._ID));
                 list.add(batch);
             } catch (Exception e) {
-//                i(e.toString())
+                e.printStackTrace();
             }
         }
         return list;
@@ -137,7 +137,7 @@ public class InComingDBHelper extends DBHelper {
         }
     }
 
-    public void clearTable() {
+    void clearTable() {
         mDb.delete(InComingBatch.NAME, null, null);
         mDb.delete(InComingData.NAME, null, null);
     }
