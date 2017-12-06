@@ -44,5 +44,7 @@ public interface CallLossRatioContract {
         void clearAllReport();
 
         void showReport();
+
+        void openExcelFile();
     }
 }

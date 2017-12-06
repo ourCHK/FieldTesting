@@ -72,14 +72,6 @@
       "activity":".ui.throughput.MainActivity",
       "installed": true,
       "requireSysPerm": false
-    },
-    {
-      "key": 9,
-      "label":"呼损率",
-      "icon":"phone_outgoing",
-      "activity":".ui.call_loss_ratio.CallLossRatioActivity",
-      "installed": true,
-      "requireSysPerm": true
     }
   ]
 }

@@ -61,9 +61,10 @@ public class CallLossRatioUtil {
                 sheet.addCell(new Label(0, 0, "轮次"));
                 sheet.addCell(new Label(1, 0, "号码"));
                 sheet.addCell(new Label(2, 0, "拨号时间"));
-                sheet.addCell(new Label(3, 0, "挂断时间"));
-                sheet.addCell(new Label(4, 0, "结果"));
-                sheet.addCell(new Label(5, 0, "失败点网络信息"));
+                sheet.addCell(new Label(3, 0, "接通时间"));
+                sheet.addCell(new Label(4, 0, "挂断时间"));
+                sheet.addCell(new Label(5, 0, "结果"));
+                sheet.addCell(new Label(6, 0, "失败点网络信息"));
                 int cycleIndex = -1;
                 ArrayList<OutGoingCallResult> results = list.get(i);
                 for (int j = 0; j < results.size(); j++) {
@@ -76,12 +77,13 @@ public class CallLossRatioUtil {
                     Log.i(Constant.TAG, result.toString());
                     sheet.addCell(new Label(1, rowIndex, result.number));
                     sheet.addCell(new Label(2, rowIndex, result.dialTime));
-                    sheet.addCell(new Label(3, rowIndex, result.hangUpTime));
-                    sheet.addCell(new Label(4, rowIndex, (result.result ? "成功" : "失败") + (result.isVerify ? "(复测)" : "")));
+                    sheet.addCell(new Label(3, rowIndex, result.offHookTime));
+                    sheet.addCell(new Label(4, rowIndex, result.hangUpTime));
+                    sheet.addCell(new Label(5, rowIndex, (result.result ? "成功" : "失败") + (result.isVerify ? "(复测)" : "")));
                     try {
                         if (result.simNetInfo != null && !"".equals(result.simNetInfo)) {
                             SimSignalInfo simSignalInfo = gson.fromJson(result.simNetInfo, SimSignalInfo.class);
-                            sheet.addCell(new Label(5, rowIndex, simSignalInfo.toString()));
+                            sheet.addCell(new Label(6, rowIndex, simSignalInfo.toString()));
                         }
                     } catch (JsonSyntaxException e) {
                         e.printStackTrace();
@@ -216,7 +218,7 @@ public class CallLossRatioUtil {
                 for (String batch : allBatch) {
                     results.add(CallLossRatioDBManager.getReportBean(Integer.parseInt(batch)));
                 }
-                CallLossRatioUtil.writeBook(Constant.OUT_GOING_EXCEL_PATH, results);
+                CallLossRatioUtil.writeBook(Constant.CALL_LOSS_RATIO_EXCEL_PATH, results);
                 return allBatch.size();
             }
 

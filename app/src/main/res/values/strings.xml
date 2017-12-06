@@ -268,5 +268,6 @@
     <string name="running_title">注意</string>
     <string name="running_message">测试正在进行中，确认要退出?</string>
     <string name="go_to_file_manager">请安装能打开Excel的应用，并在文件管理器中打开．</string>
+    <string name="open_excel_title">打开excel结果</string>
 
 </resources>

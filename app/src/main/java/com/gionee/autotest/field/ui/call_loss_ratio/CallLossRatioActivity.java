@@ -162,6 +162,9 @@ public class CallLossRatioActivity extends BaseActivity implements CallLossRatio
             case R.id.export_excel:
                 mCallLossRatioPresenter.exportExcelFile();
                 break;
+            case R.id.open_excel:
+                mCallLossRatioPresenter.openExcelFile();
+                break;
             case R.id.action_abouts:
                 startActivity(AboutActivity.getAboutIntent(this, getString(R.string.outgoing_about), true));
                 break;

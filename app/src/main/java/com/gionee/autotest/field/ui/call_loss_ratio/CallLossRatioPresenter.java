@@ -167,6 +167,16 @@ public class CallLossRatioPresenter extends BasePresenter<BaseView> implements C
         mContext.startActivity(intent);
     }
 
+    @Override
+    public void openExcelFile() {
+        CallLossRatioUtil.exportExcelFile(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer size) throws Exception {
+                Util.openExcelByIntent(mContext, Constant.CALL_LOSS_RATIO_EXCEL_PATH);
+            }
+        });
+    }
+
     @SuppressLint("StaticFieldLeak")
     void exportExcelFile() {
         CallLossRatioUtil.exportExcelFile(new Consumer<Integer>() {
