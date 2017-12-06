@@ -147,8 +147,11 @@ public class NetworkSwitchActivity extends BaseActivity implements NetworkSwitch
             case R.id.ns_clear_report:
                 mPresenter.clearAllReport();
                 break;
-            case R.id.ns_export_excel:
-                mPresenter.exportExcelFile();
+//            case R.id.ns_export_excel:
+//                mPresenter.exportExcelFile();
+//                break;
+            case R.id.ns_open_excel:
+                mPresenter.openExcelFile();
                 break;
             case R.id.ns_fail_details:
                 mPresenter.showFailedDetails();

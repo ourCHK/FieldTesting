@@ -1,23 +1,15 @@
 package com.gionee.autotest.field.ui.network_switch.util;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
-import com.gionee.autotest.common.Preference;
 import com.gionee.autotest.field.data.db.NetworkSwitchDBManager;
 import com.gionee.autotest.field.ui.network_switch.model.NetworkSwitchResult;
 import com.gionee.autotest.field.util.Constant;
-import com.gionee.autotest.field.util.DialogHelper;
-import com.gionee.autotest.field.util.Util;
+import com.gionee.autotest.field.util.NetworkSwitchUtil;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import io.reactivex.functions.Consumer;
@@ -36,7 +28,8 @@ import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 
 /**
- * Created by weisc on 17-11-30.
+ * weisc
+ * 17-11-30
  */
 
 public class ExcelUtil {
@@ -59,6 +52,7 @@ public class ExcelUtil {
                 WritableSheet sheet = workBook.createSheet("第" + (i + 1) + "批次", i);
                 ArrayList<NetworkSwitchResult> results = list.get(i);
                 writeSheet(sheet, results);
+                sheet.addCell(new Label(0, results.size() + 2, NetworkSwitchUtil.getSumContent(results)));
             }
             workBook.write();
         } catch (Exception e) {

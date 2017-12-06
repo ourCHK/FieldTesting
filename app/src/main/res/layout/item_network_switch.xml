@@ -15,12 +15,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:textAlignment="center"/>
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary" />
 
         <View
             android:layout_width="1px"
             android:layout_height="match_parent"
-            android:background="@color/colorSplashBG"/>
+            android:background="@color/colorSplashBG" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -33,20 +34,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textAlignment="center"/>
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary" />
 
             <TextView
                 android:id="@+id/item_readSim_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textAlignment="center"/>
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary" />
         </LinearLayout>
 
         <View
             android:layout_width="1px"
             android:layout_height="match_parent"
-            android:background="@color/colorSplashBG"/>
+            android:background="@color/colorSplashBG" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -59,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textAlignment="center"/>
+                android:textAlignment="center" />
 
 
             <TextView
@@ -67,13 +70,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textAlignment="center"/>
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary" />
         </LinearLayout>
 
         <View
             android:layout_width="1px"
             android:layout_height="match_parent"
-            android:background="@color/colorSplashBG"/>
+            android:background="@color/colorSplashBG" />
 
         <TextView
             android:id="@+id/item_isNet"
@@ -81,12 +85,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="2"
-            android:textAlignment="center"/>
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary" />
 
         <View
             android:layout_width="1px"
             android:layout_height="match_parent"
-            android:background="@color/colorSplashBG"/>
+            android:background="@color/colorSplashBG" />
 
         <TextView
             android:id="@+id/is_switched"
@@ -94,12 +99,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="2"
-            android:textAlignment="center"/>
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary" />
 
         <View
             android:layout_width="1px"
             android:layout_height="match_parent"
-            android:background="@color/colorSplashBG"/>
+            android:background="@color/colorSplashBG" />
 
         <TextView
             android:id="@+id/item_result"
@@ -107,7 +113,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="2"
-            android:textAlignment="center"/>
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary" />
 
     </LinearLayout>
 
@@ -115,6 +122,7 @@
         android:id="@+id/test_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:textColor="@color/colorPrimary" />
 
 </LinearLayout>

@@ -1,9 +1,11 @@
 package com.gionee.autotest.field.ui.network_switch;
 
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -30,7 +32,7 @@ public class NetworkSwitchReportActivity extends AppCompatActivity implements Ad
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.network_switch_report_layout);
-        ListView result_listView   = (ListView) findViewById(R.id.main_listView_result);
+        ListView result_listView = (ListView) findViewById(R.id.main_listView_result);
         Button select_dialog_btn = (Button) findViewById(R.id.select_dialog_btn);
         result_filename_tv = (TextView) findViewById(R.id.result_filename_tv);
         listView_HeadLine = (LinearLayout) findViewById(R.id.listView_HeadLine);
@@ -38,7 +40,9 @@ public class NetworkSwitchReportActivity extends AppCompatActivity implements Ad
         result_listView.setAdapter(mAdapter_Result);
         result_listView.setOnItemClickListener(this);
         select_dialog_btn.setOnClickListener(this);
+        showLastReport();
     }
+
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
@@ -79,11 +83,43 @@ public class NetworkSwitchReportActivity extends AppCompatActivity implements Ad
         new SelectFileDialog(this, fileNames).show();
     }
 
+    @SuppressLint("StaticFieldLeak")
+    private void showLastReport() {
+        new AsyncTask<Void, Void, ArrayList<NetworkSwitchResult>>() {
+
+            private ArrayList<String> resultFileNameList;
+
+            @Override
+            protected ArrayList<NetworkSwitchResult> doInBackground(Void... voids) {
+                try {
+                    resultFileNameList = NetworkSwitchDBManager.getResultFileNameList();
+                    return NetworkSwitchDBManager.getNetworkSwitchResultList(resultFileNameList.get(resultFileNameList.size() - 1));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(ArrayList<NetworkSwitchResult> resultBeen_list) {
+                super.onPostExecute(resultBeen_list);
+                try {
+                    result_filename_tv.setText(resultFileNameList.get(resultFileNameList.size() - 1));
+                    listView_HeadLine.setVisibility(View.VISIBLE);
+                    mAdapter_Result.updateData(resultBeen_list);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }.execute();
+
+    }
+
     private class SelectFileDialog extends AlertDialog.Builder {
 
         SelectFileDialog(Context context, final ArrayList<String> fileNames) {
             super(context);
-            setIcon(R.drawable.networkswitch_report_logo);
+            setIcon(R.mipmap.ic_launcher);
             setTitle("报告列表");
             String[] strings = fileNames.toArray(new String[]{});
             for (int i = 0; i < strings.length; i++) {

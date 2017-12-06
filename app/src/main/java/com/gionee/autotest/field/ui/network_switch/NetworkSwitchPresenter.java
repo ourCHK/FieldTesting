@@ -106,10 +106,10 @@ class NetworkSwitchPresenter extends BasePresenter<NetworkSwitchActivity> implem
 
     @Override
     public void showFailedDetails() {
-        File file=new File(Constant.NETWORK_SWITCH_FAILED_EXCEL_PATH);
-        if(file.exists()){
+        File file = new File(Constant.NETWORK_SWITCH_FAILED_EXCEL_PATH);
+        if (file.exists()) {
             Util.openExcelByIntent(mContext, Constant.NETWORK_SWITCH_FAILED_EXCEL_PATH);
-        }else{
+        } else {
             Toast.makeText(mContext, "无失败记录", Toast.LENGTH_SHORT).show();
         }
     }
@@ -171,6 +171,20 @@ class NetworkSwitchPresenter extends BasePresenter<NetworkSwitchActivity> implem
             getView().updateViews();
             mContext.sendBroadcast(new Intent(Constant.ACTION_STOP_TEST));
         }
+    }
+
+    @Override
+    public void openExcelFile() {
+        ExcelUtil.exportReport(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                if (integer == 0) {
+                    Toast.makeText(mContext, "无记录", Toast.LENGTH_SHORT).show();
+                } else {
+                    Util.openExcelByIntent(mContext, Constant.NETWORK_SWITCH_EXCEL_PATH);
+                }
+            }
+        });
     }
 
     //<weisc_add>

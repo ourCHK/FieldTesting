@@ -35,5 +35,7 @@ interface NetworkSwitchContract {
         void startTest(NetworkSwitchParam inputParam);
 
         void handleClicked();
+
+        void openExcelFile();
     }
 }

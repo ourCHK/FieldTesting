@@ -15,9 +15,11 @@ import android.util.Log;
 
 import com.gionee.autotest.field.ui.network_switch.model.IToast;
 import com.gionee.autotest.field.ui.network_switch.model.InterruptException;
+import com.gionee.autotest.field.ui.network_switch.model.NetworkSwitchResult;
 
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 import java.util.function.Function;
@@ -53,7 +55,7 @@ public class NetworkSwitchUtil {
 
     public static String getSim1Name() {
         String sim1name = "";
-        String name     = MySystemProperties.get("gsm.sim.operator.default-name").trim();
+        String name = MySystemProperties.get("gsm.sim.operator.default-name").trim();
         if (name.contains(",")) {
             if (!name.endsWith(",")) {
                 sim1name = name.split(",")[0];
@@ -68,7 +70,7 @@ public class NetworkSwitchUtil {
 
     public static String getSim2Name() {
         String sim1name = "";
-        String name     = MySystemProperties.get("gsm.sim.operator.default-name").trim();
+        String name = MySystemProperties.get("gsm.sim.operator.default-name").trim();
         if (name.contains(",")) {
             if (!name.endsWith(",")) {
                 sim1name = name.split(",")[1];
@@ -111,7 +113,7 @@ public class NetworkSwitchUtil {
 
     public static void setDataEnable(Context context, int subid, boolean isEnable) {
         TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        Method           mSetMethod;
+        Method mSetMethod;
         try {
             mSetMethod = telephonyManager.getClass().getMethod("setDataEnabled", int.class, boolean.class);
             mSetMethod.invoke(telephonyManager, subid, isEnable);
@@ -123,8 +125,8 @@ public class NetworkSwitchUtil {
 
 
     public static boolean isMobileDataOn(Context context, int subId) {
-        TelephonyManager mT       = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        boolean          isDataOn = false;
+        TelephonyManager mT = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        boolean isDataOn = false;
         try {
             Method get = mT.getClass().getMethod("getDataEnabled", int.class);
             isDataOn = (boolean) get.invoke(mT, subId);
@@ -166,7 +168,7 @@ public class NetworkSwitchUtil {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static int getDefaultDataSubId(Context context) {
         SubscriptionManager sm = SubscriptionManager.from(context);
-        int                 defaultKey;
+        int defaultKey;
         try {
             Method getDefault = sm.getClass().getMethod("getDefaultDataSubId");
             defaultKey = (int) getDefault.invoke(sm);
@@ -272,5 +274,18 @@ public class NetworkSwitchUtil {
     public static String getCurrentTime(String format) {
         SimpleDateFormat mFormat = new SimpleDateFormat(format);
         return mFormat.format(new Date());
+    }
+
+    public static String getSumContent(ArrayList<NetworkSwitchResult> results) {
+        int success = 0, fail = 0;
+        for (int i = 0; i < results.size(); i++) {
+            NetworkSwitchResult networkSwitchResult = results.get(i);
+            if (networkSwitchResult.result.equals("通过")) {
+                success++;
+            } else {
+                fail++;
+            }
+        }
+        return "总测试" + results.size() + "次\n成功" + success + "次\n失败" + fail + "次\n成功率" + ((float) success / results.size()) + "%";
     }
 }
