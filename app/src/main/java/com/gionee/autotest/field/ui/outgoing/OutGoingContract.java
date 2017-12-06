@@ -28,6 +28,8 @@ public interface OutGoingContract {
         void showDialog(String message);
 
         void updateCallRate(String s);
+
+        void doFinish();
     }
 
     interface ReportView extends BaseView{
@@ -47,5 +49,7 @@ public interface OutGoingContract {
         void clearAllReport();
 
         void showReport();
+
+        void showExitWarningDialog();
     }
 }

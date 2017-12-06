@@ -25,6 +25,8 @@ public interface CallLossRatioContract {
         void showDialog(String message);
 
         void updateCallRate(String s);
+
+        void doFinish();
     }
 
     interface ReportView extends BaseView{
@@ -46,5 +48,7 @@ public interface CallLossRatioContract {
         void showReport();
 
         void openExcelFile();
+
+        void showExitWarningDialog();
     }
 }

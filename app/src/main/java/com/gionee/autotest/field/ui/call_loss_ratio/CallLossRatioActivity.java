@@ -146,6 +146,11 @@ public class CallLossRatioActivity extends BaseActivity implements CallLossRatio
     }
 
     @Override
+    public void doFinish() {
+        finish();
+    }
+
+    @Override
     protected int menuResId() {
         return R.menu.outgoing_menu;
     }
@@ -168,9 +173,24 @@ public class CallLossRatioActivity extends BaseActivity implements CallLossRatio
             case R.id.action_abouts:
                 startActivity(AboutActivity.getAboutIntent(this, getString(R.string.outgoing_about), true));
                 break;
+            case android.R.id.home:
+                if (CallLossRatioUtil.isTest) {
+                    mCallLossRatioPresenter.showExitWarningDialog();
+                    return true;
+                }
+                break;
             default:
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (CallLossRatioUtil.isTest) {
+            mCallLossRatioPresenter.showExitWarningDialog();
+        } else {
+            super.onBackPressed();
+        }
     }
 }

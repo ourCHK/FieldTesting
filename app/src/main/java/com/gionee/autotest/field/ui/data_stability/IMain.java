@@ -7,4 +7,6 @@ interface IMain {
     Context getContext();
 
     void updateViews();
+
+    void doFinish();
 }

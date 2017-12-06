@@ -43,6 +43,7 @@ class InComingPresenter extends BasePresenter<BaseView> implements InComingContr
 
     @Override
     public void startMonitor(CallMonitorParam callMonitorParam) {
+        InComingCall.isTest = true;
         long batchId = InComingDBManager.addBatch(callMonitorParam);
         String paramJson = new Gson().toJson(callMonitorParam);
         Preference.putString(mContext, "inComingParams", paramJson);
@@ -56,6 +57,7 @@ class InComingPresenter extends BasePresenter<BaseView> implements InComingContr
 
     @Override
     public void stopMonitor() {
+        InComingCall.isTest = false;
         mContext.stopService(new Intent(mContext, InComingService.class));
     }
 
@@ -155,6 +157,23 @@ class InComingPresenter extends BasePresenter<BaseView> implements InComingContr
                 getMainView().setSumContent(sum);
             }
         });
+    }
+
+    @Override
+    public void showExitWarningDialog() {
+        DialogHelper.create(mContext, "警告", "将退出到首页并停止测试", new DialogHelper.OnBeforeCreate() {
+            @Override
+            public void setOther(AlertDialog.Builder builder) {
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        stopMonitor();
+                        getMainView().updateViews();
+                        getMainView().doFinish();
+                    }
+                }).setNegativeButton("取消", null);
+            }
+        }).show();
     }
 
 

@@ -21,6 +21,8 @@ interface InComingContract {
         void setSumContent(String s);
 
         void setParams(CallMonitorParam lastParams);
+
+        void doFinish();
     }
 
     interface ReportView extends BaseView{
@@ -48,5 +50,7 @@ interface InComingContract {
         void openExcelFile();
 
         void updateSumContent();
+
+        void showExitWarningDialog();
     }
 }

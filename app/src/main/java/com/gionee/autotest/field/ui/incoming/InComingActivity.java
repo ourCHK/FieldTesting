@@ -52,10 +52,8 @@ public class InComingActivity extends BaseActivity implements InComingContract.V
     @OnClick(R.id.incoming_start_btn)
     void incomingStartClicked() {
         if (!InComingCall.isTest) {
-            InComingCall.isTest = true;
             mInComingPresenter.startMonitor(getCallMonitorParam());
         } else {
-            InComingCall.isTest = false;
             mInComingPresenter.stopMonitor();
         }
         updateViews();
@@ -114,7 +112,14 @@ public class InComingActivity extends BaseActivity implements InComingContract.V
     @Override
     protected void onResume() {
         super.onResume();
+        updateViews();
         mInComingPresenter.updateSumContent();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        updateViews();
     }
 
     private CallMonitorParam getCallMonitorParam() {
@@ -165,6 +170,12 @@ public class InComingActivity extends BaseActivity implements InComingContract.V
             case R.id.action_abouts:
                 startActivity(AboutActivity.getAboutIntent(this, getString(R.string.incoming_about), true));
                 break;
+            case android.R.id.home:
+                if (InComingCall.isTest){
+                    mInComingPresenter.showExitWarningDialog();
+                    return true;
+                }
+                break;
             default:
                 break;
         }
@@ -180,18 +191,16 @@ public class InComingActivity extends BaseActivity implements InComingContract.V
     }
 
     @Override
+    public void doFinish() {
+        finish();
+    }
+
+    @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        DialogHelper.create(this, "警告", "将退出到首页并停止测试", new DialogHelper.OnBeforeCreate() {
-            @Override
-            public void setOther(AlertDialog.Builder builder) {
-                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mInComingPresenter.stopMonitor();
-                    }
-                }).setNegativeButton("取消", null);
-            }
-        }).show();
+        if (InComingCall.isTest){
+            mInComingPresenter.showExitWarningDialog();
+        }else{
+            super.onBackPressed();
+        }
     }
 }

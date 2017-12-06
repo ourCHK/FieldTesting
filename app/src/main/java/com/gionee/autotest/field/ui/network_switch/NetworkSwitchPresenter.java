@@ -59,6 +59,22 @@ class NetworkSwitchPresenter extends BasePresenter<NetworkSwitchActivity> implem
     }
 
     @Override
+    public void showExitWarningDialog() {
+        DialogHelper.create(mContext, "警告", "将退出到首页并停止测试", new DialogHelper.OnBeforeCreate() {
+            @Override
+            public void setOther(AlertDialog.Builder builder) {
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        stop();
+                        getView().updateViews();
+                        getView().doFinish();
+                    }
+                }).setNegativeButton("取消", null);
+            }
+        }).show();
+    }
+    @Override
     public void clearAllReport() {
         DialogHelper.create(mContext, "提示", "确定清除？", new DialogHelper.OnBeforeCreate() {
             @Override
@@ -165,12 +181,16 @@ class NetworkSwitchPresenter extends BasePresenter<NetworkSwitchActivity> implem
                 getView().toast(e.getMessage());
             }
         } else {
-            Preference.putBoolean(mContext, "isTest", false);
-            Preference.putString(mContext, "ns_processText", "");
-            NetworkSwitchUtil.isTest = false;
-            getView().updateViews();
-            mContext.sendBroadcast(new Intent(Constant.ACTION_STOP_TEST));
+            stop();
         }
+    }
+
+    private void stop() {
+        Preference.putBoolean(mContext, "isTest", false);
+        Preference.putString(mContext, "ns_processText", "");
+        NetworkSwitchUtil.isTest = false;
+        getView().updateViews();
+        mContext.sendBroadcast(new Intent(Constant.ACTION_STOP_TEST));
     }
 
     @Override

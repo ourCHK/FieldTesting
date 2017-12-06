@@ -18,11 +18,15 @@ interface NetworkSwitchContract {
         void updateViews();
 
         void toast(String msg);
+
+        void doFinish();
     }
 
     interface Presenter {
 
         void showReport();
+
+        void showExitWarningDialog();
 
         void clearAllReport();
 

@@ -215,6 +215,23 @@ public class CallLossRatioPresenter extends BasePresenter<BaseView> implements C
         });
     }
 
+    @Override
+    public void showExitWarningDialog() {
+        DialogHelper.create(mContext, "警告", "将退出到首页并停止测试", new DialogHelper.OnBeforeCreate() {
+            @Override
+            public void setOther(AlertDialog.Builder builder) {
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        stop();
+                        getMainView().updateViews();
+                        getMainView().doFinish();
+                    }
+                }).setNegativeButton("取消", null);
+            }
+        }).show();
+    }
+
     @SuppressLint("StaticFieldLeak")
     private void updateBatchList() {
         new AsyncTask<Void, Void, ArrayList<String>>() {

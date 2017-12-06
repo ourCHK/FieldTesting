@@ -16,6 +16,7 @@ import com.gionee.autotest.field.ui.about.AboutActivity;
 import com.gionee.autotest.field.ui.base.BaseActivity;
 import com.gionee.autotest.field.ui.network_switch.model.NetworkSwitchParam;
 import com.gionee.autotest.field.util.Constant;
+import com.gionee.autotest.field.util.NetworkSwitchUtil;
 import com.google.gson.Gson;
 
 import butterknife.BindView;
@@ -82,11 +83,11 @@ public class NetworkSwitchActivity extends BaseActivity implements NetworkSwitch
     @Override
     public void updateViews() {
         boolean isTest = Preference.getBoolean(this, "isTest");
-        if(mStartBtn != null) {
+        if (mStartBtn != null) {
             mStartBtn.setText(isTest ? "停止测试" : "开始测试");
         }
         setViewsEnable(!isTest, mFlightModeCB, mRebootCB, mSwitchSimCB, mTestRoundET, mSignNetworkCB, mReadSimCB, mIsNetCB);
-        if(mProcessText != null) {
+        if (mProcessText != null) {
             mProcessText.setText(Preference.getString(this, "ns_processText", ""));
         }
     }
@@ -101,9 +102,14 @@ public class NetworkSwitchActivity extends BaseActivity implements NetworkSwitch
         });
     }
 
+    @Override
+    public void doFinish() {
+        finish();
+    }
+
     private static void setViewsEnable(boolean isEnable, View... v) {
         for (View mV : v) {
-            if(mV != null) {
+            if (mV != null) {
                 mV.setEnabled(isEnable);
             }
         }
@@ -159,6 +165,12 @@ public class NetworkSwitchActivity extends BaseActivity implements NetworkSwitch
             case R.id.ns_action_abouts:
                 startActivity(AboutActivity.getAboutIntent(this, getString(R.string.network_switch_about), true));
                 break;
+            case android.R.id.home:
+                if (NetworkSwitchUtil.isTest) {
+                    mPresenter.showExitWarningDialog();
+                    return true;
+                }
+                break;
             default:
                 break;
         }
@@ -168,6 +180,10 @@ public class NetworkSwitchActivity extends BaseActivity implements NetworkSwitch
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Preference.putString(this, "ns_processText", "");
+        if (NetworkSwitchUtil.isTest) {
+            mPresenter.showExitWarningDialog();
+        } else {
+            Preference.putString(this, "ns_processText", "");
+        }
     }
 }

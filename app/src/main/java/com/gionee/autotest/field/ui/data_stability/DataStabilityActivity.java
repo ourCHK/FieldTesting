@@ -81,7 +81,7 @@ public class DataStabilityActivity extends AppCompatActivity implements View.OnC
         int verifyCount = Integer.parseInt(mVerifyCount.getText().toString());
         int timeOfCall = Integer.parseInt(mTimeOfCallET.getText().toString());
         boolean isForbidSleep = forbidSleepCB.isChecked();
-        return new DataParam(waitTimeInt, testTimes, isForbidSleep, mSleepAfterTestCB.isChecked(), mCallAfterTestCB.isChecked(), verifyCount,timeOfCall);
+        return new DataParam(waitTimeInt, testTimes, isForbidSleep, mSleepAfterTestCB.isChecked(), mCallAfterTestCB.isChecked(), verifyCount, timeOfCall);
     }
 
     private void initViews() {
@@ -118,6 +118,11 @@ public class DataStabilityActivity extends AppCompatActivity implements View.OnC
             mainAction.exportDataStabilityExcelFile();
         } else if (id == R.id.open_data_stability_excel) {
             mainAction.openDataStabilityExcelFile();
+        } else if (id == android.R.id.home) {
+            if (DataStabilityUtil.isTest) {
+                mainAction.showExitWarningDialog();
+                return true;
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -133,9 +138,23 @@ public class DataStabilityActivity extends AppCompatActivity implements View.OnC
         setViewsEnabled(!DataStabilityUtil.isTest, mWaitTimeET, mTestTimesET, forbidSleepCB, mCallAfterTestCB, mSleepAfterTestCB);
     }
 
+    @Override
+    public void doFinish() {
+        finish();
+    }
+
     public void setViewsEnabled(boolean isEnabled, View... views) {
         for (View view : views) {
             view.setEnabled(isEnabled);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (DataStabilityUtil.isTest) {
+            mainAction.showExitWarningDialog();
+        } else {
+            super.onBackPressed();
         }
     }
 }
