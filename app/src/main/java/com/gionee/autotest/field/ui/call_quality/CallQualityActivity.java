@@ -16,10 +16,14 @@ import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.ui.about.AboutActivity;
 import com.gionee.autotest.field.ui.base.BaseActivity;
 import com.gionee.autotest.field.ui.call_quality.entity.CallQualityConstant;
+import com.gionee.autotest.field.ui.call_quality.model.ReportFile;
 import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.Util;
+import com.gionee.autotest.field.views.ListDialog;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -140,6 +144,9 @@ public class CallQualityActivity extends BaseActivity implements CallQualityCont
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.report:
+                mPresenter.fetchResults();
+                return true ;
             case R.id.about:
                 startActivity(AboutActivity.getAboutIntent(this, getString(R.string.signal_about), true));
                 return true;
@@ -579,5 +586,41 @@ public class CallQualityActivity extends BaseActivity implements CallQualityCont
     @Override
     public void onBackPressed() {
         handleBackPressedAction() ;
+    }
+
+    @Override
+    public void showEmptyReport() {
+        Toast.makeText(this, R.string.empty_report_notice, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showReport(final List<ReportFile> files) {
+        final List<String> items = new ArrayList<>() ;
+        for (ReportFile file : files){
+            items.add(file.getDirectory()) ;
+        }
+        //show dialog
+        new ListDialog(this)
+                .setTopColorRes(R.color.colorPrimary)
+                .setIcon(R.drawable.ic_info_outline_white_36dp)
+                .setTitle(R.string.choose_report_title)
+                .setItems(items, new ListDialog.OnItemSelectedListener<String>(){
+
+                    @Override
+                    public void onItemSelected(int position, String item) {
+                        String path = null ;
+                        for (ReportFile file : files){
+                            if (file.getDirectory().endsWith(item)){
+                                path = file.getFilePath() ;
+                            }
+                        }
+                        if (path == null || "".equals(path)){
+                            Toast.makeText(CallQualityActivity.this, R.string.open_report_failure, Toast.LENGTH_SHORT).show();
+                            return ;
+                        }
+                        Util.openExcelByIntent(CallQualityActivity.this, path);
+                    }
+                })
+                .show();
     }
 }

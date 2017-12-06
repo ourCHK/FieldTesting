@@ -19,8 +19,11 @@ import com.gionee.autotest.field.ui.base.BaseActivity;
 import com.gionee.autotest.field.ui.main.MainActivity;
 import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.Util;
+import com.gionee.autotest.field.views.ListDialog;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -61,6 +64,9 @@ public class SignalActivity extends BaseActivity implements SignalContract.View,
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.report:
+                mSignalPresenter.fetchResults();
+                return true ;
             case R.id.about:
                 startActivity(AboutActivity.getAboutIntent(this, getString(R.string.signal_about), true));
                 return true;
@@ -158,5 +164,41 @@ public class SignalActivity extends BaseActivity implements SignalContract.View,
     @Override
     public void setStopButtonVisibility(boolean visibility) {
         mBtnStop.setEnabled(visibility);
+    }
+
+    @Override
+    public void showEmptyReport() {
+        Toast.makeText(this, R.string.empty_report_notice, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showReport(final List<String> files) {
+        final List<String> items = new ArrayList<>() ;
+        for (String file : files){
+            items.add(file.substring(file.lastIndexOf("/") + 1)) ;
+        }
+        //show dialog
+        new ListDialog(this)
+                .setTopColorRes(R.color.colorPrimary)
+                .setIcon(R.drawable.ic_info_outline_white_36dp)
+                .setTitle(R.string.choose_report_title)
+                .setItems(items, new ListDialog.OnItemSelectedListener<String>(){
+
+                    @Override
+                    public void onItemSelected(int position, String item) {
+                        String path = null ;
+                        for (String file : files){
+                            if (file.endsWith(item)){
+                                path = file ;
+                            }
+                        }
+                        if (path == null || "".equals(path)){
+                            Toast.makeText(SignalActivity.this, R.string.open_report_failure, Toast.LENGTH_SHORT).show();
+                            return ;
+                        }
+                        Util.openExcelByIntent(SignalActivity.this, path);
+                    }
+                })
+                .show();
     }
 }

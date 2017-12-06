@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item android:id="@+id/report"
+        android:title="@string/testReport"
+        app:showAsAction="never"/>
+
     <item android:id="@+id/about"
         android:title="@string/about"
         app:showAsAction="never"/>

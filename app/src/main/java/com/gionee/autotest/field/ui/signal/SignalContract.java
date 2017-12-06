@@ -1,8 +1,10 @@
 package com.gionee.autotest.field.ui.signal;
 
 import com.gionee.autotest.field.ui.base.BaseView;
+import com.gionee.autotest.field.ui.call_quality.model.ReportFile;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * Created by viking on 11/13/17.
@@ -35,6 +37,10 @@ interface SignalContract {
 
         void showSignalExportSuccess(String filePath) ;
 
+        void showEmptyReport() ;
+
+        void showReport(List<String> files) ;
+
     }
 
     interface Presenter {
@@ -46,5 +52,7 @@ interface SignalContract {
         void unregisterSignalListener() ;
 
         void doExport(File target, File destination) ;
+
+        void fetchResults() ;
     }
 }

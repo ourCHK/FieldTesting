@@ -5,8 +5,10 @@ import android.content.DialogInterface;
 import android.view.View;
 
 import com.gionee.autotest.field.ui.base.BaseView;
+import com.gionee.autotest.field.ui.call_quality.model.ReportFile;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * Created by Viking on 2017/11/22.
@@ -39,6 +41,10 @@ interface CallQualityContract {
         void showExportErrorInformation(int type) ;
 
         void showExportSuccessInformation(String path) ;
+
+        void showEmptyReport() ;
+
+        void showReport(List<ReportFile> files) ;
     }
 
     interface Presenter {
@@ -54,5 +60,7 @@ interface CallQualityContract {
         void doExport(String phone_num, String phone_num_o, File target, File destination) ;
 
         void handleBackPressedAction(CallQualityActivity context) ;
+
+        void fetchResults() ;
     }
 }

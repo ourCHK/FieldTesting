@@ -2,17 +2,14 @@ package com.gionee.autotest.field.ui.about;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.ui.base.BaseActivity;
-import com.gionee.autotest.field.util.Constant;
 
 import butterknife.BindView;
 

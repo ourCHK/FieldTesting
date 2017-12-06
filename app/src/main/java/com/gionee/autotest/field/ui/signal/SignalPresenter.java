@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.gionee.autotest.common.Preference;
 import com.gionee.autotest.field.R;
@@ -11,10 +12,12 @@ import com.gionee.autotest.field.services.SignalMonitorService;
 import com.gionee.autotest.field.ui.base.BasePresenter;
 import com.gionee.autotest.field.ui.base.listener.BaseCallback;
 import com.gionee.autotest.field.ui.signal.model.ExportModel;
+import com.gionee.autotest.field.ui.signal.model.ReportFetch;
 import com.gionee.autotest.field.util.Constant;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by viking on 11/13/17.
@@ -130,5 +133,29 @@ class SignalPresenter extends BasePresenter<SignalContract.View> implements Sign
             }
         });
 
+    }
+
+    @Override
+    public void fetchResults() {
+        ReportFetch report = new ReportFetch() ;
+        report.getAllReports(new BaseCallback<List<String>>() {
+            @Override
+            public void onSuccess(List<String> reportFiles) {
+                if (reportFiles != null && reportFiles.size() > 0){
+                    for (String r : reportFiles){
+                        Log.i(Constant.TAG , " path : " + r) ;
+                    }
+                    getView().showReport(reportFiles);
+                }else{
+                    Log.i(Constant.TAG, "path is empty") ;
+                    getView().showEmptyReport();
+                }
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+        });
     }
 }

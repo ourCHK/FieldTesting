@@ -241,6 +241,9 @@
     <string name="call_quality_error_phone_num">请输入机型/编号！</string>
     <string name="call_quality_not_running">请先开始测试！</string>
     <string name="finished_title">测试已完成</string>
+    <string name="empty_report_notice">无测试报告，请先测试！</string>
+    <string name="choose_report_title">请选择报告时间</string>
+    <string name="open_report_failure">打开测试报告失败</string>
 
     <!-- data_stability  resources-->
     <!--<string name="app_name">AutoDataStabilityTest</string>-->

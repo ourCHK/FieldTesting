@@ -22,7 +22,6 @@ import com.gionee.autotest.field.data.db.model.App;
 import com.gionee.autotest.field.ui.about.AboutActivity;
 import com.gionee.autotest.field.ui.base.BaseActivity;
 import com.gionee.autotest.field.ui.base.listener.RecyclerItemListener;
-import com.gionee.autotest.field.ui.debug.DebugActivity;
 import com.gionee.autotest.field.ui.install.InstallAppActivity;
 import com.gionee.autotest.field.util.BuildConfig;
 import com.gionee.autotest.field.util.Constant;

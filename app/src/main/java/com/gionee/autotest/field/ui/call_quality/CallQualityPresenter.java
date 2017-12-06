@@ -2,6 +2,7 @@ package com.gionee.autotest.field.ui.call_quality;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 
@@ -14,11 +15,14 @@ import com.gionee.autotest.field.ui.call_quality.entity.CallQualityConstant;
 import com.gionee.autotest.field.ui.call_quality.entity.QualityEvent;
 import com.gionee.autotest.field.ui.call_quality.model.DataExport;
 import com.gionee.autotest.field.ui.call_quality.model.DataRecord;
+import com.gionee.autotest.field.ui.call_quality.model.DataReport;
+import com.gionee.autotest.field.ui.call_quality.model.ReportFile;
 import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.views.StandardDialog;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by Viking on 2017/11/22.
@@ -159,4 +163,27 @@ public class CallQualityPresenter extends BasePresenter<CallQualityContract.View
                 .show();
     }
 
+    @Override
+    public void fetchResults() {
+        DataReport report = new DataReport() ;
+        report.getAllReports(new BaseCallback<List<ReportFile>>() {
+            @Override
+            public void onSuccess(List<ReportFile> reportFiles) {
+                if (reportFiles != null && reportFiles.size() > 0){
+                    for (ReportFile r : reportFiles){
+                        Log.i(Constant.TAG , "Dir : " + r.getDirectory() + " path : " + r.getFilePath()) ;
+                    }
+                    getView().showReport(reportFiles);
+                }else{
+                    Log.i(Constant.TAG, "path is empty") ;
+                    getView().showEmptyReport();
+                }
+            }
+
+            @Override
+            public void onFail() {
+
+            }
+        });
+    }
 }
