@@ -85,8 +85,9 @@ public class DataResetActivity extends BaseActivity implements DataResetContract
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.data_reset_about:
-//                Toast.makeText(getApplicationContext(), R.string.not_implemented_yet, Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(this, AboutActivity.class));
+//                startActivity(new Intent(this, AboutActivity.class));
+
+                startActivity(AboutActivity.getAboutIntent(this, getString(R.string.data_reset_about_name), true));
                 return true;
             case R.id.data_reset_test:
 
