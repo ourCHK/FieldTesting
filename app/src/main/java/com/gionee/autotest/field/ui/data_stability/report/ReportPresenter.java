@@ -58,7 +58,9 @@ class ReportPresenter {
         @Override
         protected ArrayList<WebViewResultSum> doInBackground(Integer... ids) {
             DatabaseUtil db = new DatabaseUtil(mView.getContext());
-            return db.getResult(ids[0]);
+            ArrayList<WebViewResultSum> result = db.getResult(ids[0]);
+            db.close();
+            return result;
         }
 
         @Override

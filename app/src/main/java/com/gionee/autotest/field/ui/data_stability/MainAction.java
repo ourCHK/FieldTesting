@@ -8,13 +8,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.util.SparseArray;
 import android.widget.Toast;
 
 import com.gionee.autotest.common.Preference;
+import com.gionee.autotest.common.TimeUtil;
 import com.gionee.autotest.field.data.db.DatabaseHelper;
 import com.gionee.autotest.field.data.db.DatabaseUtil;
 import com.gionee.autotest.field.services.WebViewService;
 import com.gionee.autotest.field.ui.data_stability.report.ReportActivity;
+import com.gionee.autotest.field.ui.signal.entity.SimSignalInfo;
 import com.gionee.autotest.field.util.Configurator;
 import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.DataStabilityUtil;
@@ -159,7 +162,8 @@ class MainAction {
             protected Integer doInBackground(Void... voids) {
                 DatabaseUtil databaseUtil = new DatabaseUtil(mContext);
                 ArrayList<DataStabilityBean> dataStabilityBeans = databaseUtil.getDataStabilityBeans();
-                writeAllExcel(dataStabilityBeans, Constant.DATA_STABILITY_EXCEL_PATH);
+                writeAllExcel2(dataStabilityBeans, Constant.DATA_STABILITY_EXCEL_PATH);
+                databaseUtil.close();
                 return dataStabilityBeans.size();
             }
 
@@ -177,6 +181,116 @@ class MainAction {
         }.execute();
     }
 
+    boolean writeAllExcel2(ArrayList<DataStabilityBean> beans, String filePath) {
+        String[] titles = new String[]{"轮次", "网页序号", "结果", "失败点信息", "时间"};
+        WritableWorkbook workBook = null;
+        try {
+            File file = new File(filePath);
+            if (!file.getParentFile().exists()) {
+                boolean mkdir = file.getParentFile().mkdir();
+                DataStabilityUtil.i("创建"+mkdir);
+            }
+            if (file.exists()) {
+                boolean delete = file.delete();
+                DataStabilityUtil.i("删除"+delete);
+            }
+            boolean newFile = file.createNewFile();
+            DataStabilityUtil.i("新建文件"+newFile);
+            workBook = Workbook.createWorkbook(file);
+
+            ArrayList<ArrayList<DataStabilityBean>> batchBeans = getBatchBeans(beans);
+
+            Gson gson = new Gson();
+            for (int batchIndex = 0; batchIndex < batchBeans.size(); batchIndex++) {
+                WritableSheet sheet = workBook.createSheet("第" + batchIndex + "批次", batchIndex);
+                for (int i = 0; i < titles.length; i++) {
+                    sheet.addCell(new Label(i, 0, titles[i]));
+                }
+//                CellView cellView = new CellView();
+//                cellView.setAutosize(true);
+                for (int titleIndex = 0; titleIndex < titles.length; titleIndex++) {
+                    sheet.setColumnView(titleIndex, 10);
+                }
+                ArrayList<DataStabilityBean> beanArrayList = batchBeans.get(batchIndex);
+                int row = 1;
+                for (int testIndex = 0; testIndex < beanArrayList.size(); testIndex++) {
+                    DataStabilityBean b = beanArrayList.get(testIndex);
+                    sheet.addCell(new Label(0, row, "第" + (testIndex + 1) + "轮"));
+                    String result = b.getResult();
+                    WebViewResultSum webViewResultSum = gson.fromJson(result, WebViewResultSum.class);
+                    for (int beforeIndex = 0; beforeIndex < webViewResultSum.resultBefore.size(); beforeIndex++) {
+                        WebViewUtil.WebViewResult webViewResult = webViewResultSum.resultBefore.get(beforeIndex);
+                        sheet.addCell(new Label(1, row, String.valueOf(beforeIndex + 1)));
+                        sheet.addCell(new Label(2, row, webViewResult.result ? "成功" : "失败"));
+                        SimSignalInfo info = null;
+                        try {
+                            if (!"".equals(webViewResult.netSimInfo)) {
+                                info = gson.fromJson(webViewResult.netSimInfo, SimSignalInfo.class);
+                            }
+                        } catch (JsonSyntaxException e) {
+                            e.printStackTrace();
+                        }
+                        sheet.addCell(new Label(3, row, info == null ? "" : info.toString()));
+                        sheet.addCell(new Label(3, row, TimeUtil.getTime(webViewResult.loadWebTime, "yyyy-MM-dd HH:mm:ss")));
+                        row++;
+                    }
+                    for (int afterIndex = 0; afterIndex < webViewResultSum.resultAfter.size(); afterIndex++) {
+                        WebViewUtil.WebViewResult webViewResult = webViewResultSum.resultAfter.get(afterIndex);
+                        sheet.addCell(new Label(1, row, String.valueOf(afterIndex + 1)));
+                        sheet.addCell(new Label(2, row, webViewResult.result ? "成功" : "失败"));
+                        SimSignalInfo info = null;
+                        try {
+                            if (!webViewResult.netSimInfo.equals("")) {
+                                info = gson.fromJson(webViewResult.netSimInfo, SimSignalInfo.class);
+                            }
+                        } catch (JsonSyntaxException e) {
+                            e.printStackTrace();
+                        }
+                        sheet.addCell(new Label(3, row, info == null ? "" : info.toString()));
+                        sheet.addCell(new Label(3, row, TimeUtil.getTime(webViewResult.loadWebTime, "yyyy-MM-dd HH:mm:ss")));
+                        row++;
+                    }
+
+                }
+            }
+            workBook.write();
+            workBook.close();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            if (workBook != null) {
+                try {
+                    workBook.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+    }
+
+    private ArrayList<ArrayList<DataStabilityBean>> getBatchBeans(ArrayList<DataStabilityBean> beans) {
+        SparseArray<ArrayList<DataStabilityBean>> arrays = new SparseArray<>();
+        for (DataStabilityBean bean : beans) {
+            if (arrays.indexOfKey(bean.batchId) > 0) {
+                ArrayList<DataStabilityBean> dataStabilityBeans = arrays.get(bean.batchId);
+                dataStabilityBeans.add(bean);
+                arrays.put(bean.batchId, dataStabilityBeans);
+            } else {
+                ArrayList<DataStabilityBean> dataStabilityBeans = new ArrayList<>();
+                dataStabilityBeans.add(bean);
+                arrays.put(bean.batchId, dataStabilityBeans);
+            }
+        }
+        ArrayList<ArrayList<DataStabilityBean>> batchBeans = new ArrayList<>();
+        for (int i = 0; i < arrays.size(); i++) {
+            ArrayList<DataStabilityBean> dataStabilityBeans = arrays.valueAt(i);
+            batchBeans.add(dataStabilityBeans);
+        }
+        return batchBeans;
+    }
 
     /**
      * 将数据输出至Excel文件

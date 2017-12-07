@@ -31,6 +31,7 @@ public class WriteResultTask extends AsyncTask<WebViewResultSum, Void, Void> {
             contentValues.put("testIndex", textIndex);
             contentValues.put("result", new Gson().toJson(resultSum));
             databaseUtil.insert(contentValues);
+            databaseUtil.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

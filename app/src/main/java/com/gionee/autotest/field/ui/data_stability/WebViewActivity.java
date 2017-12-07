@@ -1,5 +1,6 @@
 package com.gionee.autotest.field.ui.data_stability;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -60,7 +61,7 @@ public class WebViewActivity extends AppCompatActivity implements IWebViewActivi
     public static void hookWebView() {
         int sdkInt = Build.VERSION.SDK_INT;
         try {
-            Class<?> factoryClass = Class.forName("android.webkit.WebViewFactory");
+            @SuppressLint("PrivateApi") Class<?> factoryClass = Class.forName("android.webkit.WebViewFactory");
             Field field = factoryClass.getDeclaredField("sProviderInstance");
             field.setAccessible(true);
             Object sProviderInstance = field.get(null);

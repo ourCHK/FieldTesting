@@ -80,6 +80,7 @@ public class WebViewService extends Service {
             protected Integer doInBackground(Void... voids) {
                 DatabaseUtil      db  = new DatabaseUtil(getApplicationContext());
                 ArrayList<String> ids = db.getIds();
+                db.close();
                 if (ids.size() == 0) {
                     return 0;
                 }
