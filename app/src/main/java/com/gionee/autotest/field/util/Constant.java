@@ -73,6 +73,9 @@ public class Constant {
     // 自定义ACTION常数作为Intent Filter识别常数
     public static final String SMS_SEND_ACTION = "message_sms_send_action";
 
+    // 自定义ACTION常数作为Intent Filter识别常数
+    public static final String DELIVERED_SMS_ACTION = "message_delivered_sms_action";
+
 
     public static final String PREF_NAME = "field_prefs";
 

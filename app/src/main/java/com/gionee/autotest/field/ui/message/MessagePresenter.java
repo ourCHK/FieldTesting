@@ -108,7 +108,6 @@ public class MessagePresenter extends BasePresenter<MessageContract.View> implem
         Preference.putString(context,Constant.MESSAGE_PRESENTATION_NAME, MessageHelper.getTimeData()+".xls");
         Preference.putBoolean(context, Constant.PREF_KEY_MESSAGE_DATA_COLLECT_RUNNING, true) ;
         Preference.putLong(context, Constant.PREF_KEY_MESSAGE_DATA_COLLECT_CURRENT_CYCLE, 1) ;
-
         Preference.putLong(context, Constant.PREF_KEY_MESSAGE_INTERVAL, Long.parseLong(time)) ;
         Preference.putString(context, Constant.PREF_KEY_MESSAGE_PHONE,et_phone) ;
 
