@@ -13,15 +13,15 @@
         android:title="清除报告"
         app:showAsAction="never"/>
 
-    <item
-        android:id="@+id/export_data_stability_excel"
-        android:orderInCategory="100"
-        android:title="导出Excel"
-        app:showAsAction="never"/>
+    <!--<item-->
+        <!--android:id="@+id/export_data_stability_excel"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:title="导出Excel"-->
+        <!--app:showAsAction="never"/>-->
     <item
         android:id="@+id/open_data_stability_excel"
         android:orderInCategory="100"
-        android:title="打开Excel"
+        android:title="@string/open_excel_title"
         app:showAsAction="never"/>
 
 

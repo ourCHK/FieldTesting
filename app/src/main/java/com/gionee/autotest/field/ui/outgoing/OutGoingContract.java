@@ -51,5 +51,7 @@ public interface OutGoingContract {
         void showReport();
 
         void showExitWarningDialog();
+
+        void openExcelFile();
     }
 }

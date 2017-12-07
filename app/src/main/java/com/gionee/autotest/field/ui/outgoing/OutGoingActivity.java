@@ -167,6 +167,9 @@ public class OutGoingActivity extends BaseActivity implements OutGoingContract.V
             case R.id.export_excel:
                 mOutGoingPresenter.exportExcelFile();
                 break;
+            case R.id.open_excel:
+                mOutGoingPresenter.openExcelFile();
+                break;
             case R.id.action_abouts:
                 startActivity(AboutActivity.getAboutIntent(this, getString(R.string.outgoing_about), true));
                 break;

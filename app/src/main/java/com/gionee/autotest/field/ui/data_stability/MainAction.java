@@ -26,6 +26,8 @@ import com.google.gson.JsonSyntaxException;
 import java.io.File;
 import java.util.ArrayList;
 
+import io.reactivex.functions.Consumer;
+import jxl.CellView;
 import jxl.Workbook;
 import jxl.write.Label;
 import jxl.write.WritableSheet;
@@ -114,27 +116,63 @@ class MainAction {
     }
 
     void openDataStabilityExcelFile() {
-        Util.openExcelByIntent(mContext, Constant.DATA_STABILITY_EXCEL_PATH);
+        exportExcel(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                if (integer > 0) {
+                    Util.openExcelByIntent(mContext, Constant.DATA_STABILITY_EXCEL_PATH);
+                } else {
+                    Toast.makeText(mContext, "无数据", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
     }
 
     @SuppressLint("StaticFieldLeak")
     void exportDataStabilityExcelFile() {
-        new AsyncTask<Void, Void, Boolean>() {
+        exportExcel(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer size) throws Exception {
+                if (size > 0) {
+                    DialogHelper.create(main.getActivity(), "提示", "导出成功,是否立即打开?", new DialogHelper.OnBeforeCreate() {
+                        @Override
+                        public void setOther(AlertDialog.Builder builder) {
+                            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Util.openExcelByIntent(mContext, Constant.DATA_STABILITY_EXCEL_PATH);
+                                }
+                            }).setNegativeButton("取消", null);
+                        }
+                    }).show();
+                }
+            }
+        });
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private void exportExcel(final Consumer<Integer> c) {
+        new AsyncTask<Void, Void, Integer>() {
 
             @Override
-            protected Boolean doInBackground(Void... voids) {
+            protected Integer doInBackground(Void... voids) {
                 DatabaseUtil databaseUtil = new DatabaseUtil(mContext);
                 ArrayList<DataStabilityBean> dataStabilityBeans = databaseUtil.getDataStabilityBeans();
-                return writeAllExcel(dataStabilityBeans, Constant.DATA_STABILITY_EXCEL_PATH);
+                writeAllExcel(dataStabilityBeans, Constant.DATA_STABILITY_EXCEL_PATH);
+                return dataStabilityBeans.size();
             }
 
             @Override
-            protected void onPostExecute(Boolean writeExcelResult) {
+            protected void onPostExecute(Integer writeExcelResult) {
                 super.onPostExecute(writeExcelResult);
-                if (writeExcelResult)
-                    Toast.makeText(mContext, "导出成功", Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(mContext, "导出失败", Toast.LENGTH_SHORT).show();
+                if (c != null) {
+                    try {
+                        c.accept(writeExcelResult);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }.execute();
     }
@@ -176,7 +214,11 @@ class MainAction {
                 sheet.addCell(new Label(12, 0, "Level2"));
                 sheet.addCell(new Label(13, 0, "Signal2"));
                 sheet.addCell(new Label(14, 0, "运营商2"));
-
+                CellView cellView = new CellView();
+                cellView.setAutosize(true);
+                for (int titleIndex = 0; titleIndex < 6; titleIndex++) {
+                    sheet.setColumnView(titleIndex, cellView);
+                }
                 int row = 1;
                 for (DataStabilityBean dataStabilityBean : beans) {
                     sheet.addCell(new Label(0, row, dataStabilityBean.getId() + ""));

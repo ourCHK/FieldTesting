@@ -15,6 +15,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import io.reactivex.functions.Consumer;
+import jxl.CellView;
 import jxl.Workbook;
 import jxl.write.Label;
 import jxl.write.WritableSheet;
@@ -159,6 +160,11 @@ public class InComingCall {
                 sheet.addCell(new Label(2, 0, "接听时间"));
                 sheet.addCell(new Label(3, 0, "结果"));
                 sheet.addCell(new Label(4, 0, "失败原因"));
+                CellView cellView = new CellView();
+                cellView.setAutosize(true);
+                for (int titleIndex = 0; titleIndex < 6; titleIndex++) {
+                    sheet.setColumnView(titleIndex, cellView);
+                }
                 for (int callIndex = 0; callIndex < bean.data.size(); callIndex++) {
                     CallMonitorResult result = bean.data.get(callIndex);
                     sheet.addCell(new Label(0, callIndex + 1, (result.index + 1) + ""));

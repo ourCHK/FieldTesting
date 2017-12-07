@@ -23,6 +23,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import io.reactivex.functions.Consumer;
+import jxl.CellView;
 import jxl.Workbook;
 import jxl.write.Label;
 import jxl.write.WritableSheet;
@@ -65,6 +66,11 @@ public class CallLossRatioUtil {
                 sheet.addCell(new Label(4, 0, "挂断时间"));
                 sheet.addCell(new Label(5, 0, "结果"));
                 sheet.addCell(new Label(6, 0, "失败点网络信息"));
+                CellView cellView = new CellView();
+                cellView.setAutosize(true);
+                for (int titleIndex = 0; titleIndex < 6; titleIndex++) {
+                    sheet.setColumnView(titleIndex, cellView);
+                }
                 int cycleIndex = -1;
                 ArrayList<OutGoingCallResult> results = list.get(i);
                 for (int j = 0; j < results.size(); j++) {

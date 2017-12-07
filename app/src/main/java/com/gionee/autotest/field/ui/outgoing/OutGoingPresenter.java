@@ -249,6 +249,7 @@ public class OutGoingPresenter extends BasePresenter<BaseView> implements OutGoi
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
     @Override
     public void showExitWarningDialog() {
         DialogHelper.create(mContext, "警告", "将退出到首页并停止测试", new DialogHelper.OnBeforeCreate() {
@@ -265,6 +266,21 @@ public class OutGoingPresenter extends BasePresenter<BaseView> implements OutGoi
             }
         }).show();
     }
+
+    @Override
+    public void openExcelFile() {
+        OutGoingUtil.exportExcelFile(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer size) throws Exception {
+                if (size == 0) {
+                    Toast.makeText(mContext, "无报告", Toast.LENGTH_LONG).show();
+                } else {
+                    Util.openExcelByIntent(mContext, Constant.OUT_GOING_EXCEL_PATH);
+                }
+            }
+        });
+    }
+
     class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {

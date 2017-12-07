@@ -112,9 +112,11 @@ public class DataStabilityActivity extends AppCompatActivity implements View.OnC
         } else if (id == R.id.action_report) {
             mainAction.showReportPage();
             return true;
-        } else if (id == R.id.export_data_stability_excel) {
-            mainAction.exportDataStabilityExcelFile();
-        } else if (id == R.id.open_data_stability_excel) {
+        }
+//        else if (id == R.id.export_data_stability_excel) {
+//            mainAction.exportDataStabilityExcelFile();
+//        }
+        else if (id == R.id.open_data_stability_excel) {
             mainAction.openDataStabilityExcelFile();
         } else if (id == android.R.id.home) {
             if (DataStabilityUtil.isTest) {

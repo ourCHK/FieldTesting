@@ -75,7 +75,7 @@ public class WebViewAction implements CallBack {
                 verifyIndex = 0;
                 isVerify = false;
             }
-            webViewUtil.load(instance.urls[urlIndex], WebViewAction.this);
+            webViewUtil.load(instance.urls[urlIndex-1], WebViewAction.this);
         } else {
             if (isBefore) {
                 DataStabilityUtil.i("isBefore=true");
