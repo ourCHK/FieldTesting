@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:maxLength="6"
-                android:text="5"
+                android:text="3"
                 android:textColor="@color/colorPrimary" />
         </RelativeLayout>
 

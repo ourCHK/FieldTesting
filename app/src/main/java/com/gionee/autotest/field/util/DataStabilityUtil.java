@@ -37,7 +37,11 @@ public class DataStabilityUtil {
         callLogUtil.setCallLogListener(context, new CallLogUtil.CallLogListener() {
             @Override
             public void onChanged(OutGoingCallResult lastCallLog) {
-                callLogUtil.cancelListen(context);
+                try {
+                    callLogUtil.cancelListen(context);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 if (c != null) {
                     c.todo(lastCallLog);
                 }

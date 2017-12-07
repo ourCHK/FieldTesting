@@ -1,7 +1,7 @@
 package com.gionee.autotest.field.ui.data_stability;
 
 public class DataParam {
-    public int waitTime = 5;
+    public int waitTime = 3;
     public int testTimes = 5;
     public boolean isForbidSleep = false;
     public boolean sleepAfterTest = false;
@@ -10,7 +10,7 @@ public class DataParam {
     public int timeOfCall =5;
 
     public DataParam() {
-        this(5, 5, false, false, false, 5,5);
+        this(3, 5, false, false, false, 5,5);
     }
 
     public DataParam(int waitTime, int testTimes, boolean isForbidSleep, boolean sleepAfterTest, boolean callAfterTest, int verifyCount,int timeOfCall) {
