@@ -25,7 +25,7 @@ public class WebViewUtil extends WebViewClient implements MyWebView.OnLoadFinish
     private CallBack callBack = null;
     private WebViewResult webViewResult;
     private boolean redirect = false;
-    private boolean start    = false;
+    private boolean start = false;
     private long loadTime;
 
     public WebViewUtil(MyWebView webView) {
@@ -74,7 +74,7 @@ public class WebViewUtil extends WebViewClient implements MyWebView.OnLoadFinish
                 redirect = false;
             } else {
                 long loadWebTime = System.currentTimeMillis() - loadTime;
-                webViewResult.setLoadWebTime(loadWebTime);
+//                webViewResult.setLoadWebTime(loadWebTime);
                 webViewResult.setResult(webViewResult.errorMsg.equals(""));
                 new AsyncTask<Void, Void, Void>() {
 
@@ -104,40 +104,40 @@ public class WebViewUtil extends WebViewClient implements MyWebView.OnLoadFinish
             DataStabilityUtil.i("onReceivedError=" + error.getErrorCode() + "des=" + error.getDescription());
             webViewResult.setErrorCode(error.getErrorCode()).setErrorMsg(error.getDescription().toString());
             webViewResult.setNetSimInfo(OutGoingUtil.getSimNetInfo(FieldApplication.getContext()));
-
-            SimSignalInfo simSignalInfo1 = SignalHelper.getInstance(FieldApplication.getContext()).getSimSignalInfo(SignalHelper.SIM_CARD_0);
-            SimSignalInfo simSignalInfo2 = SignalHelper.getInstance(FieldApplication.getContext()).getSimSignalInfo(SignalHelper.SIM_CARD_1);
-            if (simSignalInfo1 != null) { //获取Sim1卡信息
-                DataStabilityUtil.i(simSignalInfo1.toString());
-                webViewResult.setActive1(simSignalInfo1.mIsActive);
-                webViewResult.setLevel1(simSignalInfo1.mLevel);
-                webViewResult.setNetType1(simSignalInfo1.mNetType);
-                webViewResult.setSignal1(simSignalInfo1.mSignal);
-                if (simSignalInfo1.mOperator.contains("CMCC"))
-                    webViewResult.setOperator1("移动");
-                else if (simSignalInfo1.mOperator.contains("UNICOM"))
-                    webViewResult.setOperator1("联通");
-                else
-                    webViewResult.setOperator1("电信");
-            } else {
-                DataStabilityUtil.i("无法获取Sim1信息,请检查是否有插入Sim卡");
-            }
-
-            if (simSignalInfo2 != null) { //获取Sim2卡信息
-                DataStabilityUtil.i(simSignalInfo2.toString());
-                webViewResult.setActive2(simSignalInfo2.mIsActive);
-                webViewResult.setLevel2(simSignalInfo2.mLevel);
-                webViewResult.setNetType2(simSignalInfo2.mNetType);
-                webViewResult.setSignal2(simSignalInfo2.mSignal);
-                if (simSignalInfo2.mOperator.contains("CMCC"))
-                    webViewResult.setOperator2("移动");
-                else if (simSignalInfo2.mOperator.contains("UNICOM"))
-                    webViewResult.setOperator2("联通");
-                else
-                    webViewResult.setOperator2("电信");
-            } else {
-                DataStabilityUtil.i("无法获取Sim2信息,请检查是否有插入Sim卡");
-            }
+            webViewResult.setLoadWebTime(System.currentTimeMillis());
+//            SimSignalInfo simSignalInfo1 = SignalHelper.getInstance(FieldApplication.getContext()).getSimSignalInfo(SignalHelper.SIM_CARD_0);
+//            SimSignalInfo simSignalInfo2 = SignalHelper.getInstance(FieldApplication.getContext()).getSimSignalInfo(SignalHelper.SIM_CARD_1);
+//            if (simSignalInfo1 != null) { //获取Sim1卡信息
+//                DataStabilityUtil.i(simSignalInfo1.toString());
+//                webViewResult.setActive1(simSignalInfo1.mIsActive);
+//                webViewResult.setLevel1(simSignalInfo1.mLevel);
+//                webViewResult.setNetType1(simSignalInfo1.mNetType);
+//                webViewResult.setSignal1(simSignalInfo1.mSignal);
+//                if (simSignalInfo1.mOperator.contains("CMCC"))
+//                    webViewResult.setOperator1("移动");
+//                else if (simSignalInfo1.mOperator.contains("UNICOM"))
+//                    webViewResult.setOperator1("联通");
+//                else
+//                    webViewResult.setOperator1("电信");
+//            } else {
+//                DataStabilityUtil.i("无法获取Sim1信息,请检查是否有插入Sim卡");
+//            }
+//
+//            if (simSignalInfo2 != null) { //获取Sim2卡信息
+//                DataStabilityUtil.i(simSignalInfo2.toString());
+//                webViewResult.setActive2(simSignalInfo2.mIsActive);
+//                webViewResult.setLevel2(simSignalInfo2.mLevel);
+//                webViewResult.setNetType2(simSignalInfo2.mNetType);
+//                webViewResult.setSignal2(simSignalInfo2.mSignal);
+//                if (simSignalInfo2.mOperator.contains("CMCC"))
+//                    webViewResult.setOperator2("移动");
+//                else if (simSignalInfo2.mOperator.contains("UNICOM"))
+//                    webViewResult.setOperator2("联通");
+//                else
+//                    webViewResult.setOperator2("电信");
+//            } else {
+//                DataStabilityUtil.i("无法获取Sim2信息,请检查是否有插入Sim卡");
+//            }
         }
     }
 
@@ -148,9 +148,9 @@ public class WebViewUtil extends WebViewClient implements MyWebView.OnLoadFinish
 
 
     public class WebViewResult {
-        public boolean result    = true;
-        public int     errorCode = 0;
-        public String  errorMsg  = "";
+        public boolean result = true;
+        public int errorCode = 0;
+        public String errorMsg = "";
 
         public boolean isActive1 = false;
         public int level1 = -1;
@@ -164,7 +164,7 @@ public class WebViewUtil extends WebViewClient implements MyWebView.OnLoadFinish
         public String signal2 = "N/A";
         public String operator2 = "N/A";
         public long loadWebTime;
-        public String netSimInfo="";
+        public String netSimInfo = "";
 
 
         public WebViewResult() {
