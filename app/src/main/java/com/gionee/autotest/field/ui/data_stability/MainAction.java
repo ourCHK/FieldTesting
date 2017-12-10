@@ -188,40 +188,46 @@ class MainAction {
             File file = new File(filePath);
             if (!file.getParentFile().exists()) {
                 boolean mkdir = file.getParentFile().mkdir();
-                DataStabilityUtil.i("创建"+mkdir);
+                DataStabilityUtil.i("创建" + mkdir);
             }
             if (file.exists()) {
                 boolean delete = file.delete();
-                DataStabilityUtil.i("删除"+delete);
+                DataStabilityUtil.i("删除" + delete);
             }
             boolean newFile = file.createNewFile();
-            DataStabilityUtil.i("新建文件"+newFile);
+            DataStabilityUtil.i("新建文件" + newFile);
             workBook = Workbook.createWorkbook(file);
 
             ArrayList<ArrayList<DataStabilityBean>> batchBeans = getBatchBeans(beans);
 
             Gson gson = new Gson();
             for (int batchIndex = 0; batchIndex < batchBeans.size(); batchIndex++) {
-                WritableSheet sheet = workBook.createSheet("第" + batchIndex + "批次", batchIndex);
+                WritableSheet sheet = workBook.createSheet("第" + (batchIndex + 1) + "批次", batchIndex);
                 for (int i = 0; i < titles.length; i++) {
                     sheet.addCell(new Label(i, 0, titles[i]));
                 }
-//                CellView cellView = new CellView();
-//                cellView.setAutosize(true);
                 for (int titleIndex = 0; titleIndex < titles.length; titleIndex++) {
                     sheet.setColumnView(titleIndex, 10);
                 }
                 ArrayList<DataStabilityBean> beanArrayList = batchBeans.get(batchIndex);
                 int row = 1;
+                DataStabilityUtil.i("beanArrayList size =" + beanArrayList.size());
+                int success = 0, fail = 0;
                 for (int testIndex = 0; testIndex < beanArrayList.size(); testIndex++) {
                     DataStabilityBean b = beanArrayList.get(testIndex);
                     sheet.addCell(new Label(0, row, "第" + (testIndex + 1) + "轮"));
                     String result = b.getResult();
                     WebViewResultSum webViewResultSum = gson.fromJson(result, WebViewResultSum.class);
+                    DataStabilityUtil.i("before size =" + webViewResultSum.resultBefore.size());
                     for (int beforeIndex = 0; beforeIndex < webViewResultSum.resultBefore.size(); beforeIndex++) {
                         WebViewUtil.WebViewResult webViewResult = webViewResultSum.resultBefore.get(beforeIndex);
                         sheet.addCell(new Label(1, row, String.valueOf(beforeIndex + 1)));
                         sheet.addCell(new Label(2, row, webViewResult.result ? "成功" : "失败"));
+                        if (webViewResult.result) {
+                            success++;
+                        } else {
+                            fail++;
+                        }
                         SimSignalInfo info = null;
                         try {
                             if (!"".equals(webViewResult.netSimInfo)) {
@@ -231,13 +237,19 @@ class MainAction {
                             e.printStackTrace();
                         }
                         sheet.addCell(new Label(3, row, info == null ? "" : info.toString()));
-                        sheet.addCell(new Label(3, row, TimeUtil.getTime(webViewResult.loadWebTime, "yyyy-MM-dd HH:mm:ss")));
+                        sheet.addCell(new Label(4, row, TimeUtil.getTime(webViewResult.loadWebTime, "yyyy-MM-dd HH:mm:ss")));
                         row++;
                     }
+                    DataStabilityUtil.i("after size =" + webViewResultSum.resultAfter.size());
                     for (int afterIndex = 0; afterIndex < webViewResultSum.resultAfter.size(); afterIndex++) {
                         WebViewUtil.WebViewResult webViewResult = webViewResultSum.resultAfter.get(afterIndex);
                         sheet.addCell(new Label(1, row, String.valueOf(afterIndex + 1)));
                         sheet.addCell(new Label(2, row, webViewResult.result ? "成功" : "失败"));
+                        if (webViewResult.result) {
+                            success++;
+                        } else {
+                            fail++;
+                        }
                         SimSignalInfo info = null;
                         try {
                             if (!webViewResult.netSimInfo.equals("")) {
@@ -247,10 +259,10 @@ class MainAction {
                             e.printStackTrace();
                         }
                         sheet.addCell(new Label(3, row, info == null ? "" : info.toString()));
-                        sheet.addCell(new Label(3, row, TimeUtil.getTime(webViewResult.loadWebTime, "yyyy-MM-dd HH:mm:ss")));
+                        sheet.addCell(new Label(4, row, TimeUtil.getTime(webViewResult.loadWebTime, "yyyy-MM-dd HH:mm:ss")));
                         row++;
                     }
-
+                    sheet.addCell(new Label(0, row+1, "总打开网页"+(success+fail)+"个,成功"+success+"个,失败"+fail+"个"));
                 }
             }
             workBook.write();

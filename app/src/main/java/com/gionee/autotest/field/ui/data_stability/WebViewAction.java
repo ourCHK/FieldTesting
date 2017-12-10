@@ -40,12 +40,12 @@ public class WebViewAction implements CallBack {
         startSignalCollectService();
         context.registerReceiver(myReceiver, new IntentFilter("wait_finish"));
         param = Configurator.getInstance().param;
+        webViewResultHelper = new WebViewResultHelper();
     }
 
     void testLoad(boolean isBefore) {
         this.isBefore = isBefore;
         urlIndex = 0;
-        webViewResultHelper = new WebViewResultHelper();
         String currentUrl = Configurator.getInstance().urls[urlIndex];
         webViewUtil.load(currentUrl, this);
     }
@@ -62,7 +62,7 @@ public class WebViewAction implements CallBack {
                 isVerify = true;
             }
         }
-        if (urlIndex < instance.urls.length) {
+        if (urlIndex < instance.urls.length-1) {
             goTest();
         } else {
             afterTest();
@@ -79,7 +79,7 @@ public class WebViewAction implements CallBack {
             verifyIndex = 0;
             isVerify = false;
         }
-        webViewUtil.load(instance.urls[urlIndex - 1], WebViewAction.this);
+        webViewUtil.load(instance.urls[urlIndex], WebViewAction.this);
     }
 
     private void afterTest() {

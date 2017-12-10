@@ -15,16 +15,19 @@ public class WebViewResultHelper {
 
     public void addResult(boolean isBefore, WebViewUtil.WebViewResult result) {
         if (isBefore) {
-            DataStabilityUtil.i("before list 加 1  目前：" + resultsBefore.size());
+            DataStabilityUtil.i("before list 加 1 ");
             resultsBefore.add(result);
+            DataStabilityUtil.i(" 目前：b=" + resultsBefore.size()+" a="+ resultsAfter.size());
         } else {
             DataStabilityUtil.i("after list 加 1 目前：" + resultsAfter.size());
             resultsAfter.add(result);
+            DataStabilityUtil.i(" 目前：b=" + resultsBefore.size()+" a="+ resultsAfter.size());
         }
     }
 
     public void write(Context context, CallBack callback) {
         final Configurator instance = Configurator.getInstance();
+        DataStabilityUtil.i("size = " + resultsBefore.size() + " size after=" + resultsAfter.size());
         WebViewResultSum webViewResultSum = new WebViewResultSum(resultsBefore, resultsAfter);
         new WriteResultTask(context, instance.batchId, instance.testIndex, callback).execute(webViewResultSum);
     }
