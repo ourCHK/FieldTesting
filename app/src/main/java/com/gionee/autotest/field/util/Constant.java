@@ -60,6 +60,10 @@ public class Constant {
     public static final String DATA_RESET_SUCCESS_NUMBER = "data_reset_success_number"; //数据重激活成功次数
     public static final String DATA_RESET_FAILURE_NUMBER = "data_reset_failure_number"; //数据重激活失败次数
 
+//    public static final String DATA_RESET_TOTAL_NUMBER_TESTS = "data_reset_total_number_tests"; //测试总数
+    public static final String DATA_RESET_RETEST_FAILURE_TIMES = "data_reset_retest_failure_times"; //数据重激活复测失败次数
+    public static final String DATA_RESET_RETEST_SUCCESS_TIMES = "data_reset_retest_success_times"; //数据重激活复测成功次数
+
     public static final String PREF_KEY_MESSAGE_INTERVAL = "message_interval";
     public static final String PREF_KEY_MESSAGE_PHONE = "message_phone";
     public static final String PREF_KEY_MESSAGE_DATA_COLLECT_RUNNING = "message_data_collect_running";

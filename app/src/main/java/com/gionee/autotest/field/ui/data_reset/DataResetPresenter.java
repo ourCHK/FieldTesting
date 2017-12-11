@@ -96,8 +96,11 @@ public class DataResetPresenter extends BasePresenter<DataResetContract.View> im
         Preference.putBoolean(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_RUNNING, true) ;
         Preference.putLong(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, 0) ;
         Preference.putLong(context, Constant.PREF_KEY_DATA_RESET_RETEST_TIMES_CURRENT_CYCLE, -1) ;
+
         Preference.putLong(context, Constant.DATA_RESET_SUCCESS_NUMBER, 0) ;
         Preference.putLong(context, Constant.DATA_RESET_FAILURE_NUMBER, 0) ;
+        Preference.getLong(context, Constant.DATA_RESET_RETEST_FAILURE_TIMES, 0);
+        Preference.getLong(context, Constant.DATA_RESET_RETEST_SUCCESS_TIMES, 0);
 
         context.startService(new Intent(context, SignalMonitorService.class));
         Intent intent = new Intent(context, DataResetServices.class);
@@ -112,8 +115,12 @@ public class DataResetPresenter extends BasePresenter<DataResetContract.View> im
         Preference.putBoolean(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_RUNNING, false) ;
         Preference.putLong(context, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_CURRENT_CYCLE, 0) ;
         Preference.putLong(context, Constant.PREF_KEY_DATA_RESET_RETEST_TIMES_CURRENT_CYCLE, -1);
-//        Preference.putLong(context, Constant.DATA_RESET_SUCCESS_NUMBER, 0) ;
-//        Preference.putLong(context, Constant.DATA_RESET_FAILURE_NUMBER, 0) ;
+
+        Preference.putLong(context, Constant.DATA_RESET_SUCCESS_NUMBER, 0) ;
+        Preference.putLong(context, Constant.DATA_RESET_FAILURE_NUMBER, 0) ;
+        Preference.putLong(context, Constant.DATA_RESET_RETEST_FAILURE_TIMES, 0);
+        Preference.putLong(context, Constant.DATA_RESET_RETEST_SUCCESS_TIMES, 0);
+
         Intent intent = new Intent(context, DataResetServices.class);
         context.stopService(intent);
     }

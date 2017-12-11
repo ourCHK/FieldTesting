@@ -44,9 +44,45 @@ public class DataResetHelper {
      */
     public static String getTimeDatas() {
         long time = System.currentTimeMillis();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
         Date data = new Date(time);
         return format.format(data);
+    }
+
+    /**
+     * 时间差
+     *
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    public static String getTimeDifferences(String startTime, String endTime) {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
+        Date date1 = null;
+        Date date2 = null;
+        try {
+            date1 = sdf.parse(startTime);
+            date2 = sdf.parse(endTime);
+
+            long ong = date2.getTime() - date1.getTime();
+            if (ong < 1000) {
+                return ong + "毫秒";
+            } else if (ong > 1000) {
+                double percent = (float) (ong) / (1000);
+                //获取格式化对象
+                NumberFormat nt = NumberFormat.getPercentInstance();
+                //设置百分数精确度2即保留两位小数
+                nt.setMinimumFractionDigits(2);
+                return nt.format(percent) + "秒";
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+
+        }
+
+        return "N/A";
     }
 
     /**
@@ -56,8 +92,8 @@ public class DataResetHelper {
      */
     public static void exportExcel(String path) {
         WritableWorkbook book = null;
-        String info[] = {"开始时间", "完成时间", "是否成功", "网络运营商", "网络类型", "信号格数", "信号强度"};
-        int width[] = {30, 30, 20, 20, 20, 20, 20};
+        String info[] = {"开始时间", "完成时间", "ping的时间", "是否成功", "网络运营商", "网络类型", "信号格数", "信号强度"};
+        int width[] = {30, 30, 20, 20, 20, 20, 20, 20};
         //  makeDirects();
         try {
             book = Workbook.createWorkbook(new File(path));
@@ -105,7 +141,7 @@ public class DataResetHelper {
      */
     public static void addExcel(File file, String[] args) {
         Workbook book = null;
-        int width[] = {30, 30, 20, 20, 20, 20, 20};
+        int width[] = {30, 30, 20, 20, 20, 20, 20, 20};
         try {
             book = Workbook.getWorkbook(file);
 
