@@ -30,8 +30,10 @@ import java.util.Map;
 
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.services.SignalMonitorService;
+import com.gionee.autotest.field.ui.data_reset.DataResetActivity;
 import com.gionee.autotest.field.ui.throughput.Util.DialogHelper;
 import com.gionee.autotest.field.ui.throughput.Util.Helper;
+import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.Util;
 
 import static android.R.layout.simple_spinner_item;
@@ -106,6 +108,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                             Preference.putInt("serial", mDownTimesInt);
                             mPresenter.download(uri, fileName, size, down, mWebStr, mWaitTimeInt, mDownTimesInt);
                             mStart.setText("停止测试");
+
+                            Preference.putBoolean(Constant.THROUGHPUT_RUNING,true);
+
                             break;
                         } else {
                             if (WAIT_STOP) {
@@ -119,6 +124,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                             }
                             ISLOADING = false;
                             mStart.setText("开始测试");
+                            Preference.putBoolean(Constant.THROUGHPUT_RUNING,false);
                             Process.killProcess(Process.myPid());
 
                         }
@@ -263,19 +269,24 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void onBackPressed() {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setTitle("提示");
-        dialog.setMessage("确定要退出应用?");
-        dialog.setIcon(R.mipmap.ic_launcher);
-        dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                finish();
-//                Process.killProcess(Process.myPid());
-            }
-        });
-        dialog.setNegativeButton("取消", null);
-        dialog.show();
+        boolean aBoolean = Preference.getBoolean(Constant.THROUGHPUT_RUNING, false);
+        if (aBoolean){
+           com.gionee.autotest.field.util.DialogHelper.create(MainActivity.this, "警告", "将退出到首页并停止测试", new com.gionee.autotest.field.util.DialogHelper.OnBeforeCreate() {
+               @Override
+               public void setOther(AlertDialog.Builder builder) {
+                   builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                       @Override
+                       public void onClick(DialogInterface dialog, int which) {
+                           com.gionee.autotest.common.Preference.putBoolean(MainActivity.this, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_RUNNING, false);
+                           finish();
+                       }
+                   }).setNegativeButton("取消", null);
+               }
+           }).show();
+        }else{
+            super.onBackPressed();
+        }
+
 
     }
 

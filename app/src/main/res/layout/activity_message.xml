@@ -34,6 +34,7 @@
                 android:layout_weight="1"
                 android:layout_gravity="center"
                 android:text="@string/mms"
+                android:visibility="invisible"
                 android:textColor="@color/colorPrimary"/>
 
         </RadioGroup>

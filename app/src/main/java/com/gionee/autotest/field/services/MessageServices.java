@@ -16,8 +16,11 @@ import android.widget.Toast;
 
 import com.gionee.autotest.common.FLog;
 import com.gionee.autotest.common.Preference;
+import com.gionee.autotest.field.ui.signal.entity.SimSignalInfo;
 import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.MessageHelper;
+import com.gionee.autotest.field.util.SignalHelper;
+import com.gionee.autotest.field.util.SimUtil;
 
 import java.io.File;
 import java.util.List;
@@ -34,8 +37,8 @@ public class MessageServices extends Service {
     private Receiverlistner receiverlistner;
     private Backlistner backlistner;
 
-    private PendingIntent sendIntent;
-    private PendingIntent backIntent;
+//    private PendingIntent sendIntent;
+//    private PendingIntent backIntent;
 
 
     @Override
@@ -110,13 +113,19 @@ public class MessageServices extends Service {
                 case RESULT_OK:
                     long message = intent.getLongExtra("message", -1);
                     Log.i(TAG, "发送信息成功=" + message);
-                    Log.i(TAG, "发送信息成功");
+//                    Log.i(TAG, "发送信息成功");
 //                    FLog.i("发送信息成功");
 //                    Toast.makeText(context, "短信内容："+Preference.getString(getApplicationContext(), Constant.MESSAGE_CENTEXT, ""), Toast.LENGTH_SHORT).show();
                     String message_presentation_name = Preference.getString(getApplicationContext(), Constant.MESSAGE_PRESENTATION_NAME, "");
                     String string = Preference.getString(getApplicationContext(), Constant.MESSAGE_CENTEXT, "");
 
-                    MessageHelper.addExcel(new File(Constant.DIR_MESSAGE + message_presentation_name), new String[]{MessageHelper.getTimeDatas(), string, "成功","失败"});
+                    int subId = SimUtil.getDefaultDataSubId();
+                    SimSignalInfo simSignalInfo = SignalHelper.getInstance(context).getSimSignalInfo(subId);
+                    if (simSignalInfo != null) {
+                        MessageHelper.addExcel(new File(Constant.DIR_MESSAGE + message_presentation_name), new String[]{MessageHelper.getTimeDatas(), string, "成功","失败", simSignalInfo.mOperator, simSignalInfo.mNetType, simSignalInfo.mLevel + "", simSignalInfo.mSignal});
+                    }else{
+                        MessageHelper.addExcel(new File(Constant.DIR_MESSAGE + message_presentation_name), new String[]{MessageHelper.getTimeDatas(), string, "成功","失败", null, null, null + "", null});
+                    }
 
                     long current_cycle = Preference.getLong(getApplicationContext(), Constant.PREF_KEY_MESSAGE_DATA_COLLECT_CURRENT_CYCLE, 1);
                     long message_interval = Preference.getLong(getApplicationContext(), Constant.PREF_KEY_MESSAGE_INTERVAL, 1);
@@ -156,7 +165,13 @@ public class MessageServices extends Service {
 //                    Toast.makeText(context, "短信发送失败:"+Preference.getString(getApplicationContext(), Constant.MESSAGE_CENTEXT, ""), Toast.LENGTH_SHORT).show();
                     String message_presentation_name1 = Preference.getString(getApplicationContext(), Constant.MESSAGE_PRESENTATION_NAME, "");
                     String string1 = Preference.getString(getApplicationContext(), Constant.MESSAGE_CENTEXT, "");
-                    MessageHelper.addExcel(new File(Constant.DIR_MESSAGE + message_presentation_name1), new String[]{MessageHelper.getTimeDatas(), string1, "失败","失败"});
+                    int subIds = SimUtil.getDefaultDataSubId();
+                    SimSignalInfo simSignalInfos = SignalHelper.getInstance(context).getSimSignalInfo(subIds);
+                    if (simSignalInfos != null) {
+                        MessageHelper.addExcel(new File(Constant.DIR_MESSAGE + message_presentation_name1), new String[]{MessageHelper.getTimeDatas(), string1, "失败","失败",simSignalInfos.mOperator, simSignalInfos.mNetType, simSignalInfos.mLevel + "", simSignalInfos.mSignal});
+                    }else{
+                        MessageHelper.addExcel(new File(Constant.DIR_MESSAGE + message_presentation_name1), new String[]{MessageHelper.getTimeDatas(), string1, "失败","失败", null, null, null + "", null});
+                    }
 
                     long current_cycle1 = Preference.getLong(getApplicationContext(), Constant.PREF_KEY_MESSAGE_DATA_COLLECT_CURRENT_CYCLE, 1);
                     long message_interval1 = Preference.getLong(getApplicationContext(), Constant.PREF_KEY_MESSAGE_INTERVAL, 1);
@@ -210,8 +225,7 @@ public class MessageServices extends Service {
                     Log.i(TAG, "接受信息成功=" + message);
                     Log.i(TAG, "接受信息成功");
                     MessageHelper.modifyExcel(Constant.DIR_MESSAGE + message_presentation_name1,(int) message,"成功");
-
-                    Toast.makeText(context, "收信人已经成功接收", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "收信人已经成功接收", Toast.LENGTH_SHORT).show();
 
                     break;
                 default:

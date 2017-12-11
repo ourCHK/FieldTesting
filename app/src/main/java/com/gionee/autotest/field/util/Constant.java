@@ -32,6 +32,7 @@ public class Constant {
     public static final String SEPARATOR = "::";
 
     //Preferences constants
+    public static final String THROUGHPUT_RUNING = "throughput_runing";
     public static final String PREF_KEY_FIRST_LAUNCH = "first_launch";
     public static final String PREF_KEY_FIRST_NOTICE_LAUNCH = "first_notice_launch";
     public static final String PREF_KEY_APP_VERSION = "app_version";

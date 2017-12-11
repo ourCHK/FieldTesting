@@ -105,6 +105,16 @@ public class DataResetActivity extends BaseActivity implements DataResetContract
                 }
 
                 return true;
+            case R.id.data_reset_help:
+                android.support.v7.app.AlertDialog.Builder dialog = new android.support.v7.app.AlertDialog.Builder(this);
+                dialog.setTitle("说明");
+                dialog.setMessage("测试报告保存在内部存储器/field/data_reset下。");
+                dialog.setIcon(R.mipmap.logo);
+                dialog.setCancelable(true);
+                dialog.setPositiveButton("取消", (android.content.DialogInterface.OnClickListener) null);
+                dialog.show();
+
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

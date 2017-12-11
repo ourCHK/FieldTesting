@@ -1,7 +1,9 @@
 package com.gionee.autotest.field.ui.message;
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
@@ -15,6 +17,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.gionee.autotest.common.Preference;
 import com.gionee.autotest.common.information.SMSUtils;
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.ui.about.AboutActivity;
@@ -25,6 +28,7 @@ import com.gionee.autotest.field.ui.data_reset.DataResetPresentationActivity;
 import com.gionee.autotest.field.ui.data_reset.DataResetPresenter;
 import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.DataResetHelper;
+import com.gionee.autotest.field.util.DialogHelper;
 import com.gionee.autotest.field.util.RegexUtils;
 
 import java.io.File;
@@ -118,10 +122,10 @@ public class MessageActivity extends BaseActivity implements RadioGroup.OnChecke
         mMessagePresenter.unregisterMessageListener();
     }
 
-    @Override
-    protected boolean isDisplayHomeUpEnabled() {
-        return true;
-    }
+//    @Override
+//    protected boolean isDisplayHomeUpEnabled() {
+//        return true;
+//    }
 
     @Override
     protected int menuResId() {
@@ -133,7 +137,7 @@ public class MessageActivity extends BaseActivity implements RadioGroup.OnChecke
         switch (item.getItemId()) {
             case R.id.message_about:
                 startActivity(AboutActivity.getAboutIntent(this, getString(R.string.data_reset_about_name), true));
-                return true;
+                break;
             case R.id.message_test:
                 ArrayList<File> dirFileXls = DataResetHelper.getDirFileXls(Constant.DIR_MESSAGE);
                 if (dirFileXls.size()==0){
@@ -144,6 +148,17 @@ public class MessageActivity extends BaseActivity implements RadioGroup.OnChecke
                     startActivity(intent);
 
                 }
+
+                break;
+
+            case R.id.message_help:
+                android.support.v7.app.AlertDialog.Builder dialog = new android.support.v7.app.AlertDialog.Builder(this);
+                dialog.setTitle("说明");
+                dialog.setMessage("测试报告保存在内部存储器/field/message下。");
+                dialog.setIcon(R.mipmap.logo);
+                dialog.setCancelable(true);
+                dialog.setPositiveButton("取消", (android.content.DialogInterface.OnClickListener) null);
+                dialog.show();
 
                 break;
         }
@@ -230,10 +245,35 @@ public class MessageActivity extends BaseActivity implements RadioGroup.OnChecke
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Toast.makeText(context,"测试完成",Toast.LENGTH_SHORT).show();
+            Toast.makeText(context,"信息发送完成",Toast.LENGTH_SHORT).show();
             bt_message_start_testing.setEnabled(true);
             bt_message_stop_testing.setEnabled(false);
 
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        boolean aBoolean = Preference.getBoolean(MessageActivity.this, Constant.PREF_KEY_MESSAGE_DATA_COLLECT_RUNNING, false);
+        if (aBoolean) {
+
+            DialogHelper.create(MessageActivity.this, "警告", "将退出到首页并停止测试", new DialogHelper.OnBeforeCreate() {
+                @Override
+                public void setOther(AlertDialog.Builder builder) {
+                    builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Preference.putBoolean(MessageActivity.this, Constant.PREF_KEY_MESSAGE_DATA_COLLECT_RUNNING, false);
+                            finish();
+                        }
+                    }).setNegativeButton("取消", null);
+                }
+            }).show();
+
+        }else{
+            super.onBackPressed();
+        }
+
+
     }
 }

@@ -56,8 +56,8 @@ public class MessageHelper {
      */
     public static void exportExcel(String path) {
         WritableWorkbook book = null;
-        String info[] = {"时间", "短信内容", "发送是否成功", "接受是否成功"};
-        int width[] = {30, 30, 20, 20};
+        String info[] = {"时间", "短信内容", "发送是否成功", "接受是否成功", "网络运营商", "网络类型", "信号格数", "信号强度"};
+        int width[] = {30, 30, 20, 20, 20, 20, 20, 20};
         //  makeDirects();
         try {
             book = Workbook.createWorkbook(new File(path));
@@ -105,7 +105,7 @@ public class MessageHelper {
      */
     public static void addExcel(File file, String[] args) {
         Workbook book = null;
-        int width[] = {30, 30, 20, 20};
+        int width[] = {30, 30, 20, 20, 20, 20, 20, 20};
         try {
             book = Workbook.getWorkbook(file);
 
@@ -170,10 +170,8 @@ public class MessageHelper {
             wbe.close();//关闭workbook，释放内存 ---》一定要释放内存
 
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (WriteException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 

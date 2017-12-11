@@ -15,6 +15,7 @@ import android.telephony.SubscriptionManager;
 
 import com.gionee.autotest.field.ui.signal.entity.SimSignalInfo;
 import com.gionee.autotest.field.ui.throughput.Util.JExcelUtil;
+import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.SignalHelper;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.MultipartBuilder;
@@ -354,6 +355,7 @@ public class MainPresenter {
 
         @Override
         public void onFailure(Request request, IOException e) {
+            Preference.putBoolean(Constant.THROUGHPUT_RUNING,false);
             Helper.i("请求失败");
             Helper.i("error:" + e.toString());
             onError();

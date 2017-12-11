@@ -176,7 +176,7 @@
     <string name="cycle_erro">请输入正确的循环次数</string>
     <string name="retest_times">复测次数：</string>
     <string name="retest_erro">请输入正确的复测次数</string>
-    <string name="data_reset_test">查看数据重激活报告</string>
+    <string name="data_reset_test">查看测试详情</string>
     <string name="data_reset_erro">还没有测试报告，请测试后再查看</string>
     <string name="data_reset_test_list">测试报告列表</string>
     <string name="data_reset_about_name">开发者: 熊海宽[xionghk@gionee.com]</string>
@@ -193,7 +193,7 @@
     <string name="exportReports">下载速率汇总表</string>
     <string name="throughput">吞吐率</string>
     <string name="throughputtest">吞吐率性能测试</string>
-    <string name="message_test">查看信息收发报告</string>
+    <string name="message_test">查看测试详情</string>
 
 
     <!-- network_switch  resources-->

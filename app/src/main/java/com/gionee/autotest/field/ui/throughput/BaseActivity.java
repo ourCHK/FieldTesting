@@ -88,9 +88,9 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
             case R.id.menu_result:
                 result();
                 break;
-            case R.id.menu_goto:
-                new ExportTask(this).execute();
-                break;
+//            case R.id.menu_goto:
+//                new ExportTask(this).execute();
+//                break;
             case R.id.menu_clear:
                 if (ISLOADING) {
                     Toast.makeText(this, "正在下载中...请勿进行删除结果操作", Toast.LENGTH_SHORT).show();
@@ -154,21 +154,21 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     }
 
-    @Override
-    public void onBackPressed() {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setTitle("提示");
-        dialog.setMessage("确定要退出应用?");
-        dialog.setIcon(R.mipmap.ic_launcher);
-        dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                finish();
-            }
-        });
-        dialog.setNegativeButton("取消", null);
-        dialog.show();
-    }
+//    @Override
+//    public void onBackPressed() {
+//        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+//        dialog.setTitle("提示");
+//        dialog.setMessage("确定要退出应用?");
+//        dialog.setIcon(R.mipmap.ic_launcher);
+//        dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                finish();
+//            }
+//        });
+//        dialog.setNegativeButton("取消", null);
+//        dialog.show();
+//    }
 
     @Override
     public void onClick(View view) {

@@ -6,6 +6,10 @@
         android:title="@string/data_reset_test"
         app:showAsAction="never"/>
 
+    <item android:id="@+id/data_reset_help"
+        android:title="@string/help"
+        app:showAsAction="never"/>
+
     <item android:id="@+id/data_reset_about"
         android:title="@string/data_reset_about"
         app:showAsAction="never"/>

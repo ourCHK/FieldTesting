@@ -6,6 +6,10 @@
         android:title="@string/message_test"
         app:showAsAction="never"/>
 
+    <item android:id="@+id/message_help"
+        android:title="@string/help"
+        app:showAsAction="never"/>
+
     <item android:id="@+id/message_about"
         android:title="@string/data_reset_about"
         app:showAsAction="never"/>

@@ -7,7 +7,9 @@ import android.net.wifi.WifiManager;
 import android.os.Environment;
 import android.util.Log;
 
+import com.gionee.autotest.field.ui.throughput.Preference;
 import com.gionee.autotest.field.ui.throughput.SQL.DatabaseUtil;
+import com.gionee.autotest.field.util.Constant;
 import com.squareup.okhttp.Response;
 
 import java.io.File;
@@ -112,10 +114,12 @@ public class Helper {
             }
             fos.flush();
             Helper.i("文件下载成功");
+            Preference.putBoolean(Constant.THROUGHPUT_RUNING,false);
         } catch (Exception e) {
             Helper.i("文件下载失败");
             Helper.i("error:" + e.toString());
             HAS_ERROR=true;
+            Preference.putBoolean(Constant.THROUGHPUT_RUNING,false);
         } finally {
             try {
                 if (is != null) {
@@ -126,6 +130,7 @@ public class Helper {
                 }
             } catch (IOException e) {
             }
+            Preference.putBoolean(Constant.THROUGHPUT_RUNING,false);
         }
     }
 
