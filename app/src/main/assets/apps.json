@@ -1,5 +1,5 @@
 {
-  "version":"1.0.0",
+  "version":"1.0.1",
   "apps":[
     {
       "key": 0,
@@ -72,6 +72,14 @@
       "activity":".ui.throughput.MainActivity",
       "installed": true,
       "requireSysPerm": false
+    },
+    {
+      "key": 9,
+      "label":"呼损率",
+      "icon":"phone_outgoing",
+      "activity":".ui.call_loss_ratio.CallLossRatioActivity",
+      "installed": true,
+      "requireSysPerm": true
     }
   ]
 }
