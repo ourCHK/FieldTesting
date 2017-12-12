@@ -79,7 +79,7 @@
       "icon":"phone_outgoing",
       "activity":".ui.call_loss_ratio.CallLossRatioActivity",
       "installed": true,
-      "requireSysPerm": false
+      "requireSysPerm": true
     }
   ]
 }
