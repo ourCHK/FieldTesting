@@ -7,7 +7,7 @@
       "icon":"phone_incoming",
       "activity":".ui.incoming.InComingActivity",
       "installed": true,
-      "requireSysPerm": false
+      "requireSysPerm": true
     },
     {
       "key": 1,
