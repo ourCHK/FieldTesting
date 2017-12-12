@@ -126,7 +126,11 @@ public class SwitchTest {
     }
 
     private void setFlightMode(boolean isOpen) {
-        Settings.Global.putInt(context.getContentResolver(), Settings.Global.AIRPLANE_MODE_ON, isOpen ? 1 : 0);
+        try {
+            Settings.Global.putInt(context.getContentResolver(), Settings.Global.AIRPLANE_MODE_ON, isOpen ? 1 : 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Intent intent = new Intent(Intent.ACTION_AIRPLANE_MODE_CHANGED);
         intent.putExtra("state", isOpen);
         context.sendBroadcastAsUser(intent, android.os.Process.myUserHandle());

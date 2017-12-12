@@ -5,9 +5,11 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.gionee.autotest.field.data.db.CallLossRatioDBManager;
+import com.gionee.autotest.field.data.db.OutGoingDBManager;
 import com.gionee.autotest.field.data.db.model.OutGoingCallResult;
 import com.gionee.autotest.field.ui.call_loss_ratio.CallLossRatioUtil;
 import com.gionee.autotest.field.ui.outgoing.CallBack;
+import com.gionee.autotest.field.ui.outgoing.OutGoingUtil;
 import com.gionee.autotest.field.util.Constant;
 
 import java.util.ArrayList;
@@ -24,11 +26,11 @@ public class CallRateTask extends AsyncTask<Integer, Void, String> {
     @Override
     protected String doInBackground(Integer... model) {
         if (model[0] == OUT_GOING) {
-            int lastBatch = CallLossRatioDBManager.getLastBatch();
+            int lastBatch = OutGoingDBManager.getLastBatch();
             Log.i(Constant.TAG, "lastBatch=" + lastBatch);
-            ArrayList<OutGoingCallResult> allCalls = CallLossRatioDBManager.getReportBean(lastBatch);
+            ArrayList<OutGoingCallResult> allCalls = OutGoingDBManager.getReportBean(lastBatch);
             Log.i(Constant.TAG, "CallRate reportBeanSize=" + allCalls.size());
-            return CallLossRatioUtil.getSumString(allCalls);
+            return OutGoingUtil.getSumString(allCalls);
         } else if(model[0]==CALL_LOSS_RATIO){
             int lastBatch = CallLossRatioDBManager.getLastBatch();
             Log.i(Constant.TAG, "lastBatch=" + lastBatch);

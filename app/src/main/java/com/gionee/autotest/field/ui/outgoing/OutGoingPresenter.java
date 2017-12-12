@@ -117,12 +117,12 @@ public class OutGoingPresenter extends BasePresenter<BaseView> implements OutGoi
     public void startCallTest() {
         try {
             OutGoingUtil.isTest = true;
-            final CallParam p = getMainView().getUserParams();
+            CallParam p = getMainView().getUserParams();
             Preference.putString(mContext, "outGoingParams", new Gson().toJson(p));
             OutGoingUtil.addBatch(p, new Consumer<CallParam>() {
                 @Override
                 public void accept(CallParam callParam) throws Exception {
-                    mContext.startService(new Intent(mContext, OutGoingService.class).putExtra("params", new Gson().toJson(p)));
+                    mContext.startService(new Intent(mContext, OutGoingService.class).putExtra("params", new Gson().toJson(callParam)));
                     mContext.startService(new Intent(mContext, SignalMonitorService.class));
                 }
             });

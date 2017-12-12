@@ -40,7 +40,7 @@ public class WebViewService extends Service {
 
     private void goTestPage() {
         DataStabilityUtil.i("waitTime=" + Configurator.getInstance().param.waitTime + " batchId=" + Configurator.getInstance().batchId + " testIndex=" + Configurator.getInstance().testIndex);
-        Intent intent = new Intent(getApplicationContext(), WebViewActivity.class);
+        Intent intent = new Intent(getApplicationContext(), WebViewActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 

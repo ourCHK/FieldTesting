@@ -126,7 +126,7 @@ public class OutGoingUtil {
             }
         }
         int allSize = results.size();
-        return "总拨号" + allSize + "通\n测试" + (allSize - verifyCount) + "通\n复测" + verifyCount + "通\n成功" + testSuccess + "通\n失败" + (allSize - testSuccess) + "通\n接通率为" + ((float) testSuccess / allSize) * 100 + "%";
+        return "总拨号" + allSize + "通\n测试" + (allSize - verifyCount) + "通\n复测" + verifyCount + "通\n成功" + testSuccess + "通\n失败" + (allSize - testSuccess) + "通\n接通率为" +(allSize==0?"0":((float) testSuccess / allSize) * 100)  + "%";
     }
 
     public static String getCycleSumString(ArrayList<OutGoingCallResult> results) {

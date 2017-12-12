@@ -189,16 +189,20 @@ public class OutGoingService extends Service {
             if (callBean.result && OutGoingUtil.isTest) {
                 goTest();
             } else {
-                cancelListener();
-                Log.i(Constant.TAG, "拨号失败，开始验证拨号");
-                verifyCall = new VerifyCall(getApplicationContext(), callBean.number, params, cycleIndex, new CallBack() {
-                    @Override
-                    public void call(Object o) {
-                        startListener();
-                        goTest();
-                    }
-                });
-                verifyCall.start();
+                if (params.verifyCount > 0) {
+                    cancelListener();
+                    Log.i(Constant.TAG, "拨号失败，开始验证拨号");
+                    verifyCall = new VerifyCall(getApplicationContext(), callBean.number, params, cycleIndex, new CallBack() {
+                        @Override
+                        public void call(Object o) {
+                            startListener();
+                            goTest();
+                        }
+                    });
+                    verifyCall.start();
+                } else {
+                    goTest();
+                }
             }
         }
     };

@@ -130,7 +130,7 @@ public class CallLossRatioUtil {
             }
         }
         int allSize = results.size();
-        return "总拨号" + allSize + "通\n测试" + (allSize - verifyCount) + "通\n成功" + testSuccess + "通\n失败" + (allSize - testSuccess) + "通\n呼损率为" + (1-(float) testSuccess / allSize) * 100 + "%";
+        return "总拨号" + allSize + "通\n测试" + (allSize - verifyCount) + "通\n成功" + testSuccess + "通\n失败" + (allSize - testSuccess) + "通\n呼损率为" +(allSize==0?"0":(1-(float) testSuccess / allSize) * 100)  + "%";
     }
 
     public static String getCycleSumString(ArrayList<OutGoingCallResult> results) {
