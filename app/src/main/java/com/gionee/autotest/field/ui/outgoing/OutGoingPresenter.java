@@ -89,7 +89,7 @@ public class OutGoingPresenter extends BasePresenter<BaseView> implements OutGoi
                 String sum = (String) o;
                 getMainView().updateCallRate(sum);
             }
-        }).execute();
+        }).execute(CallRateTask.OUT_GOING);
     }
 
     @Override

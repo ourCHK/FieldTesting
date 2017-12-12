@@ -13,6 +13,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.gionee.autotest.common.Condition;
 import com.gionee.autotest.common.Preference;
 import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.data.db.NetworkSwitchDBManager;
@@ -145,6 +146,12 @@ class NetworkSwitchPresenter extends BasePresenter<NetworkSwitchActivity> implem
                 getView().updateViews();
             }
         }, new IntentFilter("updateView_autoSwitchSimCard"));
+        try {
+            Condition.addToSoftWareManagerWhiteLIst(mContext,mContext.getPackageName());
+            Condition.addToOneCleanWhileList(mContext,mContext.getPackageName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

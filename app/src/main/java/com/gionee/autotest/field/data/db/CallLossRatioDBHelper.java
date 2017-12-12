@@ -102,7 +102,10 @@ public class CallLossRatioDBHelper extends DBHelper {
     public ArrayList<OutGoingCallResult> getCallBean(long batchId) {
         Cursor cursor = mDb.rawQuery("select * from " + CallLossRatioData.NAME + " where " + CallLossRatioData.BATCH_ID + " =" + batchId + "", null);
         ArrayList<OutGoingCallResult> calls = new ArrayList<>();
-        if (cursor == null || cursor.getCount() == 0) return calls;
+        if (cursor == null || cursor.getCount() == 0) {
+            Log.i(Constant.TAG,"cursor is null");
+            return calls;
+        }
         while (cursor.moveToNext()) {
             try {
                 int cycleIndex = cursor.getInt(cursor.getColumnIndex(CallLossRatioData.CYCLE_INDEX));

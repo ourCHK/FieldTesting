@@ -87,7 +87,7 @@ public class CallLossRatioPresenter extends BasePresenter<BaseView> implements C
                 String sum = (String) o;
                 getMainView().updateCallRate(sum);
             }
-        }).execute();
+        }).execute(CallRateTask.CALL_LOSS_RATIO);
     }
 
     @Override

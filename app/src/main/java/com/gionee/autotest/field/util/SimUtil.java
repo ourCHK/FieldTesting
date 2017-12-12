@@ -16,6 +16,8 @@ import com.gionee.autotest.field.ui.network_switch.model.NetworkSwitchResult;
 import com.gionee.autotest.field.ui.signal.entity.SimSignalInfo;
 import com.google.gson.Gson;
 
+import java.lang.reflect.Method;
+
 
 public class SimUtil {
 
@@ -207,7 +209,7 @@ public class SimUtil {
                 || testResult.readSimResult.sim2State_now.equals("卡2不识卡")
                 || testResult.readSimResult.sim1State_now.equals("卡1不识卡")
                 || testResult.isNetResult.equals("失败")) ? "失败" : "通过";
-        SimSignalInfo simNetInfo=getSimNetInfo(simId);
+        SimSignalInfo simNetInfo = getSimNetInfo(simId);
         String SimId_String = Preference.getBoolean(context, "checkBox_Switch_Sim", true) ? "卡" + simId : "";
         String current_isSwitched = Preference.getString(context, "current_isSwitched", "NA");
         Preference.putString(context, "current_isSwitched", "NA");
@@ -251,9 +253,23 @@ public class SimUtil {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.N)
     public static int getDefaultDataSubId() {
-        return SubscriptionManager.getDefaultDataSubscriptionId();
+        try {
+            Class<?> aClass = Class.forName("android.telephony.SubscriptionManager");
+            Method getDefaultDataSubId = aClass.getMethod("getDefaultDataSubId");
+            return (int) getDefaultDataSubId.invoke(null);
+        } catch (Exception e1) {
+            e1.printStackTrace();
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    return SubscriptionManager.getDefaultDataSubscriptionId();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+        }
+        return 0;
     }
 
 }

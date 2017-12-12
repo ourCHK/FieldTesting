@@ -15,7 +15,7 @@
       "icon":"phone_outgoing",
       "activity":".ui.outgoing.OutGoingActivity",
       "installed": true,
-      "requireSysPerm": true
+      "requireSysPerm": false
     },
     {
       "key": 2,
@@ -63,7 +63,7 @@
       "icon":"phone_stability",
       "activity":".ui.data_stability.DataStabilityActivity",
       "installed": true,
-      "requireSysPerm": true
+      "requireSysPerm": false
     },
     {
       "key": 8,
@@ -79,7 +79,7 @@
       "icon":"phone_outgoing",
       "activity":".ui.call_loss_ratio.CallLossRatioActivity",
       "installed": true,
-      "requireSysPerm": true
+      "requireSysPerm": false
     }
   ]
 }

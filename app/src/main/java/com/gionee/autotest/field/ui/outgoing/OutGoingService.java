@@ -74,12 +74,14 @@ public class OutGoingService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        String paramsJson = intent.getStringExtra("params");
-        if (paramsJson != null) {
-            cycleIndex = 0;
-            numberIndex = 0;
-            this.params = new Gson().fromJson(paramsJson, CallParam.class);
-            startCycle();
+        if (intent != null) {
+            String paramsJson = intent.getStringExtra("params");
+            if (paramsJson != null) {
+                cycleIndex = 0;
+                numberIndex = 0;
+                this.params = new Gson().fromJson(paramsJson, CallParam.class);
+                startCycle();
+            }
         }
         return super.onStartCommand(intent, flags, startId);
     }
