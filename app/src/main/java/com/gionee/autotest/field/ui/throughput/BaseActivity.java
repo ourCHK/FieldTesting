@@ -13,7 +13,6 @@ package com.gionee.autotest.field.ui.throughput;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -24,17 +23,17 @@ import android.widget.Toast;
 
 
 import com.gionee.autotest.field.R;
-import com.gionee.autotest.field.ui.throughput.Util.ExportTask;
+import com.gionee.autotest.field.ui.data_reset.DataResetPresentationActivity;
+import com.gionee.autotest.field.ui.throughput.Util.DataThroughtPutHelper;
 import com.gionee.autotest.field.ui.throughput.Util.Helper;
 import com.gionee.autotest.field.util.Util;
 
 import java.io.File;
+import java.io.Serializable;
+import java.util.ArrayList;
 
-import static com.gionee.autotest.field.ui.throughput.Util.Configuration.ERROE_RESULT_PATH;
-import static com.gionee.autotest.field.ui.throughput.Util.Configuration.ERROR_FILE_NAME;
-import static com.gionee.autotest.field.ui.throughput.Util.Configuration.FILE_NAME;
+import static com.gionee.autotest.field.ui.throughput.Util.Configuration.DIR_DATA_THROUGHPUT;
 import static com.gionee.autotest.field.ui.throughput.Util.Configuration.ISLOADING;
-import static com.gionee.autotest.field.ui.throughput.Util.Configuration.RESULT_PATH;
 
 
 public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener {
@@ -82,9 +81,9 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
             case R.id.menu_about:
                 about();
                 break;
-            case R.id.menu_error:
-                error();
-                break;
+//            case R.id.menu_error:
+//                error();
+//                break;
             case R.id.menu_result:
                 result();
                 break;
@@ -102,8 +101,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
                     dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            Helper.delAllFiles(RESULT_PATH);
-                            Helper.delAllFiles(ERROE_RESULT_PATH);
+                            Helper.delAllFiles(DIR_DATA_THROUGHPUT);
                             onClearData();
                             Toast.makeText(BaseActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
                         }
@@ -116,9 +114,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         return super.onOptionsItemSelected(item);
     }
 
-    void onClearData() {
-
-    }
 
     /**
      * menu - about
@@ -132,27 +127,39 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         builder.show();
     }
 
+    void onClearData(){
+        
+    }
 
     public void result() {
 //        Intent intent = new Intent(this, ResultActivity.class);
-        Intent intent = new Intent(this, ResultStartActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+//        Intent intent = new Intent(this, ResultStartActivity.class);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        startActivity(intent);
 //        PackageManager packageManager =getPackageManager();
 //        Intent intent=packageManager.getLaunchIntentForPackage("com.gionee.filemanager");
 //        startActivity(intent);
-    }
 
-
-    public void error() {
-        File file = new File(ERROR_FILE_NAME);
-        if (file.exists()) {
-            util.openExcelByIntent(this, ERROR_FILE_NAME);
-        }else {
-            Toast.makeText(this,"未发现文件", Toast.LENGTH_SHORT).show();
+        ArrayList<File> dirFileXls = DataThroughtPutHelper.getDirFileXls(DIR_DATA_THROUGHPUT);
+        if (dirFileXls.size() == 0) {
+            Toast.makeText(getApplicationContext(), R.string.data_reset_erro, Toast.LENGTH_SHORT).show();
+        } else {
+            Intent intent = new Intent(this, DataResetPresentationActivity.class);
+            intent.putExtra("dirFileXls", (Serializable) dirFileXls);
+            startActivity(intent);
         }
-
     }
+
+
+//    public void error() {
+//        File file = new File(ERROR_FILE_NAME);
+//        if (file.exists()) {
+//            util.openExcelByIntent(this, ERROR_FILE_NAME);
+//        }else {
+//            Toast.makeText(this,"未发现文件", Toast.LENGTH_SHORT).show();
+//        }
+//
+//    }
 
 //    @Override
 //    public void onBackPressed() {

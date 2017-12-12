@@ -15,11 +15,9 @@ import com.gionee.autotest.field.util.Util;
 import java.io.File;
 import java.util.ArrayList;
 
-import static com.gionee.autotest.field.ui.throughput.Util.Configuration.ERROR_FILE_NAME;
 import static com.gionee.autotest.field.ui.throughput.Util.Configuration.FILE_NAME;
 import static com.gionee.autotest.field.ui.throughput.Util.Configuration.FILE_NAME_LOOK;
 import static com.gionee.autotest.field.ui.throughput.Util.Configuration.RESULT_PATH;
-import static com.gionee.autotest.field.ui.throughput.Util.FileUtil.getExcelFileIntent;
 
 public class ExportTask extends AsyncTask<Integer, Void, Void> {
     private static Context mContext;

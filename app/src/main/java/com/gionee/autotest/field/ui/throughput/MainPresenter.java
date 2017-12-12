@@ -1,7 +1,6 @@
 package com.gionee.autotest.field.ui.throughput;
 
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.TrafficStats;
 import android.net.wifi.WifiInfo;
@@ -12,9 +11,10 @@ import android.os.PowerManager;
 import android.support.annotation.RequiresApi;
 import android.telephony.SubscriptionInfo;
 import android.telephony.SubscriptionManager;
+import android.util.Log;
 
 import com.gionee.autotest.field.ui.signal.entity.SimSignalInfo;
-import com.gionee.autotest.field.ui.throughput.Util.JExcelUtil;
+import com.gionee.autotest.field.ui.throughput.Util.DataThroughtPutHelper;
 import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.SignalHelper;
 import com.squareup.okhttp.Callback;
@@ -43,12 +43,13 @@ import cn.edu.zafu.coreprogress.helper.ProgressHelper;
 import cn.edu.zafu.coreprogress.listener.impl.UIProgressListener;
 
 import static android.content.Context.WIFI_SERVICE;
-import static com.gionee.autotest.field.ui.throughput.Util.Configuration.ERROE_RESULT_PATH;
-import static com.gionee.autotest.field.ui.throughput.Util.Configuration.ERROR_FILE_NAME;
+import static com.gionee.autotest.field.ui.throughput.Util.Configuration.DIR_DATA_THROUGHPUT;
 import static com.gionee.autotest.field.ui.throughput.Util.Configuration.HAS_ERROR;
 import static com.gionee.autotest.field.ui.throughput.Util.Configuration.ISLOADING;
 import static com.gionee.autotest.field.ui.throughput.Util.Configuration.WAIT_STOP;
 import static com.gionee.autotest.field.ui.throughput.Util.Configuration.isGioneeWeb;
+import static com.gionee.autotest.field.ui.throughput.Util.DataThroughtPutHelper.exportExcel;
+import static com.gionee.autotest.field.ui.throughput.Util.DataThroughtPutHelper.addExcel;
 import static com.gionee.autotest.field.ui.throughput.Util.DialogHelper.dialog;
 import static com.gionee.autotest.field.ui.throughput.Util.Helper.getTime;
 import static com.gionee.autotest.field.ui.throughput.Util.Helper.isNetWorkEnable;
@@ -78,7 +79,9 @@ public class MainPresenter {
     private String type;//上传或下载的文件大小
     private String way;//测试方式 -上传/下载
     private String web;//uri网络状态 -内网/外网
+    private String resultName;
 
+    static int id;
 
     public MainPresenter(MainActivity iMain) {
         this.iMain = iMain;
@@ -125,6 +128,9 @@ public class MainPresenter {
                 Preference.putInt("newTime", nowTime);
                 iMain.showSecial("当前进行第" + nowTime + "次测试中...");
                 time = Helper.getTime();
+                if (nowTime==1){
+                    resultName = DataThroughtPutHelper.getTimeData();
+                }
                 startTime = Helper.getsecond(time);
                 Helper.i("开始时间为：" + startTime + "s,时间显示为:" + time);
                 lastTotalBytes = isDownload ? getTotalRxBytes() : getTotalTxBytes();
@@ -147,7 +153,21 @@ public class MainPresenter {
                 int times = db.getTimes(type);
                 String start = Preference.getString("start", 0);
                 SpeedBean speedBean = new SpeedBean().setSerial(nowTime).setSuccess("YES").setStart(start).setTime(time).setWay(way).setSpeed(new RateBean().setSpeeds(data)).setSpeed_average(average + "")
-                        .setTimes(times + 1).setType(type).setUse_time(useTime).setWeb(web);
+                        .setTimes(times + 1).setType(type).setUse_time(useTime).setWeb(web).setID(nowTime+"");
+
+                File file = new File(DIR_DATA_THROUGHPUT + resultName + ".xls");
+                if (!file.exists()) {
+                    try {
+                        if (!file.getParentFile().exists()) {
+                            file.getParentFile().mkdir();
+                        }
+                        file.createNewFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    exportExcel(DIR_DATA_THROUGHPUT + resultName+ ".xls");
+                }
+                addExcel(new File(DIR_DATA_THROUGHPUT + resultName+ ".xls"), speedBean);
                 db.insertData(speedBean);
                 db.close();
                 WAIT_STOP = false;
@@ -325,15 +345,28 @@ public class MainPresenter {
 
         DatabaseUtil db = new DatabaseUtil(iMain.getContext());
         String start = Preference.getString("start", 0);
-        SpeedBean speedBean = new SpeedBean().setSerial(nowTime).setStart(start).setSuccess("NO").setTime(time).setWay(way).setType(type).setWeb(web).setFailTime(failTime).setWebType(webType).setSignals(signals).setSignalStrength(signalStrength).setOperator(operator);
+        SpeedBean speedBean = new SpeedBean().setSerial(nowTime).setStart(start).setSuccess("NO").setTime(time).setWay(way).setType(type).setWeb(web).setFailTime(failTime).setWebType(webType).setSignals(signals).setSignalStrength(signalStrength).setOperator(operator).setID(nowTime+"");
+        File file = new File(DIR_DATA_THROUGHPUT + resultName + ".xls");
+        if (!file.exists()) {
+            try {
+                if (!file.getParentFile().exists()) {
+                    file.getParentFile().mkdir();
+                }
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            exportExcel(DIR_DATA_THROUGHPUT + resultName+ ".xls");
+        }
+        addExcel(new File(DIR_DATA_THROUGHPUT + resultName+ ".xls"), speedBean);
         db.insertData(speedBean);
         db.close();
-
-        File file = new File(ERROE_RESULT_PATH, ERROR_FILE_NAME);
-        if (!file.exists()) {
-            file.mkdirs();
-        }
-        JExcelUtil.exportExcel(new File(ERROR_FILE_NAME), "error");
+//
+//        File file = new File(ERROE_RESULT_PATH, ERROR_FILE_NAME);
+//        if (!file.exists()) {
+//            file.mkdirs();
+//        }
+//        JExcelUtil.exportExcel(new File(ERROR_FILE_NAME), "error");
     }
 
     private long getTotalRxBytes() {
@@ -355,7 +388,7 @@ public class MainPresenter {
 
         @Override
         public void onFailure(Request request, IOException e) {
-            Preference.putBoolean(Constant.THROUGHPUT_RUNING,false);
+            Preference.putBoolean(Constant.THROUGHPUT_RUNING, false);
             Helper.i("请求失败");
             Helper.i("error:" + e.toString());
             onError();
