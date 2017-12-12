@@ -25,18 +25,22 @@ public class CallRateTask extends AsyncTask<Integer, Void, String> {
 
     @Override
     protected String doInBackground(Integer... model) {
-        if (model[0] == OUT_GOING) {
-            int lastBatch = OutGoingDBManager.getLastBatch();
-            Log.i(Constant.TAG, "lastBatch=" + lastBatch);
-            ArrayList<OutGoingCallResult> allCalls = OutGoingDBManager.getReportBean(lastBatch);
-            Log.i(Constant.TAG, "CallRate reportBeanSize=" + allCalls.size());
-            return OutGoingUtil.getSumString(allCalls);
-        } else if(model[0]==CALL_LOSS_RATIO){
-            int lastBatch = CallLossRatioDBManager.getLastBatch();
-            Log.i(Constant.TAG, "lastBatch=" + lastBatch);
-            ArrayList<OutGoingCallResult> allCalls = CallLossRatioDBManager.getReportBean(lastBatch);
-            Log.i(Constant.TAG, "CallRate reportBeanSize=" + allCalls.size());
-            return CallLossRatioUtil.getSumString(allCalls);
+        try {
+            if (model[0] == OUT_GOING) {
+                int lastBatch = OutGoingDBManager.getLastBatch();
+                Log.i(Constant.TAG, "lastBatch=" + lastBatch);
+                ArrayList<OutGoingCallResult> allCalls = OutGoingDBManager.getReportBean(lastBatch);
+                Log.i(Constant.TAG, "CallRate reportBeanSize=" + allCalls.size());
+                return OutGoingUtil.getSumString(allCalls);
+            } else if(model[0]==CALL_LOSS_RATIO){
+                int lastBatch = CallLossRatioDBManager.getLastBatch();
+                Log.i(Constant.TAG, "lastBatch=" + lastBatch);
+                ArrayList<OutGoingCallResult> allCalls = CallLossRatioDBManager.getReportBean(lastBatch);
+                Log.i(Constant.TAG, "CallRate reportBeanSize=" + allCalls.size());
+                return CallLossRatioUtil.getSumString(allCalls);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return "";
     }

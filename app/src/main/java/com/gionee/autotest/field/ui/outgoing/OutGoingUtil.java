@@ -126,7 +126,7 @@ public class OutGoingUtil {
             }
         }
         int allSize = results.size();
-        return "总拨号" + allSize + "通\n测试" + (allSize - verifyCount) + "通\n复测" + verifyCount + "通\n成功" + testSuccess + "通\n失败" + (allSize - testSuccess) + "通\n接通率为" +(allSize==0?"0":((float) testSuccess / allSize) * 100)  + "%";
+        return "总拨号" + allSize + "通\n测试" + (allSize - verifyCount) + "通\n复测" + verifyCount + "通\n成功" + testSuccess + "通\n失败" + (allSize - testSuccess) + "通\n接通率为" + (allSize == 0 ? "0" : ((float) testSuccess / allSize) * 100) + "%";
     }
 
     public static String getCycleSumString(ArrayList<OutGoingCallResult> results) {
@@ -149,24 +149,29 @@ public class OutGoingUtil {
         new AsyncTask<Void, Void, ArrayList<OutGoingReportCycle>>() {
             @Override
             protected ArrayList<OutGoingReportCycle> doInBackground(Void... voids) {
-                ArrayList<OutGoingCallResult> reportBean = OutGoingDBManager.getReportBean(batchId);
-                ArrayList<OutGoingReportCycle> data = new ArrayList<>();
-                SparseArray<OutGoingReportCycle> array = new SparseArray<>();
-                for (OutGoingCallResult result : reportBean) {
-                    if (array.indexOfKey(result.cycleIndex) >= 0) {
-                        OutGoingReportCycle outGoingReportCycle = array.get(result.cycleIndex).addResult(result);
-                        array.put(result.cycleIndex, outGoingReportCycle);
-                    } else {
-                        OutGoingReportCycle outGoingReportCycle = new OutGoingReportCycle().addResult(result);
-                        array.put(result.cycleIndex, outGoingReportCycle);
+                try {
+                    ArrayList<OutGoingCallResult> reportBean = OutGoingDBManager.getReportBean(batchId);
+                    ArrayList<OutGoingReportCycle> data = new ArrayList<>();
+                    SparseArray<OutGoingReportCycle> array = new SparseArray<>();
+                    for (OutGoingCallResult result : reportBean) {
+                        if (array.indexOfKey(result.cycleIndex) >= 0) {
+                            OutGoingReportCycle outGoingReportCycle = array.get(result.cycleIndex).addResult(result);
+                            array.put(result.cycleIndex, outGoingReportCycle);
+                        } else {
+                            OutGoingReportCycle outGoingReportCycle = new OutGoingReportCycle().addResult(result);
+                            array.put(result.cycleIndex, outGoingReportCycle);
+                        }
                     }
+                    for (int i = 0; i < array.size(); i++) {
+                        OutGoingReportCycle outGoingReportCycle = array.valueAt(i);
+                        outGoingReportCycle.setSumString(getCycleSumString(outGoingReportCycle.results));
+                        data.add(outGoingReportCycle);
+                    }
+                    return data;
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                for (int i = 0; i < array.size(); i++) {
-                    OutGoingReportCycle outGoingReportCycle = array.valueAt(i);
-                    outGoingReportCycle.setSumString(getCycleSumString(outGoingReportCycle.results));
-                    data.add(outGoingReportCycle);
-                }
-                return data;
+                return new ArrayList<>();
             }
 
             @Override

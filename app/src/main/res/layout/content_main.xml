@@ -43,6 +43,15 @@
                 android:maxLength="6"
                 android:text="3"
                 android:textColor="@color/colorPrimary" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:layout_alignParentEnd="true"
+                android:textSize="18sp"
+                android:layout_marginEnd="10dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/waitTimeET"
+                android:text="分钟"/>
         </RelativeLayout>
 
         <RelativeLayout

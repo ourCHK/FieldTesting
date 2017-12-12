@@ -23,22 +23,45 @@ public class OutGoingDBManager {
     }
 
     public static void writeData(OutGoingCallResult data) {
-        helper.writeCallData(data);
+        try {
+            helper.writeCallData(data);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void delete() {
-        helper.clearTable();
+        try {
+            helper.clearTable();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static ArrayList<OutGoingCallResult> getReportBean(int batchId) {
-        return helper.getCallBean(batchId);
+        try {
+            return helper.getCallBean(batchId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
     }
 
     public static ArrayList<String> getAllBatch() {
-        return helper.getAllBatch();
+        try {
+            return helper.getAllBatch();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
     }
 
     public static int getLastBatch() {
-        return helper.getLastBatch();
+        try {
+            return helper.getLastBatch();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }
