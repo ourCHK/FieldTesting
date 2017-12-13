@@ -74,7 +74,10 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
     @Override
     public void navigateToMainScreen() {
         String[] requestedPermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_PHONE_STATE, Manifest.permission.CALL_PHONE};
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.CALL_PHONE,
+                Manifest.permission.INTERNET,
+                Manifest.permission.SEND_SMS};
         final List<String> notGrantedPerms = new ArrayList<>();
         for (String perm : requestedPermissions) {
             if (ContextCompat.checkSelfPermission(this, perm) != PackageManager.PERMISSION_GRANTED) {
@@ -97,6 +100,10 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
                         resId = R.string.permission_call_phone_rationale;
                     }else if (perm.equals(Manifest.permission.READ_CALL_LOG)) {
                         resId = R.string.permission_read_call_log_rationale;
+                    }else if (perm.equals(Manifest.permission.INTERNET)) {
+                        resId = R.string.permission_read_internet_rationale;
+                    }else if (perm.equals(Manifest.permission.SEND_SMS)) {
+                        resId = R.string.permission_read_send_sms_rationale;
                     }
                     Snackbar.make(mLayout, resId, Snackbar.LENGTH_INDEFINITE)
                             .setAction(R.string.go_settings, new View.OnClickListener() {
@@ -109,6 +116,10 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
                     return;
                 }
             }
+            for (String perm : permissions){
+                Log.i(Constant.TAG, "not granted permission : " + perm) ;
+            }
+
             ActivityCompat.requestPermissions(this, permissions, MY_PERMISSION_REQUEST);
         } else {
             Log.i(Constant.TAG, "all permissions granted...");
@@ -146,6 +157,10 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
                                 resId = R.string.permission_call_phone_rationale;
                             }else if (perm.equals(Manifest.permission.READ_CALL_LOG)) {
                                 resId = R.string.permission_read_call_log_rationale;
+                            }else if (perm.equals(Manifest.permission.INTERNET)) {
+                                resId = R.string.permission_read_internet_rationale;
+                            }else if (perm.equals(Manifest.permission.SEND_SMS)) {
+                                resId = R.string.permission_read_send_sms_rationale;
                             }
                             Snackbar.make(mLayout, resId, Snackbar.LENGTH_INDEFINITE)
                                     .setAction(R.string.go_settings, new View.OnClickListener() {

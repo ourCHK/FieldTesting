@@ -20,6 +20,8 @@
     <string name="permission_write_external_storage_rationale_denied">读取外部存储器权限已被否决，使用此程序必须拥有此权限.</string>
     <string name="permission_call_phone_rationale">场测工具在测试过程中需拨打电话，确认授予?</string>
     <string name="permission_read_call_log_rationale">场测工具在测试过程中需读取通话记录，确认授予?</string>
+    <string name="permission_read_internet_rationale">场测工具在测试过程中需要联网，确认授予?</string>
+    <string name="permission_read_send_sms_rationale">场测工具在测试过程中需要发短信，确认授予?</string>
     <string name="go_settings">去设置</string>
 
     <!-- main resources -->

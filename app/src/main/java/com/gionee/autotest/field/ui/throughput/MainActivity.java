@@ -275,7 +275,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                    builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                        @Override
                        public void onClick(DialogInterface dialog, int which) {
-                           com.gionee.autotest.common.Preference.putBoolean(MainActivity.this, Constant.PREF_KEY_DATA_RESET_DATA_COLLECT_RUNNING, false);
+                           Preference.putBoolean(Constant.THROUGHPUT_RUNING,false);
                            finish();
                        }
                    }).setNegativeButton("取消", null);
