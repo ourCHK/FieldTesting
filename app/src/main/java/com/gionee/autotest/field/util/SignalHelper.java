@@ -145,6 +145,15 @@ public final class SignalHelper {
         return null ;
     }
 
+    public SimSignalInfo getSimSignalInfoBySimId(int simId){
+        if (simId == SIM_CARD_0){
+            return mSim1SignalInfo ;
+        }else if (simId == SIM_CARD_1){
+            return mSim2SignalInfo ;
+        }
+        return null ;
+    }
+
     public boolean isSimExist(@SIMID int simId){
         if (simId == SIM_CARD_0){
             return mSim1SignalInfo != null && mSim1SignalInfo.mIsActive ;
@@ -469,7 +478,8 @@ public final class SignalHelper {
                 netTypeName = "4G";
                 break;
             default:
-                netTypeName = "N/A";
+                //TODO MAYBE THERE IS ANOTHER SITUATION
+                netTypeName = "4G";
         }
         return netTypeName ;
     }

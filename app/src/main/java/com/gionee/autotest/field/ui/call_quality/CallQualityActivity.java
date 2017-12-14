@@ -381,13 +381,6 @@ public class CallQualityActivity extends BaseActivity implements CallQualityCont
     @OnClick(R.id.call_quality_start)
     void onStartClicked(){
         //FOR TEST ONLY!!!
-/*        String quality_dir = Environment.getExternalStorageDirectory()
-                + File.separator + Constant.HOME + File.separator + Constant.CALL_QUALITY_HOME;
-        File target = new File(quality_dir, Constant.CALL_QUALITY_DATA_NAME) ;
-        File destination = new File(quality_dir,
-                String.format(Constant.EXPORT_CALL_QUALITY_DATA_NAME, TimeUtil.getTime("yyyy-MM-dd_HH-mm-ss"))) ;
-        mPresenter.doExport(phoneNum.getText().toString(), phoneNumO.getText().toString(),
-                target, destination);*/
         mPresenter.onStartClicked(phoneNum.getText().toString(), phoneNumO.getText().toString());
     }
 

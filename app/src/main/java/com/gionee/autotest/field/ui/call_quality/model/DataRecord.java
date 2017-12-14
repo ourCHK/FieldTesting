@@ -111,8 +111,8 @@ public class DataRecord {
             public void run() {
                 Log.i(Constant.TAG, "enter call quality timer task logic...") ;
                 SignalHelper mSignalHelper = SignalHelper.getInstance(mContext) ;
-                mSim1SignalInfo = mSignalHelper.getSimSignalInfo(SignalHelper.SIM_CARD_0);
-                mSim2SignalInfo = mSignalHelper.getSimSignalInfo(SignalHelper.SIM_CARD_1) ;
+                mSim1SignalInfo = mSignalHelper.getSimSignalInfoBySimId(SignalHelper.SIM_CARD_0);
+                mSim2SignalInfo = mSignalHelper.getSimSignalInfoBySimId(SignalHelper.SIM_CARD_1) ;
                 if (mSim1SignalInfo != null && mSim1SignalInfo.mIsActive){
                     Log.i(Constant.TAG, "sim0 fetched : " + mSim1SignalInfo.toString() ) ;
                 }
