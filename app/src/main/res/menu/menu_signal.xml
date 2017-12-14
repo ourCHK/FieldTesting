@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/report"
-        android:title="@string/testReport"
+        android:title="@string/open_excel_title"
         app:showAsAction="never"/>
 
     <item android:id="@+id/about"
