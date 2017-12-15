@@ -20,9 +20,11 @@ import com.gionee.autotest.field.util.call.CallMonitorParam;
 import com.gionee.autotest.field.util.call.CallMonitorResult;
 import com.google.gson.Gson;
 
+import java.io.Serializable;
+
 public class InComingService extends Service implements CallMonitor.MonitorListener {
 
-    private long batchId;
+    private long        batchId;
     private CallMonitor callMonitor;
 
     @Override
@@ -34,8 +36,8 @@ public class InComingService extends Service implements CallMonitor.MonitorListe
     public void onCreate() {
         super.onCreate();
         startService(new Intent(this, SignalMonitorService.class));
-        Notification.Builder builder = new Notification.Builder(this.getApplicationContext());
-        Intent nfIntent = new Intent(this, InComingActivity.class);
+        Notification.Builder builder  = new Notification.Builder(this.getApplicationContext());
+        Intent               nfIntent = new Intent(this, InComingActivity.class);
         builder.setContentIntent(PendingIntent.getActivity(this, 0, nfIntent, 0))
                 .setContentTitle("监听来电")
                 .setSmallIcon(R.mipmap.ic_launcher)
@@ -59,14 +61,13 @@ public class InComingService extends Service implements CallMonitor.MonitorListe
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         batchId = intent.getLongExtra("batchId", -1);
-        String params = intent.getStringExtra("params");
+        CallMonitorParam params = (CallMonitorParam) intent.getSerializableExtra("params");
         if (batchId != -1 && params != null) {
-            CallMonitorParam callMonitorParam = new Gson().fromJson(params, CallMonitorParam.class);
-            callMonitor = new CallMonitor(this, callMonitorParam);
+            callMonitor = new CallMonitor(this, params);
             callMonitor.setMonitorListener(this);
             callMonitor.startMonitor();
-        }else{
-            Log.i(Constant.TAG,"参数获取失败="+params+" batchID="+batchId);
+        } else {
+            Log.i(Constant.TAG, "参数获取失败=" + params + " batchID=" + batchId);
         }
         return super.onStartCommand(intent, flags, startId);
     }
@@ -77,7 +78,7 @@ public class InComingService extends Service implements CallMonitor.MonitorListe
         if (!callMonitorResult.result) {
             try {
                 SimSignalInfo simSignalInfo = SignalHelper.getInstance(this).getSimSignalInfo(SimUtil.getDefaultDataSubId());
-                String simNetInfo = new Gson().toJson(simSignalInfo);
+                String        simNetInfo    = new Gson().toJson(simSignalInfo);
                 callMonitorResult.setFailMsg(simNetInfo);
             } catch (Exception e) {
                 e.printStackTrace();

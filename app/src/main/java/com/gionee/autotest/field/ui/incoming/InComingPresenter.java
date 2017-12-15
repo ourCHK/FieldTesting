@@ -50,7 +50,7 @@ class InComingPresenter extends BasePresenter<BaseView> implements InComingContr
         Log.i(Constant.TAG, "batch=" + batchId + " params=" + callMonitorParam.toString());
         Intent intent = new Intent(mContext, InComingService.class);
         intent.putExtra("batchId", batchId);
-        intent.putExtra("params", paramJson);
+        intent.putExtra("params", callMonitorParam);
         mContext.startService(intent);
         Log.i(Constant.TAG, "开始监听服务");
     }

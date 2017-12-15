@@ -12,9 +12,11 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.KeyEvent;
 
+import com.gionee.autotest.common.ShellUtil;
 import com.gionee.autotest.common.TimeUtil;
 import com.gionee.autotest.common.call.CallUtil;
 import com.gionee.autotest.common.call.Instrument;
+import com.gionee.autotest.field.ui.data_stability.CallBack;
 import com.gionee.autotest.field.util.Constant;
 
 import java.util.Timer;
@@ -129,10 +131,13 @@ public class CallMonitor extends PhoneStateListener {
                 Log.i(Constant.TAG, "接通了:" + incomingNumber);
                 try {
                     result.setOffHookTime(TimeUtil.getTime());
+                    if (params.isAnswerHangup && run) {
+                        endCall(params.answerHangUptime);
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                if (params.isAnswerHangup && run) endCall(params.answerHangUptime);
+
                 break;
 
             default:
@@ -151,7 +156,9 @@ public class CallMonitor extends PhoneStateListener {
                     Log.i(Constant.TAG, "操作挂断");
                     callUtil.getITelephony().endCall();
                     result.setHangUpTime(TimeUtil.getTime());
-                    Instrument.clickKey(KeyEvent.KEYCODE_POWER);
+                    if (params.isHangUpPressPower) {
+                        ShellUtil.execCommand("input keyevent 26",false);
+                    }
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }

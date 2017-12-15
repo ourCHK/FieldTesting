@@ -1,6 +1,8 @@
 package com.gionee.autotest.field.util.call;
 
-public class CallMonitorParam {
+import java.io.Serializable;
+
+public class CallMonitorParam implements Serializable{
     public boolean isAutoReject = false;
     public int autoRejectTime = 0;
     public boolean isAutoAnswer = false;
