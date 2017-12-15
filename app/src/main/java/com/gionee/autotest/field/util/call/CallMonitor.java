@@ -23,18 +23,18 @@ import java.util.TimerTask;
 import static android.content.Context.TELEPHONY_SERVICE;
 
 public class CallMonitor extends PhoneStateListener {
-    private Context mContext;
+    private Context          mContext;
     private TelephonyManager mTm;
-    private long lastTime_Coming = -1;
-    private int testIndex = 0;
-    private boolean isWaiting = false;
-    private Timer timer = new Timer();
-    private CallUtil callUtil;
-    private CallMonitorParam params;
-    private MonitorListener monitorListener;
+    private long    lastTime_Coming = -1;
+    private int     testIndex       = 0;
+    private boolean isWaiting       = false;
+    private Timer   timer           = new Timer();
+    private CallUtil          callUtil;
+    private CallMonitorParam  params;
+    private MonitorListener   monitorListener;
     private CallMonitorResult result;
     private Uri AUTHORITY_URI = Uri.parse("content://gionee.calllog");
-    private Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, "callsjoindataview");// calls join data view
+    private Uri CONTENT_URI   = Uri.withAppendedPath(AUTHORITY_URI, "callsjoindataview");// calls join data view
 
 
     private ContentObserver contentObserver = new ContentObserver(new Handler()) {
@@ -52,7 +52,7 @@ public class CallMonitor extends PhoneStateListener {
             testIndex++;
         }
     };
-    private boolean run = false;
+    private boolean         run             = false;
 
     public CallMonitor(Context mContext, CallMonitorParam params) {
         this.mContext = mContext;
@@ -113,7 +113,12 @@ public class CallMonitor extends PhoneStateListener {
                         endCall(params.autoRejectTime);
                     } else {
                         if (params.isAutoAnswer && run) {
-                            new AutoAnswerThread(mContext).start();
+                            try {
+                                callUtil.getITelephony().answerRingingCall();
+                            } catch (RemoteException e) {
+                                e.printStackTrace();
+                                new AutoAnswerThread(mContext).start();
+                            }
                         }
                     }
                 } catch (Exception e) {
@@ -122,8 +127,12 @@ public class CallMonitor extends PhoneStateListener {
                 break;
             case TelephonyManager.CALL_STATE_OFFHOOK:
                 Log.i(Constant.TAG, "接通了:" + incomingNumber);
-                result.setOffHookTime(TimeUtil.getTime());
-                if (params.isAnswerHangup&&run) endCall(params.answerHangUptime);
+                try {
+                    result.setOffHookTime(TimeUtil.getTime());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (params.isAnswerHangup && run) endCall(params.answerHangUptime);
                 break;
 
             default:
