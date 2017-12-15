@@ -36,7 +36,7 @@ import jxl.write.Label;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 
-class MainAction {
+public class MainAction {
     private Context mContext;
     private IMain main;
 
@@ -119,7 +119,7 @@ class MainAction {
     }
 
     void openDataStabilityExcelFile() {
-        exportExcel(new Consumer<Integer>() {
+        exportExcel(mContext,new Consumer<Integer>() {
             @Override
             public void accept(Integer integer) throws Exception {
                 if (integer > 0) {
@@ -134,7 +134,7 @@ class MainAction {
 
     @SuppressLint("StaticFieldLeak")
     void exportDataStabilityExcelFile() {
-        exportExcel(new Consumer<Integer>() {
+        exportExcel(mContext,new Consumer<Integer>() {
             @Override
             public void accept(Integer size) throws Exception {
                 if (size > 0) {
@@ -155,12 +155,12 @@ class MainAction {
     }
 
     @SuppressLint("StaticFieldLeak")
-    private void exportExcel(final Consumer<Integer> c) {
+    public  static void exportExcel(final Context context,final Consumer<Integer> c) {
         new AsyncTask<Void, Void, Integer>() {
 
             @Override
             protected Integer doInBackground(Void... voids) {
-                DatabaseUtil databaseUtil = new DatabaseUtil(mContext);
+                DatabaseUtil databaseUtil = new DatabaseUtil(context);
                 ArrayList<DataStabilityBean> dataStabilityBeans = databaseUtil.getDataStabilityBeans();
                 writeAllExcel2(dataStabilityBeans, Constant.DATA_STABILITY_EXCEL_PATH);
                 databaseUtil.close();
@@ -181,7 +181,7 @@ class MainAction {
         }.execute();
     }
 
-    boolean writeAllExcel2(ArrayList<DataStabilityBean> beans, String filePath) {
+   public static boolean writeAllExcel2(ArrayList<DataStabilityBean> beans, String filePath) {
         String[] titles = new String[]{"轮次", "网页序号", "结果", "失败点信息", "时间"};
         WritableWorkbook workBook = null;
         try {
@@ -283,7 +283,7 @@ class MainAction {
         }
     }
 
-    private ArrayList<ArrayList<DataStabilityBean>> getBatchBeans(ArrayList<DataStabilityBean> beans) {
+    private static ArrayList<ArrayList<DataStabilityBean>> getBatchBeans(ArrayList<DataStabilityBean> beans) {
         SparseArray<ArrayList<DataStabilityBean>> arrays = new SparseArray<>();
         for (DataStabilityBean bean : beans) {
             if (arrays.indexOfKey(bean.batchId) > 0) {

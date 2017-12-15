@@ -53,6 +53,7 @@ public class InComingService extends Service implements CallMonitor.MonitorListe
         if (callMonitor != null) {
             callMonitor.cancel();
         }
+        InComingCall.exportExcelFile(null);
     }
 
     @Override

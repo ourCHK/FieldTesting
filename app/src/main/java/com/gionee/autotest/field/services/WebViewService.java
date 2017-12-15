@@ -14,6 +14,7 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import com.gionee.autotest.field.data.db.DatabaseUtil;
 import com.gionee.autotest.field.ui.data_stability.CallBack;
+import com.gionee.autotest.field.ui.data_stability.MainAction;
 import com.gionee.autotest.field.ui.data_stability.WebViewActivity;
 import com.gionee.autotest.field.util.Configurator;
 import com.gionee.autotest.field.util.DataStabilityUtil;
@@ -58,6 +59,7 @@ public class WebViewService extends Service {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        MainAction.exportExcel(this,null);
     }
 
     public void startTest() {

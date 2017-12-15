@@ -130,6 +130,7 @@ public class CallLossRatioService extends Service implements DisConnectListener 
             e.printStackTrace();
         }
         cancelListener();
+        CallLossRatioUtil.exportExcelFile(null);
     }
 
 

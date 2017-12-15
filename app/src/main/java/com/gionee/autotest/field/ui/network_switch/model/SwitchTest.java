@@ -97,6 +97,7 @@ public class SwitchTest {
                 consumer.accept(null);
             }
         }
+        ExcelUtil.exportReport(null);
     }
 
     private void testFlight_mode(Long flight_mode_times) {
