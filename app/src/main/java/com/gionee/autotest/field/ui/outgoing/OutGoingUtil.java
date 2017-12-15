@@ -17,6 +17,7 @@ import com.gionee.autotest.field.util.SignalHelper;
 import com.gionee.autotest.field.util.SimUtil;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.squareup.okhttp.internal.Util;
 
 import java.io.File;
 import java.util.ArrayList;

@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.os.SystemClock;
+import android.provider.CallLog;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.PhoneStateListener;
@@ -194,7 +195,8 @@ public class CallLossRatioService extends Service implements DisConnectListener 
 
 
     private void startListener() {
-        getContentResolver().registerContentObserver(CONTENT_URI, false, contentObserver);
+        getContentResolver().registerContentObserver(CallLog.Calls.CONTENT_URI, false, contentObserver);
+//        getContentResolver().registerContentObserver(CONTENT_URI, false, contentObserver);
         filter = new DisConnectCallFilter(this);
         filter.execute();
         mTm.listen(myListener, PhoneStateListener.LISTEN_CALL_STATE);
