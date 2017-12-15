@@ -31,7 +31,8 @@ public class CallLogUtil {
         TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         myListener = new CallLogUtil.MyListener();
         tm.listen(myListener, PhoneStateListener.LISTEN_CALL_STATE);
-        context.getContentResolver().registerContentObserver(CONTENT_URI, false, contentObserver);
+        context.getContentResolver().registerContentObserver(CallLog.Calls.CONTENT_URI, false, contentObserver);
+//        context.getContentResolver().registerContentObserver(CONTENT_URI, false, contentObserver);
     }
 
     private ContentObserver contentObserver = new ContentObserver(new Handler()) {

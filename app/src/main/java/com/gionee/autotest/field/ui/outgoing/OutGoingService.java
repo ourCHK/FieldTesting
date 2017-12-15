@@ -210,7 +210,8 @@ public class OutGoingService extends Service {
 
     private void startListener() {
         mTm.listen(myListener, PhoneStateListener.LISTEN_CALL_STATE);
-        getContentResolver().registerContentObserver(CONTENT_URI, false, mCallLogObserver);
+//        getContentResolver().registerContentObserver(CONTENT_URI, false, mCallLogObserver);
+        getContentResolver().registerContentObserver(CallLog.Calls.CONTENT_URI, false, mCallLogObserver);
     }
 
     private void cancelListener() {
