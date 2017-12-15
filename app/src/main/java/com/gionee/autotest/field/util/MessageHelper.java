@@ -56,7 +56,7 @@ public class MessageHelper {
      */
     public static void exportExcel(String path) {
         WritableWorkbook book = null;
-        String info[] = {"时间", "短信内容", "发送是否成功", "接受是否成功", "网络运营商", "网络类型", "信号格数", "信号强度"};
+        String info[] = {"时间", "短信内容", "发送是否成功", "接收是否成功", "网络运营商", "网络类型", "信号格数", "信号强度"};
         int width[] = {30, 30, 20, 20, 20, 20, 20, 20};
         //  makeDirects();
         try {

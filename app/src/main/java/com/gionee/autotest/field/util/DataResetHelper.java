@@ -66,16 +66,16 @@ public class DataResetHelper {
             date2 = sdf.parse(endTime);
 
             long ong = date2.getTime() - date1.getTime();
-            if (ong < 1000) {
+//            if (ong < 1000) {
                 return ong + "毫秒";
-            } else if (ong > 1000) {
-                double percent = (float) (ong) / (1000);
-                //获取格式化对象
-                NumberFormat nt = NumberFormat.getPercentInstance();
-                //设置百分数精确度2即保留两位小数
-                nt.setMinimumFractionDigits(2);
-                return nt.format(percent) + "秒";
-            }
+//            } else if (ong > 1000) {
+//                double percent = (float) (ong) / (1000);
+//                //获取格式化对象
+//                NumberFormat nt = NumberFormat.getPercentInstance();
+//                //设置百分数精确度2即保留两位小数
+//                nt.setMinimumFractionDigits(2);
+//                return nt.format(percent) + "秒";
+//            }
 
         } catch (ParseException e) {
             e.printStackTrace();

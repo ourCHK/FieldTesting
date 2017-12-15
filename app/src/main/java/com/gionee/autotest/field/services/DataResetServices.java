@@ -159,6 +159,24 @@ public class DataResetServices extends Service {
             ShellUtil.CommandResult commandResults = ShellUtil.execCommand("ping -c 1 www.baidu.com", false);
 
             if (commandResults.result != 0) {
+                String data_reset_presentation_name = Preference.getString(context, Constant.DATA_RESET_PRESENTATION_NAME, "");
+
+                int subId = SimUtil.getDefaultDataSubId();
+                SimSignalInfo simSignalInfo = SignalHelper.getInstance(context).getSimSignalInfo(subId);
+
+                long data_reset_failure_number = Preference.getLong(context, Constant.DATA_RESET_RETEST_FAILURE_TIMES, 0);
+                Preference.putLong(context, Constant.DATA_RESET_RETEST_FAILURE_TIMES, data_reset_failure_number + 1);
+
+                if (simSignalInfo != null) {
+                    DataResetHelper.addExcel(new File(Constant.DIR_DATA_RESET + data_reset_presentation_name), new String[]{
+                            start_time, DataResetHelper.getTimeDatas(), DataResetHelper.getTimeDifferences(start_time,DataResetHelper.getTimeDatas()),"复测失败", simSignalInfo.mOperator, simSignalInfo.mNetType, simSignalInfo.mLevel + "", simSignalInfo.mSignal
+                    });
+
+                } else {
+                    DataResetHelper.addExcel(new File(Constant.DIR_DATA_RESET + data_reset_presentation_name), new String[]{
+                            start_time, DataResetHelper.getTimeDatas(),DataResetHelper.getTimeDifferences(start_time,DataResetHelper.getTimeDatas()), "复测失败", null, null, null + "", null
+                    });
+                }
 
                 getPing(context, start_time);
 

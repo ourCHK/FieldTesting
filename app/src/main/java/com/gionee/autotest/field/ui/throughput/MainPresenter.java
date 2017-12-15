@@ -294,25 +294,25 @@ public class MainPresenter {
         } else {
             int id = getDefaultDataSubId();
             SignalHelper signalHelper = SignalHelper.getInstance(iMain.getContext());
-            if (id == 1) {
-                simSignalInfo = signalHelper.getSimSignalInfo(1);
+            if (id == 0) {
+                simSignalInfo = signalHelper.getSimSignalInfo(0);
                 webType = "sim1: " + simSignalInfo.mNetType;
                 signals = "sim1: " + String.valueOf(simSignalInfo.mLevel);
                 signalStrength = "sim1: " + simSignalInfo.mSignal;
                 operator = "sim1: " + getSimName(0) + "(联网) ";
                 boolean isSimExist2 = signalHelper.isSimExist(SIM_CARD_1);
                 if (isSimExist2) {
-                    simSignalInfo = signalHelper.getSimSignalInfo(2);
+                    simSignalInfo = signalHelper.getSimSignalInfo(0);
                     webType = webType + " - " + "sim2: " + simSignalInfo.mNetType;
                     signals = signals + " - " + "sim2: " + String.valueOf(simSignalInfo.mLevel);
                     signalStrength = signalStrength + " - " + "sim2: " + simSignalInfo.mSignal;
                     operator = operator + " - " + "sim2: " + getSimName(1);
                 }
             }
-            if (id == 2) {
+            if (id == 1) {
                 boolean isSimExist1 = signalHelper.isSimExist(SIM_CARD_0);
                 if (isSimExist1) {
-                    simSignalInfo = signalHelper.getSimSignalInfo(2);
+                    simSignalInfo = signalHelper.getSimSignalInfo(1);
                     webType = "sim1: " + simSignalInfo.mNetType;
                     signals = "sim1: " + String.valueOf(simSignalInfo.mLevel);
                     signalStrength = "sim1: " + simSignalInfo.mSignal;
