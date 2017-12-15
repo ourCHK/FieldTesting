@@ -104,7 +104,11 @@ public class NetworkSwitchReportActivity extends AppCompatActivity implements Ad
             protected void onPostExecute(ArrayList<NetworkSwitchResult> resultBeen_list) {
                 super.onPostExecute(resultBeen_list);
                 try {
-                    result_filename_tv.setText(resultFileNameList.get(resultFileNameList.size() - 1));
+                    try {
+                        result_filename_tv.setText(resultFileNameList.get(resultFileNameList.size() - 1));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     listView_HeadLine.setVisibility(View.VISIBLE);
                     mAdapter_Result.updateData(resultBeen_list);
                 } catch (Exception e) {
