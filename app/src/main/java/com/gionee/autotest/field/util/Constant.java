@@ -112,8 +112,8 @@ public class Constant {
     public static final String NETWORK_SWITCH_FAILED_EXCEL_PATH = DIR_NETWORK_SWITCH + "networkSwitchFailedRecord.xls";
 
     //dataStability
-    public static final String DIR_DATA_STABILITY = PATH_SD+"data_stability";
-    public static final String DATA_STABILITY_EXCEL_PATH = DIR_DATA_STABILITY+"dataStability.xls";
+    public static final String DIR_DATA_STABILITY = PATH_SD+"data_stability"+File.separator;
+    public static final String DATA_STABILITY_EXCEL_PATH = DIR_DATA_STABILITY+File.separator+"dataStability.xls";
 
     public static final class APPDB implements BaseColumns {
 
