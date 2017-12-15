@@ -34,7 +34,7 @@ import java.util.TimerTask;
 
 public class OutGoingService extends Service {
 
-    private CallParam params;
+    private CallParam  params;
     private VerifyCall verifyCall;
 
     @Override
@@ -42,15 +42,15 @@ public class OutGoingService extends Service {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    private Timer timer = null;
-    private TelephonyManager mTm = null;
-    private int cycleIndex = 0;
-    private int numberIndex = 0;
-    private boolean isCalled = false;
-    private MyListener myListener = null;
-    private OutGoingCallResult callBean = new OutGoingCallResult();
-    private static final Uri AUTHORITY_URI = Uri.parse("content://gionee.calllog");
-    private static final Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, "callsjoindataview");
+    private              Timer              timer         = null;
+    private              TelephonyManager   mTm           = null;
+    private              int                cycleIndex    = 0;
+    private              int                numberIndex   = 0;
+    private              boolean            isCalled      = false;
+    private              MyListener         myListener    = null;
+    private              OutGoingCallResult callBean      = new OutGoingCallResult();
+    private static final Uri                AUTHORITY_URI = Uri.parse("content://gionee.calllog");
+    private static final Uri                CONTENT_URI   = Uri.withAppendedPath(AUTHORITY_URI, "callsjoindataview");
 
     @SuppressLint("ServiceCast")
     @Override
@@ -59,8 +59,8 @@ public class OutGoingService extends Service {
         mTm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         myListener = new MyListener();
         startListener();
-        Notification.Builder builder = new Notification.Builder(this.getApplicationContext());
-        Intent nfIntent = new Intent(this, OutGoingActivity.class);
+        Notification.Builder builder  = new Notification.Builder(this.getApplicationContext());
+        Intent               nfIntent = new Intent(this, OutGoingActivity.class);
         builder.setContentIntent(PendingIntent.getActivity(this, 0, nfIntent, 0))
                 .setContentTitle("接通率")
                 .setSmallIcon(R.mipmap.ic_launcher)
@@ -75,11 +75,11 @@ public class OutGoingService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent != null) {
-            String paramsJson = intent.getStringExtra("params");
-            if (paramsJson != null) {
+            CallParam params = (CallParam) intent.getSerializableExtra("params");
+            if (params != null) {
                 cycleIndex = 0;
                 numberIndex = 0;
-                this.params = new Gson().fromJson(paramsJson, CallParam.class);
+                this.params = params;
                 startCycle();
             }
         }
@@ -131,6 +131,7 @@ public class OutGoingService extends Service {
             }
         }
         cancelListener();
+        OutGoingUtil.exportExcelFile(null);
     }
 
 
@@ -242,9 +243,8 @@ public class OutGoingService extends Service {
                     isCalled = true;
                     callBean.offHookTime = TimeUtil.getTime();
                     Log.i(Constant.TAG, "接通=" + TimeUtil.getTime() + ",号码=" + incomingNumber);
-                    AudioManager mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-                    if (mAudioManager != null) {
-                        mAudioManager.setSpeakerphoneOn(params.is_speaker_on);
+                    if (params.is_speaker_on) {
+                        OutGoingUtil.openSpeaker(getApplicationContext());
                     }
                     break;
                 case TelephonyManager.CALL_STATE_IDLE:

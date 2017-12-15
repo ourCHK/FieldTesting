@@ -74,7 +74,7 @@ public class OutGoingPresenter extends BasePresenter<BaseView> implements OutGoi
                     return true;
                 }
             });
-            mSpinnerAdapter = new ArrayAdapter(mContext, android.R.layout.simple_spinner_item, batchIndex);
+            mSpinnerAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, batchIndex);
             mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             getReportView().getSpinner().setAdapter(mSpinnerAdapter);
             getReportView().getSpinner().setOnItemSelectedListener(this);
@@ -122,7 +122,7 @@ public class OutGoingPresenter extends BasePresenter<BaseView> implements OutGoi
             OutGoingUtil.addBatch(p, new Consumer<CallParam>() {
                 @Override
                 public void accept(CallParam callParam) throws Exception {
-                    mContext.startService(new Intent(mContext, OutGoingService.class).putExtra("params", new Gson().toJson(callParam)));
+                    mContext.startService(new Intent(mContext, OutGoingService.class).putExtra("params", callParam));
                     mContext.startService(new Intent(mContext, SignalMonitorService.class));
                 }
             });

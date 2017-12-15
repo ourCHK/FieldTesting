@@ -1,7 +1,9 @@
 package com.gionee.autotest.field.ui.outgoing.model;
 
 
-public class CallParam {
+import java.io.Serializable;
+
+public class CallParam implements Serializable{
 
     public long id=0;
     public String   number        = "10086,10010";

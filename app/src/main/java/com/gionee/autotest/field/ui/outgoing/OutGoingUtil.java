@@ -2,6 +2,7 @@ package com.gionee.autotest.field.ui.outgoing;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.media.AudioManager;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.util.SparseArray;
@@ -241,5 +242,20 @@ public class OutGoingUtil {
                 }
             }
         }.execute();
+    }
+
+    public static void openSpeaker(Context context) {
+        try {
+            AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+            if (audioManager != null) {
+                audioManager.setMode(AudioManager.ROUTE_SPEAKER);
+            }
+            if (audioManager != null && !audioManager.isSpeakerphoneOn()) {
+                audioManager.setSpeakerphoneOn(true);
+                audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL, audioManager.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL), AudioManager.STREAM_VOICE_CALL);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
