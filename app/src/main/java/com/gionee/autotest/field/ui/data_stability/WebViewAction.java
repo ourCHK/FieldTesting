@@ -6,6 +6,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
+import android.os.SystemClock;
 import android.view.KeyEvent;
 
 import com.gionee.autotest.common.call.Instrument;
@@ -19,15 +21,15 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class WebViewAction implements CallBack {
-    private int urlIndex = 0;
+    private int urlIndex    = 0;
     private int verifyIndex = 0;
-    private Context context;
-    private WebViewUtil webViewUtil;
-    private boolean isBefore;
-    private IWebViewActivity iWeb;
-    private final MyReceiver myReceiver;
-    private final WakeHelper wakeHelper;
-    private final DataParam param;
+    private       Context          context;
+    private       WebViewUtil      webViewUtil;
+    private       boolean          isBefore;
+    private       IWebViewActivity iWeb;
+    private final MyReceiver       myReceiver;
+    private final WakeHelper       wakeHelper;
+    private final DataParam        param;
     private boolean isVerify = false;
     private WebViewResultHelper webViewResultHelper;
 
@@ -47,14 +49,18 @@ public class WebViewAction implements CallBack {
         this.isBefore = isBefore;
         urlIndex = 0;
         String currentUrl = Configurator.getInstance().urls[urlIndex];
-        webViewUtil.load(currentUrl, this);
+        try {
+            webViewUtil.load(currentUrl, this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @SuppressLint("StaticFieldLeak")
     @Override
     public void todo(Object o) {
         WebViewUtil.WebViewResult webViewResult = (WebViewUtil.WebViewResult) o;
-        Configurator instance = Configurator.getInstance();
+        Configurator              instance      = Configurator.getInstance();
         webViewResultHelper.addResult(isBefore, webViewResult);
         if (!isVerify) {
             if (!webViewResult.result && instance.param.verifyCount > 0) {
@@ -62,7 +68,7 @@ public class WebViewAction implements CallBack {
                 isVerify = true;
             }
         }
-        if (urlIndex < instance.urls.length-1) {
+        if (urlIndex < instance.urls.length - 1) {
             goTest();
         } else {
             afterTest();
@@ -131,16 +137,27 @@ public class WebViewAction implements CallBack {
     private void callAfterTest() {
         DataStabilityUtil.i("测试后拨打电话");
         DataStabilityUtil.callAfterTest(context, new CallBack() {
+            @SuppressLint("StaticFieldLeak")
             @Override
             public void todo(Object o) {
                 DataStabilityUtil.i("挂断，并在" + param.timeOfCall + "秒后继续测试");
-                new Timer().schedule(new TimerTask() {
+                new AsyncTask<Void, Void, Void>() {
                     @Override
-                    public void run() {
+                    protected Void doInBackground(Void... voids) {
+                        long targetTime = System.currentTimeMillis() + param.timeOfCall * 1000;
+                        while (System.currentTimeMillis() < targetTime) {
+                            SystemClock.sleep(1);
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Void aVoid) {
+                        super.onPostExecute(aVoid);
                         DataStabilityUtil.i("继续测试");
                         testLoad(false);
                     }
-                }, param.timeOfCall);
+                }.execute();
             }
         });
     }

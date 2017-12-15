@@ -19,6 +19,7 @@ import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.ui.about.AboutActivity;
 import com.gionee.autotest.field.util.About;
 import com.gionee.autotest.field.util.DataStabilityUtil;
+import com.gionee.autotest.field.util.Util;
 
 public class DataStabilityActivity extends AppCompatActivity implements View.OnClickListener, IMain {
     private Button mStartBtn;
@@ -88,6 +89,7 @@ public class DataStabilityActivity extends AppCompatActivity implements View.OnC
         mTestTimesET = (EditText) findViewById(R.id.testTimesET);
         forbidSleepCB = (RadioButton) findViewById(R.id.forbidSleepCB);
         mSleepAfterTestCB = (RadioButton) findViewById(R.id.sleepAfterTestCB);
+        mSleepAfterTestCB.setVisibility(Util.isSystemPermit()?View.VISIBLE:View.GONE);
         mCallAfterTestCB = (RadioButton) findViewById(R.id.callAfterTestCB);
         mVerifyCount = (EditText) findViewById(R.id.webViewTestVerifyCount);
         mTimeOfCallET = (EditText) findViewById(R.id.timeOfCallET);
