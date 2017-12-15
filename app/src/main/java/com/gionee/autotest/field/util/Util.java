@@ -4,8 +4,10 @@ import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Process;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.View;
@@ -45,11 +47,11 @@ public class Util {
 
     public static AppList parseAppJsonFile(Context ctx) {
         try {
-            StringBuilder content = new StringBuilder();
-            InputStream inputStream = ctx.getResources().getAssets().open("apps.json");
+            StringBuilder     content     = new StringBuilder();
+            InputStream       inputStream = ctx.getResources().getAssets().open("apps.json");
             InputStreamReader inputReader = new InputStreamReader(inputStream);
-            BufferedReader bufReader = new BufferedReader(inputReader);
-            String line;
+            BufferedReader    bufReader   = new BufferedReader(inputReader);
+            String            line;
             while ((line = bufReader.readLine()) != null) {
                 content.append(line);
             }
@@ -149,5 +151,9 @@ public class Util {
             Toast.makeText(context, R.string.go_to_file_manager, Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    public static boolean isSystemPermit() {
+        return Process.myUid() == Process.SYSTEM_UID;
     }
 }

@@ -2,6 +2,7 @@ package com.gionee.autotest.field.ui.outgoing;
 
 
 import android.app.AlertDialog;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +15,9 @@ import com.gionee.autotest.field.R;
 import com.gionee.autotest.field.ui.about.AboutActivity;
 import com.gionee.autotest.field.ui.base.BaseActivity;
 import com.gionee.autotest.field.ui.outgoing.model.CallParam;
+import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.DialogHelper;
+import com.gionee.autotest.field.util.Util;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -88,6 +91,7 @@ public class OutGoingActivity extends BaseActivity implements OutGoingContract.V
     protected void onStart() {
         super.onStart();
         mOutGoingPresenter.obtainCallRate();
+        Log.i(Constant.TAG,"isSystem="+ Util.isSystemPermit());
     }
 
     @Override
