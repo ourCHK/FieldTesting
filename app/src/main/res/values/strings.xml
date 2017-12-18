@@ -201,7 +201,7 @@
 
 
     <!-- network_switch  resources-->
-    <string name="toolsTips">条件：\n1、请把本工具加入系统管家允许自启\n2、请不要设置锁屏密码和SIM卡密码\n目的：\n开关飞行模式、重启手机、切换数据连接使用卡后，检查是否识卡、是否驻网成功和是否能上网。</string>
+    <string name="toolsTips">条件：\n1、请把本工具加入系统管家允许自启\n2、请不要设置锁屏密码和SIM卡密码\n目的：\n开关飞行模式、重启手机、切换数据连接使用卡后，检查是否识卡、是否驻网成功和是否能上网。\nExcel存放路径:内部存储器/Field/network_switch/networkSwitchRecord.xls</string>
     <string name="network_switch_help">条件：\n1、安装后，请把本工具加入系统管家允许自启\n2、请不要设置锁屏密码和SIM卡密码\n\n选项:\n切换飞行模式：开启、关闭飞行模式一次\n重启手机：重启手机一次\n切换数据连接：切换默认上网的SIM卡\n是否识卡：测试后检查是否读卡\n是否驻网：检查SIM卡是否注册网络\n能否上网：检查默认上网的SIM卡能否上网\nExcel存放路径:内部存储器/Field/network_switch/networkSwitchRecord.xls</string>
     <string name="checkBox_tips">一、测试项目:</string>
     <string name="checkBox_Flight_Mode">切换飞行模式</string>
