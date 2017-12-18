@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 
 class NetworkSwitchResultAdapter extends BaseAdapter {
-    private Context context;
+    private Context                        context;
     private ArrayList<NetworkSwitchResult> mData;
 
     NetworkSwitchResultAdapter(Context context) {
@@ -62,7 +62,7 @@ class NetworkSwitchResultAdapter extends BaseAdapter {
             holder = (ResultViewHolder) view.getTag();
         }
         NetworkSwitchResult bean = mData.get(i);
-        holder.count.setText((i + 1) + "");
+        holder.count.setText(String.valueOf(i + 1));
         holder.SignNetwork_1.setText(bean.SignNetwork_1);
         holder.SignNetwork_2.setText(bean.SignNetwork_2);
         holder.readSim_1.setText(bean.readSim_1);
@@ -79,22 +79,22 @@ class NetworkSwitchResultAdapter extends BaseAdapter {
         return mData;
     }
 
-    public void setShowTestTime(int i) {
+    void setShowTestTime(int i) {
         NetworkSwitchResult resultBean = getData().get(i);
         resultBean.isShow_Test_Time = !resultBean.isShow_Test_Time;
         getData().set(i, resultBean);
         notifyDataSetChanged();
     }
 
-    private static  class ResultViewHolder {
+    private static class ResultViewHolder {
         public TextView count;
-        public TextView SignNetwork_1;
-        public TextView SignNetwork_2;
-        public TextView readSim_1;
-        public TextView readSim_2;
-        public TextView isNet;
+        TextView SignNetwork_1;
+        TextView SignNetwork_2;
+        TextView readSim_1;
+        TextView readSim_2;
+        TextView isNet;
         public TextView result;
-        public TextView test_time;
-        public TextView isSwitchedTV;
+        TextView test_time;
+        TextView isSwitchedTV;
     }
 }

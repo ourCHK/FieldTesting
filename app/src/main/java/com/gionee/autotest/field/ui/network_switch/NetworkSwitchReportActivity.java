@@ -24,16 +24,16 @@ import java.util.ArrayList;
 
 
 public class NetworkSwitchReportActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
-    private TextView result_filename_tv;
-    private LinearLayout listView_HeadLine;
+    private TextView                   result_filename_tv;
+    private LinearLayout               listView_HeadLine;
     private NetworkSwitchResultAdapter mAdapter_Result;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.network_switch_report_layout);
-        ListView result_listView = (ListView) findViewById(R.id.main_listView_result);
-        Button select_dialog_btn = (Button) findViewById(R.id.select_dialog_btn);
+        ListView result_listView   = (ListView) findViewById(R.id.main_listView_result);
+        Button   select_dialog_btn = (Button) findViewById(R.id.select_dialog_btn);
         result_filename_tv = (TextView) findViewById(R.id.result_filename_tv);
         listView_HeadLine = (LinearLayout) findViewById(R.id.listView_HeadLine);
         mAdapter_Result = new NetworkSwitchResultAdapter(this);
@@ -104,10 +104,8 @@ public class NetworkSwitchReportActivity extends AppCompatActivity implements Ad
             protected void onPostExecute(ArrayList<NetworkSwitchResult> resultBeen_list) {
                 super.onPostExecute(resultBeen_list);
                 try {
-                    try {
+                    if (resultFileNameList.size() != 0) {
                         result_filename_tv.setText(resultFileNameList.get(resultFileNameList.size() - 1));
-                    } catch (Exception e) {
-                        e.printStackTrace();
                     }
                     listView_HeadLine.setVisibility(View.VISIBLE);
                     mAdapter_Result.updateData(resultBeen_list);
