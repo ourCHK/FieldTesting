@@ -12,6 +12,8 @@ public interface MessageContract {
 
         void setDefaultInterval(String time,String phone) ;
 
+        void showSim(int sim);
+
         void showMessageTypeError() ;
 
         void showSimError() ;

@@ -1,11 +1,18 @@
 package com.gionee.autotest.field.util;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.telephony.SubscriptionInfo;
+import android.telephony.SubscriptionManager;
+import android.telephony.TelephonyManager;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import jxl.Sheet;
 import jxl.Workbook;
@@ -145,9 +152,9 @@ public class MessageHelper {
     }
 
 
-    public static void modifyExcel(String excelpath,int post,String vlas){
+    public static void modifyExcel(String excelpath, int post, String vlas) {
         try {
-            jxl.Workbook wb =null;  //创建一个workbook对象
+            jxl.Workbook wb = null;  //创建一个workbook对象
             try {
                 InputStream is = new FileInputStream(excelpath); //创建一个文件流，读入Excel文件
                 wb = Workbook.getWorkbook(is); //将文件流写入到workbook对象
@@ -157,10 +164,10 @@ public class MessageHelper {
                 e.printStackTrace();
             }
             // jxl.Workbook 对象是只读的，所以如果要修改Excel，需要创建一个可读的副本，副本指向原Excel文件（即下面的new File(excelpath)）
-            jxl.write.WritableWorkbook wbe= Workbook.createWorkbook(new File(excelpath), wb);//创建workbook的副本
-            WritableSheet sheet  = wbe.getSheet(0); //获取第一个sheet
+            jxl.write.WritableWorkbook wbe = Workbook.createWorkbook(new File(excelpath), wb);//创建workbook的副本
+            WritableSheet sheet = wbe.getSheet(0); //获取第一个sheet
 
-            WritableCell cell =sheet.getWritableCell(0, 0);//获取第一个单元格
+            WritableCell cell = sheet.getWritableCell(0, 0);//获取第一个单元格
             jxl.format.CellFormat cf = cell.getCellFormat();//获取第一个单元格的格式
             jxl.write.Label lbl = new jxl.write.Label(3, post, vlas);//将第一个单元格的值改为“修改後的值”
             lbl.setCellFormat(cf);//将修改后的单元格的格式设定成跟原来一样
@@ -176,4 +183,49 @@ public class MessageHelper {
         }
 
     }
+
+    /**
+     * 判断SIM卡是否存在
+     * @param context
+     * @return
+     */
+    @SuppressLint("MissingPermission")
+    public static boolean isSim(Context context) {
+        boolean issim = false;
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE);
+         String simSerialNumber = tm.getSimSerialNumber();
+        if (simSerialNumber == null || simSerialNumber.equals("")) {
+            issim = false;
+        } else {
+            issim = true;
+        }
+        return false;
+
+    }
+
+    /**
+     * 判断SIM卡是否存在
+     * @param context
+     * @return
+     */
+    public static int isSIMCard(Context context){
+        int isSIMCards = 0;
+        SubscriptionManager subscriptionManager = SubscriptionManager.from(context);
+        List<SubscriptionInfo> subscriptionInfoList = subscriptionManager.getActiveSubscriptionInfoList();
+        if (subscriptionInfoList == null) {
+            isSIMCards = 0;
+            return isSIMCards;
+        }
+        for (SubscriptionInfo subscriptionInfo:subscriptionInfoList) {
+            if (subscriptionInfo.getSimSlotIndex()==0){
+                isSIMCards =1;
+            }else if(subscriptionInfo.getSimSlotIndex()==1){
+                isSIMCards =2;
+            }else{
+                isSIMCards =3;
+            }
+        }
+        return isSIMCards;
+    }
+
 }

@@ -67,10 +67,32 @@ public class MessagePresenter extends BasePresenter<MessageContract.View> implem
             return;
         }
 
+
+        int simCard = MessageHelper.isSIMCard(context);
+        if (simCard==0&&simCard!=1){
+
+            getView().showSim(1);
+            return;
+        }
+        if (simCard==0&&simCard!=2){
+
+            getView().showSim(2);
+            return;
+        }
+
+
+
         if (sim == 0) {
             getView().showSimError();
             return;
         }
+
+
+//        boolean sim1 = MessageHelper.isSim(context);
+//        if (!sim1){
+//            getView().showSim();
+//            return;
+//        }
 
         if (TextUtils.isEmpty(et_phone.toString())) {
             getView().showPhoneError();

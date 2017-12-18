@@ -29,6 +29,7 @@ import com.gionee.autotest.field.ui.data_reset.DataResetPresenter;
 import com.gionee.autotest.field.util.Constant;
 import com.gionee.autotest.field.util.DataResetHelper;
 import com.gionee.autotest.field.util.DialogHelper;
+import com.gionee.autotest.field.util.MessageHelper;
 import com.gionee.autotest.field.util.RegexUtils;
 
 import java.io.File;
@@ -175,7 +176,14 @@ public class MessageActivity extends BaseActivity implements RadioGroup.OnChecke
                 message_type = 2;
                 break;
             case R.id.rb_sim_1:
-                sim = 1;
+                int simCard = MessageHelper.isSIMCard(this);
+
+                if (simCard==0&&simCard!=1){
+                    Toast.makeText(this, "卡槽1没有sim卡，请插入sim卡", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                this.sim = 1;
                 try {
                     SMSUtils.setSIM(this, 1);
                 } catch (InterruptedException e) {
@@ -185,7 +193,14 @@ public class MessageActivity extends BaseActivity implements RadioGroup.OnChecke
                 break;
 
             case R.id.rb_sim_2:
-                sim = 2;
+                int simCard1 = MessageHelper.isSIMCard(this);
+
+                if (simCard1==0&&simCard1!=2){
+                    Toast.makeText(this, "卡槽2没有sim卡，请插入sim卡", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                this.sim = 2;
                 try {
                     SMSUtils.setSIM(this, 2);
                 } catch (InterruptedException e) {
@@ -204,6 +219,16 @@ public class MessageActivity extends BaseActivity implements RadioGroup.OnChecke
         et_phone.setText(phone);
 
     }
+
+    @Override
+    public void showSim(int sim) {
+        if (sim ==1){
+            Toast.makeText(this, "卡槽1没有sim卡，请插入sim卡", Toast.LENGTH_SHORT).show();
+        }else if(sim ==2){
+            Toast.makeText(this, "卡槽2没有sim卡，请插入sim卡", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     @Override
     public void showMessageTypeError() {

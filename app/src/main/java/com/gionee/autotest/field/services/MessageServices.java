@@ -119,7 +119,7 @@ public class MessageServices extends Service {
                     String message_presentation_name = Preference.getString(getApplicationContext(), Constant.MESSAGE_PRESENTATION_NAME, "");
                     String string = Preference.getString(getApplicationContext(), Constant.MESSAGE_CENTEXT, "");
 
-                    int subId = SimUtil.getDefaultDataSubId();
+                    int subId = SimUtil.getDefaultSmsSubId();
                     SimSignalInfo simSignalInfo = SignalHelper.getInstance(context).getSimSignalInfo(subId);
                     if (simSignalInfo != null) {
                         MessageHelper.addExcel(new File(Constant.DIR_MESSAGE + message_presentation_name), new String[]{MessageHelper.getTimeDatas(), string, "成功","失败", simSignalInfo.mOperator, simSignalInfo.mNetType, simSignalInfo.mLevel + "", simSignalInfo.mSignal});
@@ -165,7 +165,7 @@ public class MessageServices extends Service {
 //                    Toast.makeText(context, "短信发送失败:"+Preference.getString(getApplicationContext(), Constant.MESSAGE_CENTEXT, ""), Toast.LENGTH_SHORT).show();
                     String message_presentation_name1 = Preference.getString(getApplicationContext(), Constant.MESSAGE_PRESENTATION_NAME, "");
                     String string1 = Preference.getString(getApplicationContext(), Constant.MESSAGE_CENTEXT, "");
-                    int subIds = SimUtil.getDefaultDataSubId();
+                    int subIds = SimUtil.getDefaultSmsSubId();
                     SimSignalInfo simSignalInfos = SignalHelper.getInstance(context).getSimSignalInfo(subIds);
                     if (simSignalInfos != null) {
                         MessageHelper.addExcel(new File(Constant.DIR_MESSAGE + message_presentation_name1), new String[]{MessageHelper.getTimeDatas(), string1, "失败","失败",simSignalInfos.mOperator, simSignalInfos.mNetType, simSignalInfos.mLevel + "", simSignalInfos.mSignal});
